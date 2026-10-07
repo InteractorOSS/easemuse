@@ -24,7 +24,7 @@ const SYSTEM = `You turn a candidate's resume or profile text into a structured 
 
 Rules:
 - Use only what the text says. If the text does not say something, return null (or an empty list). Never guess, infer a fact, or fill a gap from general knowledge. In particular never guess a name, an employer, a date, a number or a skill.
-- Copy employer names, job titles and dates as they are written. Keep the order of the career history, newest first.
+- Copy employer names, job titles and dates as they are written. The employer is the company name only, without its city or state; put no location in "company". Keep the order of the career history, newest first.
 - coreSkills: the main professional strengths. technicalSkills: named tools, languages, systems and methods.
 - teamSize and leadershipExperience: only what is stated (for example "12 direct reports").
 - majorAchievements: results the text states, one claim each. Every claim carries evidence: a quote copied exactly from the text (type "quote", source "resume", excerpt copied word for word).
@@ -36,7 +36,7 @@ Rules:
 export const profileStructurePrompt: PromptModule<ProfileStructureInput, CandidateProfileContent> =
   {
     purpose: 'profile.structure',
-    version: 'profile-structure-v1',
+    version: 'profile-structure-v2',
     schema: candidateProfileModelOutputSchema,
     buildPrompt(input) {
       return {

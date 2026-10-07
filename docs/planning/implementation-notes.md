@@ -1,8 +1,8 @@
 # Implementation notes (2026-10-07)
 
-Choices made while building Release 1 where the brief or the planning documents left room. None changes a design principle of brief 1.1. Each is easy to change; please confirm or correct them. Approved answers belong in `docs/discovery/open-questions.md`.
+Choices made while building Release 1 where the brief or the planning documents left room. None changes a design principle of brief 1.1. The product owner delegated these to the implementation (2026-10-07: "You make those decisions"), so they stand as decided. Each is easy to change if counsel or a customer says otherwise.
 
-## To confirm
+## Decided
 
 | # | Choice | Why | Where |
 |---|--------|-----|-------|

@@ -38,13 +38,15 @@ export default async function AgencyLayout({
     <NextIntlClientProvider locale={locale} messages={await loadMessages(locale)} timeZone="UTC">
       <ToastProvider>
         <TooltipProvider>
-          <AppShell
-            agencySlug={access.agency.slug}
-            agencies={me.memberships.map((m) => ({ slug: m.slug, name: m.name }))}
-            userName={me.user.name ?? me.user.email}
-          >
-            <QueryProvider>{children}</QueryProvider>
-          </AppShell>
+          <QueryProvider>
+            <AppShell
+              agencySlug={access.agency.slug}
+              agencies={me.memberships.map((m) => ({ slug: m.slug, name: m.name }))}
+              userName={me.user.name ?? me.user.email}
+            >
+              {children}
+            </AppShell>
+          </QueryProvider>
         </TooltipProvider>
       </ToastProvider>
     </NextIntlClientProvider>

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
+import { GlobalSearch } from '@/components/search/global-search';
 import { AgencySwitcher, type AgencyOption } from './agency-switcher';
 import { Nav } from './nav';
 
@@ -27,6 +28,7 @@ export function AppShell({ agencySlug, agencies, userName, children }: AppShellP
       <header className="flex flex-wrap items-center gap-4 border-b border-border px-4 py-2">
         <span className="font-semibold">{common('appName')}</span>
         <AgencySwitcher agencies={agencies} currentSlug={agencySlug} />
+        <GlobalSearch agencySlug={agencySlug} />
         <div className="ml-auto flex items-center gap-3 text-sm">
           <span className="text-muted">{t('signedInAs', { name: userName })}</span>
           {/* Auth.js serves its own sign-out page; this must be a full page load, not client routing. */}

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { fireEvent, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { renderWithIntl } from '@/test/render';
+import { renderApp, renderWithIntl } from '@/test/render';
 import { AgencySwitcher } from './agency-switcher';
 import { AppShell } from './app-shell';
 import { Nav } from './nav';
@@ -71,7 +71,7 @@ describe('AgencySwitcher', () => {
 
 describe('AppShell', () => {
   it('renders the frame: skip link, brand, user, sign-out, nav and main content', () => {
-    renderWithIntl(
+    renderApp(
       <AppShell agencySlug="acme" agencies={[{ slug: 'acme', name: 'Acme' }]} userName="Ann">
         <p>page content</p>
       </AppShell>,

@@ -20,12 +20,18 @@ type ClientForm = z.input<typeof clientInputSchema>;
 type ContactForm = z.input<typeof contactInputSchema>;
 
 /** /a/:agency/clients (US-101): the agency's clients, their contacts, create and archive. */
-export function ClientsView({ agencyId }: { agencyId: string }) {
+export function ClientsView({
+  agencyId,
+  initialSearch = '',
+}: {
+  agencyId: string;
+  initialSearch?: string;
+}) {
   const t = useTranslations('clients');
   const states = useTranslations('common.states');
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(initialSearch);
   const [includeArchived, setIncludeArchived] = useState(false);
 
   const query = useQuery({

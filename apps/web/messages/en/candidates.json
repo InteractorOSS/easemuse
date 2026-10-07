@@ -121,5 +121,45 @@
       "potentialConcerns": "Potential concerns",
       "none": "None suggested."
     }
+  },
+  "pool": {
+    "title": "Candidates",
+    "add": "Add candidate",
+    "search": "Search candidates",
+    "searchHint": "Name, title, skill, company or anything in the profile.",
+    "skills": "Skills (all of)",
+    "skillsHint": "Separate with commas.",
+    "location": "Location",
+    "seniority": "Seniority",
+    "minYears": "Years of experience, from",
+    "maxYears": "to",
+    "clear": "Clear filters",
+    "empty": "No candidates yet. Add the first one.",
+    "emptyFiltered": "No candidate matches this search.",
+    "loadMore": "Show more",
+    "results": "{count, plural, =0 {No candidates} one {# candidate} other {# candidates}} shown",
+    "doNotContact": "Do not contact",
+    "years": "{count, plural, one {# year} other {# years}}",
+    "unknown": "Not stated",
+    "columns": {
+      "name": "Name",
+      "title": "Title",
+      "location": "Location",
+      "seniority": "Seniority",
+      "experience": "Experience",
+      "skills": "Skills"
+    },
+    "searchForm": "Find candidates"
+  },
+  "globalSearch": {
+    "label": "Search clients, positions and candidates",
+    "placeholder": "Search…",
+    "clients": "Clients",
+    "positions": "Positions",
+    "candidates": "Candidates",
+    "none": "Nothing found.",
+    "count": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "archived": "Archived",
+    "error": "Search is not available right now."
   }
 }

@@ -30,6 +30,7 @@ export function errorResponse(error: ApiError): Response {
       code: error.code,
       message: error.message,
       ...(error.fields ? { fields: error.fields } : {}),
+      ...(error.guards ? { guards: error.guards } : {}),
     },
   };
   return Response.json(body, { status: error.status, headers: NO_STORE });

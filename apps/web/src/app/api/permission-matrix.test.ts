@@ -122,6 +122,11 @@ vi.mock('@/server/positions/structured-jd', () => ({
   getStructuredJdArtifact: async () => ({ artifactId: null, approvedVersionId: null }),
   listRequirements: async () => [],
 }));
+vi.mock('@/server/positions/intake', () => ({
+  getIntake: async () => ({ answers: {}, jdApproval: null }),
+  saveIntake: async () => ({ answers: {}, jdApproval: null }),
+  recordJdApproval: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -171,6 +176,11 @@ import {
 } from './v1/agencies/[agencyId]/positions/[positionId]/jd/route';
 import { POST as structurePost } from './v1/agencies/[agencyId]/positions/[positionId]/jd/structure/route';
 import { GET as structuredGet } from './v1/agencies/[agencyId]/positions/[positionId]/structured-jd/route';
+import {
+  GET as intakeGet,
+  PUT as intakePut,
+} from './v1/agencies/[agencyId]/positions/[positionId]/intake/route';
+import { POST as jdApprovalPost } from './v1/agencies/[agencyId]/positions/[positionId]/jd-approval/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -432,6 +442,46 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => structuredGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET position intake',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/intake/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => intakeGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PUT position intake',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/intake/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      intakePut(
+        new Request('http://x.test/', {
+          ...json({ answers: { business_reason: { value: 'Growth' } } }),
+          method: 'PUT',
+        }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST position jd approval',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/jd-approval/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      jdApprovalPost(
+        new Request(
+          'http://x.test/',
+          json({
+            decision: 'approved',
+            approverName: 'Hana Choi',
+            method: 'email',
+            decidedAt: '2026-10-01T00:00:00Z',
+          }),
+        ),
+        agencyParams,
+      ),
   },
   {
     name: 'GET tasks',

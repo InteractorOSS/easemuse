@@ -79,7 +79,14 @@
     "reasonLabel": "Reason",
     "reasonNeeded": "A reason is required for this change.",
     "finalStatus": "This position is closed; its status cannot change.",
-    "structureLink": "Structure the JD"
+    "structureLink": "Structure the JD",
+    "guard": {
+      "title": "This change is not allowed yet",
+      "warnIntro": "You can go ahead anyway. Say why:",
+      "overrideReason": "Reason for going ahead",
+      "override": "Go ahead anyway",
+      "blocked": "Resolve this first."
+    }
   },
   "errors": {
     "generic": "Could not save. Check the values and try again.",
@@ -173,5 +180,57 @@
     "newSection": "New requirement section",
     "add": "Add requirement",
     "invalid": "This draft cannot be shown as a form."
+  },
+  "intake": {
+    "title": "Hiring manager intake",
+    "intro": "Record what the hiring manager tells you. Nothing here is filled in by AI.",
+    "topics": {
+      "business_reason": "Why this person is needed (business reason)",
+      "key_challenges": "Key challenges to solve after joining",
+      "expected_results": "Expected results after 6 months and 1 year",
+      "must_have_experience": "Experience that is a must",
+      "preferred_experience": "Preferred experience",
+      "exclusions": "Conditions we will not consider",
+      "org_reporting": "Organization and reporting structure",
+      "compensation_range": "Compensation range",
+      "interview_process": "Interview process",
+      "expected_timeline": "Expected hiring timeline"
+    },
+    "stages": "Interview stages, one per line",
+    "save": "Save intake",
+    "saved": "Intake saved.",
+    "errors": {
+      "generic": "Could not save the intake. Try again."
+    }
+  },
+  "approval": {
+    "title": "Hiring manager decision on the JD",
+    "intro": "After the hiring manager has reviewed the approved job description, record their decision here.",
+    "none": "No decision recorded yet.",
+    "needsJd": "Approve the structured JD first.",
+    "latest": "{decision} by {name} on {date} ({method})",
+    "outOfDate": "The JD changed after this decision. Record a new one before sourcing.",
+    "decisions": {
+      "approved": "Approved",
+      "changes_requested": "Changes requested"
+    },
+    "methods": {
+      "email": "Email",
+      "phone": "Phone",
+      "other": "Other"
+    },
+    "form": {
+      "decision": "Decision",
+      "approverName": "Hiring manager name",
+      "method": "How they told you",
+      "decidedAt": "Date of decision",
+      "comments": "Comments",
+      "submit": "Record decision"
+    },
+    "saved": "Decision recorded.",
+    "errors": {
+      "generic": "Could not record the decision. Try again.",
+      "notApproved": "Approve the structured JD first."
+    }
   }
 }

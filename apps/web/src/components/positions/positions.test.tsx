@@ -185,6 +185,7 @@ describe('PositionDetail', () => {
       [`GET ${api}/positions/p1`]: () => json({ data: position(over) }),
       [`GET ${api}/activity`]: () => json({ data: [], nextCursor: null }),
       [`GET ${api}/positions/p1/jd`]: () => json({ data: [] }),
+      [`GET ${api}/positions/p1/intake`]: () => json({ data: { answers: {}, jdApproval: null } }),
       ...extra,
     });
     vi.stubGlobal('fetch', stub.impl);
@@ -232,6 +233,75 @@ describe('PositionDetail', () => {
     expect((await screen.findByRole('alert')).textContent).toBe(
       'That status change is not allowed right now.',
     );
+  });
+
+  it('shows a blocking guard with its reason and no way around it', async () => {
+    serve(
+      {
+        [`POST ${api}/positions/p1/status`]: () =>
+          json(
+            {
+              error: {
+                code: 'guard_failed',
+                message: 'x',
+                guards: [
+                  {
+                    guard: 'jdApproval',
+                    mode: 'block',
+                    message: 'The hiring manager has not approved the job description.',
+                  },
+                ],
+              },
+            },
+            409,
+          ),
+      },
+      { status: 'intake' },
+    );
+    const user = userEvent.setup();
+    renderApp(<PositionDetail agencyId="a1" agencySlug="acme" positionId="p1" viewer={OWNER} />);
+    await user.selectOptions(await screen.findByLabelText('Move to'), 'sourcing');
+    await user.click(screen.getByRole('button', { name: 'Change status' }));
+    expect(
+      await screen.findByText('The hiring manager has not approved the job description.'),
+    ).toBeTruthy();
+    expect(screen.getByText('Resolve this first.')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Go ahead anyway' })).toBeNull();
+  });
+
+  it('lets a warn guard be overridden with a reason, which is sent with the request', async () => {
+    let attempt = 0;
+    const stub = serve(
+      {
+        [`POST ${api}/positions/p1/status`]: () =>
+          ++attempt === 1
+            ? json(
+                {
+                  error: {
+                    code: 'guard_failed',
+                    message: 'x',
+                    guards: [{ guard: 'jdApproval', mode: 'warn', message: 'No approval yet.' }],
+                  },
+                },
+                409,
+              )
+            : json({ data: position({ status: 'sourcing' }) }),
+      },
+      { status: 'intake' },
+    );
+    const user = userEvent.setup();
+    renderApp(<PositionDetail agencyId="a1" agencySlug="acme" positionId="p1" viewer={OWNER} />);
+    await user.selectOptions(await screen.findByLabelText('Move to'), 'sourcing');
+    await user.click(screen.getByRole('button', { name: 'Change status' }));
+    const go = await screen.findByRole('button', { name: 'Go ahead anyway' });
+    expect((go as HTMLButtonElement).disabled).toBe(true);
+    await user.type(screen.getByLabelText('Reason for going ahead'), 'Approved by phone');
+    await user.click(go);
+    await waitFor(() => expect(stub.calls.filter((c) => c.method === 'POST')).toHaveLength(2));
+    expect(stub.calls.filter((c) => c.method === 'POST')[1]!.body).toEqual({
+      status: 'sourcing',
+      overrideGuards: [{ guard: 'jdApproval', reason: 'Approved by phone' }],
+    });
   });
 
   it('says a closed position cannot change', async () => {

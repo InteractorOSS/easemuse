@@ -21,6 +21,7 @@ import {
   dbAvailable,
 } from '@/test/db';
 import { createClient, addContact } from '@/server/clients/service';
+import { approveJdForSourcing } from '@/test/jd-fixtures';
 import {
   changeStatus,
   createPosition,
@@ -232,6 +233,7 @@ describe.skipIf(!dbAvailable())('positions and status service (T-1-03, T-1-14)',
 
     it('walks the happy path, writing one transition per move', async () => {
       const id = await start();
+      await approveJdForSourcing(inA, rec1, id);
       for (const s of ['intake', 'sourcing', 'interviewing', 'offer', 'filled'] as const)
         await move(id, s);
       const rows = await admin.query(
@@ -272,6 +274,7 @@ describe.skipIf(!dbAvailable())('positions and status service (T-1-03, T-1-14)',
     it('resumes a held position only where it was, or cancels it', async () => {
       const id = await start();
       await move(id, 'intake');
+      await approveJdForSourcing(inA, rec1, id);
       await move(id, 'sourcing');
       await move(id, 'on_hold', 'Waiting on client');
       await expect(move(id, 'offer')).rejects.toMatchObject({ status: 409 });

@@ -23,6 +23,8 @@ export interface ApiErrorBody {
     message: string;
     /** Per-field messages for `invalid_input`, keyed by dotted path. */
     fields?: Record<string, string>;
+    /** Present on `guard_failed`: which guards stopped the action. */
+    guards?: { guard: string; mode: 'block' | 'warn'; message: string }[];
   };
 }
 

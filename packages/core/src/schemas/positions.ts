@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
+import { guardOverrideSchema } from './guards';
 import { matchingWeightsSchema } from './settings';
 
 export const POSITION_STATUSES = [
@@ -108,6 +109,8 @@ export type PositionPatch = z.infer<typeof positionPatchSchema>;
 export const positionStatusInputSchema = z.object({
   status: z.enum(POSITION_STATUSES),
   reason: z.string().trim().min(3).max(500).optional(),
+  /** Go ahead despite a `warn` guard, with a reason for each (api-contracts: `overrideGuards`). */
+  overrideGuards: z.array(guardOverrideSchema).max(8).optional(),
 });
 export type PositionStatusInput = z.infer<typeof positionStatusInputSchema>;
 

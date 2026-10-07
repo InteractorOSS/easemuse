@@ -9,6 +9,7 @@ export class ApiClientError extends Error {
     public readonly code: string,
     message: string,
     public readonly fields: Record<string, string> = {},
+    public readonly guards: NonNullable<ApiErrorBody['error']['guards']> = [],
   ) {
     super(message);
     this.name = 'ApiClientError';
@@ -44,6 +45,7 @@ export async function apiFetch<T>(
       body?.error?.code ?? 'unknown_error',
       body?.error?.message ?? response.statusText,
       body?.error?.fields,
+      body?.error?.guards,
     );
   }
   return body as ApiDataBody<T>;

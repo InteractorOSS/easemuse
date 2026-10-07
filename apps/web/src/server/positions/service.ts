@@ -8,13 +8,16 @@ import {
   type PositionInput,
   type PositionPatch,
   type PositionStatus,
+  type GuardOverride,
   type PositionStatusInput,
 } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 import { ApiError, forbidden, notFound } from '@/lib/http/errors';
 import { decodeCursor, toPage } from '@/lib/http/pagination';
 import { logActivity } from '@/server/activity/service';
+import { applyGuards } from '@/server/guards';
 import { getAgencySettings } from '@/server/tenancy/settings';
+import { isJdApproved } from './jd-approval';
 
 /**
  * Positions (T-1-03) and their status (T-1-14). Every status change goes through `changeStatus`,
@@ -89,6 +92,9 @@ async function toViews(tx: ScopedTx, rows: Row[]): Promise<PositionView[]> {
     compMax: compMax === null ? null : Number(compMax),
   }));
 }
+
+/** Moves out of draft or intake into these need the JD approved. */
+const LEAVES_PREPARATION: PositionStatus[] = ['sourcing', 'interviewing', 'offer', 'filled'];
 
 const isManager = (actor: AgencyActor) => actor.role === 'admin' || actor.role === 'lead';
 
@@ -366,6 +372,23 @@ export async function changeStatus(
       );
     }
   }
+  // Leaving the preparation phase needs the hiring manager's approval of the JD (guard jdApproval).
+  let overridden: GuardOverride[] = [];
+  if (LEAVES_PREPARATION.includes(input.status) && (from === 'draft' || from === 'intake')) {
+    if (!(await isJdApproved(tx, positionId))) {
+      const { guardModes } = await getAgencySettings(tx, actor.agencyId);
+      overridden = applyGuards(
+        [
+          {
+            guard: 'jdApproval',
+            message: 'The hiring manager has not approved the job description.',
+          },
+        ],
+        guardModes,
+        input.overrideGuards,
+      );
+    }
+  }
   const row = await tx.position.update({
     where: { id: positionId },
     data: { status: input.status },
@@ -387,7 +410,11 @@ export async function changeStatus(
     action: 'position.status_changed',
     entityType: 'position',
     entityId: positionId,
-    data: { from, to: input.status },
+    data: {
+      from,
+      to: input.status,
+      ...(overridden.length ? { overriddenGuards: overridden } : {}),
+    },
   });
   return (await toViews(tx, [row]))[0]!;
 }

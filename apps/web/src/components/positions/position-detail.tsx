@@ -9,6 +9,8 @@ import { useState } from 'react';
 import {
   POSITION_TRANSITIONS,
   REASON_REQUIRED,
+  type GuardFailure,
+  type GuardOverride,
   type MatchWeightKey,
   type PositionStatus,
 } from '@easemuse/core';
@@ -19,6 +21,7 @@ import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { PositionView } from '@/server/positions/service';
 import { JdPanel } from './jd-panel';
 import { PositionForm } from './position-form';
+import { IntakePanel } from './intake-panel';
 import { WeightsEditor } from './weights-editor';
 
 /** The position page shell (T-1-04): details, edit, status control and timeline. JD, intake and pipeline attach here later. */
@@ -129,6 +132,7 @@ export function PositionDetail({
         </Link>
       ) : null}
       <JdPanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
+      <IntakePanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
       <WeightsEditor
         key={JSON.stringify(position.matchingWeights)}
         agencyId={agencyId}
@@ -164,20 +168,34 @@ function StatusControl({
   const [target, setTarget] = useState<'' | PositionStatus>('');
   const [reason, setReason] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [guards, setGuards] = useState<GuardFailure[]>([]);
+  const [overrideReason, setOverrideReason] = useState('');
   const options = POSITION_TRANSITIONS[position.status];
   const needsReason = target !== '' && REASON_REQUIRED.includes(target);
   const change = useMutation({
-    mutationFn: () =>
+    mutationFn: (overrides: GuardOverride[] = []) =>
       apiFetch(`/api/v1/agencies/${agencyId}/positions/${position.id}/status`, {
-        body: { status: target, ...(reason.trim() ? { reason: reason.trim() } : {}) },
+        body: {
+          status: target,
+          ...(reason.trim() ? { reason: reason.trim() } : {}),
+          ...(overrides.length ? { overrideGuards: overrides } : {}),
+        },
       }),
     onSuccess: async () => {
       setTarget('');
       setReason('');
       setError(null);
+      setGuards([]);
+      setOverrideReason('');
       await onChanged();
     },
-    onError: (e) =>
+    onError: (e) => {
+      if (e instanceof ApiClientError && e.code === 'guard_failed') {
+        setError(null);
+        setGuards(e.guards as GuardFailure[]);
+        return;
+      }
+      setGuards([]);
       setError(
         e instanceof ApiClientError && e.status === 409
           ? errors('transition')
@@ -186,8 +204,10 @@ function StatusControl({
             : e instanceof ApiClientError && e.status === 422
               ? d('reasonNeeded')
               : errors('generic'),
-      ),
+      );
+    },
   });
+  const canOverride = guards.length > 0 && guards.every((g) => g.mode === 'warn');
   return (
     <section aria-labelledby="status-heading" className="flex max-w-md flex-col gap-3">
       <h2 id="status-heading" className="text-lg font-semibold">
@@ -221,8 +241,46 @@ function StatusControl({
               {error}
             </p>
           ) : null}
+          {guards.length > 0 ? (
+            <div
+              role="alert"
+              className="flex flex-col gap-2 rounded-md border border-border p-3 text-sm"
+            >
+              <p className="font-medium">{d('guard.title')}</p>
+              <ul className="list-disc pl-5">
+                {guards.map((g) => (
+                  <li key={g.guard}>{g.message}</li>
+                ))}
+              </ul>
+              {canOverride ? (
+                <>
+                  <p>{d('guard.warnIntro')}</p>
+                  <TextField
+                    label={d('guard.overrideReason')}
+                    value={overrideReason}
+                    onChange={(e) => setOverrideReason(e.target.value)}
+                  />
+                  <div>
+                    <Button
+                      variant="secondary"
+                      disabled={overrideReason.trim().length < 3 || change.isPending}
+                      onClick={() =>
+                        change.mutate(
+                          guards.map((g) => ({ guard: g.guard, reason: overrideReason.trim() })),
+                        )
+                      }
+                    >
+                      {d('guard.override')}
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <p className="text-muted">{d('guard.blocked')}</p>
+              )}
+            </div>
+          ) : null}
           <div>
-            <Button disabled={target === '' || change.isPending} onClick={() => change.mutate()}>
+            <Button disabled={target === '' || change.isPending} onClick={() => change.mutate([])}>
               {d('moveButton')}
             </Button>
           </div>

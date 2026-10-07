@@ -5,7 +5,8 @@
     "members": "Members",
     "defaults": "Defaults",
     "usage": "AI usage",
-    "outbox": "Outbox"
+    "outbox": "Outbox",
+    "privacy": "Privacy requests"
   },
   "defaults": {
     "title": "Agency defaults",
@@ -111,5 +112,45 @@
       "suppressed": "Not sent (opted out)",
       "bounced": "Bounced"
     }
+  },
+  "privacy": {
+    "title": "Privacy requests",
+    "intro": "Candidates can ask for a copy of their data or for it to be deleted. Record the request here, and carry it out before the deadline.",
+    "new": "Record a request",
+    "candidate": "Candidate",
+    "candidateSearch": "Search for the candidate",
+    "candidateNone": "No candidate found.",
+    "pick": "Choose {name}",
+    "chosen": "Chosen: {name}",
+    "kind": "Request",
+    "kinds": {
+      "export": "Copy of their data",
+      "delete": "Deletion"
+    },
+    "note": "Note",
+    "create": "Record request",
+    "created": "Request recorded",
+    "empty": "No requests yet.",
+    "status": {
+      "requested": "Waiting",
+      "in_progress": "Working",
+      "completed": "Done",
+      "rejected": "Declined"
+    },
+    "deadline": "Answer by {date}",
+    "overdue": "Overdue",
+    "line": "{kind}: {name}",
+    "start": "Carry out",
+    "startExport": "Build the export",
+    "startDelete": "Delete the data",
+    "reject": "Decline",
+    "rejectReason": "Reason for declining",
+    "rejectConfirm": "Decline request",
+    "download": "Download the export",
+    "started": "Started. This can take a few minutes.",
+    "declined": "Request declined",
+    "confirmDelete": "This permanently removes the candidate's personal data and files. Pipeline stages and counts are kept. It cannot be undone.",
+    "adminOnly": "Only an admin can carry out or decline a request.",
+    "error": "Could not complete that. Try again."
   }
 }

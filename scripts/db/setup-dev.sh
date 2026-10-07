@@ -31,6 +31,21 @@ END
 \$\$;
 SQL
 
+# The data-rights role (ADR-016): the only login allowed to change audit rows. The migration creates it
+# without a login; development gives it one here.
+DR_ROLE="easemuse_datarights"
+psql_admin <<SQL
+DO \$\$
+BEGIN
+  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '$DR_ROLE') THEN
+    CREATE ROLE $DR_ROLE LOGIN PASSWORD '$DR_ROLE' NOSUPERUSER NOBYPASSRLS NOCREATEDB NOCREATEROLE;
+  ELSE
+    ALTER ROLE $DR_ROLE LOGIN PASSWORD '$DR_ROLE' NOSUPERUSER NOBYPASSRLS;
+  END IF;
+END
+\$\$;
+SQL
+
 for db in "${DATABASES[@]}"; do
   if [[ -z "$(psql_admin -c "SELECT 1 FROM pg_database WHERE datname = '$db'")" ]]; then
     psql_admin -c "CREATE DATABASE $db"

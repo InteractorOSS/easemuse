@@ -22,5 +22,10 @@ for (const url of [TEST_DATABASE_ADMIN_URL, TEST_DATABASE_URL]) {
   }
 }
 
+/** The data-rights role (ADR-016): the only login that may change audit rows. Create it with `pnpm db:setup`. */
+export const TEST_DATARIGHTS_DATABASE_URL =
+  process.env.TEST_DATARIGHTS_DATABASE_URL ??
+  'postgresql://easemuse_datarights:easemuse_datarights@localhost:5432/easemuse_test';
+
 /** Redis for queue and realtime tests. Tests use unique key prefixes and clean up after themselves. */
 export const TEST_REDIS_URL = process.env.TEST_REDIS_URL ?? 'redis://localhost:6379';

@@ -36,6 +36,7 @@ export * from './schemas/consent';
 export * from './schemas/submission';
 export * from './schemas/interviews';
 export * from './schemas/offers';
+export * from './schemas/privacy';
 export * from './artifacts/outreach-message';
 export * from './artifacts/call-questions';
 export * from './artifacts/qualification';

@@ -5,6 +5,7 @@
 // re-exported: application code reaches tenant data only through withAgency() (ADR-001).
 export { withAgency, withUser, createScope, type Scope, type ScopedTx } from './scoped';
 export * from './platform';
+export { dataRightsScope, closeDataRightsDb } from './data-rights';
 export { sql, joinSql, emptySql, type Sql } from './sql';
 export * from './job-runs';
 export { pgNotify } from './notify';

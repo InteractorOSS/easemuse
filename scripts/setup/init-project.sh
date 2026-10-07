@@ -166,10 +166,12 @@ Generated with product-dev-template-react" > /dev/null 2>&1
 fi
 
 # Store template origin for future updates
-TEMPLATE_ORIGIN=${TEMPLATE_ORIGIN:-"https://github.com/pulzze/product-dev-template-react.git"}
+TEMPLATE_ORIGIN=${TEMPLATE_ORIGIN:-}
 
 print_info "Setting up template sync..."
-if [ -d ".git" ]; then
+if [ -z "$TEMPLATE_ORIGIN" ]; then
+    print_info "TEMPLATE_ORIGIN not set; skipping template remote"
+elif [ -d ".git" ]; then
     # Add template as upstream remote for future updates
     git remote add template "$TEMPLATE_ORIGIN" 2>/dev/null || true
     print_success "Template remote added (for pulling future updates)"

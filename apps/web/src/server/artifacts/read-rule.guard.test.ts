@@ -16,6 +16,8 @@ const sep = path.sep;
 const ALLOWED_DIRS = [
   path.join(SRC, 'server', 'artifacts'), // the lifecycle service itself
   path.join(SRC, 'app', 'api', 'v1', 'agencies', '[agencyId]', 'artifacts'), // review surface: editor API
+  // Data rights export and delete every version of a candidate's artifacts, drafts included (ADR-016).
+  path.join(SRC, 'server', 'privacy'),
   path.join(SRC, 'test'),
 ];
 

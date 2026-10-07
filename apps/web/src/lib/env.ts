@@ -21,6 +21,8 @@ const envSchema = z.object({
   // Database: the runtime role (`easemuse_app`, no BYPASSRLS) and the owner role used by migrations.
   DATABASE_URL: z.string().min(1),
   DATABASE_ADMIN_URL: optionalString,
+  /** The data-rights role (`easemuse_datarights`), used only by the anonymization job (ADR-016). */
+  DATABASE_URL_DATARIGHTS: optionalString,
   DATABASE_POOL_SIZE: z.coerce.number().int().min(1).max(200).optional(),
   DATABASE_SSL: z.enum(['true', 'false']).default('false'),
 

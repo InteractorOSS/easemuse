@@ -274,6 +274,14 @@ vi.mock('@/server/offers/service', () => ({
   saveOffer: async () => ({}),
   recordOutcome: async () => ({}),
 }));
+vi.mock('@/lib/queue', () => ({ enqueue: async () => ({ jobRunId: 'job1' }) }));
+vi.mock('@/server/privacy/service', () => ({
+  listPrivacyRequests: async () => [],
+  createPrivacyRequest: async () => ({}),
+  beginPrivacyRequest: async () => ({ kind: 'export', candidateId: 'c1' }),
+  attachJob: async () => undefined,
+  rejectPrivacyRequest: async () => undefined,
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -428,6 +436,12 @@ import {
   PUT as offerPut,
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/offer/route';
 import { POST as offerOutcomePost } from './v1/agencies/[agencyId]/pipeline/[entryId]/offer/outcome/route';
+import {
+  GET as privacyGet,
+  POST as privacyPost,
+} from './v1/agencies/[agencyId]/privacy-requests/route';
+import { POST as privacyStartPost } from './v1/agencies/[agencyId]/privacy-requests/[requestId]/start/route';
+import { POST as privacyRejectPost } from './v1/agencies/[agencyId]/privacy-requests/[requestId]/reject/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -468,6 +482,7 @@ const agencyParams = {
     candidateId: 'cand1',
     entryId: 'e1',
     interviewId: 'iv1',
+    requestId: 'pr1',
     analysisId: 'an1',
     n: '1',
     jobRunId: 'job1',
@@ -1325,6 +1340,45 @@ const endpoints: Endpoint[] = [
     call: () =>
       offerOutcomePost(
         new Request('http://x.test/', json({ outcome: 'accepted', at: '2026-10-01' })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET privacy requests',
+    file: 'v1/agencies/[agencyId]/privacy-requests/route.ts',
+    audience: 'agency',
+    allowed: ['admin', 'lead'],
+    call: () => privacyGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST privacy request',
+    file: 'v1/agencies/[agencyId]/privacy-requests/route.ts',
+    audience: 'agency',
+    allowed: ['admin', 'lead'],
+    call: () =>
+      privacyPost(
+        new Request(
+          'http://x.test/',
+          json({ candidateId: '11111111-1111-4111-8111-111111111111', kind: 'export' }),
+        ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST privacy request start',
+    file: 'v1/agencies/[agencyId]/privacy-requests/[requestId]/start/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => privacyStartPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'POST privacy request reject',
+    file: 'v1/agencies/[agencyId]/privacy-requests/[requestId]/reject/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () =>
+      privacyRejectPost(
+        new Request('http://x.test/', json({ reason: 'Not the data subject' })),
         agencyParams,
       ),
   },

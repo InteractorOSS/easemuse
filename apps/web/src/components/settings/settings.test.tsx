@@ -29,10 +29,16 @@ describe('SettingsNav', () => {
     return screen.getAllByRole('link').map((l) => l.textContent);
   };
   it('shows each role only the sections it may open', () => {
-    expect(links('admin')).toEqual(['Members', 'Defaults', 'AI usage', 'Outbox']);
+    expect(links('admin')).toEqual([
+      'Members',
+      'Defaults',
+      'Privacy requests',
+      'AI usage',
+      'Outbox',
+    ]);
   });
   it('hides usage from leads and members from recruiters', () => {
-    expect(links('lead')).toEqual(['Members', 'Defaults']);
+    expect(links('lead')).toEqual(['Members', 'Defaults', 'Privacy requests']);
   });
   it('shows recruiters only the defaults', () => {
     expect(links('recruiter')).toEqual(['Defaults']);

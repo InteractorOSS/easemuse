@@ -5,7 +5,7 @@ import pg from 'pg';
 import { inject } from 'vitest';
 import { createDbHandle, type DbHandle } from '@/lib/db/client';
 import { createScope } from '@/lib/db/scoped';
-import { TEST_DATABASE_ADMIN_URL, TEST_DATABASE_URL } from './db-env';
+import { TEST_DATABASE_ADMIN_URL, TEST_DATABASE_URL, TEST_DATARIGHTS_DATABASE_URL } from './db-env';
 
 /** True when the test database is reachable (see global-setup). Use with `describe.skipIf(!dbAvailable)`. */
 export const dbAvailable = (): boolean => inject('dbAvailable');
@@ -16,6 +16,15 @@ export const redisAvailable = (): boolean => inject('redisAvailable');
 /** Runtime-role handle (what production uses). Close it in `afterAll`. */
 export function appHandle(poolSize = 5): DbHandle {
   return createDbHandle({ connectionString: TEST_DATABASE_URL, role: 'web', poolSize });
+}
+
+/** Data-rights-role handle (ADR-016), for the deletion job's tests only. Close it in `afterAll`. */
+export function dataRightsHandle(poolSize = 2): DbHandle {
+  return createDbHandle({
+    connectionString: TEST_DATARIGHTS_DATABASE_URL,
+    role: 'worker',
+    poolSize,
+  });
 }
 
 export function appScope(handle: DbHandle) {

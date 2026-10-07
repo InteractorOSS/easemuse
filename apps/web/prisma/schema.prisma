@@ -355,6 +355,7 @@ model Candidate {
   doNotContactReason String?
   doNotContactAt     DateTime?
   mergedIntoId       String?                  @db.Uuid
+  anonymizedAt       DateTime? // set when the data-rights job has removed the personal data (ADR-016)
   searchText         Unsupported("tsvector")?
   createdAt          DateTime                 @default(now())
   updatedAt          DateTime                 @updatedAt
@@ -1091,4 +1092,28 @@ model RenderedDocument {
 
   @@unique([versionId, format, contentHash])
   @@index([agencyId, versionId])
+}
+
+// Candidate data-rights requests (FR-PLT-08, FR-CDP-06): export or deletion, with a deadline
+model PrivacyRequest {
+  id            String    @id @default(uuid()) @db.Uuid
+  agencyId      String    @db.Uuid
+  candidateId   String    @db.Uuid
+  kind          String // export | delete
+  status        String    @default("requested") // requested | in_progress | completed | rejected
+  source        String    @default("agency") // agency | candidate_portal
+  note          String?
+  requestedAt   DateTime  @default(now())
+  deadlineAt    DateTime
+  requestedById String?   @db.Uuid
+  decidedById   String?   @db.Uuid
+  decisionNote  String?
+  completedAt   DateTime?
+  fileId        String?   @db.Uuid // the export, once built
+  jobRunId      String?   @db.Uuid
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([agencyId, status, deadlineAt])
+  @@index([agencyId, candidateId])
 }

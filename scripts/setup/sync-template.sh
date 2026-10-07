@@ -46,7 +46,8 @@ echo -e "${GREEN}+-----------------------------------------------------------+${
 echo ""
 
 # Template repository URL
-TEMPLATE_REPO_URL="https://github.com/pulzze/product-dev-template-react.git"
+# Set TEMPLATE_REPO_URL to the template repository you want to sync from
+TEMPLATE_REPO_URL="${TEMPLATE_REPO_URL:?Set TEMPLATE_REPO_URL to the template repository URL}"
 
 # Check if template remote exists, add if missing
 if ! git remote | grep -q "template"; then

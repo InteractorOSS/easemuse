@@ -16,7 +16,8 @@
     "interview": "Interview",
     "offer_milestone": "Offer step",
     "approval_received": "Approval received",
-    "proposal": "Proposal to prepare"
+    "proposal": "Proposal to prepare",
+    "privacy_request": "Privacy request due"
   },
   "overdue": "Overdue",
   "due": "Due {date}",

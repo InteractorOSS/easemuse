@@ -9,6 +9,7 @@ export const TASK_KINDS = [
   'offer_milestone',
   'approval_received',
   'proposal',
+  'privacy_request',
 ] as const;
 export type TaskKind = (typeof TASK_KINDS)[number];
 

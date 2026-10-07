@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { listActiveAgencyIds, withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
+import { extractCandidateDocument } from '@/server/candidates/extract';
 import { runRenderJob } from '@/server/documents/render/job';
 import { createClaudePdfReader } from '@/server/ai/pdf-reader';
 import { extractJd } from '@/server/positions/jd-extract';
@@ -20,6 +21,13 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
   registry.register('documents', 'jd.extract', (ctx) => {
     const apiKey = getEnv().ANTHROPIC_API_KEY;
     return extractJd(ctx, { pdfReader: apiKey ? createClaudePdfReader({ apiKey }) : undefined });
+  });
+  // Reads an uploaded resume or profile (same scan fallback as the JD).
+  registry.register('documents', 'candidate.extract', (ctx) => {
+    const apiKey = getEnv().ANTHROPIC_API_KEY;
+    return extractCandidateDocument(ctx, {
+      pdfReader: apiKey ? createClaudePdfReader({ apiKey }) : undefined,
+    });
   });
   // Prints an approved version to PDF with headless Chromium (ADR-011).
   registry.register('documents', 'render', (ctx) => runRenderJob(ctx));

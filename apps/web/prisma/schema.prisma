@@ -319,6 +319,14 @@ enum CandidateSource {
   other
 }
 
+// A candidate starts as a draft (T-2-02): the resume is stored and read, AI proposes a profile, and
+// only when the recruiter confirms does the candidate become active and show up in lists and search.
+enum CandidateStatus {
+  draft
+  active
+  discarded
+}
+
 model Candidate {
   id                 String                   @id @default(uuid()) @db.Uuid
   agencyId           String                   @db.Uuid
@@ -327,6 +335,7 @@ model Candidate {
   phone              String?
   profileUrl         String?
   source             CandidateSource
+  status             CandidateStatus          @default(active)
   createdById        String                   @db.Uuid
   profileArtifactId  String?                  @db.Uuid // approved structured profile (§4.2)
   tags               String[]
@@ -352,6 +361,7 @@ model Candidate {
   portalUser PortalUser?
   consents   Consent[]
 
+  @@index([agencyId, status])
   @@index([agencyId, email])
   @@index([agencyId, phone])
   @@index([agencyId, location])
@@ -362,14 +372,19 @@ model Candidate {
 }
 
 model CandidateDocument {
-  id            String   @id @default(uuid()) @db.Uuid
-  agencyId      String   @db.Uuid
-  candidateId   String   @db.Uuid
-  fileId        String   @db.Uuid // FileObject; originals never overwritten (FR-PLT-05)
-  kind          String // resume | profile_text | other
-  extractedText String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id               String   @id @default(uuid()) @db.Uuid
+  agencyId         String   @db.Uuid
+  candidateId      String   @db.Uuid
+  fileId           String   @db.Uuid // FileObject; originals never overwritten (FR-PLT-05)
+  kind             String // resume | profile_text | other
+  extractedText    String?
+  // Text extraction of the stored original (T-2-02): pending until the worker has read it
+  extractionStatus String   @default("ready") // pending | ready | failed
+  extractionMethod String? // pdf_text | docx | text | pdf_model
+  extractionError  String?
+  parsedFromImage  Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
 

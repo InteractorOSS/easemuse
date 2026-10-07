@@ -156,3 +156,27 @@ Authenticated by portal session (magic link, ADR-002). Reads only `PortalShare` 
 | POST | `/privacy-requests` | candidate | Export / delete request | CDP-06 |
 
 Recruiter-side portal management (release 2, agency API): `POST /portal-users` (invite), `POST /portal-shares`, `DELETE /portal-shares/:id`, `POST /proposed-transitions/:id/resolve`.
+
+## 12. Additions made while implementing (2026-10-07)
+
+Routes that grew out of the build and are not in the tables above. All are under `/api/v1/agencies/:agencyId` and follow the same rules (404 for another agency, 403 for the wrong role, 409 for a state conflict).
+
+| Method | Path | Role | Purpose |
+|--------|------|------|---------|
+| GET / PUT | `/pipeline/:entryId/screening` | R+ / owner | 14-item screening checklist (rating and notes, none mandatory) · T-4-01 |
+| POST | `/pipeline/:entryId/classification` | owner | Priority / Potential / Hold / Not Qualified (reason for Not Qualified); only Priority and Potential may move to `contacting` · T-4-02 |
+| GET | `/pipeline/:entryId/outreach` | R+ | Touches, do-not-contact, recent-contact warning, names for the placeholders |
+| GET / POST | `/pipeline/:entryId/qualification`, `/qualification/blank` | R+ / owner | Overview of call questions and the qualification record; start a record by hand |
+| POST | `/pipeline/:entryId/tailored-resume/fact-check`, `/submission-report/fact-check` | owner | Run the fact check again on the newest draft after edits |
+| GET / POST | `/pipeline/:entryId/tailored-resume`, `/tailored-resume/export` | R+ / owner | Overview; DOCX or PDF of the approved resume (`202 jobRunId` for PDF) |
+| GET / POST | `/pipeline/:entryId/submission-report`, `/submission-report/pdf` | R+ / owner | Overview; PDF of the approved report |
+| GET / POST | `/pipeline/:entryId/approvals` | R+ / owner | The candidate's decisions on the tailored resume (bound to the approved version) and the client's consent state |
+| GET / POST | `/candidates/:candidateId/consents` | owner, lead, admin | Append-only consent rows per client |
+| GET / POST | `/pipeline/:entryId/submissions` | R+ / owner | What a submission would pin now; record it (409 `pdf_missing`, `duplicate_submission`, `guard_failed`) |
+| GET / POST / PATCH | `/pipeline/:entryId/interviews`, `/interviews/:interviewId`, `/interviews/:interviewId/feedback` | R+ / owner | Rounds, status changes, structured feedback · T-9-01 |
+| GET / PUT / POST | `/pipeline/:entryId/offer`, `/offer/outcome` | R+ / owner | Offer record (9 milestones) and outcomes · T-10-01 |
+| GET | `/outbox` | A | Outgoing mail incl. the dev-capture inbox · T-5-04 |
+| GET / POST | `/privacy-requests`; POST `/privacy-requests/:requestId/start`, `/reject` | L+ (list, record); A (start, reject) | Candidate data-rights requests with deadlines; export ZIP or deletion in the background · T-0-04..T-0-06 |
+| GET | `/api/public/unsubscribe/:token`, POST (one-click) | public, rate limited | Signed opt-out link in outreach emails · T-5-03 |
+
+Also: `PUT/DELETE /positions/:positionId/review-order` (manual order, T-3-10), `GET /positions/:positionId/structured-jd`, `PATCH /analyses/:analysisId/overrides` (score overrides, T-3-06) and `GET /jobs/:jobRunId` (job progress).

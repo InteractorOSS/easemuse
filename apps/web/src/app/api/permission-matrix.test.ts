@@ -88,6 +88,10 @@ vi.mock('@/server/platform/admins', () => ({
   removePlatformAdmin: async () => undefined,
   revokePlatformAdminInvite: async () => undefined,
 }));
+vi.mock('@/server/activity/service', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/activity/service')>()),
+  listTimeline: async () => ({ items: [], nextCursor: null }),
+}));
 vi.mock('@/server/ai/provenance', () => ({ getProvenance: async () => ({ id: 'g1' }) }));
 
 import { GET as agenciesGet, POST as agenciesPost } from './admin/v1/agencies/route';
@@ -105,6 +109,7 @@ import { GET as agencyUsageGet } from './v1/agencies/[agencyId]/usage/route';
 import { GET as adminsGet, POST as adminsPost } from './admin/v1/admins/route';
 import { PATCH as adminPatch, DELETE as adminDelete } from './admin/v1/admins/[userId]/route';
 import { DELETE as adminInviteDelete } from './admin/v1/admin-invites/[id]/route';
+import { GET as activityGet } from './v1/agencies/[agencyId]/activity/route';
 import { GET as membersGet } from './v1/agencies/[agencyId]/members/route';
 import { PATCH as memberPatch } from './v1/agencies/[agencyId]/members/[userId]/route';
 import { GET as invitesGet, POST as invitesPost } from './v1/agencies/[agencyId]/invites/route';
@@ -211,6 +216,19 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: ['admin'],
     call: () => agencyUsageGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET activity timeline',
+    file: 'v1/agencies/[agencyId]/activity/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      activityGet(
+        new Request(
+          'http://x.test/?entityType=position&entityId=11111111-1111-4111-8111-111111111111',
+        ),
+        agencyParams,
+      ),
   },
   {
     name: 'GET artifact',

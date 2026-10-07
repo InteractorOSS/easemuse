@@ -1,0 +1,23 @@
+{
+  "title": "Activity",
+  "empty": "Nothing has happened here yet.",
+  "loadMore": "Show earlier activity",
+  "bySystem": "System",
+  "someone": "Someone",
+  "by": "{actor}",
+  "actions": {
+    "member_invited": "invited a member",
+    "member_invite_accepted": "accepted an invitation",
+    "member_invite_revoked": "revoked an invitation",
+    "member_updated": "changed a member",
+    "artifact_approved": "approved a draft",
+    "artifact_discarded": "discarded a draft",
+    "artifacts_orphan_report": "found documents whose subject no longer exists",
+    "file_downloaded": "downloaded a file",
+    "settings_updated": "changed the agency defaults",
+    "position_created": "created the position",
+    "pipeline_transition": "moved the candidate to a new stage",
+    "job_finished": "finished a background job"
+  },
+  "unknownAction": "{action}"
+}

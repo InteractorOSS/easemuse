@@ -5,27 +5,22 @@ import { render } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
 import type { ReactElement, ReactNode } from 'react';
 import { ToastProvider } from '@/components/ui/toast';
-import common from '../../messages/en/common.json';
-import home from '../../messages/en/home.json';
-import nav from '../../messages/en/nav.json';
-import workbench from '../../messages/en/workbench.json';
-import email from '../../messages/en/email.json';
-import admin from '../../messages/en/admin.json';
-import members from '../../messages/en/members.json';
-import artifacts from '../../messages/en/artifacts.json';
-import settings from '../../messages/en/settings.json';
 
-export const messages = {
-  common,
-  nav,
-  home,
-  workbench,
-  email,
-  admin,
-  members,
-  artifacts,
-  settings,
-};
+/**
+ * Every English catalog, read from disk, so a new namespace is available to component tests without
+ * touching this file (the guard in src/i18n/messages.guard.test.ts keeps NAMESPACES in step).
+ */
+// @ts-expect-error `import.meta.glob` is provided by Vite when the tests run; Next's types do not declare it.
+const catalogs: Record<string, { default: Record<string, unknown> }> = import.meta.glob(
+  '../../messages/en/*.json',
+  { eager: true },
+);
+export const messages = Object.fromEntries(
+  Object.entries(catalogs).map(([file, module]) => [
+    file.split('/').pop()!.replace('.json', ''),
+    module.default,
+  ]),
+);
 
 function IntlWrapper({ children }: { children: ReactNode }) {
   return (

@@ -36,11 +36,12 @@ Later                                ER-005 [R9]
 | TR-003 [R5] | AI cost per position exceeds plan pricing | M | Medium | Medium | Open | FR-AI-08, FR-TEN-05 |
 | TR-004 | No real evaluation data (JDs, resumes) early enough to tune prompts and choose models | H | Medium | High | Open | NFR-AI01, Q-18 |
 | TR-005 [R12] | Portal users see data they shouldn't (scores, other candidates, recruiter notes) | M | High | High | Open | FR-HMP-04 |
-| TR-006 [R10] | Poor source documents (scanned PDFs, sparse profiles) give weak structuring | M | Low | Low | Open | §4.2 |
+| TR-006 [R10] | Poor source documents (scanned PDFs, sparse profiles) give weak structuring | M | Low | Low | Partly mitigated (spike T-F-23, 2026-10-07: [result](./spikes/tf-23-extraction-quality.md); real resumes and the live fallback still to measure) | §4.2 |
 | TR-007 | Postgres RLS and Prisma connection pooling interact badly (tenant context leaking across pooled connections) | M | Medium | Medium | Mitigated (spike T-F-07, 2026-10-06: [result](./spikes/tr-007-rls-pooling.md)) | ADR-001 |
 | TR-008 | Interactor Account Server can't model invite-only external users (HMs, candidates) per tenant | L | Medium | Low | Mitigated by ADR-002 (app-local magic links), pending Q-32 | ADR-002, Q-23 |
 | TR-009 | LLM latency makes streaming drafts feel slow (> 45 s for long reports) | M | Medium | Medium | Open | NFR-P04 |
 | TR-010 | Match score unstable between runs (same input, different score), undermining trust | M | High | High | Open | §5.2, ADR-007 |
+| TR-011 | Account Server may not emit `amr`/`acr` claims, so MFA for agency users and platform admins cannot be verified or enforced (found in T-F-24) | M | Medium | Medium | Open | FR-PLT-01, NFR-S01, ADR-002 |
 
 ## Business risks
 
@@ -72,6 +73,7 @@ Later                                ER-005 [R9]
 | TR-004 | Public JDs collected (eval-data/); resumes per Q-18 decision; anonymize; build eval harness before the first AI feature | Data not received by end of sprint 1 | Use synthetic resumes built from public JDs for early tuning; delay the AI quality gate, not the build |
 | TR-005 | Separate portal API with its own narrow read models (ADR-003); permission tests per audience; HM portal never queries recruiter tables directly | Any portal test returning a non-shared field | Disable portal access for the affected record type |
 | TR-010 | Criterion-level scoring with evidence on an anchored rubric, fixed prompt version and fixed criterion order (sampling parameters aren't adjustable on Opus 5.5); overall score computed in code (ADR-007); store inputs; regression test on fixed pairs | Score variance > 5 points on repeated runs in eval | Show criterion levels (Strong/Partial/Gap) only and hide the numeric score (Q-06 option) |
+| TR-011 | MFA detection from OIDC claims is built (`lib/auth/mfa.ts`) and staged by `MFA_ENFORCEMENT` = off, log (default) or enforce. Confirm with the Account Server owners which claims a second-factor sign-in carries, check the `log` output for `mfa.missing`, then switch to `enforce` | `mfa.missing` logged for users known to have MFA | Stay on `log`, require MFA at the Account Server instead, and note the gap for customers |
 | BR-001 | Release slices (release 1 = multi-tenant core loop only); walking skeleton first; tasks < 1 day; scope changes go through `/handle-change` | Release 1 tasks exceed capacity by > 20% | Cut low-risk release 1 items first: explain-only mode (T-3-10), usage page (T-13-05), merge (T-2-06, keep link-only); then defer US-504 to copy-and-mark-sent |
 | BR-002 | Team of Wakers' internal recruiters as the first users from release 1; measure draft edit rate (T-AI-14); replace their spreadsheet fully | Edit rate on drafts > 60%, or pilot users keep spreadsheets after 4 weeks | Prioritize draft-quality work over new features |
 | BR-003 | CSV and ATS import (release 2); design partners (Q-30) | No design partner by release 1 end | Position release 2 for boutique agencies like the pilot only |

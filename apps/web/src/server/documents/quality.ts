@@ -15,7 +15,7 @@ export interface TextQuality {
   issues: QualityIssue[];
 }
 
-/** Thresholds (ADR-010). Tuned on the collected JDs and resumes in the T-F-23 spike. */
+/** Thresholds (ADR-010). Confirmed on clean documents in the T-F-23 spike (docs/planning/spikes/tf-23-extraction-quality.md); re-check on real resumes. */
 export const QUALITY_THRESHOLDS = {
   minChars: { resume: 200, jd: 200 } satisfies Record<DocumentKind, number>,
   maxNonTextRatio: 0.3,

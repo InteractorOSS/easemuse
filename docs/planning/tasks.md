@@ -7,7 +7,7 @@
 | **Scope** | **Release 1 fully broken down** (every task < 1 day). Releases 2–3 at story level, to be broken down at the start of each release (rolling-wave planning, so later tasks reflect what release 1 teaches) |
 | **Sources** | `init.docx` (brief §), [user-stories.md](../discovery/user-stories.md), [architecture.md](./architecture.md), [ADRs](./decisions/README.md) |
 
-**Progress:** T-F-01 to T-F-10 done 2026-10-06 (spike result: [tr-007-rls-pooling](./spikes/tr-007-rls-pooling.md)).
+**Progress:** T-F-01 to T-F-25 done 2026-10-06/07, except that T-F-23 still needs real resumes and a live fallback run (spike results: [tr-007-rls-pooling](./spikes/tr-007-rls-pooling.md), [tf-23-extraction-quality](./spikes/tf-23-extraction-quality.md)).
 
 Estimates are ideal engineering hours (≤ 8 = under one day). "Dep" lists blocking tasks. Every AI task includes adding its cases to the eval set (T-QA-03) and an isolation test for its routes (T-QA-01).
 

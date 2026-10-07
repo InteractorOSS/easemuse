@@ -363,7 +363,13 @@ describe.skipIf(!dbAvailable())('match analysis (T-3-03, T-3-04)', () => {
     it('recomputes the overall score of every analysis of the position at once, with no new analysis and no stale marker', async () => {
       const ready = await readyEntry();
       const before = await analyzeEntry(deps(runner()), owner, ready.entry.id);
-      const calls = (await admin.query(`SELECT count(*)::int AS n FROM "AiGeneration"`)).rows[0].n;
+      const countCalls = async () =>
+        (
+          await admin.query(`SELECT count(*)::int AS n FROM "AiGeneration" WHERE "agencyId" = $1`, [
+            agencyId,
+          ])
+        ).rows[0].n;
+      const calls = await countCalls();
       const weights = {
         ...DEFAULT_MATCH_WEIGHTS,
         coreCompetencies: 10,
@@ -377,9 +383,7 @@ describe.skipIf(!dbAvailable())('match analysis (T-3-03, T-3-04)', () => {
       // 10*90 + 20*85 + 15*60 + 10*70 + 5*20 + 35*100 + 5*50 = 900+1700+900+700+100+3500+250 = 8050
       expect(row.rows[0]).toMatchObject({ overallScore: 81, weights, stale: false });
       expect(before.overallScore).toBe(78);
-      expect((await admin.query(`SELECT count(*)::int AS n FROM "AiGeneration"`)).rows[0].n).toBe(
-        calls,
-      );
+      expect(await countCalls()).toBe(calls);
     });
 
     it('counts a recruiter override of a criterion in the recomputed score', async () => {

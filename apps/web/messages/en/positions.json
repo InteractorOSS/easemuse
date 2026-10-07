@@ -308,5 +308,23 @@
     "challenges": "Key challenges, one per line",
     "invalid": "This draft cannot be shown as a form.",
     "dealBreakers": "Deal-breakers: {count}"
+  },
+  "print": {
+    "title": "Job description"
+  },
+  "export": {
+    "title": "Send to the hiring manager",
+    "intro": "Export the approved job description. The same content goes into the PDF and the Word file.",
+    "needApproved": "Approve the structured JD first.",
+    "docx": "Download Word file",
+    "pdf": "Create PDF",
+    "pdfAgain": "Create PDF again",
+    "pdfWorking": "Creating the PDF…",
+    "pdfReady": "Download PDF",
+    "pdfOutOfDate": "This PDF is older than the approved JD or the agency branding. Create it again.",
+    "errors": {
+      "generic": "Could not export. Try again.",
+      "notApproved": "Approve the structured JD first."
+    }
   }
 }

@@ -463,6 +463,26 @@ export async function readApproved(
   return row && row.status === 'approved' ? toRecord(row) : null;
 }
 
+/**
+ * One APPROVED version by id, for rendering a document from exactly what the recruiter approved
+ * (ADR-011). A draft, superseded or discarded version is not returned.
+ */
+export async function readApprovedVersionById(tx: ScopedTx, versionId: string) {
+  const row = await tx.artifactVersion.findUnique({
+    where: { id: versionId },
+    include: { artifact: true },
+  });
+  if (!row || row.status !== 'approved') return null;
+  return {
+    versionId: row.id,
+    version: row.version,
+    artifactId: row.artifactId,
+    kind: row.artifact.kind as ArtifactKind,
+    subject: { type: row.artifact.subjectType as SubjectType, id: row.artifact.subjectId },
+    content: row.content as Record<string, unknown>,
+  };
+}
+
 /** Review surfaces only (editor, review dashboard): the artifact with every version, newest first. */
 export async function getArtifactWithVersions(tx: ScopedTx, artifactId: string) {
   const artifact = await tx.artifact.findUnique({

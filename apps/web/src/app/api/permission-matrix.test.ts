@@ -137,6 +137,12 @@ vi.mock('@/server/positions/success-profile', () => ({
   planSuccessProfile: async () => ({ input: {}, inputRefs: {}, overridden: [] }),
   runSuccessProfile: async () => ({}),
 }));
+vi.mock('@/server/positions/jd-export', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/positions/jd-export')>()),
+  getPdfStatus: async () => ({ versionId: null, document: null }),
+  startPdfExport: async () => ({ jobRunId: 'run1', versionId: 'v1' }),
+  exportDocx: async () => ({ bytes: Buffer.from('docx'), filename: 'x.docx' }),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -199,6 +205,10 @@ import {
   GET as spGet,
   POST as spPost,
 } from './v1/agencies/[agencyId]/positions/[positionId]/success-profile/route';
+import {
+  GET as exportGet,
+  POST as exportPost,
+} from './v1/agencies/[agencyId]/positions/[positionId]/jd/export/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -528,6 +538,20 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => spPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET position jd export',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/jd/export/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => exportGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST position jd export',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/jd/export/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => exportPost(new Request('http://x.test/', json({ format: 'pdf' })), agencyParams),
   },
   {
     name: 'GET tasks',

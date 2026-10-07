@@ -11,6 +11,7 @@ import { useAiRun } from '@/components/artifacts/use-ai-run';
 import { Button } from '@/components/ui/button';
 import { apiFetch } from '@/lib/api-client';
 import type { RequirementView } from '@/server/positions/structured-jd';
+import { JdExportPanel } from './jd-export-panel';
 import { StructuredJdEditor } from './structured-jd-editor';
 
 interface Overview {
@@ -77,6 +78,10 @@ export function StructureJdView({
           artifactId={overview.artifactId}
           ContentEditor={StructuredJdEditor}
         />
+      ) : null}
+
+      {overview?.approvedVersionId ? (
+        <JdExportPanel agencyId={agencyId} positionId={positionId} />
       ) : null}
 
       {overview ? (

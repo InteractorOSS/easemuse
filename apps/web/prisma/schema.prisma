@@ -1048,3 +1048,18 @@ model JobRun {
   @@unique([queue, idempotencyKey])
   @@index([agencyId, createdAt])
 }
+
+// A rendered copy (PDF) of one approved artifact version (T-1-11, ADR-011). The content hash covers
+// the approved content and the agency branding, so a render is reused until either changes.
+model RenderedDocument {
+  id          String   @id @default(uuid()) @db.Uuid
+  agencyId    String   @db.Uuid
+  versionId   String   @db.Uuid // ArtifactVersion
+  format      String // pdf
+  contentHash String
+  fileId      String   @db.Uuid // FileObject
+  createdAt   DateTime @default(now())
+
+  @@unique([versionId, format, contentHash])
+  @@index([agencyId, versionId])
+}

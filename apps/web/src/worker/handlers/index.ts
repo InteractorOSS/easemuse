@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { listActiveAgencyIds, withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
+import { runRenderJob } from '@/server/documents/render/job';
 import { createClaudePdfReader } from '@/server/ai/pdf-reader';
 import { extractJd } from '@/server/positions/jd-extract';
 import { runOrphanReport } from '@/server/artifacts/orphans';
@@ -20,6 +21,8 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
     const apiKey = getEnv().ANTHROPIC_API_KEY;
     return extractJd(ctx, { pdfReader: apiKey ? createClaudePdfReader({ apiKey }) : undefined });
   });
+  // Prints an approved version to PDF with headless Chromium (ADR-011).
+  registry.register('documents', 'render', (ctx) => runRenderJob(ctx));
   // Nightly (see scheduler.ts): artifacts whose subject no longer exists (ADR-006).
   registry.register('maintenance', 'artifacts.orphan_report', async (ctx) => {
     const summary = await runOrphanReport({

@@ -51,6 +51,12 @@ const envSchema = z.object({
   S3_ACCESS_KEY_ID: optionalString,
   S3_SECRET_ACCESS_KEY: optionalString,
 
+  // PDF rendering (ADR-011): the worker opens the print route in headless Chromium.
+  /** A Chromium or Chrome binary; defaults to the one Playwright installed. */
+  CHROMIUM_PATH: optionalString,
+  /** Where the worker reaches the web app for printing; defaults to APP_URL. */
+  RENDER_BASE_URL: z.url().optional(),
+
   // Email transport (ADR-009). Without SMTP the dev-capture transport is used.
   SMTP_HOST: optionalString,
   SMTP_PORT: z.coerce.number().int().min(1).max(65535).optional(),

@@ -21,3 +21,6 @@ for (const url of [TEST_DATABASE_ADMIN_URL, TEST_DATABASE_URL]) {
     throw new Error(`Refusing to run tests against a database not named *_test: ${url}`);
   }
 }
+
+/** Redis for queue and realtime tests. Tests use unique key prefixes and clean up after themselves. */
+export const TEST_REDIS_URL = process.env.TEST_REDIS_URL ?? 'redis://localhost:6379';

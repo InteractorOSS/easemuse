@@ -195,6 +195,10 @@ vi.mock('@/server/matching/dashboard', () => ({
   getDashboard: async () => ({ explainOnly: false, rows: [] }),
   setManualOrder: async () => undefined,
 }));
+vi.mock('@/server/matching/detail', () => ({
+  getAnalysisDetail: async () => ({}),
+  markReviewed: async () => ({ reviewed: true }),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -286,6 +290,8 @@ import {
   PUT as orderPut,
   DELETE as orderDelete,
 } from './v1/agencies/[agencyId]/positions/[positionId]/review-order/route';
+import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
+import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
 import { PUT as assessmentPut } from './v1/agencies/[agencyId]/analyses/[analysisId]/assessment/route';
 import {
@@ -841,6 +847,20 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => orderDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
+  },
+  {
+    name: 'GET analysis detail',
+    file: 'v1/agencies/[agencyId]/analyses/[analysisId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => analysisDetailGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST analysis mark reviewed',
+    file: 'v1/agencies/[agencyId]/analyses/[analysisId]/review/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => reviewPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET tasks',

@@ -496,6 +496,25 @@ export async function versionStatuses(
   return new Map(rows.map((r) => [r.id, r.status]));
 }
 
+/**
+ * One version's content by id, for review screens that show what an analysis was based on (the
+ * profile and success profile versions it compared). Whatever the status; never use this to feed a
+ * later AI step: those read approved content only (`readApproved`).
+ */
+export async function getVersionForReview(tx: ScopedTx, versionId: string) {
+  const row = await tx.artifactVersion.findUnique({
+    where: { id: versionId },
+    include: { artifact: true },
+  });
+  if (!row) return null;
+  return {
+    id: row.id,
+    status: row.status,
+    kind: row.artifact.kind as ArtifactKind,
+    content: row.content as Record<string, unknown>,
+  };
+}
+
 /** Review surfaces only (editor, review dashboard): the artifact with every version, newest first. */
 export async function getArtifactWithVersions(tx: ScopedTx, artifactId: string) {
   const artifact = await tx.artifact.findUnique({

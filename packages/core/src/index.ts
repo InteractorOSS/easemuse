@@ -4,3 +4,5 @@ export { AGENCY_ROLES, PLATFORM_ROLES, type AgencyRole, type PlatformRole } from
 export { ERROR_STATUS, type ApiDataBody, type ApiErrorBody, type ApiErrorCode } from './http';
 export type { Actor, AgencyActor, PlatformAdminActor, PortalActor, SystemActor } from './actor';
 export * from './schemas/tenancy';
+export * from './artifacts/kinds';
+export * from './artifacts/fact-check';

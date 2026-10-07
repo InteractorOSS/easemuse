@@ -1,6 +1,14 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
-import { structuredJdContentSchema, type ArtifactKind, type SubjectType } from '@easemuse/core';
+import {
+  candidateFieldsFromProfile,
+  candidateProfileContentSchema,
+  employerKeys,
+  phoneKey,
+  structuredJdContentSchema,
+  type ArtifactKind,
+  type SubjectType,
+} from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 
 export interface ApprovalContext {
@@ -58,7 +66,31 @@ const BUILT_IN: Partial<Record<ArtifactKind, Hook>> = {
       data: { stale: true },
     });
   },
-  candidate_profile: async (tx, { subject }) => {
+  candidate_profile: async (tx, { subject, versionId }) => {
+    // The approved profile feeds the candidate's list, filter and duplicate-check fields (T-2-08).
+    const version = await tx.artifactVersion.findUnique({
+      where: { id: versionId },
+      select: { artifactId: true, content: true },
+    });
+    const profile = candidateProfileContentSchema.safeParse(version?.content);
+    if (version && profile.success) {
+      const fields = candidateFieldsFromProfile(profile.data);
+      await tx.candidate.updateMany({
+        where: { id: subject.id },
+        data: {
+          ...(fields.fullName ? { fullName: fields.fullName } : {}),
+          email: fields.email,
+          phone: fields.phone,
+          phoneKey: phoneKey(fields.phone),
+          employerKeys: employerKeys(fields.employers),
+          currentTitle: fields.currentTitle,
+          location: fields.location,
+          skills: fields.skills,
+          yearsExperience: fields.yearsExperience,
+          profileArtifactId: version.artifactId,
+        },
+      });
+    }
     await tx.matchAnalysis.updateMany({
       where: { entry: { candidateId: subject.id }, stale: false },
       data: { stale: true },

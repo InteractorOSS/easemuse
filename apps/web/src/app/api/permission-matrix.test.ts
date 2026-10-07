@@ -157,6 +157,13 @@ vi.mock('@/server/candidates/duplicates', () => ({
   duplicatesForCandidate: async () => [],
   matchKeys: () => ({}),
 }));
+vi.mock('@/server/candidates/confirm', () => ({
+  confirmCandidate: async () => ({ candidateId: 'c1', resolution: 'create', mergedIntoId: null }),
+}));
+vi.mock('@/server/candidates/service', () => ({
+  getCandidate: async () => ({ id: 'c1' }),
+  discardDraft: async () => undefined,
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -230,6 +237,9 @@ import {
 import { POST as intakePost } from './v1/agencies/[agencyId]/candidates/intake/route';
 import { POST as structureAgainPost } from './v1/agencies/[agencyId]/candidates/[candidateId]/structure/route';
 import { GET as duplicatesGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/duplicates/route';
+import { POST as confirmPost } from './v1/agencies/[agencyId]/candidates/route';
+import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
+import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -613,6 +623,31 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => duplicatesGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST candidates (confirm)',
+    file: 'v1/agencies/[agencyId]/candidates/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      confirmPost(
+        new Request('http://x.test/', json({ draftId: '11111111-1111-4111-8111-111111111111' })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET candidate',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => candidateGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST candidate discard',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/discard/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => discardPost2(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET tasks',

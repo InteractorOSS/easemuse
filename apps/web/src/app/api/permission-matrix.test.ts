@@ -282,6 +282,11 @@ vi.mock('@/server/privacy/service', () => ({
   attachJob: async () => undefined,
   rejectPrivacyRequest: async () => undefined,
 }));
+vi.mock('@/server/screening/prefill', () => ({
+  planScreeningPrefill: async () => ({}),
+  generateScreeningPrefill: async () => ({}),
+  getScreeningPrefill: async () => null,
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -442,6 +447,10 @@ import {
 } from './v1/agencies/[agencyId]/privacy-requests/route';
 import { POST as privacyStartPost } from './v1/agencies/[agencyId]/privacy-requests/[requestId]/start/route';
 import { POST as privacyRejectPost } from './v1/agencies/[agencyId]/privacy-requests/[requestId]/reject/route';
+import {
+  GET as prefillGet,
+  POST as prefillPost,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/screening/prefill/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -1381,6 +1390,20 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', json({ reason: 'Not the data subject' })),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET screening suggestions',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/screening/prefill/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => prefillGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST screening suggestions',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/screening/prefill/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => prefillPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET screening',

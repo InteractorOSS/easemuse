@@ -11,6 +11,7 @@ import { profileStructurePrompt } from './profile-structure';
 import { qualifyNotesPrompt } from './qualify-notes';
 import { reportDraftPrompt } from './report-draft';
 import { resumeTailorPrompt } from './resume-tailor';
+import { screeningPrefillPrompt } from './screening-prefill';
 import { searchCriteriaPrompt } from './search-criteria';
 import { successProfilePrompt } from './success-profile';
 
@@ -28,4 +29,5 @@ export function registerBuiltInPrompts(registry: PromptRegistry): void {
   registry.register(qualifyNotesPrompt);
   registry.register(resumeTailorPrompt);
   registry.register(reportDraftPrompt);
+  registry.register(screeningPrefillPrompt);
 }

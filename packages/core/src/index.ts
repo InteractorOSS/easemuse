@@ -42,3 +42,4 @@ export * from './artifacts/call-questions';
 export * from './artifacts/qualification';
 export * from './artifacts/tailored-resume';
 export * from './artifacts/submission-report';
+export * from './artifacts/screening-draft';

@@ -32,6 +32,33 @@ describe('pipeline panels pass axe', () => {
     vi.stubGlobal(
       'fetch',
       stubApi({
+        [`GET ${api}/pipeline/e1/screening/prefill`]: () =>
+          json({
+            versionId: 'v1',
+            items: Object.fromEntries(
+              [
+                'careerConsistency',
+                'jobChanges',
+                'employmentGaps',
+                'scopeOfResponsibility',
+                'teamSize',
+                'reportingStructure',
+                'accomplishments',
+                'technicalCompetency',
+                'leadershipCompetency',
+                'compensationExpectation',
+                'location',
+                'workAuthorization',
+                'relocation',
+                'careerMotivation',
+              ].map((k) => [
+                k,
+                k === 'jobChanges'
+                  ? { rating: 'concern', note: 'Three roles in two years' }
+                  : { rating: null, note: '' },
+              ]),
+            ),
+          }),
         [`GET ${api}/pipeline/e1/screening`]: () =>
           json({
             items: { jobChanges: { rating: 'concern', notes: 'Three in two years' } },

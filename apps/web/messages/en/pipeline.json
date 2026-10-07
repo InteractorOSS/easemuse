@@ -270,7 +270,16 @@
     "reasonRequired": "Say why a candidate is not qualified",
     "classify": "Set classification",
     "classified": "Classification saved",
-    "current": "Current classification: {value}"
+    "current": "Current classification: {value}",
+    "suggest": "Suggest from the profile",
+    "suggesting": "Reading the profile…",
+    "suggestionsTitle": "Suggestions (AI draft)",
+    "suggestionsHint": "A reading of the confirmed profile. Nothing is saved until you use it and save the checklist.",
+    "use": "Use",
+    "useFor": "Use the suggestion for {item}",
+    "useAll": "Use all suggestions",
+    "suggestionLine": "{item}: {rating}",
+    "noSuggestions": "The profile does not say enough to suggest anything."
   },
   "outreach": {
     "title": "Outreach",

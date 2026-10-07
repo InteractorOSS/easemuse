@@ -17,6 +17,8 @@ import {
   createUser,
   dbAvailable,
 } from '@/test/db';
+import { readyMatchEntry } from '@/test/match-fixtures';
+import { getScreeningPrefill, planScreeningPrefill } from './prefill';
 import { classifyEntry, getScreening, saveScreening } from './service';
 
 describe.skipIf(!dbAvailable())('screening (T-4-01, T-4-02)', () => {
@@ -132,5 +134,19 @@ describe.skipIf(!dbAvailable())('screening (T-4-01, T-4-02)', () => {
     await expect(
       run((tx) => transitionEntry(tx, rec1, good.id, { to: 'contacting' })),
     ).resolves.toBeTruthy();
+  });
+
+  it('plans suggestions only from a confirmed profile, without identity, and shows nothing until a draft exists', async () => {
+    const { entry } = await readyMatchEntry(run, rec1, clientId);
+    const plan = await run((tx) => planScreeningPrefill(tx, rec1, entry.id));
+    expect(JSON.stringify(plan.input)).not.toMatch(/Alex Kim|alex@x/);
+    expect(await run((tx) => getScreeningPrefill(tx, rec1, entry.id))).toBeNull();
+    await expect(run((tx) => planScreeningPrefill(tx, rec2, entry.id))).rejects.toMatchObject({
+      status: 403,
+    });
+    const bare = await newEntry();
+    await expect(run((tx) => planScreeningPrefill(tx, rec1, bare.id))).rejects.toMatchObject({
+      status: 409,
+    });
   });
 });

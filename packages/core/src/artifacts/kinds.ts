@@ -9,6 +9,7 @@ import { outreachMessageContentSchema } from './outreach-message';
 import { qualificationContentSchema } from './qualification';
 import { tailoredResumeContentSchema } from './tailored-resume';
 import { submissionReportContentSchema } from './submission-report';
+import { screeningDraftContentSchema } from './screening-draft';
 import { searchCriteriaSchema } from './search-criteria';
 import { structuredJdContentSchema } from './structured-jd';
 import { successProfileContentSchema } from './success-profile';
@@ -106,7 +107,9 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
     schema: matchAnalysisContentSchema as unknown as z.ZodType<Record<string, unknown>>,
     humanOnlyFields: ['recruiterAssessment'],
   }),
-  screening_draft: spec('screening_draft', 'pipeline_entry'),
+  screening_draft: spec('screening_draft', 'pipeline_entry', {
+    schema: screeningDraftContentSchema as unknown as z.ZodType<Record<string, unknown>>,
+  }),
   outreach_message: spec('outreach_message', 'pipeline_entry', {
     schema: outreachMessageContentSchema as unknown as z.ZodType<Record<string, unknown>>,
   }),

@@ -48,9 +48,10 @@ describe('artifact kind registry', () => {
   });
 
   it('validates content and rejects non-objects', () => {
-    expect(parseArtifactContent('structured_jd', { a: 1 })).toEqual({ a: 1 });
-    expect(() => parseArtifactContent('structured_jd', 'text')).toThrow();
-    expect(() => parseArtifactContent('structured_jd', [1])).toThrow();
+    // `improved_jd` still has the permissive placeholder schema; structured_jd has its own (structured-jd.test.ts).
+    expect(parseArtifactContent('improved_jd', { a: 1 })).toEqual({ a: 1 });
+    expect(() => parseArtifactContent('improved_jd', 'text')).toThrow();
+    expect(() => parseArtifactContent('improved_jd', [1])).toThrow();
   });
 
   it('detects filled human-only and missing required fields', () => {

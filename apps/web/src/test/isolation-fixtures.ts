@@ -100,7 +100,7 @@ export async function seedAgency(
     });
     const artifact = await createArtifact(tx, {
       agencyId,
-      kind: 'structured_jd',
+      kind: 'improved_jd',
       subject: { type: 'position', id: position.id },
     });
     const version = await addDraftVersion(tx, {

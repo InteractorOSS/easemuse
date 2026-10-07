@@ -114,11 +114,16 @@ vi.mock('@/server/positions/jd', () => ({
   addUploadedOriginal: async () => ({ id: 'j1' }),
   startExtraction: async () => 'run1',
 }));
+vi.mock('@/server/positions/structure-jd', () => ({
+  planStructureJd: async () => ({ input: {}, inputRefs: {} }),
+  runStructureJd: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
   snoozeTask: async () => undefined,
 }));
+vi.mock('@/server/ai', () => ({ getGateway: () => ({ run: async () => ({}) }) }));
 vi.mock('@/server/ai/provenance', () => ({ getProvenance: async () => ({ id: 'g1' }) }));
 
 import { GET as agenciesGet, POST as agenciesPost } from './admin/v1/agencies/route';
@@ -160,6 +165,7 @@ import {
   GET as jdGet,
   POST as jdPost,
 } from './v1/agencies/[agencyId]/positions/[positionId]/jd/route';
+import { POST as structurePost } from './v1/agencies/[agencyId]/positions/[positionId]/jd/structure/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -407,6 +413,13 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => jdPost(new Request('http://x.test/', json({ text: 'x'.repeat(60) })), agencyParams),
+  },
+  {
+    name: 'POST position jd structure',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/jd/structure/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => structurePost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET tasks',

@@ -14,3 +14,4 @@ export * from './schemas/tasks';
 export * from './schemas/clients';
 export * from './schemas/positions';
 export * from './schemas/jd';
+export * from './artifacts/structured-jd';

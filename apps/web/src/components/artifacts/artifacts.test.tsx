@@ -30,7 +30,7 @@ const version = (n: number, over: Partial<VersionView> = {}): VersionView => ({
 });
 const artifactOf = (
   versions: VersionView[],
-  kind: ArtifactView['kind'] = 'structured_jd',
+  kind: ArtifactView['kind'] = 'improved_jd',
 ): ArtifactView => ({
   id: 'art1',
   kind,
@@ -247,7 +247,7 @@ describe('ArtifactEditor', () => {
   it('shows an unapproved AI version with the AI draft badge, its content and approve / discard', async () => {
     serve(artifactOf([version(1)]));
     renderApp(<ArtifactEditor agencyId="ag1" artifactId="art1" />);
-    expect(await screen.findByRole('heading', { name: 'Structured job description' })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: 'Improved job description' })).toBeTruthy();
     expect(screen.getAllByText('AI draft').length).toBeGreaterThan(0);
     expect((screen.getByLabelText('Content') as HTMLTextAreaElement).value).toContain(
       '"title": "Title 1"',

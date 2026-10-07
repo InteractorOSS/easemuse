@@ -63,7 +63,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
   describe('creating', () => {
     it('only accepts the subject type the kind belongs to', async () => {
       await expect(
-        newArtifact('structured_jd', { type: 'candidate', id: randomUUID() }),
+        newArtifact('improved_jd', { type: 'candidate', id: randomUUID() }),
       ).rejects.toMatchObject({ status: 422 });
       await expect(
         newArtifact('match_analysis', { type: 'position', id: randomUUID() }),
@@ -71,7 +71,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
     });
 
     it('numbers versions 1, 2, 3 and starts every one as a draft', async () => {
-      const { id } = await newArtifact('structured_jd');
+      const { id } = await newArtifact('improved_jd');
       const versions = [await draft(id), await draft(id), await draft(id)];
       expect(versions.map((v) => v.version)).toEqual([1, 2, 3]);
       expect(versions.every((v) => v.status === 'draft' && v.origin === 'ai')).toBe(true);
@@ -118,7 +118,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
 
   describe('editing and discarding', () => {
     it('keeps the AI original and every edit as separate versions linked to their parent', async () => {
-      const { id } = await newArtifact('structured_jd');
+      const { id } = await newArtifact('improved_jd');
       const original = await draft(id, { text: 'ai' });
       const edit1 = await run((tx) => editDraft(tx, actor, original.id, { text: 'edit 1' }));
       const edit2 = await run((tx) => editDraft(tx, actor, edit1.id, { text: 'edit 2' }));
@@ -135,13 +135,13 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
     });
 
     it('keeps a purely human draft as human when it is edited', async () => {
-      const { id } = await newArtifact('structured_jd');
+      const { id } = await newArtifact('improved_jd');
       const mine = await draft(id, { t: 1 }, 'human');
       expect((await run((tx) => editDraft(tx, actor, mine.id, { t: 2 }))).origin).toBe('human');
     });
 
     it('refuses to edit or discard anything that is not a draft', async () => {
-      const { id } = await newArtifact('structured_jd');
+      const { id } = await newArtifact('improved_jd');
       const v = await draft(id);
       await run((tx) => approveVersion(tx, actor, v.id));
       await expect(run((tx) => editDraft(tx, actor, v.id, { x: 1 }))).rejects.toMatchObject({
@@ -155,7 +155,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
     });
 
     it('discards a draft and logs it', async () => {
-      const { id } = await newArtifact('structured_jd');
+      const { id } = await newArtifact('improved_jd');
       const v = await draft(id);
       expect((await run((tx) => discardVersion(tx, actor, v.id))).status).toBe('discarded');
       const log = await admin.query(
@@ -195,17 +195,17 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
 
     it('never returns a later draft from readApproved', async () => {
       const subject = { type: 'position' as const, id: randomUUID() };
-      const { id } = await newArtifact('structured_jd', subject);
+      const { id } = await newArtifact('improved_jd', subject);
       const v1 = await draft(id, { n: 1 });
       await run((tx) => approveVersion(tx, actor, v1.id));
       await draft(id, { n: 2 }); // a newer AI draft, not approved
       expect(
-        (await run((tx) => readApproved(tx, { kind: 'structured_jd', subject })))?.content,
+        (await run((tx) => readApproved(tx, { kind: 'improved_jd', subject })))?.content,
       ).toEqual({ n: 1 });
     });
 
     it('only approves drafts, once', async () => {
-      const { id } = await newArtifact('structured_jd');
+      const { id } = await newArtifact('improved_jd');
       const v = await draft(id);
       await run((tx) => approveVersion(tx, actor, v.id));
       await expect(run((tx) => approveVersion(tx, actor, v.id))).rejects.toMatchObject({
@@ -445,7 +445,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
 
   describe('saving an edit to the latest version (POST /artifacts/:id/versions)', () => {
     it('edits the latest draft, superseding it', async () => {
-      const { id } = await newArtifact('structured_jd');
+      const { id } = await newArtifact('improved_jd');
       const v1 = await draft(id, { t: 'ai' });
       const v2 = await run((tx) => saveEditToLatest(tx, actor, id, { t: 'mine' }));
       expect(v2).toMatchObject({
@@ -460,18 +460,18 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
 
     it('after approval starts a new draft and keeps the approved version official', async () => {
       const subject = { type: 'position' as const, id: randomUUID() };
-      const { id } = await newArtifact('structured_jd', subject);
+      const { id } = await newArtifact('improved_jd', subject);
       const v1 = await draft(id, { t: 1 });
       await run((tx) => approveVersion(tx, actor, v1.id));
       const v2 = await run((tx) => saveEditToLatest(tx, actor, id, { t: 2 }));
       expect(v2).toMatchObject({ version: 2, status: 'draft', parentVersionId: v1.id });
       expect(
-        (await run((tx) => readApproved(tx, { kind: 'structured_jd', subject })))?.content,
+        (await run((tx) => readApproved(tx, { kind: 'improved_jd', subject })))?.content,
       ).toEqual({ t: 1 });
     });
 
     it('validates the edit and 404s for an artifact with nothing to edit', async () => {
-      const { id } = await newArtifact('structured_jd');
+      const { id } = await newArtifact('improved_jd');
       await expect(run((tx) => saveEditToLatest(tx, actor, id, { t: 1 }))).rejects.toMatchObject({
         status: 404,
       });
@@ -484,8 +484,8 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
 
   describe('versions must belong to the artifact in the URL', () => {
     it('refuses to approve or discard a version through another artifact id', async () => {
-      const a = await newArtifact('structured_jd');
-      const b = await newArtifact('structured_jd');
+      const a = await newArtifact('improved_jd');
+      const b = await newArtifact('improved_jd');
       const v = await draft(a.id);
       await expect(
         run((tx) => approveVersion(tx, actor, v.id, { expectedArtifactId: b.id })),
@@ -500,7 +500,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
   });
 
   it('lists the versions that came from one AI generation', async () => {
-    const { id } = await newArtifact('structured_jd');
+    const { id } = await newArtifact('improved_jd');
     const generationId = randomUUID();
     const v = await run((tx) =>
       addDraftVersion(tx, {
@@ -587,7 +587,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
   });
 
   it("hides one agency's artifacts from another (404)", async () => {
-    const { id } = await newArtifact('structured_jd');
+    const { id } = await newArtifact('improved_jd');
     await expect(
       scope.withAgency(agencyB, (tx) => getArtifactWithVersions(tx, id)),
     ).rejects.toMatchObject({ status: 404 });

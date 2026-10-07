@@ -127,7 +127,7 @@ describe.skipIf(!dbAvailable())('tenant isolation harness', () => {
       expect(
         await asA((tx) =>
           findArtifact(tx, {
-            kind: 'structured_jd',
+            kind: 'improved_jd',
             subject: { type: 'position', id: b.positionId },
           }),
         ),
@@ -135,7 +135,7 @@ describe.skipIf(!dbAvailable())('tenant isolation harness', () => {
       expect(
         await asA((tx) =>
           readApproved(tx, {
-            kind: 'structured_jd',
+            kind: 'improved_jd',
             subject: { type: 'position', id: b.positionId },
           }),
         ),

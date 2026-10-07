@@ -45,7 +45,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
   function registry() {
     const prompts = createPromptRegistry();
     prompts.register({
-      purpose: 'jd.structure',
+      purpose: 'jd.improve',
       version: 'jd-structure-v1',
       schema: outputSchema,
       buildPrompt: (input: { text: string }) => ({
@@ -81,7 +81,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
     calls.length = 0;
     behaviour = ok();
     const result = await gateway().run<{ text: string }, { title: string }>(
-      'jd.structure',
+      'jd.improve',
       { text: 'We need an engineer' },
       baseCtx(),
     );
@@ -103,7 +103,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
     ).rows[0];
     expect(generation).toMatchObject({
       agencyId,
-      purpose: 'jd.structure',
+      purpose: 'jd.improve',
       requestedById: actor.userId,
       promptVersion: 'jd-structure-v1',
       model: 'claude-opus-5-5',
@@ -119,7 +119,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
     ).rows;
     expect(llm).toHaveLength(1);
     expect(llm[0]).toMatchObject({
-      purpose: 'jd.structure',
+      purpose: 'jd.improve',
       model: 'claude-opus-5-5',
       inputTokens: 1000,
       outputTokens: 500,
@@ -145,12 +145,12 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
   it('adds later drafts to the same artifact for the same subject, or to an explicit artifact', async () => {
     behaviour = ok({ title: 'Second' });
     const first = await gateway().run(
-      'jd.structure',
+      'jd.improve',
       { text: 'a' },
       { ...baseCtx(), subject: { type: 'position', id: randomUUID() } },
     );
     const again = await gateway().run(
-      'jd.structure',
+      'jd.improve',
       { text: 'b' },
       { ...baseCtx(), artifactId: first.draft!.artifactId },
     );
@@ -165,7 +165,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
     };
     const deltas: string[] = [];
     await gateway().run(
-      'jd.structure',
+      'jd.improve',
       { text: 'a' },
       { ...baseCtx(), onDelta: (d) => deltas.push(d) },
     );
@@ -183,14 +183,14 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
       calls.length = 0;
       await expect(
         gateway().run(
-          'jd.structure',
+          'jd.improve',
           { text: 'a' },
           { ...baseCtx(), actor: { kind: 'system', agencyId } },
         ),
       ).rejects.toMatchObject({ status: 403 });
       await expect(
         gateway().run(
-          'jd.structure',
+          'jd.improve',
           { text: 'a' },
           { ...baseCtx(), actor: { ...actor, agencyId: otherAgencyId } },
         ),
@@ -212,7 +212,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
         code: 'ai_not_available',
       });
       await expect(
-        g.run('jd.structure', { text: 'a' }, { ...baseCtx(), subject: undefined }),
+        g.run('jd.improve', { text: 'a' }, { ...baseCtx(), subject: undefined }),
       ).rejects.toMatchObject({ status: 422 });
     });
   });
@@ -244,7 +244,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
         throw new AiRefusalError('refusal', USAGE);
       };
       const before = await counts();
-      await expect(gateway().run('jd.structure', { text: 'a' }, baseCtx())).rejects.toMatchObject({
+      await expect(gateway().run('jd.improve', { text: 'a' }, baseCtx())).rejects.toMatchObject({
         status: 422,
         code: 'ai_refused',
       });
@@ -259,7 +259,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
         throw new AiProviderError('provider error 503', true, 503);
       };
       const before = await counts();
-      await expect(gateway().run('jd.structure', { text: 'a' }, baseCtx())).rejects.toMatchObject({
+      await expect(gateway().run('jd.improve', { text: 'a' }, baseCtx())).rejects.toMatchObject({
         status: 503,
         code: 'ai_unavailable',
       });
@@ -272,7 +272,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
         throw new AiCancelledError('cancelled');
       };
       const before = await counts();
-      await expect(gateway().run('jd.structure', { text: 'a' }, baseCtx())).rejects.toMatchObject({
+      await expect(gateway().run('jd.improve', { text: 'a' }, baseCtx())).rejects.toMatchObject({
         code: 'ai_cancelled',
       });
       expect((await counts()).versions).toBe(before.versions);
@@ -341,7 +341,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
           agencyId,
         ])
       ).rows[0].n;
-      await expect(gateway().run('jd.structure', { text: 'a' }, baseCtx())).rejects.toMatchObject({
+      await expect(gateway().run('jd.improve', { text: 'a' }, baseCtx())).rejects.toMatchObject({
         status: 402,
         code: 'budget_exceeded',
       });
@@ -358,9 +358,9 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
     it('keeps working below the limit and when no limit is set', async () => {
       await setBudget(1_000_000);
       behaviour = ok();
-      await expect(gateway().run('jd.structure', { text: 'a' }, baseCtx())).resolves.toBeTruthy();
+      await expect(gateway().run('jd.improve', { text: 'a' }, baseCtx())).resolves.toBeTruthy();
       await setBudget(null);
-      await expect(gateway().run('jd.structure', { text: 'a' }, baseCtx())).resolves.toBeTruthy();
+      await expect(gateway().run('jd.improve', { text: 'a' }, baseCtx())).resolves.toBeTruthy();
     });
 
     it("counts only this agency's spend", async () => {
@@ -381,19 +381,19 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
       );
       await setBudget(null);
       behaviour = ok();
-      await expect(gateway().run('jd.structure', { text: 'a' }, baseCtx())).resolves.toBeTruthy();
+      await expect(gateway().run('jd.improve', { text: 'a' }, baseCtx())).resolves.toBeTruthy();
     });
   });
 
   it('shows provenance: requester, model, prompt version, inputs, cost and the versions it produced', async () => {
     behaviour = ok({ title: 'Provenance' });
-    const result = await gateway().run('jd.structure', { text: 'a' }, baseCtx());
+    const result = await gateway().run('jd.improve', { text: 'a' }, baseCtx());
     const provenance = await scope().withAgency(agencyId, (tx) =>
       getProvenance(tx, result.generationId),
     );
     expect(provenance).toMatchObject({
       id: result.generationId,
-      purpose: 'jd.structure',
+      purpose: 'jd.improve',
       status: 'succeeded',
       requestedById: actor.userId,
       promptVersion: 'jd-structure-v1',
@@ -416,7 +416,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
 
   it("hides another agency's provenance (404)", async () => {
     behaviour = ok();
-    const result = await gateway().run('jd.structure', { text: 'a' }, baseCtx());
+    const result = await gateway().run('jd.improve', { text: 'a' }, baseCtx());
     await expect(
       scope().withAgency(otherAgencyId, (tx) => getProvenance(tx, result.generationId)),
     ).rejects.toMatchObject({ status: 404 });
@@ -427,7 +427,7 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
       { title: 'Ledger' },
       { inputTokens: 2_000, outputTokens: 100, cachedTokens: 8_000 },
     );
-    const result = await gateway().run('jd.structure', { text: 'a' }, baseCtx());
+    const result = await gateway().run('jd.improve', { text: 'a' }, baseCtx());
     const row = (
       await admin.query(
         `SELECT "cachedTokens", "costUsd", "positionId" FROM "LlmCall" WHERE "aiGenerationId" = $1`,

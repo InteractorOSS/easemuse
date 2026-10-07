@@ -41,7 +41,7 @@ describe.skipIf(!dbAvailable())('draft quality metric (T-AI-14)', () => {
       });
       const artifact = await createArtifact(tx, {
         agencyId: forAgency,
-        kind: 'structured_jd',
+        kind: 'improved_jd',
         subject: { type: 'position', id: randomUUID() },
       });
       const version = await addDraftVersion(tx, {
@@ -121,7 +121,7 @@ describe.skipIf(!dbAvailable())('draft quality metric (T-AI-14)', () => {
     await run(async (tx) => {
       const artifact = await createArtifact(tx, {
         agencyId,
-        kind: 'structured_jd',
+        kind: 'improved_jd',
         subject: { type: 'position', id: randomUUID() },
       });
       const v = await addDraftVersion(tx, {

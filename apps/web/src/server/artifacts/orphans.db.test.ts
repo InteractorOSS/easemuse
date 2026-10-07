@@ -37,12 +37,12 @@ describe.skipIf(!dbAvailable())('orphaned artifact report (T-AI-15)', () => {
       });
       await createArtifact(tx, {
         agencyId: dirty,
-        kind: 'structured_jd',
+        kind: 'improved_jd',
         subject: { type: 'position', id: position.id },
       });
       await createArtifact(tx, {
         agencyId: dirty,
-        kind: 'structured_jd',
+        kind: 'improved_jd',
         subject: { type: 'position', id: randomUUID() },
       });
       await createArtifact(tx, {
@@ -80,7 +80,7 @@ describe.skipIf(!dbAvailable())('orphaned artifact report (T-AI-15)', () => {
       });
       await createArtifact(tx, {
         agencyId: clean,
-        kind: 'structured_jd',
+        kind: 'improved_jd',
         subject: { type: 'position', id: position.id },
       });
     });
@@ -96,14 +96,14 @@ describe.skipIf(!dbAvailable())('orphaned artifact report (T-AI-15)', () => {
     expect(report.total).toBe(5);
     expect(Object.fromEntries(Object.entries(report.byKind).map(([k, v]) => [k, v.count]))).toEqual(
       {
-        structured_jd: 1,
+        improved_jd: 1,
         success_profile: 1,
         candidate_profile: 1,
         match_analysis: 1,
         interview_feedback: 1,
       },
     );
-    expect(report.byKind.structured_jd!.sampleIds).toHaveLength(1);
+    expect(report.byKind.improved_jd!.sampleIds).toHaveLength(1);
   });
 
   it('reports nothing for a clean agency', async () => {

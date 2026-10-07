@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
+import { structuredJdContentSchema } from './structured-jd';
 
 /**
  * Artifact kinds (ADR-006): everything an AI draft can become, one lifecycle for all. Mirrors the
@@ -73,7 +74,9 @@ function spec(
 }
 
 export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
-  structured_jd: spec('structured_jd', 'position'),
+  structured_jd: spec('structured_jd', 'position', {
+    schema: structuredJdContentSchema as z.ZodType<Record<string, unknown>>,
+  }),
   improved_jd: spec('improved_jd', 'position'),
   intake_questions: spec('intake_questions', 'position'),
   success_profile: spec('success_profile', 'position'),

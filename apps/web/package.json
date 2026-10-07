@@ -16,7 +16,9 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "worker": "PROCESS_ROLE=worker tsx src/worker/index.ts",
+    "worker:dev": "PROCESS_ROLE=worker tsx watch src/worker/index.ts"
   },
   "dependencies": {
     "@easemuse/core": "workspace:*",
@@ -24,6 +26,8 @@
     "@next/env": "16.3.8",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "bullmq": "^5.81.5",
+    "ioredis": "^5.11.1",
     "jose": "^6.2.12",
     "next": "16.3.8",
     "next-auth": "5.0.0-beta.32",

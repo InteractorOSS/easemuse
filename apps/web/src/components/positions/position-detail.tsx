@@ -146,6 +146,9 @@ export function PositionDetail({
           {d('searchLink')}
         </Link>
       ) : null}
+      <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/candidates`}>
+        {d('boardLink')}
+      </Link>
       <JdPanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
       <IntakePanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
       <WeightsEditor

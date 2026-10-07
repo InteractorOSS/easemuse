@@ -24,6 +24,17 @@ export interface DispatcherDeps {
   log?(message: string, data: Record<string, unknown>): void;
 }
 
+/** The numbers, strings and flags of a progress report; nested objects and lists stay in the JobRun. */
+export function scalarsOf(
+  progress: Record<string, unknown>,
+): Record<string, string | number | boolean | null> {
+  return Object.fromEntries(
+    Object.entries(progress).filter(
+      ([, v]) => v === null || ['string', 'number', 'boolean'].includes(typeof v),
+    ),
+  ) as Record<string, string | number | boolean | null>;
+}
+
 /**
  * Builds the BullMQ processor for one queue. It validates the payload, refuses unknown jobs and
  * suspended agencies, applies the per-agency cap, keeps JobRun status in step, and hands the
@@ -79,7 +90,8 @@ export function createProcessor(queue: QueueName, deps: DispatcherDeps) {
       },
       async progress(progress) {
         await deps.updateJobRun(jobRunId, { progress });
-        await deps.publishJobEvent(jobRunId, 'job.progress', { jobRunId, ...progress });
+        // Events carry ids and counts only (they travel in a size-limited notification); the full progress is in the JobRun.
+        await deps.publishJobEvent(jobRunId, 'job.progress', { jobRunId, ...scalarsOf(progress) });
       },
     };
 

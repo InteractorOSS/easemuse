@@ -72,6 +72,39 @@ describe('job dispatcher', () => {
     });
   });
 
+  it('publishes only the numbers and flags of a progress report, keeping nested detail in the JobRun', async () => {
+    const entries = Object.fromEntries(
+      Array.from({ length: 50 }, (_, i) => [
+        `entry-${i}`,
+        { status: 'done', analysisId: 'a'.repeat(36) },
+      ]),
+    );
+    const handler = vi.fn(async (ctx) => {
+      await ctx.progress({
+        total: 50,
+        completed: 3,
+        label: 'working',
+        paused: false,
+        nothing: null,
+        entries,
+        list: [1, 2],
+      });
+    });
+    const { deps, process } = setup(handler);
+    await process(fakeJob());
+    expect(deps.updateJobRun).toHaveBeenCalledWith(jobRunId, {
+      progress: expect.objectContaining({ entries }),
+    });
+    expect(deps.publishJobEvent).toHaveBeenCalledWith(jobRunId, 'job.progress', {
+      jobRunId,
+      total: 50,
+      completed: 3,
+      label: 'working',
+      paused: false,
+      nothing: null,
+    });
+  });
+
   it('fails permanently on a bad payload, unknown job, missing agency or suspended agency', async () => {
     const { process } = setup();
     await expect(process(fakeJob({ data: { nope: true } }))).rejects.toBeInstanceOf(

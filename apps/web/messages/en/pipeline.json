@@ -1,0 +1,148 @@
+{
+  "states": {
+    "sourced": "Sourced",
+    "reviewed": "Reviewed",
+    "screened": "Screened",
+    "contacting": "Contacting",
+    "no_response": "No response",
+    "not_interested": "Not interested",
+    "interested": "Interested",
+    "qualified": "Qualified",
+    "resume_ready": "Resume ready",
+    "candidate_approved": "Candidate approved",
+    "submitted": "Submitted",
+    "client_rejected": "Client rejected",
+    "interviewing": "Interviewing",
+    "rejected": "Rejected",
+    "on_hold": "On hold",
+    "offer": "Offer",
+    "declined": "Declined",
+    "accepted": "Accepted",
+    "reneged": "Reneged",
+    "started": "Started",
+    "withdrawn": "Withdrawn",
+    "closed": "Closed"
+  },
+  "levels": {
+    "strong": "Strong",
+    "partial": "Partial",
+    "gap": "Gap",
+    "unknown": "Unknown"
+  },
+  "criteria": {
+    "coreCompetencies": "Core competencies",
+    "relevantExperience": "Relevant experience",
+    "industryFunctional": "Industry / functional",
+    "careerLevel": "Career level",
+    "locationArrangement": "Location / arrangement",
+    "educationCertification": "Education / certification",
+    "compensationOther": "Compensation / other"
+  },
+  "board": {
+    "title": "Candidates in this position",
+    "back": "Back to the position",
+    "empty": "No candidates yet. Add the first one from your database.",
+    "explainOnly": "Explain-only mode: scores are hidden, levels and reasons are shown.",
+    "columns": {
+      "select": "Select",
+      "order": "Order",
+      "candidate": "Candidate",
+      "overall": "Overall",
+      "core": "Core",
+      "experience": "Experience",
+      "industry": "Industry",
+      "location": "Location",
+      "compensation": "Pay",
+      "musts": "Must-haves",
+      "gaps": "Risks and gaps",
+      "assessment": "Recruiter assessment",
+      "status": "Status"
+    },
+    "sort": {
+      "label": "Sort by",
+      "suggested": "Suggested review order",
+      "name": "Name",
+      "state": "Status"
+    },
+    "filter": {
+      "state": "Status",
+      "all": "All statuses",
+      "stale": "Only analyses that are out of date",
+      "mustNotMet": "Only candidates with a must-have not met"
+    },
+    "notAnalyzed": "Not analyzed",
+    "overridden": "Edited by the recruiter",
+    "stale": "Out of date",
+    "reviewed": "Reviewed",
+    "draft": "Not reviewed yet",
+    "doNotContact": "Do not contact",
+    "musts": "{met} met, {notMet} not met, {unknown} unknown",
+    "dealBreaker": "Deal-breaker applies",
+    "dealBreakerUnknown": "Deal-breaker unknown",
+    "moveUp": "Move {name} up",
+    "moveDown": "Move {name} down",
+    "resetOrder": "Back to suggested order",
+    "orderSaved": "Order saved.",
+    "analyzeSelected": "Analyze selected ({count})",
+    "selectAll": "Select all",
+    "open": "Open {name}",
+    "errors": {
+      "generic": "Something went wrong. Try again.",
+      "analyze": "Could not start the analysis. Check that each selected candidate has a confirmed profile and the position a confirmed success profile."
+    }
+  },
+  "move": {
+    "label": "Move {name}",
+    "to": "Move to",
+    "none": "No further steps",
+    "go": "Move",
+    "reasonCode": "Reason",
+    "reasonCodeChoose": "Choose a reason",
+    "reason": "Note",
+    "overrideReason": "Reason for going ahead anyway",
+    "override": "Go ahead anyway",
+    "blockedHint": "Resolve this first.",
+    "guardTitle": "This move is not allowed yet",
+    "errors": {
+      "generic": "Could not move the candidate. Try again.",
+      "invalid": "That move is not allowed from this stage.",
+      "forbidden": "Only the owner, a lead or an admin can move this candidate.",
+      "reason": "A reason is needed for this move."
+    }
+  },
+  "add": {
+    "title": "Add from your database",
+    "search": "Search your candidates",
+    "hint": "Type a name, title or skill.",
+    "add": "Add {name}",
+    "added": "Already in this position",
+    "addedToast": "{name} added.",
+    "new": "Add a new candidate",
+    "empty": "No candidate found.",
+    "errors": {
+      "generic": "Could not add the candidate.",
+      "closed": "This position is closed."
+    }
+  },
+  "batch": {
+    "title": "Analysis",
+    "running": "Analyzing {completed} of {total}…",
+    "done": "Done: {completed} analyzed, {failed} failed, {skipped} skipped.",
+    "failed": "The analysis could not run.",
+    "candidate": "{name}: {status}",
+    "status": {
+      "pending": "waiting",
+      "running": "working",
+      "done": "done",
+      "failed": "failed",
+      "skipped": "skipped"
+    },
+    "reasons": {
+      "budget_exceeded": "AI budget used",
+      "conflict": "profile not confirmed",
+      "forbidden": "not yours to analyze",
+      "failed": "error"
+    },
+    "close": "Hide"
+  }
+}

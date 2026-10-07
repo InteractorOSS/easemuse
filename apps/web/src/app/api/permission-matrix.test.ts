@@ -58,6 +58,16 @@ vi.mock('@/server/tenancy/members', () => ({
 vi.mock('@/lib/db', () => ({
   getPlatformUser: async () => ({ id: 'u1', email: 'u@x.test', name: 'U' }),
   withAgency: async (_agencyId: string, fn: (tx: unknown) => unknown) => fn({}),
+  getJobRun: async () => ({
+    id: 'job1',
+    agencyId: 'a1',
+    queue: 'ai',
+    name: 'x',
+    requestedById: 'u1',
+    status: 'running',
+    progress: null,
+    error: null,
+  }),
 }));
 vi.mock('@/server/artifacts/service', () => ({
   getArtifactWithVersions: async () => ({ id: 'art1', versions: [] }),
@@ -290,6 +300,7 @@ import {
   PUT as orderPut,
   DELETE as orderDelete,
 } from './v1/agencies/[agencyId]/positions/[positionId]/review-order/route';
+import { GET as jobGet } from './v1/agencies/[agencyId]/jobs/[jobRunId]/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -330,6 +341,7 @@ const agencyParams = {
     candidateId: 'cand1',
     entryId: 'e1',
     analysisId: 'an1',
+    jobRunId: 'job1',
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
@@ -861,6 +873,13 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => reviewPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET job status',
+    file: 'v1/agencies/[agencyId]/jobs/[jobRunId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => jobGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'GET tasks',

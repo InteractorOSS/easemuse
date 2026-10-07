@@ -89,7 +89,8 @@
     },
     "questionsLink": "Write intake questions",
     "profileLink": "Write the success profile",
-    "searchLink": "Write search criteria"
+    "searchLink": "Write search criteria",
+    "boardLink": "Candidates in this position"
   },
   "errors": {
     "generic": "Could not save. Check the values and try again.",

@@ -22,6 +22,7 @@ import { logActivity } from '@/server/activity/service';
 import { assertNoProtectedFields, redactStructured } from '@/server/ai/redaction';
 import { createArtifact, readApproved, readApprovedVersionById } from '@/server/artifacts/service';
 import { createOutboxMessage } from '@/server/messaging/outbox';
+import { renderUnsubscribeFooter } from '@/server/messaging/templates';
 import { requireEntry, transitionEntry } from '@/server/pipeline/service';
 import { getAgencySettings } from '@/server/tenancy/settings';
 
@@ -516,6 +517,7 @@ export async function sendTouchEmail(
   touchNumber: number,
   versionId: string,
   now: Date = new Date(),
+  options: { unsubscribeFor?: (address: string) => string } = {},
 ): Promise<{ outboxMessageId: string }> {
   const entry = await requireEntry(tx, actor, entryId, 'edit');
   const candidate = await candidateOf(tx, entry.candidateId);
@@ -544,6 +546,9 @@ export async function sendTouchEmail(
     throw new ApiError('suppressed', 'This address opted out or bounced', { status: 409 });
   }
   const shown = await previewMessage(tx, actor, entryId, content);
+  const footer = options.unsubscribeFor
+    ? await renderUnsubscribeFooter({ locale: 'en', url: options.unsubscribeFor(to) })
+    : { text: '', html: '' };
   const settings = await tx.agency.findUnique({
     where: { id: actor.agencyId },
     select: { settings: true },
@@ -555,8 +560,8 @@ export async function sendTouchEmail(
       senderId: actor.userId,
       toAddress: to,
       subject: shown.subject || '(no subject)',
-      bodyText: shown.body,
-      bodyHtml: `<div style="font-family:system-ui,sans-serif">${escapeHtml(shown.body).replace(/\n/g, '<br>')}</div>`,
+      bodyText: shown.body + footer.text,
+      bodyHtml: `<div style="font-family:system-ui,sans-serif">${escapeHtml(shown.body).replace(/\n/g, '<br>')}${footer.html}</div>`,
       kind: 'outreach',
       entityType: 'pipeline_entry',
       entityId: entryId,

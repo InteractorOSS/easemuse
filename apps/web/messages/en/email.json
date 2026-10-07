@@ -8,5 +8,9 @@
     "linkHint": "If the button does not work, copy this link into your browser:",
     "expiry": "This invitation expires in {days} days and can be used once.",
     "ignore": "If you were not expecting this, you can ignore this email."
+  },
+  "unsubscribe": {
+    "line": "If you do not want to hear from us again",
+    "action": "Unsubscribe"
   }
 }

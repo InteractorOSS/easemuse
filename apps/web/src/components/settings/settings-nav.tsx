@@ -20,7 +20,7 @@ export function SettingsNav({
   const items = [
     ...(role !== 'recruiter' ? [{ key: 'members' as const }] : []),
     { key: 'defaults' as const },
-    ...(role === 'admin' ? [{ key: 'usage' as const }] : []),
+    ...(role === 'admin' ? [{ key: 'usage' as const }, { key: 'outbox' as const }] : []),
   ];
   return (
     <nav aria-label={t('label')} className="flex flex-wrap gap-1 border-b border-border">

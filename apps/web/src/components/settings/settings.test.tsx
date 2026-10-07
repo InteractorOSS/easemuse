@@ -29,7 +29,7 @@ describe('SettingsNav', () => {
     return screen.getAllByRole('link').map((l) => l.textContent);
   };
   it('shows each role only the sections it may open', () => {
-    expect(links('admin')).toEqual(['Members', 'Defaults', 'AI usage']);
+    expect(links('admin')).toEqual(['Members', 'Defaults', 'AI usage', 'Outbox']);
   });
   it('hides usage from leads and members from recruiters', () => {
     expect(links('lead')).toEqual(['Members', 'Defaults']);

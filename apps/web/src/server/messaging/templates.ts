@@ -72,3 +72,21 @@ export async function renderMemberInviteEmail(input: {
 
   return { subject, text, html };
 }
+
+/** The line every outreach email ends with (FR-MSG-05); copy comes from the same catalogs. */
+export async function renderUnsubscribeFooter(input: {
+  locale: Locale;
+  url: string;
+}): Promise<{ text: string; html: string }> {
+  const messages = await loadMessages(input.locale);
+  const email = createTranslator({
+    locale: input.locale,
+    messages,
+    namespace: 'email',
+  } as never) as unknown as Translate;
+  const line = email('unsubscribe.line');
+  return {
+    text: `\n\n--\n${line}: ${input.url}`,
+    html: `<hr><p style="color:#6b7280;font-size:12px">${escapeHtml(line)}: <a href="${escapeHtml(input.url)}">${escapeHtml(email('unsubscribe.action'))}</a></p>`,
+  };
+}

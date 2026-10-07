@@ -193,7 +193,11 @@ describe.skipIf(!dbAvailable())('outreach (T-5-06, T-5-09, T-5-10)', () => {
       run((tx) => sendTouchEmail(tx, rec, e.id, 1, randomUUID(), NOW)),
     ).rejects.toMatchObject({ code: 'not_approved' });
     const versionId = await approvedMessage(e.id, 1);
-    const sent = await run((tx) => sendTouchEmail(tx, rec, e.id, 1, versionId, NOW));
+    const sent = await run((tx) =>
+      sendTouchEmail(tx, rec, e.id, 1, versionId, NOW, {
+        unsubscribeFor: (address) => `https://app.test/unsub/${address}`,
+      }),
+    );
     const outbox = await admin.query(
       `SELECT "toAddress", "bodyText", kind, status FROM "OutboxMessage" WHERE id = $1`,
       [sent.outboxMessageId],
@@ -201,6 +205,7 @@ describe.skipIf(!dbAvailable())('outreach (T-5-06, T-5-09, T-5-10)', () => {
     expect(outbox.rows[0]).toMatchObject({ kind: 'outreach', status: 'queued' });
     expect(outbox.rows[0].bodyText).toContain('Hi Jane,');
     expect(outbox.rows[0].bodyText).not.toContain('{{');
+    expect(outbox.rows[0].bodyText).toContain('https://app.test/unsub/jane-');
     const view = await run((tx) => getOutreach(tx, rec, e.id, NOW));
     expect(view.touches[0]).toMatchObject({ status: 'sent' });
     expect(view.touches[1]!.dueAt?.getTime()).toBe(NOW.getTime() + 4 * DAY);

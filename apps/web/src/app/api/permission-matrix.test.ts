@@ -218,6 +218,10 @@ vi.mock('@/server/outreach/service', () => ({
   markTouchSentByHand: async () => ({}),
   recordResponse: async () => ({}),
 }));
+vi.mock('@/server/messaging/outbox-list', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/messaging/outbox-list')>()),
+  listOutbox: async () => ({ items: [], nextCursor: null }),
+}));
 vi.mock('@/server/messaging/outbox', () => ({ dispatchOutboxMessage: async () => undefined }));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
@@ -243,6 +247,7 @@ import {
   GET as settingsGet,
   PATCH as settingsPatch,
 } from './v1/agencies/[agencyId]/settings/route';
+import { GET as outboxGet } from './v1/agencies/[agencyId]/outbox/route';
 import { GET as agencyUsageGet } from './v1/agencies/[agencyId]/usage/route';
 import { GET as adminsGet, POST as adminsPost } from './admin/v1/admins/route';
 import { PATCH as adminPatch, DELETE as adminDelete } from './admin/v1/admins/[userId]/route';
@@ -445,6 +450,13 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', { ...json({ recentlyContactedDays: 7 }), method: 'PATCH' }),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET outbox',
+    file: 'v1/agencies/[agencyId]/outbox/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => outboxGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'GET agency usage',

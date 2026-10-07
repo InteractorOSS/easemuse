@@ -100,3 +100,15 @@ export function fillOutreachTokens(
     .split(OUTREACH_TOKENS.recruiter)
     .join(values.recruiter);
 }
+
+/** Delivery states of an outbox message. Mirrors the Prisma `OutboxStatus` enum. */
+export const OUTBOX_STATUSES = [
+  'queued',
+  'sending',
+  'sent',
+  'failed',
+  'captured',
+  'suppressed',
+  'bounced',
+] as const;
+export type OutboxStatusValue = (typeof OUTBOX_STATUSES)[number];

@@ -4,7 +4,8 @@
     "label": "Settings sections",
     "members": "Members",
     "defaults": "Defaults",
-    "usage": "AI usage"
+    "usage": "AI usage",
+    "outbox": "Outbox"
   },
   "defaults": {
     "title": "Agency defaults",
@@ -91,5 +92,24 @@
     },
     "empty": "No AI use this month.",
     "total": "Total"
+  },
+  "outbox": {
+    "title": "Outbox",
+    "intro": "Every email the app sent or captured. With the test transport, messages stay here instead of being delivered.",
+    "filter": "Status",
+    "all": "All",
+    "empty": "No messages yet.",
+    "show": "Show message",
+    "more": "Load more",
+    "meta": "To {to} · {kind} · {transport} · {date}",
+    "status": {
+      "queued": "Queued",
+      "sending": "Sending",
+      "sent": "Sent",
+      "failed": "Failed",
+      "captured": "Captured (test)",
+      "suppressed": "Not sent (opted out)",
+      "bounced": "Bounced"
+    }
   }
 }

@@ -113,7 +113,8 @@ export function parseEnv(source: Record<string, string | undefined>): Env {
 function loadLocalEnvFiles(): void {
   for (const file of ['.env.local', '../../.env.local']) {
     try {
-      process.loadEnvFile(path.resolve(process.cwd(), file));
+      // Development convenience only (skipped in production); keep it out of the server file trace.
+      process.loadEnvFile(path.resolve(/* turbopackIgnore: true */ process.cwd(), file));
     } catch {
       /* file absent */
     }

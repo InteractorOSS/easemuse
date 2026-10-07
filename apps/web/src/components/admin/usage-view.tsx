@@ -7,7 +7,8 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { SelectField, TextField } from '@/components/ui/field';
 import { apiFetch } from '@/lib/api-client';
-import { USAGE_GROUPS, type UsageGroup, type UsageRow } from '@/server/platform/usage';
+import { USAGE_GROUPS, type UsageGroup } from '@easemuse/core';
+import type { UsageRow } from '@/server/platform/usage';
 
 const dayStart = (d: string) => `${d}T00:00:00.000Z`;
 const nextDay = (d: string) => new Date(Date.parse(dayStart(d)) + 86_400_000).toISOString();

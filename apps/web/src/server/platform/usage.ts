@@ -1,10 +1,8 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
+import { USAGE_GROUPS, type UsageGroup } from '@easemuse/core';
 import { z } from 'zod';
 import { getAgenciesByIds, listActiveAgencyIds, withAgency, type ScopedTx } from '@/lib/db';
-
-export const USAGE_GROUPS = ['agency', 'purpose', 'model', 'day'] as const;
-export type UsageGroup = (typeof USAGE_GROUPS)[number];
 
 export const usageQuerySchema = z
   .object({

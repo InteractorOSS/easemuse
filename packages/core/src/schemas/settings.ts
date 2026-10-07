@@ -101,6 +101,8 @@ export const agencySettingsSchema = z.object({
   }),
   rejectionReasons: rejectionReasonsSchema.default([...DEFAULT_REJECTION_REASONS]),
   visibility: z.enum(VISIBILITY_RULES).default('all_positions'),
+  /** Explain-only mode (ADR-007, Q-06): match levels and evidence are shown, numeric scores are hidden. */
+  explainOnly: z.boolean().default(false),
   /** Agency default UI language (ADR-015). Absent = English. */
   locale: z.enum(UI_LOCALES).optional(),
   /** Email transport for this agency (ADR-009); capture-only until a provider is configured. */
@@ -139,6 +141,7 @@ export const agencySettingsPatchSchema = z
     guardModes: shape.guardModes.removeDefault().optional(),
     rejectionReasons: shape.rejectionReasons.removeDefault().optional(),
     visibility: shape.visibility.removeDefault().optional(),
+    explainOnly: shape.explainOnly.removeDefault().optional(),
     locale: shape.locale,
     emailTransport: shape.emailTransport,
   })

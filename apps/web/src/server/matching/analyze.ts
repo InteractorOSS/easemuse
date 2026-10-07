@@ -4,6 +4,7 @@ import {
   DEFAULT_MATCH_WEIGHTS,
   candidateProfileContentSchema,
   criterionScoresOf,
+  summarizeAnalysis,
   matchingWeightsSchema,
   successProfileContentSchema,
   type AgencyActor,
@@ -151,6 +152,10 @@ export async function recordAnalysis(
       successProfileVersionId: plan.inputRefs.successProfileVersionId,
       weights: plan.weights,
       criterionScores: criterionScores as unknown as Prisma.InputJsonValue,
+      summary: summarizeAnalysis(
+        content,
+        new Map(plan.input.successProfile.criteria.map((c) => [c.id, c.category])),
+      ) as unknown as Prisma.InputJsonValue,
       overallScore,
     },
     select: { id: true },

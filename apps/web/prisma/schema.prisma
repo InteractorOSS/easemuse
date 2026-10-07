@@ -534,6 +534,7 @@ model MatchAnalysis {
   entryId                 String   @db.Uuid
   artifactId              String   @db.Uuid // criterion scores, evidence, strengths, gaps, to-confirm
   versionId               String?  @db.Uuid // the artifact version of this run
+  summary                 Json     @default("{}") // requirement counts and the top strengths and gaps, for the dashboard (T-3-07)
   criterionScores         Json     @default("{}") // { key: { level, score } } as computed by the model run (ADR-007)
   profileVersionId        String   @db.Uuid
   successProfileVersionId String   @db.Uuid

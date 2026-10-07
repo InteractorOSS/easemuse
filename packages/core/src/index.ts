@@ -29,3 +29,4 @@ export * from './schemas/candidate-search';
 export * from './schemas/pipeline';
 export * from './artifacts/match-analysis';
 export * from './schemas/matching';
+export * from './artifacts/match-summary';

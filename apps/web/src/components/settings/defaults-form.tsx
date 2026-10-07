@@ -77,6 +77,7 @@ function Form({
   const [guards, setGuards] = useState<Record<GuardKey, GuardMode>>(initial.guardModes);
   const [reasons, setReasons] = useState(initial.rejectionReasons.join('\n'));
   const [visibility, setVisibility] = useState(initial.visibility);
+  const [explainOnly, setExplainOnly] = useState(initial.explainOnly);
   const [locale, setLocale] = useState<string>(initial.locale ?? 'en');
   const [errors, setErrors] = useState<{ weights?: string; reasons?: string; form?: string }>({});
 
@@ -104,6 +105,7 @@ function Form({
         .map((r) => r.trim())
         .filter(Boolean),
       visibility,
+      explainOnly,
       locale,
     };
     const checked = agencySettingsPatchSchema.safeParse(patch);
@@ -246,6 +248,18 @@ function Form({
             </option>
           ))}
         </SelectField>
+        <label className="flex items-start gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={explainOnly}
+            onChange={(e) => setExplainOnly(e.target.checked)}
+            className="mt-1"
+          />
+          <span>
+            <span className="font-medium">{t('explainOnly.label')}</span>
+            <span className="block text-muted">{t('explainOnly.hint')}</span>
+          </span>
+        </label>
         <SelectField
           label={t('language.label')}
           hint={t('language.hint')}

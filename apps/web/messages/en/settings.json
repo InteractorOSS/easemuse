@@ -34,7 +34,10 @@
     "guards": {
       "title": "Rules before important steps",
       "intro": "Block stops the step. Warn lets the recruiter continue after seeing the warning.",
-      "mode": { "block": "Block", "warn": "Warn" },
+      "mode": {
+        "block": "Block",
+        "warn": "Warn"
+      },
       "keys": {
         "jdApproval": "Moving a position to sourcing without an approved job description",
         "resumeApproval": "Submitting without the candidate's approved resume",
@@ -62,7 +65,11 @@
     },
     "save": "Save defaults",
     "saved": "Defaults saved.",
-    "failed": "Could not save. Check the values and try again."
+    "failed": "Could not save. Check the values and try again.",
+    "explainOnly": {
+      "label": "Explain-only mode",
+      "hint": "Show how well a candidate matches in words and evidence, and hide the numeric scores. Candidates are still listed in the suggested review order."
+    }
   },
   "usage": {
     "title": "AI usage this month",
@@ -77,7 +84,11 @@
       }
     },
     "byPurpose": "Cost by purpose",
-    "columns": { "purpose": "Purpose", "calls": "Calls", "cost": "Cost (USD)" },
+    "columns": {
+      "purpose": "Purpose",
+      "calls": "Calls",
+      "cost": "Cost (USD)"
+    },
     "empty": "No AI use this month.",
     "total": "Total"
   }

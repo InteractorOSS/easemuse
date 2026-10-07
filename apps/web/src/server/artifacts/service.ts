@@ -480,6 +480,22 @@ export async function readApprovedVersionById(tx: ScopedTx, versionId: string) {
   };
 }
 
+/**
+ * Whether versions have been approved, for lists that show a "reviewed" marker. Status only: no
+ * content leaves here, so this cannot be used to read unapproved drafts.
+ */
+export async function versionStatuses(
+  tx: ScopedTx,
+  versionIds: string[],
+): Promise<Map<string, string>> {
+  if (versionIds.length === 0) return new Map();
+  const rows = await tx.artifactVersion.findMany({
+    where: { id: { in: versionIds } },
+    select: { id: true, status: true },
+  });
+  return new Map(rows.map((r) => [r.id, r.status]));
+}
+
 /** Review surfaces only (editor, review dashboard): the artifact with every version, newest first. */
 export async function getArtifactWithVersions(tx: ScopedTx, artifactId: string) {
   const artifact = await tx.artifact.findUnique({

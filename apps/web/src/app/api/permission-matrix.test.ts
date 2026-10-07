@@ -191,6 +191,10 @@ vi.mock('@/server/matching/overrides', () => ({
   overrideScore: async () => ({}),
   saveAssessment: async () => ({}),
 }));
+vi.mock('@/server/matching/dashboard', () => ({
+  getDashboard: async () => ({ explainOnly: false, rows: [] }),
+  setManualOrder: async () => undefined,
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -277,6 +281,11 @@ import { POST as transitionPost } from './v1/agencies/[agencyId]/pipeline/[entry
 import { POST as addToPositionPost } from './v1/agencies/[agencyId]/positions/[positionId]/candidates/route';
 import { GET as pipelineGet } from './v1/agencies/[agencyId]/positions/[positionId]/pipeline/route';
 import { POST as batchPost } from './v1/agencies/[agencyId]/positions/[positionId]/analyses/route';
+import { GET as reviewGet } from './v1/agencies/[agencyId]/positions/[positionId]/review/route';
+import {
+  PUT as orderPut,
+  DELETE as orderDelete,
+} from './v1/agencies/[agencyId]/positions/[positionId]/review-order/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
 import { PUT as assessmentPut } from './v1/agencies/[agencyId]/analyses/[analysisId]/assessment/route';
 import {
@@ -807,6 +816,31 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', { ...json({ text: 'Strong fit.' }), method: 'PUT' }),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET review dashboard',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/review/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => reviewGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PUT review order',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/review-order/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      orderPut(
+        new Request('http://x.test/', { ...json({ entryIds: [] }), method: 'PUT' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'DELETE review order',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/review-order/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => orderDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
   },
   {
     name: 'GET tasks',

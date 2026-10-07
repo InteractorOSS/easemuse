@@ -8,7 +8,7 @@
 
 Every route below is under `/api/v1/agencies/:agencyId` unless marked. `:agencyId` accepts the UUID or slug (product-manager `authorizeOrg` pattern). A caller who is not a member of the agency gets **404**, so other agencies' existence isn't revealed. Roles: **A** admin, **L** lead, **R** recruiter. "R+" means any agency role. **"owner"** means the owner of the position or pipeline entry, **or** a lead or admin of the agency (ADR-012).
 
-Common responses: `200 { data }`, `201 { data }`, `202 { data: { jobRunId } }`, errors `{ error: { code, message, fields? } }`.
+Agency status: a suspended or closed agency answers **403 `agency_suspended`** on every agency route for its members (US-1602). Common responses: `200 { data }`, `201 { data }`, `202 { data: { jobRunId } }`, errors `{ error: { code, message, fields? } }`.
 
 ---
 
@@ -18,9 +18,11 @@ Common responses: `200 { data }`, `201 { data }`, `202 { data: { jobRunId } }`, 
 |--------|------|------|--------------|----------|---------|
 | GET | `/api/v1/me` (no agency prefix) | any signed-in | — | `Me` (user, memberships via user-scoped policy, ADR-001) | PLT-01 |
 | GET | `/members` | A, L | cursor | `Member[]` | TEN-03 |
-| POST | `/invites` | A | `InviteMemberInput {email, role}` | `MemberInvite` · 409 `invite_already_pending` | TEN-02 |
+| GET | `/invites` | A | — | `MemberInvite[]` (pending only: not accepted, revoked or expired) | TEN-02 |
+| POST | `/invites` | A | `InviteMemberInput {email, role}` | `MemberInvite` · 409 `invite_already_pending` · 409 `already_member` | TEN-02 |
+| DELETE | `/invites/:inviteId` | A | — | 204 · 404 if used, revoked or unknown | TEN-02 |
 | POST | `/api/v1/invites/:agencySlug/accept` | signed-in (email must match) | `{token}` | `Membership` · 410 `invite_expired` | TEN-02 |
-| PATCH | `/members/:userId` | A | `{role?, active?}` | `Member` | TEN-03 |
+| PATCH | `/members/:userId` | A | `{role?, active?}` | `Member` · 409 `last_admin` (an agency keeps at least one active admin) | TEN-03 |
 | GET / PATCH | `/settings` | A (PATCH), R+ (GET) | `AgencySettingsInput` (default weights, outreach intervals, guard modes, rejection reasons) | `AgencySettings` | TEN-03 |
 | GET | `/usage` | A | `?month=` | `UsageSummary` (AI cost by purpose, limit) | TEN-05, US-1304 |
 | POST | `/support-grants` (**release 2**) | A | `{adminId, reason, hours ≤ 72}` (approves a request from a platform administrator) | `SupportGrant` | TEN-07, US-1305 |

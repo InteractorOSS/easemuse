@@ -9,6 +9,8 @@
 
 **Progress:** T-F-01 to T-F-25 done 2026-10-06/07, except that T-F-23 still needs real resumes and a live fallback run (spike results: [tr-007-rls-pooling](./spikes/tr-007-rls-pooling.md), [tf-23-extraction-quality](./spikes/tf-23-extraction-quality.md)).
 
+**Also done 2026-10-07:** T-ADM-01, T-13-01, T-13-02, T-13-03, plus T-ADM-02 (suspend / reactivate with a required reason), the audit-log writer from T-ADM-05, the outbox core and capture transports from T-5-01 / T-5-02 (SMTP is still open) and the invitation email from T-5-05. Open here: the audit page (T-ADM-05), usage figures on the agency page (T-ADM-04) and the last-owner rule for platform admins (T-ADM-03).
+
 Estimates are ideal engineering hours (≤ 8 = under one day). "Dep" lists blocking tasks. Every AI task includes adding its cases to the eval set (T-QA-03) and an isolation test for its routes (T-QA-01).
 
 ---

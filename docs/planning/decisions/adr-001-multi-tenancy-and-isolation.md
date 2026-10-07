@@ -75,10 +75,10 @@ It keeps product-manager's simplicity (one schema, one Prisma client, one migrat
   ALTER TABLE "Candidate" ENABLE ROW LEVEL SECURITY;
   ALTER TABLE "Candidate" FORCE ROW LEVEL SECURITY;
   CREATE POLICY agency_isolation ON "Candidate"
-    USING ("agencyId" = current_setting('app.agency_id', true)::uuid)
-    WITH CHECK ("agencyId" = current_setting('app.agency_id', true)::uuid);
+    USING ("agencyId" = NULLIF(current_setting('app.agency_id', true), '')::uuid)
+    WITH CHECK ("agencyId" = NULLIF(current_setting('app.agency_id', true), '')::uuid);
   ```
-  If `app.agency_id` is unset, `current_setting(..., true)` returns NULL, the predicate is false, and no rows are visible (fails closed).
+  If `app.agency_id` is unset, the predicate is NULL (false) and no rows are visible (fails closed). **`NULLIF(..., '')` is required** (spike T-F-07, [result](../spikes/tr-007-rls-pooling.md)): after a scoped transaction ends, the setting reads as an empty string, not NULL, on that pooled connection, and `''::uuid` would raise an error instead of returning no rows. The same applies to `app.user_id`.
 - `src/lib/db/scoped.ts`: `withAgency(agencyId, (tx) => …)` opens an interactive transaction, sets the context, and passes the transaction client. Route wrappers (`authorizeAgency`) call it after resolving membership. **Unscoped access to the base Prisma client is banned** outside `lib/db` and migrations (ESLint `no-restricted-imports` + guard test).
 - Application code still adds `agencyId` to every `where` (defense in depth, and index use).
 - Jobs carry `agencyId` in the payload; the job runner calls `withAgency` before the handler.
@@ -105,3 +105,4 @@ FR-TEN-01, FR-TEN-07, FR-TEN-08, FR-PLT-02, NFR-S08, NFR-SC03; risks TR-001, TR-
 |------|--------|--------|
 | 2026-10-06 | Claude (AI-assisted) | Created |
 | 2026-10-06 | Product owner | Accepted |
+| 2026-10-07 | Claude (AI-assisted) | Policy template changed to the `NULLIF` form after spike T-F-07 (no change to the decision) |

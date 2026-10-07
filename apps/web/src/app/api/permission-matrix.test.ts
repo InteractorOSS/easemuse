@@ -101,6 +101,13 @@ vi.mock('@/server/clients/service', () => ({
   updateContact: async () => ({}),
   removeContact: async () => undefined,
 }));
+vi.mock('@/server/positions/service', () => ({
+  listPositions: async () => ({ items: [], nextCursor: null }),
+  createPosition: async () => ({}),
+  getPosition: async () => ({}),
+  updatePosition: async () => ({}),
+  changeStatus: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -134,6 +141,15 @@ import {
   PATCH as contactPatch,
   DELETE as contactDelete,
 } from './v1/agencies/[agencyId]/clients/[clientId]/contacts/[contactId]/route';
+import {
+  GET as positionsGet,
+  POST as positionsPost,
+} from './v1/agencies/[agencyId]/positions/route';
+import {
+  GET as positionGet,
+  PATCH as positionPatch,
+} from './v1/agencies/[agencyId]/positions/[positionId]/route';
+import { POST as positionStatus } from './v1/agencies/[agencyId]/positions/[positionId]/status/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -162,6 +178,7 @@ const agencyParams = {
     id: 'g1',
     clientId: 'c1',
     contactId: 'k1',
+    positionId: 'p1',
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
@@ -315,6 +332,57 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => contactDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
+  },
+  {
+    name: 'GET positions',
+    file: 'v1/agencies/[agencyId]/positions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => positionsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST positions',
+    file: 'v1/agencies/[agencyId]/positions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      positionsPost(
+        new Request(
+          'http://x.test/',
+          json({
+            clientId: '11111111-1111-4111-8111-111111111111',
+            title: 'Engineer',
+            location: 'Seoul',
+          }),
+        ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET position',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => positionGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PATCH position',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      positionPatch(
+        new Request('http://x.test/', { ...json({ title: 'Engineer II' }), method: 'PATCH' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST position status',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/status/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      positionStatus(new Request('http://x.test/', json({ status: 'intake' })), agencyParams),
   },
   {
     name: 'GET tasks',

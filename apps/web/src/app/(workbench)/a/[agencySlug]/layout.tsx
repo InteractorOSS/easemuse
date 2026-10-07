@@ -3,6 +3,7 @@
 import { headers } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
 import type { ReactNode } from 'react';
+import { QueryProvider } from '@/components/providers/query-provider';
 import { AppShell } from '@/components/shell/app-shell';
 import { ToastProvider } from '@/components/ui/toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -42,7 +43,7 @@ export default async function AgencyLayout({
             agencies={me.memberships.map((m) => ({ slug: m.slug, name: m.name }))}
             userName={me.user.name ?? me.user.email}
           >
-            {children}
+            <QueryProvider>{children}</QueryProvider>
           </AppShell>
         </TooltipProvider>
       </ToastProvider>

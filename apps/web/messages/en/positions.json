@@ -1,0 +1,88 @@
+{
+  "title": "Positions",
+  "new": "New position",
+  "empty": "No positions yet. Create the first one.",
+  "emptyFiltered": "No position matches these filters.",
+  "filters": {
+    "status": "Status",
+    "allStatuses": "All statuses",
+    "search": "Search by title"
+  },
+  "status": {
+    "draft": "Draft",
+    "intake": "Intake",
+    "sourcing": "Sourcing",
+    "interviewing": "Interviewing",
+    "offer": "Offer",
+    "filled": "Filled",
+    "on_hold": "On hold",
+    "cancelled": "Cancelled"
+  },
+  "columns": {
+    "title": "Title",
+    "client": "Client",
+    "owner": "Owner",
+    "status": "Status",
+    "openings": "Openings"
+  },
+  "unknownOwner": "Unknown",
+  "form": {
+    "createTitle": "New position",
+    "editTitle": "Edit position",
+    "client": "Client",
+    "chooseClient": "Choose a client",
+    "noClients": "Add a client first, then come back.",
+    "title": "Job title",
+    "location": "Location",
+    "department": "Department",
+    "reportingLine": "Reports to",
+    "workArrangement": "Work arrangement",
+    "notSet": "Not set",
+    "arrangement": {
+      "onsite": "On-site",
+      "hybrid": "Hybrid",
+      "remote": "Remote"
+    },
+    "compMin": "Pay minimum",
+    "compMax": "Pay maximum",
+    "compCurrency": "Currency",
+    "requiredExperience": "Required experience",
+    "requiredSkills": "Required skills",
+    "requiredSkillsHint": "Separate skills with commas.",
+    "hiringTimeline": "Hiring timeline",
+    "openings": "Openings",
+    "workAuthorization": "Visa / work authorization",
+    "submitCreate": "Create position",
+    "submitEdit": "Save changes",
+    "cancel": "Cancel",
+    "saved": "Position saved."
+  },
+  "detail": {
+    "edit": "Edit",
+    "ownerLine": "Owner: {name}",
+    "fields": {
+      "department": "Department",
+      "reportingLine": "Reports to",
+      "location": "Location",
+      "workArrangement": "Work arrangement",
+      "compensation": "Pay range",
+      "requiredExperience": "Required experience",
+      "requiredSkills": "Required skills",
+      "hiringTimeline": "Hiring timeline",
+      "openings": "Openings",
+      "workAuthorization": "Visa / work authorization"
+    },
+    "none": "Not set",
+    "statusSection": "Status",
+    "moveTo": "Move to",
+    "moveButton": "Change status",
+    "reasonLabel": "Reason",
+    "reasonNeeded": "A reason is required for this change.",
+    "finalStatus": "This position is closed; its status cannot change."
+  },
+  "errors": {
+    "generic": "Could not save. Check the values and try again.",
+    "transition": "That status change is not allowed right now.",
+    "forbidden": "Only the owner, a lead or an admin can change this position."
+  }
+}

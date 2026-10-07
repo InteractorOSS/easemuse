@@ -86,7 +86,8 @@
       "overrideReason": "Reason for going ahead",
       "override": "Go ahead anyway",
       "blocked": "Resolve this first."
-    }
+    },
+    "questionsLink": "Write intake questions"
   },
   "errors": {
     "generic": "Could not save. Check the values and try again.",
@@ -232,5 +233,41 @@
       "generic": "Could not record the decision. Try again.",
       "notApproved": "Approve the structured JD first."
     }
+  },
+  "questions": {
+    "title": "Intake questions",
+    "back": "Back to the position",
+    "run": "Write intake questions",
+    "rerun": "Write them again",
+    "hint": "AI reads the approved job description and drafts questions for the hiring manager: gaps in the JD first, then the ten standard intake topics. You edit the list and ask the questions.",
+    "needApproved": "Approve the structured JD first. The questions are written from the approved version."
+  },
+  "questionsEditor": {
+    "topics": {
+      "jd_gap": "Gap in the JD",
+      "business_reason": "Business reason",
+      "key_challenges": "Key challenges",
+      "expected_results": "Expected results",
+      "must_have_experience": "Must-have experience",
+      "preferred_experience": "Preferred experience",
+      "exclusions": "Conditions not considered",
+      "org_reporting": "Organization and reporting",
+      "compensation_range": "Compensation range",
+      "interview_process": "Interview process",
+      "expected_timeline": "Expected timeline"
+    },
+    "question": "Question {n}",
+    "remove": "Remove question {n}",
+    "moveUp": "Move question {n} up",
+    "moveDown": "Move question {n} down",
+    "reason": "Why: {reason}",
+    "none": "No questions yet.",
+    "newQuestion": "New question",
+    "newTopic": "New question topic",
+    "add": "Add question",
+    "copy": "Copy all",
+    "copied": "Copied to the clipboard.",
+    "download": "Download as text",
+    "invalid": "This draft cannot be shown as a form."
   }
 }

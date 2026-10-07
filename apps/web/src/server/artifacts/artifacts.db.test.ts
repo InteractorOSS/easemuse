@@ -78,7 +78,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
     });
 
     it('survives two writers adding a version at the same moment', async () => {
-      const { id } = await newArtifact('intake_questions');
+      const { id } = await newArtifact('search_criteria');
       const results = await Promise.all([draft(id, { a: 1 }), draft(id, { a: 2 })]);
       expect(results.map((v) => v.version).sort()).toEqual([1, 2]);
     });

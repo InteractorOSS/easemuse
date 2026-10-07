@@ -127,6 +127,11 @@ vi.mock('@/server/positions/intake', () => ({
   saveIntake: async () => ({ answers: {}, jdApproval: null }),
   recordJdApproval: async () => ({}),
 }));
+vi.mock('@/server/positions/intake-questions', () => ({
+  getIntakeQuestionsArtifact: async () => ({ artifactId: null, approvedVersionId: null }),
+  planIntakeQuestions: async () => ({ input: {}, inputRefs: {} }),
+  runIntakeQuestions: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -181,6 +186,10 @@ import {
   PUT as intakePut,
 } from './v1/agencies/[agencyId]/positions/[positionId]/intake/route';
 import { POST as jdApprovalPost } from './v1/agencies/[agencyId]/positions/[positionId]/jd-approval/route';
+import {
+  GET as iqGet,
+  POST as iqPost,
+} from './v1/agencies/[agencyId]/positions/[positionId]/intake-questions/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -482,6 +491,20 @@ const endpoints: Endpoint[] = [
         ),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET position intake questions',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/intake-questions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => iqGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST position intake questions',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/intake-questions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => iqPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET tasks',

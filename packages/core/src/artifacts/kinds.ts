@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
+import { intakeQuestionsContentSchema } from './intake-questions';
 import { structuredJdContentSchema } from './structured-jd';
 
 /**
@@ -78,7 +79,9 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
     schema: structuredJdContentSchema as z.ZodType<Record<string, unknown>>,
   }),
   improved_jd: spec('improved_jd', 'position'),
-  intake_questions: spec('intake_questions', 'position'),
+  intake_questions: spec('intake_questions', 'position', {
+    schema: intakeQuestionsContentSchema as z.ZodType<Record<string, unknown>>,
+  }),
   success_profile: spec('success_profile', 'position'),
   benchmark_report: spec('benchmark_report', 'position'),
   search_criteria: spec('search_criteria', 'position'),

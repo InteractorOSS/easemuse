@@ -17,3 +17,4 @@ export * from './schemas/jd';
 export * from './artifacts/structured-jd';
 export * from './schemas/guards';
 export * from './schemas/intake';
+export * from './artifacts/intake-questions';

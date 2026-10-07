@@ -1,0 +1,46 @@
+{
+  "name": "easemuse",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@10.18.0",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "pnpm --filter @easemuse/web run dev",
+    "build": "turbo run build",
+    "start": "pnpm --filter @easemuse/web run start",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:e2e": "pnpm --filter @easemuse/web run test:e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:headers": "node scripts/license-headers.mjs --check",
+    "lint:headers:fix": "node scripts/license-headers.mjs",
+    "check:cycles": "node scripts/ci/check-import-cycles.mjs",
+    "db:setup": "bash scripts/db/setup-dev.sh",
+    "db:generate": "pnpm --filter @easemuse/web run db:generate",
+    "db:migrate": "pnpm --filter @easemuse/web run db:migrate",
+    "db:studio": "pnpm --filter @easemuse/web run db:studio"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "madge": "8.0.0",
+    "prettier": "^3.9.5",
+    "turbo": "^2.5.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/engines",
+      "@prisma/client",
+      "esbuild",
+      "prisma",
+      "unrs-resolver",
+      "sharp"
+    ]
+  }
+}

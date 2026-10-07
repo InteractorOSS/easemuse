@@ -8,5 +8,11 @@
     "approve": "Approve",
     "discard": "Discard",
     "close": "Close"
+  },
+  "states": {
+    "loading": "Loading…",
+    "error": "Could not load this. Try again.",
+    "retry": "Retry",
+    "loadMore": "Load more"
   }
 }

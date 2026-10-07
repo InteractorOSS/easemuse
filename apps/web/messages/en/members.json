@@ -31,7 +31,8 @@
     "title": "Pending invitations",
     "empty": "No pending invitations.",
     "expires": "Expires {date}",
-    "revoke": "Revoke"
+    "revoke": "Revoke",
+    "revokeFor": "Revoke the invitation for {email}"
   },
   "invited": "Invitation sent to {email}.",
   "errors": {
@@ -49,5 +50,7 @@
     "wrongEmail": "This invitation was sent to a different email address. Sign in with the invited address.",
     "used": "This invitation was already used.",
     "missing": "This invitation link is incomplete."
-  }
+  },
+  "deactivateMember": "Deactivate {name}",
+  "reactivateMember": "Reactivate {name}"
 }

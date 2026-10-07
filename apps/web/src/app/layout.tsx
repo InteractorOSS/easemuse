@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider timeZone="UTC">{children}</NextIntlClientProvider>
       </body>
     </html>
   );

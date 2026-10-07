@@ -1,6 +1,5 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
-import { notFound, redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
 import type { ReactNode } from 'react';
@@ -9,9 +8,8 @@ import { ToastProvider } from '@/components/ui/toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { resolveLocale } from '@/i18n/config';
 import { loadMessages } from '@/i18n/messages';
-import { requireAgency } from '@/lib/auth/authorize';
+import { agencyAccess } from '@/lib/auth/page-access';
 import { getAgencyDefaultLocale } from '@/lib/db';
-import { ApiError } from '@/lib/http/errors';
 import { getMe } from '@/server/tenancy/me';
 
 /**
@@ -27,17 +25,7 @@ export default async function AgencyLayout({
   params: Promise<{ agencySlug: string }>;
 }) {
   const { agencySlug } = await params;
-  let access;
-  try {
-    access = await requireAgency(agencySlug);
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 401) {
-      redirect(`/api/auth/signin?callbackUrl=${encodeURIComponent(`/a/${agencySlug}`)}`);
-    }
-    if (error instanceof ApiError) notFound();
-    throw error;
-  }
-
+  const access = await agencyAccess(agencySlug);
   const me = await getMe(access.userId);
   const locale = resolveLocale({
     userLocale: me.user.locale,
@@ -46,7 +34,7 @@ export default async function AgencyLayout({
   });
 
   return (
-    <NextIntlClientProvider locale={locale} messages={await loadMessages(locale)}>
+    <NextIntlClientProvider locale={locale} messages={await loadMessages(locale)} timeZone="UTC">
       <ToastProvider>
         <TooltipProvider>
           <AppShell

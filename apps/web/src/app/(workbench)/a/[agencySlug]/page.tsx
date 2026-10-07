@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { getTranslations } from 'next-intl/server';
-import { requireAgency } from '@/lib/auth/authorize';
+import { agencyAccess } from '@/lib/auth/page-access';
 
 export default async function AgencyHomePage({
   params,
@@ -9,7 +9,7 @@ export default async function AgencyHomePage({
   params: Promise<{ agencySlug: string }>;
 }) {
   const { agencySlug } = await params;
-  const access = await requireAgency(agencySlug);
+  const access = await agencyAccess(agencySlug);
   const t = await getTranslations('workbench');
   return (
     <>

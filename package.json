@@ -24,7 +24,8 @@
     "db:setup": "bash scripts/db/setup-dev.sh",
     "db:generate": "pnpm --filter @easemuse/web run db:generate",
     "db:migrate": "pnpm --filter @easemuse/web run db:migrate",
-    "db:studio": "pnpm --filter @easemuse/web run db:studio"
+    "db:studio": "pnpm --filter @easemuse/web run db:studio",
+    "admin:grant": "pnpm --filter @easemuse/web run admin:grant"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.0.0",

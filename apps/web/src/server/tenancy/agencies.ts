@@ -12,7 +12,7 @@ import {
 } from '@/lib/db';
 import { getEnv } from '@/lib/env';
 import { ApiError, notFound } from '@/lib/http/errors';
-import { decodeCursor, encodeCursor, toPage } from '@/lib/http/pagination';
+import { decodeCursor, toPage } from '@/lib/http/pagination';
 import { createOutboxMessage, dispatchOutboxMessage } from '@/server/messaging/outbox';
 import { renderMemberInviteEmail } from '@/server/messaging/templates';
 import { recordPlatformAudit } from '@/server/platform/audit';

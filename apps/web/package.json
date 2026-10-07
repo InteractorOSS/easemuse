@@ -20,7 +20,8 @@
     "worker": "PROCESS_ROLE=worker tsx src/worker/index.ts",
     "worker:dev": "PROCESS_ROLE=worker tsx watch src/worker/index.ts",
     "predev": "pnpm --filter @easemuse/tokens run build",
-    "prebuild": "pnpm --filter @easemuse/tokens run build"
+    "prebuild": "pnpm --filter @easemuse/tokens run build",
+    "admin:grant": "tsx scripts/grant-platform-role.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

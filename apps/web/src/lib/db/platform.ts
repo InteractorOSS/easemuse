@@ -176,3 +176,14 @@ export async function getAgencyListItem(ref: string): Promise<AgencyListItem | n
     },
   });
 }
+
+/** Ids of agencies that still run jobs (everything but closed), for scheduled per-agency work. */
+export async function listActiveAgencyIds(): Promise<string[]> {
+  const { prisma } = getDbHandle();
+  const rows = await prisma.agency.findMany({
+    where: { status: { not: 'closed' } },
+    select: { id: true },
+    orderBy: { createdAt: 'asc' },
+  });
+  return rows.map((r) => r.id);
+}

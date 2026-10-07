@@ -17,10 +17,12 @@ import { closeQueues, getQueueConnection, QUEUE_PREFIX } from '@/lib/queue/queue
 import { createRedis } from '@/lib/redis';
 import { publishDetached } from '@/lib/realtime/publish';
 import { channels } from '@/lib/realtime/channels';
+import { enqueue } from '@/lib/queue/enqueue';
 import { createProcessor } from './dispatcher';
 import { registerHandlers } from './handlers';
 import { startPgListen } from './pg-listen';
 import { registry } from './registry';
+import { startScheduler } from './scheduler';
 
 /** Jobs run at once per queue in this process. */
 const CONCURRENCY: Record<QueueName, number> = {
@@ -80,6 +82,8 @@ async function main(): Promise<void> {
     log: (message, data) => log(message, data ?? {}),
   });
 
+  const stopScheduler = startScheduler({ enqueue, log });
+
   log('worker.started', { queues: [...QUEUE_NAMES] });
 
   let shuttingDown = false;
@@ -87,6 +91,7 @@ async function main(): Promise<void> {
     if (shuttingDown) return;
     shuttingDown = true;
     log('worker.stopping', { signal });
+    stopScheduler();
     await Promise.all(workers.map((w) => w.close()));
     await listener.stop();
     await listenRedis.quit().catch(() => undefined);

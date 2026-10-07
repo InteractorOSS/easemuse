@@ -57,3 +57,13 @@ export async function getAgencyByRef(ref: string): Promise<AgencyRef | null> {
     select: { id: true, slug: true, name: true, status: true },
   });
 }
+
+export async function getAgenciesByIds(ids: string[]): Promise<AgencyRef[]> {
+  if (ids.length === 0) return [];
+  const { prisma } = getDbHandle();
+  return prisma.agency.findMany({
+    where: { id: { in: ids } },
+    select: { id: true, slug: true, name: true, status: true },
+    orderBy: { name: 'asc' },
+  });
+}

@@ -9,6 +9,8 @@ import { adminClient, appHandle, appScope, cleanup, createAgency, dbAvailable } 
 import {
   type Subject,
   addDraftVersion,
+  saveEditToLatest,
+  listVersionsOfGeneration,
   approveVersion,
   createArtifact,
   discardVersion,
@@ -438,6 +440,81 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
       );
       expect(await staleOf(other.a1.id)).toBe(false);
     });
+  });
+
+  describe('saving an edit to the latest version (POST /artifacts/:id/versions)', () => {
+    it('edits the latest draft, superseding it', async () => {
+      const { id } = await newArtifact('structured_jd');
+      const v1 = await draft(id, { t: 'ai' });
+      const v2 = await run((tx) => saveEditToLatest(tx, actor, id, { t: 'mine' }));
+      expect(v2).toMatchObject({
+        version: 2,
+        origin: 'ai_edited',
+        parentVersionId: v1.id,
+        status: 'draft',
+      });
+      const all = await run((tx) => getArtifactWithVersions(tx, id));
+      expect(all.versions.map((v) => v.status)).toEqual(['draft', 'superseded']);
+    });
+
+    it('after approval starts a new draft and keeps the approved version official', async () => {
+      const subject = { type: 'position' as const, id: randomUUID() };
+      const { id } = await newArtifact('structured_jd', subject);
+      const v1 = await draft(id, { t: 1 });
+      await run((tx) => approveVersion(tx, actor, v1.id));
+      const v2 = await run((tx) => saveEditToLatest(tx, actor, id, { t: 2 }));
+      expect(v2).toMatchObject({ version: 2, status: 'draft', parentVersionId: v1.id });
+      expect(
+        (await run((tx) => readApproved(tx, { kind: 'structured_jd', subject })))?.content,
+      ).toEqual({ t: 1 });
+    });
+
+    it('validates the edit and 404s for an artifact with nothing to edit', async () => {
+      const { id } = await newArtifact('structured_jd');
+      await expect(run((tx) => saveEditToLatest(tx, actor, id, { t: 1 }))).rejects.toMatchObject({
+        status: 404,
+      });
+      await draft(id, { t: 1 });
+      await expect(
+        run((tx) => saveEditToLatest(tx, actor, id, 'not an object')),
+      ).rejects.toMatchObject({ status: 422 });
+    });
+  });
+
+  describe('versions must belong to the artifact in the URL', () => {
+    it('refuses to approve or discard a version through another artifact id', async () => {
+      const a = await newArtifact('structured_jd');
+      const b = await newArtifact('structured_jd');
+      const v = await draft(a.id);
+      await expect(
+        run((tx) => approveVersion(tx, actor, v.id, { expectedArtifactId: b.id })),
+      ).rejects.toMatchObject({ status: 404 });
+      await expect(
+        run((tx) => discardVersion(tx, actor, v.id, { expectedArtifactId: b.id })),
+      ).rejects.toMatchObject({ status: 404 });
+      await expect(
+        run((tx) => approveVersion(tx, actor, v.id, { expectedArtifactId: a.id })),
+      ).resolves.toBeTruthy();
+    });
+  });
+
+  it('lists the versions that came from one AI generation', async () => {
+    const { id } = await newArtifact('structured_jd');
+    const generationId = randomUUID();
+    const v = await run((tx) =>
+      addDraftVersion(tx, {
+        agencyId: agencyA,
+        artifactId: id,
+        content: { a: 1 },
+        origin: 'ai',
+        createdById: userId,
+        aiGenerationId: generationId,
+      }),
+    );
+    expect(await run((tx) => listVersionsOfGeneration(tx, generationId))).toEqual([
+      { artifactId: id, versionId: v.id, version: 1, status: 'draft' },
+    ]);
+    expect(await run((tx) => listVersionsOfGeneration(tx, randomUUID()))).toEqual([]);
   });
 
   it("hides one agency's artifacts from another (404)", async () => {

@@ -241,13 +241,44 @@ export async function editDraft(
   return next;
 }
 
+/**
+ * Saves a person's edit of the artifact's latest version (the contract `POST /artifacts/:id/versions`).
+ * Editing a draft supersedes it; editing after approval starts a NEW draft from the approved text
+ * while the approved version stays official until the new one is approved.
+ */
+export async function saveEditToLatest(
+  tx: ScopedTx,
+  actor: AgencyActor,
+  artifactId: string,
+  content: unknown,
+): Promise<VersionRecord> {
+  const latest = await tx.artifactVersion.findFirst({
+    where: { artifactId, status: { in: ['draft', 'approved'] } },
+    orderBy: { version: 'desc' },
+  });
+  if (!latest) throw notFound('Artifact');
+  if (latest.status === 'draft') return editDraft(tx, actor, latest.id, content);
+  const next = await addDraftVersion(tx, {
+    agencyId: actor.agencyId,
+    artifactId,
+    content,
+    origin: latest.origin === 'human' ? 'human' : 'ai_edited',
+    createdById: actor.userId,
+    parentVersionId: latest.id,
+  });
+  return next;
+}
+
 /** Throws the draft away. Approved versions cannot be discarded (supersede them by approving a newer one). */
 export async function discardVersion(
   tx: ScopedTx,
   actor: AgencyActor,
   versionId: string,
+  options: { expectedArtifactId?: string } = {},
 ): Promise<VersionRecord> {
   const version = await loadVersion(tx, versionId);
+  if (options.expectedArtifactId && version.artifactId !== options.expectedArtifactId)
+    throw notFound('Version');
   if (version.status !== 'draft') throw conflict('not_draft', 'Only a draft can be discarded');
   const row = await tx.artifactVersion.update({
     where: { id: version.id },
@@ -276,10 +307,16 @@ export async function approveVersion(
   tx: ScopedTx,
   actor: AgencyActor,
   versionId: string,
-  options: { factCheckResolutions?: FactCheckResolutionsInput; now?: Date } = {},
+  options: {
+    factCheckResolutions?: FactCheckResolutionsInput;
+    now?: Date;
+    expectedArtifactId?: string;
+  } = {},
 ): Promise<{ artifactId: string; versionId: string; version: number }> {
   const now = options.now ?? new Date();
   const version = await loadVersion(tx, versionId);
+  if (options.expectedArtifactId && version.artifactId !== options.expectedArtifactId)
+    throw notFound('Version');
   if (version.status !== 'draft') throw conflict('not_draft', 'Only a draft can be approved');
   const kind = version.artifact.kind as ArtifactKind;
   const spec = ARTIFACT_KIND_SPECS[kind];
@@ -409,4 +446,19 @@ export async function getArtifactWithVersions(tx: ScopedTx, artifactId: string) 
     approvedVersionId: artifact.approvedVersionId,
     versions: artifact.versions.map(toRecord),
   };
+}
+
+/** Provenance view: which versions came out of one AI generation (metadata only, no content). */
+export async function listVersionsOfGeneration(tx: ScopedTx, aiGenerationId: string) {
+  const rows = await tx.artifactVersion.findMany({
+    where: { aiGenerationId },
+    select: { id: true, artifactId: true, version: true, status: true },
+    orderBy: { version: 'asc' },
+  });
+  return rows.map((v) => ({
+    artifactId: v.artifactId,
+    versionId: v.id,
+    version: v.version,
+    status: v.status as string,
+  }));
 }

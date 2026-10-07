@@ -10,6 +10,7 @@ import { adminClient, appHandle, appScope, cleanup, createAgency, dbAvailable } 
 import type { ModelClient, ModelRequest } from './anthropic';
 import { AiCancelledError, AiProviderError, AiRefusalError } from './errors';
 import { createGateway } from './gateway';
+import { getProvenance } from './provenance';
 import { createPromptRegistry } from './prompts';
 
 const outputSchema = z.object({ title: z.string() });
@@ -382,6 +383,43 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
       behaviour = ok();
       await expect(gateway().run('jd.structure', { text: 'a' }, baseCtx())).resolves.toBeTruthy();
     });
+  });
+
+  it('shows provenance: requester, model, prompt version, inputs, cost and the versions it produced', async () => {
+    behaviour = ok({ title: 'Provenance' });
+    const result = await gateway().run('jd.structure', { text: 'a' }, baseCtx());
+    const provenance = await scope().withAgency(agencyId, (tx) =>
+      getProvenance(tx, result.generationId),
+    );
+    expect(provenance).toMatchObject({
+      id: result.generationId,
+      purpose: 'jd.structure',
+      status: 'succeeded',
+      requestedById: actor.userId,
+      promptVersion: 'jd-structure-v1',
+      model: 'claude-opus-5-5',
+      inputRefs: { positionId, jdVersion: 3 },
+      totalCostUsd: 0.014,
+    });
+    expect(provenance.calls).toHaveLength(1);
+    expect(provenance.versions).toEqual([
+      {
+        artifactId: result.draft!.artifactId,
+        versionId: result.draft!.versionId,
+        version: result.draft!.version,
+        status: 'draft',
+      },
+    ]);
+    // The record never holds prompt or document text.
+    expect(JSON.stringify(provenance)).not.toContain('System prompt');
+  });
+
+  it("hides another agency's provenance (404)", async () => {
+    behaviour = ok();
+    const result = await gateway().run('jd.structure', { text: 'a' }, baseCtx());
+    await expect(
+      scope().withAgency(otherAgencyId, (tx) => getProvenance(tx, result.generationId)),
+    ).rejects.toMatchObject({ status: 404 });
   });
 
   it('records each model call in the ledger with the agency and position it belongs to', async () => {

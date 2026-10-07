@@ -56,7 +56,15 @@ vi.mock('@/server/tenancy/members', () => ({
 }));
 vi.mock('@/lib/db', () => ({
   getPlatformUser: async () => ({ id: 'u1', email: 'u@x.test', name: 'U' }),
+  withAgency: async (_agencyId: string, fn: (tx: unknown) => unknown) => fn({}),
 }));
+vi.mock('@/server/artifacts/service', () => ({
+  getArtifactWithVersions: async () => ({ id: 'art1', versions: [] }),
+  saveEditToLatest: async () => ({ id: 'v2' }),
+  approveVersion: async () => ({ versionId: 'v1' }),
+  discardVersion: async () => ({ id: 'v1' }),
+}));
+vi.mock('@/server/ai/provenance', () => ({ getProvenance: async () => ({ id: 'g1' }) }));
 
 import { GET as agenciesGet, POST as agenciesPost } from './admin/v1/agencies/route';
 import { GET as agencyGet } from './admin/v1/agencies/[id]/route';
@@ -66,6 +74,11 @@ import { GET as membersGet } from './v1/agencies/[agencyId]/members/route';
 import { PATCH as memberPatch } from './v1/agencies/[agencyId]/members/[userId]/route';
 import { GET as invitesGet, POST as invitesPost } from './v1/agencies/[agencyId]/invites/route';
 import { DELETE as inviteDelete } from './v1/agencies/[agencyId]/invites/[inviteId]/route';
+import { GET as artifactGet } from './v1/agencies/[agencyId]/artifacts/[artifactId]/route';
+import { POST as versionPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/route';
+import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route';
+import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
+import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
 
 const json = (body: unknown) => ({
   method: 'POST',
@@ -73,12 +86,21 @@ const json = (body: unknown) => ({
   headers: { 'content-type': 'application/json' },
 });
 const agencyParams = {
-  params: Promise.resolve({ agencyId: 'acme', userId: 'u2', inviteId: 'i1' }),
+  params: Promise.resolve({
+    agencyId: 'acme',
+    userId: 'u2',
+    inviteId: 'i1',
+    artifactId: 'art1',
+    versionId: 'v1',
+    id: 'g1',
+  }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
 
 interface Endpoint {
   name: string;
+  /** Route file, relative to src/app/api: the coverage check below needs every route listed. */
+  file: string;
   call: () => Promise<Response>;
   /** Roles allowed in `audience`. */
   audience: 'agency' | 'admin';
@@ -89,12 +111,14 @@ const AGENCY_ALL = ['admin', 'lead', 'recruiter'] as const;
 const endpoints: Endpoint[] = [
   {
     name: 'GET members',
+    file: 'v1/agencies/[agencyId]/members/route.ts',
     audience: 'agency',
     allowed: ['admin', 'lead'],
     call: () => membersGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'PATCH member',
+    file: 'v1/agencies/[agencyId]/members/[userId]/route.ts',
     audience: 'agency',
     allowed: ['admin'],
     call: () =>
@@ -105,12 +129,14 @@ const endpoints: Endpoint[] = [
   },
   {
     name: 'GET invites',
+    file: 'v1/agencies/[agencyId]/invites/route.ts',
     audience: 'agency',
     allowed: ['admin'],
     call: () => invitesGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'POST invites',
+    file: 'v1/agencies/[agencyId]/invites/route.ts',
     audience: 'agency',
     allowed: ['admin'],
     call: () =>
@@ -121,18 +147,57 @@ const endpoints: Endpoint[] = [
   },
   {
     name: 'DELETE invite',
+    file: 'v1/agencies/[agencyId]/invites/[inviteId]/route.ts',
     audience: 'agency',
     allowed: ['admin'],
     call: () => inviteDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
   },
   {
+    name: 'GET artifact',
+    file: 'v1/agencies/[agencyId]/artifacts/[artifactId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => artifactGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST artifact version',
+    file: 'v1/agencies/[agencyId]/artifacts/[artifactId]/versions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      versionPost(new Request('http://x.test/', json({ content: { a: 1 } })), agencyParams),
+  },
+  {
+    name: 'POST approve',
+    file: 'v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => approvePost(new Request('http://x.test/', json({})), agencyParams),
+  },
+  {
+    name: 'POST discard',
+    file: 'v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => discardPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET ai-generation (provenance)',
+    file: 'v1/agencies/[agencyId]/ai-generations/[id]/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => generationGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
     name: 'GET agencies',
+    file: 'admin/v1/agencies/route.ts',
     audience: 'admin',
     allowed: ['owner', 'admin', 'support'],
     call: () => agenciesGet(new Request('http://x.test/')),
   },
   {
     name: 'POST agencies',
+    file: 'admin/v1/agencies/route.ts',
     audience: 'admin',
     allowed: ['owner', 'admin'],
     call: () =>
@@ -145,12 +210,14 @@ const endpoints: Endpoint[] = [
   },
   {
     name: 'GET agency',
+    file: 'admin/v1/agencies/[id]/route.ts',
     audience: 'admin',
     allowed: ['owner', 'admin', 'support'],
     call: () => agencyGet(new Request('http://x.test/'), adminParams),
   },
   {
     name: 'POST suspend',
+    file: 'admin/v1/agencies/[id]/suspend/route.ts',
     audience: 'admin',
     allowed: ['owner', 'admin'],
     call: () =>
@@ -158,6 +225,7 @@ const endpoints: Endpoint[] = [
   },
   {
     name: 'POST reactivate',
+    file: 'admin/v1/agencies/[id]/reactivate/route.ts',
     audience: 'admin',
     allowed: ['owner', 'admin'],
     call: () =>
@@ -219,7 +287,7 @@ describe('tenancy permission matrix', () => {
     },
   );
 
-  it('covers every route file that exists under the tenancy and admin prefixes', async () => {
+  it('lists every agency and admin route file in the matrix, so a new route cannot skip it', async () => {
     const { readdirSync, statSync } = await import('node:fs');
     const path = await import('node:path');
     const walk = (dir: string): string[] =>
@@ -228,11 +296,12 @@ describe('tenancy permission matrix', () => {
         return statSync(full).isDirectory() ? walk(full) : n === 'route.ts' ? [full] : [];
       });
     const root = path.resolve(__dirname);
-    const routes = [
-      ...walk(path.join(root, 'admin')),
-      ...walk(path.join(root, 'v1/agencies')),
-    ].filter((f) => !f.includes(`${path.sep}files${path.sep}`));
-    // 8 route files back the 10 endpoint/method pairs above.
-    expect(routes).toHaveLength(8);
+    // The file download route is covered by its own tests (files.db.test.ts and the e2e gates).
+    const onDisk = [...walk(path.join(root, 'admin')), ...walk(path.join(root, 'v1/agencies'))]
+      .map((f) => path.relative(root, f))
+      .filter((f) => !f.includes('/files/'))
+      .sort();
+    const covered = [...new Set(endpoints.map((e) => e.file))].sort();
+    expect(covered).toEqual(onDisk);
   });
 });

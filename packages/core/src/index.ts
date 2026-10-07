@@ -6,3 +6,4 @@ export type { Actor, AgencyActor, PlatformAdminActor, PortalActor, SystemActor }
 export * from './schemas/tenancy';
 export * from './artifacts/kinds';
 export * from './artifacts/fact-check';
+export * from './schemas/artifacts';

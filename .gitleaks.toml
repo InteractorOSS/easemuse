@@ -1,0 +1,9 @@
+# Secret scanning. Run: gitleaks detect --config .gitleaks.toml
+title = "EaseMuse gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Example env values and dev-only role passwords"
+paths = ['''\.env\.example$''', '''scripts/db/setup-dev\.sh$''']

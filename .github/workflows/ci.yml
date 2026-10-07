@@ -1,0 +1,51 @@
+name: ci
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      REQUIRE_DB: '1'
+      PGPASSWORD: postgres
+      PG_ADMIN_URL: postgresql://postgres:postgres@localhost:5432/postgres
+      TEST_DATABASE_ADMIN_URL: postgresql://postgres:postgres@localhost:5432/easemuse_test
+      TEST_DATABASE_URL: postgresql://easemuse_app:easemuse_app@localhost:5432/easemuse_test
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: bash scripts/db/setup-dev.sh --test-only
+      - run: pnpm format:check
+      - run: pnpm lint:headers
+      - run: pnpm check:cycles
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+      - run: pnpm build
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml

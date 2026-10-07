@@ -1,0 +1,13 @@
+node_modules
+.next
+.turbo
+dist
+coverage
+pnpm-lock.yaml
+apps/web/prisma/migrations
+docs
+eval-data
+init.docx
+.claude
+*.md
+next-env.d.ts

@@ -12,9 +12,10 @@ import type { PdfRenderer } from './renderer';
 import { signRenderToken } from './token';
 
 /** The artifact kind each print template renders. */
-const KIND_OF: Record<RenderKind, 'structured_jd' | 'tailored_resume'> = {
+const KIND_OF: Record<RenderKind, 'structured_jd' | 'tailored_resume' | 'submission_report'> = {
   jd: 'structured_jd',
   resume: 'tailored_resume',
+  report: 'submission_report',
 };
 
 export interface RenderDeps {
@@ -55,12 +56,32 @@ export async function loadRenderSource(
           select: { title: true, location: true, client: { select: { name: true } } },
         })
       : null;
+  // The report page names the candidate and the position (the resume page shows neither).
+  const entry =
+    kind === 'report' && version.subject.type === 'pipeline_entry'
+      ? await tx.pipelineEntry.findUnique({
+          where: { id: version.subject.id },
+          select: {
+            candidate: { select: { fullName: true } },
+            position: {
+              select: { title: true, location: true, client: { select: { name: true } } },
+            },
+          },
+        })
+      : null;
   const branding: AgencyBranding = parseBranding(agency?.branding);
   const context = {
     agency: agency?.name ?? null,
     position: position
       ? { title: position.title, location: position.location, client: position.client.name }
-      : null,
+      : entry
+        ? {
+            title: entry.position.title,
+            location: entry.position.location,
+            client: entry.position.client.name,
+          }
+        : null,
+    ...(kind === 'report' ? { candidate: entry?.candidate.fullName ?? null } : {}),
   };
   return {
     version,

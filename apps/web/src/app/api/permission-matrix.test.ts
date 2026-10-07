@@ -255,6 +255,14 @@ vi.mock('@/server/submission/report', () => ({
   generateReport: async () => ({}),
   recheckReport: async () => ({ ranAt: '', warnings: [] }),
 }));
+vi.mock('@/server/submission/export', () => ({
+  getReportPdfStatus: async () => ({ versionId: null, document: null }),
+  startReportPdfExport: async () => ({ jobRunId: 'job1', versionId: 'v1' }),
+}));
+vi.mock('@/server/submission/submit', () => ({
+  getSubmissionOverview: async () => ({}),
+  recordSubmission: async () => ({}),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -390,6 +398,14 @@ import {
   POST as reportPost,
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/route';
 import { POST as reportRecheckPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/fact-check/route';
+import {
+  GET as reportPdfGet,
+  POST as reportPdfPost,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/pdf/route';
+import {
+  GET as submissionsGet,
+  POST as submissionsPost,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/submissions/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -1175,6 +1191,47 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => reportRecheckPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET report pdf status',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/pdf/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => reportPdfGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST report pdf',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/pdf/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => reportPdfPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET submissions',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/submissions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => submissionsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST submission',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/submissions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      submissionsPost(
+        new Request(
+          'http://x.test/',
+          json({
+            reportVersionId: '11111111-1111-4111-8111-111111111111',
+            tailoredResumeId: '11111111-1111-4111-8111-111111111111',
+            toContactId: '11111111-1111-4111-8111-111111111111',
+            method: 'email',
+            submittedAt: '2026-10-01T00:00:00Z',
+          }),
+        ),
+        agencyParams,
+      ),
   },
   {
     name: 'GET screening',

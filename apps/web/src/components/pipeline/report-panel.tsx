@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { apiFetch } from '@/lib/api-client';
 import { ReportEditor } from './report-editor';
+import { ReportExport } from './report-export';
 
 interface Overview {
   artifactId: string | null;
@@ -87,6 +88,7 @@ export function ReportPanel({
           ContentEditor={ReportEditor}
         />
       ) : null}
+      {o.approvedVersionId ? <ReportExport agencyId={agencyId} entryId={entryId} /> : null}
     </section>
   );
 }

@@ -91,6 +91,18 @@ const BUILT_IN: Partial<Record<ArtifactKind, Hook>> = {
       update: { artifactId: version!.artifactId },
     });
   },
+  submission_report: async (tx, { agencyId, subject, versionId }) => {
+    // Each approved report version gets its own row; a submission pins one of them (US-802).
+    const version = await tx.artifactVersion.findUnique({
+      where: { id: versionId },
+      select: { artifactId: true },
+    });
+    if (!(await tx.pipelineEntry.findUnique({ where: { id: subject.id }, select: { id: true } })))
+      return;
+    await tx.submissionReport.create({
+      data: { agencyId, entryId: subject.id, artifactId: version!.artifactId, versionId },
+    });
+  },
   tailored_resume: async (tx, { agencyId, subject, versionId }) => {
     // Each approved version gets its own row, so a candidate's approval of earlier text never
     // covers this one (FR-RES-03): the approval is recorded against the row later.

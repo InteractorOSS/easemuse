@@ -504,6 +504,58 @@
       "interviewAvailability": "13. Interview availability"
     },
     "assessment": "14. Recruiter's assessment",
-    "assessmentHint": "Write this yourself. The AI never writes it, and the report cannot be approved while it is empty."
+    "assessmentHint": "Write this yourself. The AI never writes it, and the report cannot be approved while it is empty.",
+    "printTitle": "Candidate Submission Report",
+    "pdfTitle": "PDF",
+    "pdfHint": "Create the PDF of the approved report. It is rendered from exactly the approved text.",
+    "pdf": "Create PDF",
+    "pdfAgain": "Create PDF again",
+    "pdfWorking": "Creating the PDF…",
+    "pdfReady": "Download PDF",
+    "pdfOutOfDate": "This PDF is older than the approved report or the agency branding. Create it again.",
+    "exportError": "Could not create the PDF. Try again.",
+    "exportNotApproved": "Approve the report first."
+  },
+  "submission": {
+    "title": "Submit to the client",
+    "hint": "Records that you sent the approved report and resume. The exact versions and PDFs are kept with the record.",
+    "readiness": "Before you submit",
+    "reportReady": "Report approved",
+    "reportPdf": "Report PDF created",
+    "resumeReady": "Tailored resume approved",
+    "resumePdf": "Resume PDF created",
+    "done": "Done",
+    "todo": "Not yet",
+    "contact": "Submitted to",
+    "contactNone": "Choose a contact",
+    "noContacts": "This client has no contacts. Add one on the client page.",
+    "method": "How",
+    "methods": {
+      "portal": "Portal",
+      "email": "Email",
+      "other": "Other"
+    },
+    "submittedAt": "Date",
+    "duplicateTitle": "Already submitted to {client}",
+    "duplicateLine": "{title} on {date}",
+    "duplicateReason": "Why submit again",
+    "submit": "Record submission",
+    "recorded": "Submission recorded",
+    "guardTitle": "Something is missing",
+    "guardBlocked": "These must be done first:",
+    "guardWarn": "These are not done. You can go ahead by giving a reason for each.",
+    "guardReason": "Reason for {guard}",
+    "guardGo": "Submit anyway",
+    "guards": {
+      "jdApproval": "Job description approval",
+      "resumeApproval": "Candidate approval of the resume",
+      "consent": "Candidate consent for this client",
+      "recruiterAssessment": "Your assessment in the report"
+    },
+    "history": "Submitted",
+    "historyLine": "To {name} by {method} on {date}",
+    "pdfMissing": "Create the PDF of the report and of the resume first.",
+    "changed": "The report or resume changed. Reload and check them.",
+    "error": "Could not record the submission."
   }
 }

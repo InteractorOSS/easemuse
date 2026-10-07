@@ -701,6 +701,7 @@ model SubmissionReport {
   agencyId   String   @db.Uuid
   entryId    String   @db.Uuid
   artifactId String   @db.Uuid // 14 sections (§10); section 14 human-only
+  versionId  String?  @db.Uuid // the approved ArtifactVersion this row stands for
   pdfFileId  String?  @db.Uuid
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

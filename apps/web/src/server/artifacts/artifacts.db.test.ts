@@ -21,6 +21,27 @@ import {
   readApproved,
 } from './service';
 
+const CANDIDATE_PROFILE = {
+  fullName: null,
+  email: null,
+  phone: null,
+  currentPosition: { title: null, company: null },
+  careerHistory: [],
+  education: [],
+  coreSkills: [],
+  industryExperience: [],
+  technicalSkills: [],
+  leadershipExperience: null,
+  teamSize: null,
+  careerProgression: null,
+  location: null,
+  workAuthorization: null,
+  compensationExpectation: null,
+  majorAchievements: [],
+  potentialMotivation: null,
+  potentialConcerns: [],
+};
+
 const PROFILE = {
   summary: 's',
   criteria: [],
@@ -434,7 +455,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
         type: 'candidate',
         id: seeded.candidateId,
       });
-      await approveNew(cp.id);
+      await approveNew(cp.id, CANDIDATE_PROFILE);
       expect(await staleOf(seeded.a1.id)).toBe(true);
     });
 
@@ -446,6 +467,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
       );
       await approveNew(
         (await newArtifact('candidate_profile', { type: 'candidate', id: randomUUID() })).id,
+        CANDIDATE_PROFILE,
       );
       expect(await staleOf(other.a1.id)).toBe(false);
     });

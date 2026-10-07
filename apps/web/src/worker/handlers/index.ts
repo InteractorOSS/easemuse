@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: MIT
 import { listActiveAgencyIds, withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
+import { enqueue } from '@/lib/queue';
+import { getGateway } from '@/server/ai';
 import { extractCandidateDocument } from '@/server/candidates/extract';
+import { structureCandidateJob } from '@/server/candidates/structure';
 import { runRenderJob } from '@/server/documents/render/job';
 import { createClaudePdfReader } from '@/server/ai/pdf-reader';
 import { extractJd } from '@/server/positions/jd-extract';
@@ -27,8 +30,23 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
     const apiKey = getEnv().ANTHROPIC_API_KEY;
     return extractCandidateDocument(ctx, {
       pdfReader: apiKey ? createClaudePdfReader({ apiKey }) : undefined,
+      // Uploading a resume is the recruiter's request for a structured profile (FR-AI-01).
+      afterRead: async ({ candidateId, documentId }) => {
+        await enqueue({
+          queue: 'ai',
+          name: 'profile.structure',
+          agencyId: ctx.agencyId,
+          requestedById: ctx.requestedById,
+          data: { candidateId },
+          idempotencyKey: `profile.structure:${documentId}`,
+        });
+      },
     });
   });
+  // AI profile structuring for a candidate draft (A7).
+  registry.register('ai', 'profile.structure', (ctx) =>
+    structureCandidateJob(ctx, getGateway().run),
+  );
   // Prints an approved version to PDF with headless Chromium (ADR-011).
   registry.register('documents', 'render', (ctx) => runRenderJob(ctx));
   // Nightly (see scheduler.ts): artifacts whose subject no longer exists (ADR-006).

@@ -22,3 +22,4 @@ export * from './artifacts/success-profile';
 export * from './schemas/branding';
 export * from './artifacts/search-criteria';
 export * from './schemas/candidates';
+export * from './artifacts/candidate-profile';

@@ -16,7 +16,11 @@ const dataSchema = z.object({ documentId: z.guid() });
  */
 export async function extractCandidateDocument(
   ctx: JobContext,
-  deps: { pdfReader?: PdfReader | undefined } = {},
+  deps: {
+    pdfReader?: PdfReader | undefined;
+    /** Called once the text is saved, to start the AI step the recruiter asked for by uploading. */
+    afterRead?: (info: { candidateId: string; documentId: string }) => Promise<void>;
+  } = {},
 ): Promise<void> {
   const { documentId } = dataSchema.parse(ctx.data);
   const source = await ctx.withAgency(async (tx) => {
@@ -64,6 +68,7 @@ export async function extractCandidateDocument(
       }
     });
     await ctx.progress({ status: 'ready', candidateId: source.candidateId });
+    await deps.afterRead?.({ candidateId: source.candidateId, documentId });
   } catch (error) {
     if (!(error instanceof ApiError) || error.status >= 500) throw error;
     await ctx.withAgency((tx) =>

@@ -3,7 +3,7 @@
 import type { Prisma } from '@prisma/client';
 import type { AgencyActor, CandidateIntake } from '@easemuse/core';
 import { withAgency, type ScopedTx } from '@/lib/db';
-import { ApiError } from '@/lib/http/errors';
+import { ApiError, notFound } from '@/lib/http/errors';
 import { enqueue } from '@/lib/queue';
 import { logActivity } from '@/server/activity/service';
 import { storeOriginal } from '@/server/documents/store';
@@ -101,4 +101,34 @@ export async function startCandidateExtraction(
     );
     throw new ApiError('internal_error', 'Could not start reading the file', { status: 503 });
   }
+}
+
+/**
+ * "Structure again": queues a fresh AI profile draft for a candidate (US-202). The recruiter asked,
+ * so this is the request FR-AI-01 needs; every request is its own run.
+ */
+export async function requestProfileStructure(
+  actor: AgencyActor,
+  candidateId: string,
+): Promise<string> {
+  await withAgency(
+    actor.agencyId,
+    async (tx) => {
+      const candidate = await tx.candidate.findUnique({
+        where: { id: candidateId },
+        select: { status: true },
+      });
+      if (!candidate || candidate.status === 'discarded') throw notFound('Candidate');
+    },
+    { userId: actor.userId },
+  );
+  const { jobRunId } = await enqueue({
+    queue: 'ai',
+    name: 'profile.structure',
+    agencyId: actor.agencyId,
+    requestedById: actor.userId,
+    data: { candidateId },
+    idempotencyKey: `profile.structure:${candidateId}:${crypto.randomUUID()}`,
+  });
+  return jobRunId;
 }

@@ -151,6 +151,7 @@ vi.mock('@/server/positions/search-criteria', () => ({
 vi.mock('@/server/candidates/intake', () => ({
   createCandidateDraft: async () => ({ candidateId: 'c1', documentId: 'd1' }),
   startCandidateExtraction: async () => 'run1',
+  requestProfileStructure: async () => 'run1',
 }));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
@@ -223,6 +224,7 @@ import {
   POST as scPost,
 } from './v1/agencies/[agencyId]/positions/[positionId]/search-criteria/route';
 import { POST as intakePost } from './v1/agencies/[agencyId]/candidates/intake/route';
+import { POST as structureAgainPost } from './v1/agencies/[agencyId]/candidates/[candidateId]/structure/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -252,6 +254,7 @@ const agencyParams = {
     clientId: 'c1',
     contactId: 'k1',
     positionId: 'p1',
+    candidateId: 'cand1',
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
@@ -591,6 +594,13 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', json({ source: 'linkedin', profileText: 'x'.repeat(60) })),
         agencyParams,
       ),
+  },
+  {
+    name: 'POST candidate structure again',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/structure/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => structureAgainPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET tasks',

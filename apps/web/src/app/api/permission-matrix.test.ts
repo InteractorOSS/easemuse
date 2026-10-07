@@ -209,6 +209,16 @@ vi.mock('@/server/matching/detail', () => ({
   getAnalysisDetail: async () => ({}),
   markReviewed: async () => ({ reviewed: true }),
 }));
+vi.mock('@/server/outreach/service', () => ({
+  getOutreach: async () => ({}),
+  setSequence: async () => ({}),
+  planOutreachDraft: async () => ({}),
+  draftTouch: async () => ({}),
+  sendTouchEmail: async () => ({ outboxMessageId: 'ob1' }),
+  markTouchSentByHand: async () => ({}),
+  recordResponse: async () => ({}),
+}));
+vi.mock('@/server/messaging/outbox', () => ({ dispatchOutboxMessage: async () => undefined }));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -311,6 +321,12 @@ import {
   DELETE as orderDelete,
 } from './v1/agencies/[agencyId]/positions/[positionId]/review-order/route';
 import { GET as jobGet } from './v1/agencies/[agencyId]/jobs/[jobRunId]/route';
+import { GET as outreachGet } from './v1/agencies/[agencyId]/pipeline/[entryId]/outreach/route';
+import { PUT as sequencePut } from './v1/agencies/[agencyId]/pipeline/[entryId]/sequence/route';
+import { POST as responsePost } from './v1/agencies/[agencyId]/pipeline/[entryId]/response/route';
+import { POST as draftPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/draft/route';
+import { POST as touchSendPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/send/route';
+import { POST as markSentPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/mark-sent/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -351,6 +367,7 @@ const agencyParams = {
     candidateId: 'cand1',
     entryId: 'e1',
     analysisId: 'an1',
+    n: '1',
     jobRunId: 'job1',
   }),
 };
@@ -890,6 +907,61 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => jobGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET outreach',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/outreach/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => outreachGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PUT sequence',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/sequence/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      sequencePut(
+        new Request('http://x.test/', { ...json({ channel: 'email' }), method: 'PUT' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST response',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/response/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      responsePost(new Request('http://x.test/', json({ response: 'interested' })), agencyParams),
+  },
+  {
+    name: 'POST touch draft',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/draft/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => draftPost(new Request('http://x.test/', json({})), agencyParams),
+  },
+  {
+    name: 'POST touch send',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/send/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      touchSendPost(
+        new Request('http://x.test/', json({ versionId: '11111111-1111-4111-8111-111111111111' })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST touch mark-sent',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/mark-sent/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      markSentPost(
+        new Request('http://x.test/', json({ versionId: '11111111-1111-4111-8111-111111111111' })),
+        agencyParams,
+      ),
   },
   {
     name: 'GET screening',

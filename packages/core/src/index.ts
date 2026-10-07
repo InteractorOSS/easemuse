@@ -31,3 +31,5 @@ export * from './artifacts/match-analysis';
 export * from './schemas/matching';
 export * from './artifacts/match-summary';
 export * from './schemas/screening';
+export * from './schemas/outreach';
+export * from './artifacts/outreach-message';

@@ -271,5 +271,85 @@
     "classify": "Set classification",
     "classified": "Classification saved",
     "current": "Current classification: {value}"
+  },
+  "outreach": {
+    "title": "Outreach",
+    "hint": "Up to three touches. The app drafts each message and reminds you when one is due; you edit, approve and send.",
+    "dnc": "This candidate is marked do not contact{reason}. Drafting and sending are off.",
+    "recent": "This candidate was contacted on {date}.",
+    "recentOther": "This candidate was contacted on {date} for another position.",
+    "noEmail": "No email address on file, so email touches cannot be sent from here.",
+    "setup": "Plan the sequence",
+    "channel": "Channel",
+    "interval1": "Days from touch 1 to touch 2",
+    "interval2": "Days from touch 2 to touch 3",
+    "plan": "Plan touches",
+    "replan": "Change channel and timing",
+    "channels": {
+      "linkedin": "LinkedIn",
+      "email": "Email",
+      "text": "Text message",
+      "phone": "Phone call"
+    },
+    "touchTitle": "Touch {n}: {name}",
+    "touchNames": {
+      "1": "Initial introduction",
+      "2": "Follow-up",
+      "3": "Final follow-up"
+    },
+    "status": {
+      "planned": "Planned",
+      "drafted": "Draft written",
+      "sent": "Sent",
+      "skipped": "Skipped",
+      "cancelled": "Cancelled",
+      "failed": "Failed to send"
+    },
+    "due": "Due {date}",
+    "sentOn": "Sent {date}",
+    "answer": "Answer: {value}",
+    "include": "Include in the message",
+    "elements": {
+      "keyAppeal": "Main appeal of the role",
+      "company": "Company and opportunity",
+      "growth": "Career growth",
+      "impact": "Role impact",
+      "compensation": "Compensation",
+      "location": "Location and work arrangement",
+      "nextStep": "Next step"
+    },
+    "draft": "Write a draft",
+    "redraft": "Write a new draft",
+    "drafting": "Writing…",
+    "placeholders": "{first} and {recruiter} are replaced with {firstName} and {recruiterName} when you send or copy.",
+    "subject": "Subject",
+    "body": "Message",
+    "count": "{count} of {limit} characters",
+    "over": "This is longer than usual for this channel.",
+    "send": "Send email",
+    "sent": "Email queued",
+    "needsApproval": "Approve the message to send it.",
+    "copy": "Copy message",
+    "copied": "Copied",
+    "markSent": "Mark as sent",
+    "markedSent": "Marked as sent",
+    "copyHint": "Send it yourself, then mark it as sent.",
+    "responseTitle": "Candidate's answer",
+    "response": "Answer",
+    "responses": {
+      "interested": "Interested",
+      "not_interested": "Not interested",
+      "not_now": "Not now",
+      "referred": "Referred someone else",
+      "no_response": "No answer"
+    },
+    "reasonCode": "Reason",
+    "record": "Record answer",
+    "recorded": "Answer recorded",
+    "responseHint": "A reply cancels the touches not yet sent.",
+    "names": {
+      "first": "the candidate's first name",
+      "recruiter": "your name"
+    }
   }
 }

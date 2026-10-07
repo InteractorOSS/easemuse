@@ -5,6 +5,7 @@ import { factCheckVerifierPrompt } from './factcheck';
 import { intakeQuestionsPrompt } from './intake-questions';
 import { jdStructurePrompt } from './jd-structure';
 import { matchAnalyzePrompt } from './match-analyze';
+import { outreachDraftPrompt } from './outreach-draft';
 import { profileStructurePrompt } from './profile-structure';
 import { searchCriteriaPrompt } from './search-criteria';
 import { successProfilePrompt } from './success-profile';
@@ -18,4 +19,5 @@ export function registerBuiltInPrompts(registry: PromptRegistry): void {
   registry.register(searchCriteriaPrompt);
   registry.register(profileStructurePrompt);
   registry.register(matchAnalyzePrompt);
+  registry.register(outreachDraftPrompt);
 }

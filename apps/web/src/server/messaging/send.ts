@@ -17,6 +17,16 @@ export interface SendDeps {
   transportFor?: (agencySettings: unknown) => Transport;
 }
 
+/** A touch whose email never went out shows as failed, so the recruiter can try another way (ADR-009). */
+async function failTouch(ctx: JobContext, outboxMessageId: string): Promise<void> {
+  await ctx.withAgency((tx: ScopedTx) =>
+    tx.outreachTouch.updateMany({
+      where: { outboxMessageId, status: 'sent' },
+      data: { status: 'failed' },
+    }),
+  );
+}
+
 /**
  * `messaging.send`: delivers one outbox message (ADR-009). Idempotent (a finished message is left
  * alone), re-checks suppression for outreach, and records every attempt. After the last attempt the
@@ -49,6 +59,7 @@ export async function sendOutboxMessage(ctx: JobContext, deps: SendDeps = {}): P
     await ctx.withAgency((tx) =>
       tx.outboxMessage.update({ where: { id: message.id }, data: { status: 'suppressed' } }),
     );
+    await failTouch(ctx, message.id);
     return;
   }
 
@@ -81,6 +92,7 @@ export async function sendOutboxMessage(ctx: JobContext, deps: SendDeps = {}): P
         data: { status: last ? 'failed' : 'queued', lastError: text },
       }),
     );
+    if (last) await failTouch(ctx, message.id);
     throw error;
   }
 }

@@ -16,6 +16,7 @@ import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { AnalysisDetail } from '@/server/matching/detail';
 import type { AnalysisView } from '@/server/matching/overrides';
 import type { PipelineEntryView } from '@/server/pipeline/service';
+import { OutreachPanel } from './outreach-panel';
 import { ScreeningPanel } from './screening-panel';
 import { TransitionControl } from './transition-control';
 
@@ -106,6 +107,10 @@ export function AnalysisView({
       </div>
 
       <ScreeningPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
+
+      {['screened', 'contacting', 'no_response', 'not_interested'].includes(e.state) ? (
+        <OutreachPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
+      ) : null}
 
       <section aria-labelledby="analyze-heading" className="flex max-w-2xl flex-col gap-2">
         <h2 id="analyze-heading" className="text-lg font-semibold">

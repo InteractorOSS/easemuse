@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { candidateProfileContentSchema } from './candidate-profile';
 import { matchAnalysisContentSchema } from './match-analysis';
 import { intakeQuestionsContentSchema } from './intake-questions';
+import { outreachMessageContentSchema } from './outreach-message';
 import { searchCriteriaSchema } from './search-criteria';
 import { structuredJdContentSchema } from './structured-jd';
 import { successProfileContentSchema } from './success-profile';
@@ -102,7 +103,9 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
     humanOnlyFields: ['recruiterAssessment'],
   }),
   screening_draft: spec('screening_draft', 'pipeline_entry'),
-  outreach_message: spec('outreach_message', 'pipeline_entry'),
+  outreach_message: spec('outreach_message', 'pipeline_entry', {
+    schema: outreachMessageContentSchema as unknown as z.ZodType<Record<string, unknown>>,
+  }),
   call_questions: spec('call_questions', 'pipeline_entry'),
   qualification: spec('qualification', 'pipeline_entry'),
   // Generated documents are fact-checked; the tailored resume must not change facts (§9.1).

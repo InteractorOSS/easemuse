@@ -144,5 +144,87 @@
       "failed": "error"
     },
     "close": "Hide"
+  },
+  "analysis": {
+    "title": "Match analysis",
+    "back": "Back to the candidates",
+    "candidatePage": "Open the candidate page",
+    "stage": "Stage",
+    "none": "This candidate has not been analyzed yet.",
+    "analyze": "Analyze",
+    "again": "Analyze again",
+    "hint": "AI compares the confirmed profile with the confirmed success profile. It is a draft to help you decide; it never moves or excludes a candidate.",
+    "notReady": "Confirm the candidate's profile and the position's success profile first.",
+    "overall": "Overall match",
+    "computed": "Computed: {score}",
+    "edited": "Edited by the recruiter",
+    "editedReason": "Edited: {reason}",
+    "stale": "Out of date: a profile changed after this analysis. Analyze again to refresh it.",
+    "reviewedBadge": "Reviewed",
+    "draftBadge": "Not reviewed yet",
+    "markReviewed": "Mark reviewed",
+    "reviewedHelp": "Later steps use only an analysis you have reviewed.",
+    "reviewedDone": "Marked as reviewed.",
+    "explainOnly": "Explain-only mode: scores are hidden.",
+    "basis": "Compared the profile and success profile as confirmed when this analysis ran.",
+    "criteriaTitle": "Criteria",
+    "score": "Score {score}",
+    "computedScore": "computed {score}",
+    "evidence": "Evidence",
+    "inferred": "Inferred (no quote): {rationale}",
+    "inferredNoReason": "Inferred (no quote)",
+    "toConfirm": "To confirm",
+    "requirementsTitle": "Must-haves and deal-breakers",
+    "noRequirements": "The success profile has no must-haves or deal-breakers.",
+    "requirementStatus": {
+      "must_have": {
+        "met": "Met",
+        "not_met": "Not met",
+        "unknown": "Unknown"
+      },
+      "disqualifying": {
+        "met": "Applies",
+        "not_met": "Does not apply",
+        "unknown": "Unknown"
+      }
+    },
+    "category": {
+      "must_have": "Must-have",
+      "disqualifying": "Deal-breaker"
+    },
+    "requirementNote": "A status only informs you. Nobody is excluded because of it.",
+    "strengths": "Strong match",
+    "gaps": "Potential gaps",
+    "confirmList": "To confirm with the candidate",
+    "noneList": "None.",
+    "override": {
+      "label": "Change the score",
+      "overall": "Overall score",
+      "criterion": "Score for {name}",
+      "score": "New score",
+      "reason": "Reason",
+      "save": "Save change",
+      "remove": "Remove the change",
+      "open": "Change",
+      "cancel": "Cancel",
+      "saved": "Saved.",
+      "errors": {
+        "generic": "Could not save. Try again.",
+        "forbidden": "Only the owner, a lead or an admin can change this."
+      }
+    },
+    "assessment": {
+      "title": "Recruiter assessment",
+      "hint": "Write this yourself. AI never fills it in.",
+      "label": "Your assessment",
+      "save": "Save assessment",
+      "saved": "Assessment saved."
+    },
+    "errors": {
+      "generic": "Could not complete that. Try again.",
+      "forbidden": "Only the owner, a lead or an admin can do this for this candidate."
+    },
+    "stageLine": "Stage: {stage}",
+    "criterionLine": "{name}: {level}"
   }
 }

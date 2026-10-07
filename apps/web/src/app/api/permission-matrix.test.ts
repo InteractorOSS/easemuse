@@ -263,6 +263,17 @@ vi.mock('@/server/submission/submit', () => ({
   getSubmissionOverview: async () => ({}),
   recordSubmission: async () => ({}),
 }));
+vi.mock('@/server/interviews/service', () => ({
+  listInterviews: async () => [],
+  createInterview: async () => ({}),
+  updateInterview: async () => ({}),
+  recordFeedback: async () => ({}),
+}));
+vi.mock('@/server/offers/service', () => ({
+  getOffer: async () => ({}),
+  saveOffer: async () => ({}),
+  recordOutcome: async () => ({}),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -406,6 +417,17 @@ import {
   GET as submissionsGet,
   POST as submissionsPost,
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/submissions/route';
+import {
+  GET as interviewsGet,
+  POST as interviewsPost,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/interviews/route';
+import { PATCH as interviewPatch } from './v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/route';
+import { POST as feedbackPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/feedback/route';
+import {
+  GET as offerGet,
+  PUT as offerPut,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/offer/route';
+import { POST as offerOutcomePost } from './v1/agencies/[agencyId]/pipeline/[entryId]/offer/outcome/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -445,6 +467,7 @@ const agencyParams = {
     positionId: 'p1',
     candidateId: 'cand1',
     entryId: 'e1',
+    interviewId: 'iv1',
     analysisId: 'an1',
     n: '1',
     jobRunId: 'job1',
@@ -1230,6 +1253,78 @@ const endpoints: Endpoint[] = [
             submittedAt: '2026-10-01T00:00:00Z',
           }),
         ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET interviews',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/interviews/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => interviewsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST interview',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/interviews/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      interviewsPost(
+        new Request('http://x.test/', json({ roundName: 'HM interview' })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'PATCH interview',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      interviewPatch(
+        new Request('http://x.test/', { ...json({ status: 'completed' }), method: 'PATCH' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST interview feedback',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/feedback/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      feedbackPost(
+        new Request(
+          'http://x.test/',
+          json({ fromRole: 'hm', ratings: { technicalFit: 'strong' } }),
+        ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET offer',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/offer/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => offerGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PUT offer',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/offer/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      offerPut(
+        new Request('http://x.test/', { ...json({ counterofferRisk: 'low' }), method: 'PUT' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST offer outcome',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/offer/outcome/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      offerOutcomePost(
+        new Request('http://x.test/', json({ outcome: 'accepted', at: '2026-10-01' })),
         agencyParams,
       ),
   },

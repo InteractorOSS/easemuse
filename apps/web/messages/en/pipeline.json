@@ -557,5 +557,106 @@
     "pdfMissing": "Create the PDF of the report and of the resume first.",
     "changed": "The report or resume changed. Reload and check them.",
     "error": "Could not record the submission."
+  },
+  "interviews": {
+    "title": "Interviews",
+    "hint": "Add each round and record the feedback. Moving the candidate on, putting them on hold or rejecting them is done with the stage control above.",
+    "add": "Add a round",
+    "roundName": "Round",
+    "scheduledAt": "Date and time",
+    "format": "Format",
+    "formatHint": "For example video or on site",
+    "interviewers": "Interviewers",
+    "interviewersHint": "One per line",
+    "addRound": "Add round",
+    "none": "No rounds yet.",
+    "status": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "no_show": "No-show"
+    },
+    "statusLabel": "Status",
+    "unscheduled": "No date yet",
+    "line": "{format} · {people}",
+    "feedbackTitle": "Feedback",
+    "feedbackNone": "No feedback yet.",
+    "from": "From",
+    "fromRoles": {
+      "hm": "Hiring manager",
+      "candidate": "Candidate"
+    },
+    "criteria": {
+      "technicalFit": "Technical fit",
+      "leadershipFit": "Leadership fit",
+      "communication": "Communication",
+      "culturalFit": "Cultural fit",
+      "industryExperience": "Industry experience"
+    },
+    "ratings": {
+      "strong": "Strong",
+      "moderate": "Moderate",
+      "gap": "Gap",
+      "none": "Not rated"
+    },
+    "comments": "Comments",
+    "saveFeedback": "Save feedback",
+    "feedbackLine": "{from}",
+    "saved": "Saved",
+    "error": "Could not save. Try again.",
+    "rating": "{criterion}"
+  },
+  "offer": {
+    "title": "Offer and closing",
+    "hint": "Stay in touch until the start date. The placement closes only when you confirm that the candidate started.",
+    "milestones": {
+      "offerPreparation": "Offer preparation",
+      "compensationDiscussion": "Compensation discussion",
+      "candidateExpectation": "Candidate expectation",
+      "counterofferRisk": "Counteroffer risk",
+      "resignationTiming": "Resignation timing",
+      "startDate": "Start date",
+      "offerAcceptance": "Offer acceptance",
+      "preEmploymentProcess": "Pre-employment process",
+      "onboarding": "Onboarding"
+    },
+    "statuses": {
+      "not_started": "Not started",
+      "in_progress": "In progress",
+      "done": "Done"
+    },
+    "status": "Status",
+    "date": "Date",
+    "notes": "Notes",
+    "statusFor": "Status of {item}",
+    "dateFor": "Date of {item}",
+    "notesFor": "Notes on {item}",
+    "risk": "Counteroffer risk",
+    "risks": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "none": "Not assessed"
+    },
+    "resignationDate": "Resignation date",
+    "startDateField": "Start date",
+    "save": "Save offer",
+    "saved": "Offer saved",
+    "outcomeTitle": "Outcome",
+    "outcomeNow": "Current outcome: {value}",
+    "outcomes": {
+      "accepted": "Accepted",
+      "declined": "Declined",
+      "reneged": "Reneged",
+      "started": "Started"
+    },
+    "outcome": "Outcome",
+    "outcomeDate": "Date",
+    "reasonCode": "Reason",
+    "reason": "What happened",
+    "recordOutcome": "Record outcome",
+    "outcomeSaved": "Outcome recorded",
+    "error": "Could not save. Try again.",
+    "noOutcome": "No outcome yet."
   }
 }

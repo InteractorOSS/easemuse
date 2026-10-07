@@ -3,6 +3,7 @@
 import { MAX_SNOOZE_DAYS, type AgencyActor, type TaskKind, type TaskScope } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 import { ApiError, notFound } from '@/lib/http/errors';
+import { scheduleOfferReminder } from '@/server/offers/reminders';
 import { logActivity } from '@/server/activity/service';
 
 /**
@@ -78,6 +79,10 @@ export async function completeTask(
     entityId: task.entityId,
     data: { kind: task.kind },
   });
+  // Completing an offer reminder schedules the next one (FR-OFF-02).
+  if (task.kind === 'offer_milestone' && task.entityType === 'pipeline_entry') {
+    await scheduleOfferReminder(tx, actor.agencyId, task.entityId, now, task.dueAt);
+  }
 }
 
 export async function snoozeTask(

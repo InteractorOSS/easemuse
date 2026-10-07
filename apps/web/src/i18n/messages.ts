@@ -19,6 +19,7 @@ export const NAMESPACES = [
   'tasks',
   'clients',
   'positions',
+  'candidates',
 ] as const;
 
 /** Overlays `override` on `base`: a key missing from the override keeps the base (English) text. */

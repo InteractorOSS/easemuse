@@ -33,7 +33,7 @@ export function StructuredJdEditor({ content, onChange, readOnly }: ContentEdito
   });
 
   if (!parsed.success) return <p role="alert">{t('invalid')}</p>;
-  const jd = parsed.data;
+  const jd = content as unknown as StructuredJdContent;
   const emit = (next: StructuredJdContent) => onChange(next as unknown as Record<string, unknown>);
   const setRequirement = (
     index: number,

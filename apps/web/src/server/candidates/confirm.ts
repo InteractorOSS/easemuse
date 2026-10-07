@@ -35,16 +35,21 @@ async function loadDraft(tx: ScopedTx, candidateId: string) {
   return draft;
 }
 
-/** The newest profile version still waiting for the recruiter (a draft), with its content. */
-async function newestProfileDraft(tx: ScopedTx, candidateId: string) {
+/**
+ * The profile version to confirm: the newest draft, or, if the recruiter already approved the
+ * profile in the editor, the approved one. Content is returned with it.
+ */
+async function profileToConfirm(tx: ScopedTx, candidateId: string) {
   const artifact = await findArtifact(tx, {
     kind: 'candidate_profile',
     subject: { type: 'candidate', id: candidateId },
   });
   if (!artifact) return null;
   const full = await getArtifactWithVersions(tx, artifact.id);
-  const version = full.versions.find((v) => v.status === 'draft');
-  return version ? { artifactId: artifact.id, version } : null;
+  const draft = full.versions.find((v) => v.status === 'draft');
+  if (draft) return { artifactId: artifact.id, version: draft, approved: false };
+  const approved = full.versions.find((v) => v.id === full.approvedVersionId);
+  return approved ? { artifactId: artifact.id, version: approved, approved: true } : null;
 }
 
 async function assertActiveTarget(tx: ScopedTx, targetId: string | undefined, selfId: string) {
@@ -80,7 +85,7 @@ export async function confirmCandidate(
   input: ConfirmCandidateInput,
 ): Promise<ConfirmResult> {
   const draft = await loadDraft(tx, input.draftId);
-  const profileDraft = await newestProfileDraft(tx, draft.id);
+  const profileDraft = await profileToConfirm(tx, draft.id);
   if (!profileDraft) {
     throw new ApiError('conflict', 'There is no profile draft to confirm yet', { status: 409 });
   }
@@ -124,7 +129,7 @@ export async function confirmCandidate(
   const linked =
     resolution === 'link' ? await assertActiveTarget(tx, input.targetId, draft.id) : null;
 
-  await approveVersion(tx, actor, profileDraft.version.id);
+  if (!profileDraft.approved) await approveVersion(tx, actor, profileDraft.version.id);
   await tx.candidate.update({ where: { id: draft.id }, data: { status: 'active' } });
   await logActivity(tx, {
     agencyId: actor.agencyId,
@@ -179,7 +184,7 @@ export async function mergeDraftInto(
     data: { candidateId: targetId },
   });
 
-  const profileDraft = await newestProfileDraft(tx, draftId);
+  const profileDraft = await profileToConfirm(tx, draftId);
   let refreshedVersionId: string | null = null;
   if (profileDraft) {
     const targetArtifact = await findOrCreateArtifact(tx, {
@@ -196,7 +201,7 @@ export async function mergeDraftInto(
       aiGenerationId: profileDraft.version.aiGenerationId,
     });
     refreshedVersionId = added.id;
-    await discardVersion(tx, actor, profileDraft.version.id);
+    if (!profileDraft.approved) await discardVersion(tx, actor, profileDraft.version.id);
   }
 
   await tx.candidate.update({

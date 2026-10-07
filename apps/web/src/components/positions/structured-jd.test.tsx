@@ -117,6 +117,14 @@ describe('StructuredJdEditor', () => {
     expect(reqs(spy.mock.lastCall![0]).map((r) => r[0])).toEqual(['r2']);
   });
 
+  it('keeps the spaces while typing a longer requirement', async () => {
+    const spy = vi.fn();
+    const user = userEvent.setup();
+    renderWithIntl(<Harness initial={make()} spy={spy} />);
+    await user.type(screen.getByLabelText('Requirement 1'), ' and Rust experience');
+    expect(reqs(spy.mock.lastCall![0])[0]![1]).toBe('Go and Rust experience');
+  });
+
   it('adds a requirement with a new id, in the chosen category', async () => {
     const spy = vi.fn();
     const user = userEvent.setup();

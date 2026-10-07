@@ -37,7 +37,7 @@ export function SearchCriteriaEditor({ content, onChange, readOnly }: ContentEdi
   // Raw text per list, so a new line can be typed; only non-blank lines are saved.
   const [raw, setRaw] = useState<Partial<Record<SearchListField, string>>>({});
   if (!parsed.success) return <p role="alert">{t('invalid')}</p>;
-  const criteria = parsed.data;
+  const criteria = content as unknown as SearchCriteria;
   const emit = (next: SearchCriteria) => onChange(next as unknown as Record<string, unknown>);
   const field = 'rounded-md border border-border bg-background p-2 text-sm';
   const years = (key: 'min' | 'max', value: string) =>

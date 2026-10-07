@@ -28,7 +28,7 @@ export function SuccessProfileEditor({ content, onChange, readOnly }: ContentEdi
     parsed.success ? parsed.data.keyChallenges.join('\n') : '',
   );
   if (!parsed.success) return <p role="alert">{t('invalid')}</p>;
-  const profile = parsed.data;
+  const profile = content as unknown as SuccessProfileContent;
   const emit = (next: SuccessProfileContent) =>
     onChange(next as unknown as Record<string, unknown>);
   const setCriterion = (index: number, patch: Partial<SuccessProfileContent['criteria'][number]>) =>

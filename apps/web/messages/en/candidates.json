@@ -1,0 +1,125 @@
+{
+  "sources": {
+    "linkedin": "LinkedIn",
+    "referral": "Referral",
+    "direct_sourcing": "Direct sourcing",
+    "database": "Database",
+    "networking": "Networking",
+    "other": "Other"
+  },
+  "new": {
+    "title": "Add a candidate",
+    "intro": "Upload a resume or paste a profile. AI will propose a structured profile; you review and confirm it before the candidate is saved.",
+    "source": "Where did you find them?",
+    "profileUrl": "Profile link (optional)",
+    "modeFile": "Upload a file",
+    "modeText": "Paste text",
+    "file": "Resume or profile (PDF, DOCX or text, up to 10 MB)",
+    "text": "Profile text",
+    "submit": "Add and read",
+    "errors": {
+      "generic": "Could not add the candidate. Try again.",
+      "unsupported": "Upload a PDF, DOCX or plain text file.",
+      "tooLarge": "Files can be at most 10 MB.",
+      "noFile": "Choose a file.",
+      "tooShort": "Paste at least 50 characters."
+    }
+  },
+  "review": {
+    "title": "Review new candidate",
+    "back": "Back to candidates",
+    "documents": "Original files",
+    "download": "Download original",
+    "reading": "Reading the file…",
+    "readFailed": "The file could not be read: {reason}",
+    "readFailedHint": "Add the candidate again by pasting the text.",
+    "fromImage": "This text was read from page images. Check it against the original.",
+    "waitingAi": "AI is writing the profile draft…",
+    "noProfile": "There is no profile draft yet.",
+    "structure": "Structure with AI",
+    "structureQueued": "Asked AI for a profile draft.",
+    "profileTitle": "Profile draft",
+    "profileHint": "Fields the resume does not mention are empty. Check every field before you confirm.",
+    "duplicates": {
+      "title": "Possible duplicates",
+      "none": "No one in your database looks like this candidate.",
+      "exact": "Same {reasons}",
+      "possible": "Similar name and the same employer",
+      "reasons": {
+        "email": "email",
+        "phone": "phone number",
+        "profile_url": "profile link",
+        "name_employer": "name and employer"
+      },
+      "merge": "Merge into this candidate",
+      "link": "Link, keep separate",
+      "choose": "Use this candidate: {name}"
+    },
+    "decision": {
+      "title": "Your decision",
+      "create": "Create as a new candidate anyway",
+      "createReason": "Why is this not a duplicate?",
+      "merge": "Merge into {name}: keeps both resumes and the history",
+      "link": "Link to {name}: keeps both candidates",
+      "none": "Save as a new candidate"
+    },
+    "confirm": "Confirm candidate",
+    "confirmed": "Candidate saved.",
+    "discard": "Discard draft",
+    "discarded": "Draft discarded.",
+    "errors": {
+      "generic": "Could not save the candidate. Try again.",
+      "needName": "Enter the candidate's name in the profile first.",
+      "noProfile": "There is no profile draft to confirm yet.",
+      "duplicate": "This looks like someone already in your database. Choose what to do.",
+      "reason": "Say why this is not a duplicate."
+    }
+  },
+  "profile": {
+    "invalid": "This draft cannot be shown as a form.",
+    "inference": "AI inference",
+    "listHint": "One per line",
+    "newClaim": "New item",
+    "addedByRecruiter": "Added by the recruiter",
+    "addClaim": "Add to {label}",
+    "claimText": "{label} {n}",
+    "removeClaim": "Remove {label} {n}",
+    "fields": {
+      "fullName": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "leadershipExperience": "Leadership experience",
+      "teamSize": "Team size",
+      "careerProgression": "Career progression",
+      "location": "Location",
+      "workAuthorization": "Work authorization",
+      "compensationExpectation": "Compensation expectation",
+      "currentTitle": "Current title",
+      "currentCompany": "Current company"
+    },
+    "career": {
+      "title": "Career history",
+      "none": "No career history found in the file.",
+      "company": "Company of job {n}",
+      "role": "Title of job {n}",
+      "start": "Start of job {n}",
+      "end": "End of job {n}",
+      "summary": "Summary of job {n}",
+      "current": "Current job",
+      "remove": "Remove job {n}",
+      "removeLabel": "Remove job",
+      "add": "Add job"
+    },
+    "lists": {
+      "coreSkills": "Core skills",
+      "industryExperience": "Industry experience",
+      "technicalSkills": "Technical skills"
+    },
+    "claims": {
+      "majorAchievements": "Major achievements",
+      "potentialMotivation": "Potential career motivation",
+      "potentialConcerns": "Potential concerns",
+      "none": "None suggested."
+    }
+  }
+}

@@ -54,6 +54,16 @@ describe('SuccessProfileEditor', () => {
     ).toBe('Cut incidents\nHire two');
   });
 
+  it('keeps the spaces while typing in the summary and a criterion', async () => {
+    const spy = vi.fn();
+    const user = userEvent.setup();
+    renderApp(<Harness spy={spy} />);
+    await user.type(screen.getByLabelText('Summary'), ' who stays calm');
+    expect(spy.mock.lastCall![0].summary).toBe('A senior engineer who stays calm');
+    await user.type(screen.getByLabelText('Criterion 1'), ' and SQL');
+    expect((spy.mock.lastCall![0].criteria as { text: string }[])[0]!.text).toBe('Go and SQL');
+  });
+
   it('changes a category, reorders and removes criteria', async () => {
     const spy = vi.fn();
     const user = userEvent.setup();

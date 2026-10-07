@@ -36,7 +36,8 @@ export function IntakeQuestionsEditor({ content, onChange, readOnly }: ContentEd
   const parsed = intakeQuestionsContentSchema.safeParse(content);
   const [draft, setDraft] = useState({ text: '', topic: 'business_reason' as QuestionTopic });
   if (!parsed.success) return <p role="alert">{t('invalid')}</p>;
-  const list = parsed.data;
+  // Show what was typed, not the trimmed parse: a trailing space must survive while typing.
+  const list = content as unknown as IntakeQuestionsContent;
   const emit = (next: IntakeQuestionsContent) =>
     onChange(next as unknown as Record<string, unknown>);
   const set = (index: number, patch: Partial<IntakeQuestionsContent['questions'][number]>) =>

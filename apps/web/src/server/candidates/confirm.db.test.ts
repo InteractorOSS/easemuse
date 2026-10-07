@@ -7,6 +7,7 @@ import type { AgencyActor } from '@easemuse/core';
 import type { DbHandle } from '@/lib/db/client';
 import {
   addDraftVersion,
+  approveVersion,
   createArtifact,
   findArtifact,
   getArtifactWithVersions,
@@ -180,6 +181,22 @@ describe.skipIf(!dbAvailable())('confirming and merging candidates (T-2-05, T-2-
       const view = await run((tx) => getCandidate(tx, d.candidateId));
       expect(view.approvedProfileVersionId).toBe(d.versionId);
       expect(c.profileArtifactId).toBe(view.profileArtifactId);
+    });
+
+    it('accepts a profile the recruiter already approved in the editor', async () => {
+      const d = await newDraft(
+        profile({
+          fullName: 'Early Eve',
+          email: 'eve@x.com',
+          phone: null,
+          careerHistory: [],
+          currentPosition: { title: null, company: null },
+        }),
+      );
+      await run((tx) => approveVersion(tx, actor, d.versionId!));
+      expect((await row(d.candidateId)).status).toBe('draft');
+      await confirm(d.candidateId);
+      expect(await row(d.candidateId)).toMatchObject({ status: 'active', fullName: 'Early Eve' });
     });
 
     it('needs a profile draft and a name', async () => {

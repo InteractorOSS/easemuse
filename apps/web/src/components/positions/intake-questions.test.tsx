@@ -79,6 +79,16 @@ describe('IntakeQuestionsEditor', () => {
     expect(ids(spy.mock.lastCall![0])).toEqual(['q3', 'q2']);
   });
 
+  it('keeps the spaces while typing a longer question', async () => {
+    const spy = vi.fn();
+    const user = userEvent.setup();
+    renderApp(<Harness spy={spy} />);
+    await user.type(screen.getByLabelText('Question 3'), ' really');
+    expect((spy.mock.lastCall![0].questions as { question: string }[])[2]!.question).toBe(
+      'Why now? really',
+    );
+  });
+
   it('adds a question under a chosen topic', async () => {
     const spy = vi.fn();
     const user = userEvent.setup();

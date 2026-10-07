@@ -97,21 +97,6 @@ describe.skipIf(!dbAvailable())('release 1 happy path (T-QA-06)', () => {
     await run((tx) => approveVersion(tx, rec, v.id));
     return v.id;
   };
-  const resolveAll = async (versionId: string) => {
-    const stored = await run((tx) =>
-      tx.artifactVersion.findUniqueOrThrow({
-        where: { id: versionId },
-        select: { factCheck: true },
-      }),
-    );
-    const warnings = (stored.factCheck as { warnings?: { id: string }[] } | null)?.warnings ?? [];
-    return Object.fromEntries(
-      warnings.map((w) => [
-        w.id,
-        { kind: 'confirmed' as const, reason: 'Checked against the source' },
-      ]),
-    );
-  };
   const gateway = {
     run: async () => ({ generationId: randomUUID(), output: { unsupported: [] }, draft: null }),
   };

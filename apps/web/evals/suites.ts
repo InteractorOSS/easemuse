@@ -12,7 +12,7 @@ import { jdStructurePrompt } from '@/server/ai/prompts/jd-structure';
 import { matchAnalyzePrompt, type MatchAnalyzeInput } from '@/server/ai/prompts/match-analyze';
 import { profileStructurePrompt } from '@/server/ai/prompts/profile-structure';
 import { allResumeIds, loadJobDescription, loadResume, type Resume } from './lib/dataset';
-import { CRITERION_MAP, gradeMatch, gradeProfile, rankingAccuracy, spread } from './lib/graders';
+import { gradeMatch, gradeProfile, rankingAccuracy, spread } from './lib/graders';
 import { CostMeter, runPrompt } from './lib/runner';
 
 export interface SuiteContext {

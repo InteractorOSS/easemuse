@@ -6,9 +6,8 @@ import { EnvError, parseEnv } from './env';
 const base = { DATABASE_URL: 'postgresql://easemuse_app@localhost:5432/easemuse_dev' };
 
 const prodSecrets = {
-  INTERACTOR_ACCOUNT_URL: 'https://account.example.com',
-  INTERACTOR_CLIENT_ID: 'id',
-  INTERACTOR_CLIENT_SECRET: 'secret',
+  INTERACTOR_AUTH_CLIENT_ID: 'id',
+  INTERACTOR_AUTH_CLIENT_SECRET: 'secret',
   AUTH_SECRET: 'auth',
   ANTHROPIC_API_KEY: 'a',
   VOYAGE_API_KEY: 'v',

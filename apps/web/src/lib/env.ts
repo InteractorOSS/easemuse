@@ -26,11 +26,19 @@ const envSchema = z.object({
 
   REDIS_URL: z.string().min(1).default('redis://localhost:6379'),
 
-  // Interactor Account Server (ADR-002): sign-in and service tokens.
-  INTERACTOR_ACCOUNT_URL: z.url().optional(),
-  INTERACTOR_CLIENT_ID: optionalString,
-  INTERACTOR_CLIENT_SECRET: optionalString,
+  // Interactor services (ADR-002, ADR-014). Base URLs fall back in lib/interactor/service-urls.ts.
+  ACCOUNT_SERVER_URL: z.url().optional(),
+  BILLING_SERVER_URL: z.url().optional(),
+  INTERACTOR_CORE_URL: z.url().optional(),
+  INTERACTOR_USERDB_URL: z.url().optional(),
+  UKB_URL: z.url().optional(),
+  // The app's Account Server client: OIDC sign-in and client_credentials service tokens.
+  INTERACTOR_AUTH_CLIENT_ID: optionalString,
+  INTERACTOR_AUTH_CLIENT_SECRET: optionalString,
+  /** Auth.js session secret (`openssl rand -base64 32`). */
   AUTH_SECRET: optionalString,
+  /** Second-factor enforcement for agency users and platform admins (T-F-24, risk TR-011). */
+  MFA_ENFORCEMENT: z.enum(['off', 'log', 'enforce']).default('log'),
 
   // AI (ADR-004/005, ADR-008).
   ANTHROPIC_API_KEY: optionalString,
@@ -55,9 +63,8 @@ export type Env = z.infer<typeof envSchema>;
 
 /** Keys that must be present when NODE_ENV is production. */
 const REQUIRED_IN_PRODUCTION = [
-  'INTERACTOR_ACCOUNT_URL',
-  'INTERACTOR_CLIENT_ID',
-  'INTERACTOR_CLIENT_SECRET',
+  'INTERACTOR_AUTH_CLIENT_ID',
+  'INTERACTOR_AUTH_CLIENT_SECRET',
   'AUTH_SECRET',
   'ANTHROPIC_API_KEY',
   'VOYAGE_API_KEY',

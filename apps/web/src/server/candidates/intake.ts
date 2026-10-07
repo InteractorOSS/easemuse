@@ -7,6 +7,7 @@ import { ApiError, notFound } from '@/lib/http/errors';
 import { enqueue } from '@/lib/queue';
 import { logActivity } from '@/server/activity/service';
 import { storeOriginal } from '@/server/documents/store';
+import { matchKeys } from './duplicates';
 
 /**
  * Candidate intake (T-2-02, US-202): a resume file or pasted profile text becomes a DRAFT candidate
@@ -48,6 +49,7 @@ export async function createCandidateDraft(
       fullName: draftName(file.filename),
       source: intake.source,
       profileUrl: intake.profileUrl ?? null,
+      ...matchKeys({ profileUrl: intake.profileUrl }),
       status: 'draft',
       createdById: actor.userId,
     },

@@ -153,6 +153,10 @@ vi.mock('@/server/candidates/intake', () => ({
   startCandidateExtraction: async () => 'run1',
   requestProfileStructure: async () => 'run1',
 }));
+vi.mock('@/server/candidates/duplicates', () => ({
+  duplicatesForCandidate: async () => [],
+  matchKeys: () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -225,6 +229,7 @@ import {
 } from './v1/agencies/[agencyId]/positions/[positionId]/search-criteria/route';
 import { POST as intakePost } from './v1/agencies/[agencyId]/candidates/intake/route';
 import { POST as structureAgainPost } from './v1/agencies/[agencyId]/candidates/[candidateId]/structure/route';
+import { GET as duplicatesGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/duplicates/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -601,6 +606,13 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => structureAgainPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET candidate duplicates',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/duplicates/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => duplicatesGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'GET tasks',

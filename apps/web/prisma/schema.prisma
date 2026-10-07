@@ -347,6 +347,10 @@ model Candidate {
   yearsExperience    Int?
   availability       String?
   lastContactedAt    DateTime?
+  // Match keys for duplicate detection (T-2-04): normalized forms of phone, profile link, employers
+  phoneKey           String?
+  profileKey         String?
+  employerKeys       String[]
   doNotContact       Boolean                  @default(false) // FR-SRC-09
   doNotContactReason String?
   doNotContactAt     DateTime?
@@ -368,6 +372,9 @@ model Candidate {
   @@index([agencyId, lastContactedAt])
   @@index([skills], type: Gin)
   @@index([agencyId, profileUrl])
+  @@index([agencyId, phoneKey])
+  @@index([agencyId, profileKey])
+  @@index([employerKeys], type: Gin)
   @@index([agencyId, fullName])
 }
 

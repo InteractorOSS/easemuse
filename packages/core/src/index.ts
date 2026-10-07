@@ -23,3 +23,4 @@ export * from './schemas/branding';
 export * from './artifacts/search-criteria';
 export * from './schemas/candidates';
 export * from './artifacts/candidate-profile';
+export * from './candidates/keys';

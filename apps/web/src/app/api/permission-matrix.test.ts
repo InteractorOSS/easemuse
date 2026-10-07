@@ -92,6 +92,11 @@ vi.mock('@/server/activity/service', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/server/activity/service')>()),
   listTimeline: async () => ({ items: [], nextCursor: null }),
 }));
+vi.mock('@/server/tasks/service', () => ({
+  listTasks: async () => [],
+  completeTask: async () => undefined,
+  snoozeTask: async () => undefined,
+}));
 vi.mock('@/server/ai/provenance', () => ({ getProvenance: async () => ({ id: 'g1' }) }));
 
 import { GET as agenciesGet, POST as agenciesPost } from './admin/v1/agencies/route';
@@ -110,6 +115,9 @@ import { GET as adminsGet, POST as adminsPost } from './admin/v1/admins/route';
 import { PATCH as adminPatch, DELETE as adminDelete } from './admin/v1/admins/[userId]/route';
 import { DELETE as adminInviteDelete } from './admin/v1/admin-invites/[id]/route';
 import { GET as activityGet } from './v1/agencies/[agencyId]/activity/route';
+import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
+import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
+import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
 import { GET as membersGet } from './v1/agencies/[agencyId]/members/route';
 import { PATCH as memberPatch } from './v1/agencies/[agencyId]/members/[userId]/route';
 import { GET as invitesGet, POST as invitesPost } from './v1/agencies/[agencyId]/invites/route';
@@ -229,6 +237,33 @@ const endpoints: Endpoint[] = [
         ),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET tasks',
+    file: 'v1/agencies/[agencyId]/tasks/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => tasksGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST task complete',
+    file: 'v1/agencies/[agencyId]/tasks/[taskId]/complete/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      taskComplete(new Request('http://x.test/', { method: 'POST' }), {
+        params: Promise.resolve({ agencyId: 'acme', taskId: 't1' }),
+      }),
+  },
+  {
+    name: 'POST task snooze',
+    file: 'v1/agencies/[agencyId]/tasks/[taskId]/snooze/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      taskSnooze(new Request('http://x.test/', json({ until: '2099-01-01T00:00:00Z' })), {
+        params: Promise.resolve({ agencyId: 'acme', taskId: 't1' }),
+      }),
   },
   {
     name: 'GET artifact',

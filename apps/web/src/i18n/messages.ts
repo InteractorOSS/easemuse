@@ -16,6 +16,7 @@ export const NAMESPACES = [
   'artifacts',
   'settings',
   'activity',
+  'tasks',
 ] as const;
 
 /** Overlays `override` on `base`: a key missing from the override keeps the base (English) text. */

@@ -1,0 +1,36 @@
+{
+  "title": "My tasks",
+  "scope": {
+    "label": "Show",
+    "today": "Today",
+    "upcoming": "Upcoming",
+    "all": "All open"
+  },
+  "empty": {
+    "today": "Nothing is due today.",
+    "upcoming": "Nothing is coming up.",
+    "all": "You have no open tasks."
+  },
+  "kinds": {
+    "outreach_due": "Follow-up due",
+    "interview": "Interview",
+    "offer_milestone": "Offer step",
+    "approval_received": "Approval received",
+    "proposal": "Proposal to prepare"
+  },
+  "overdue": "Overdue",
+  "due": "Due {date}",
+  "snoozedUntil": "Snoozed until {date}",
+  "complete": "Done",
+  "completeFor": "Mark done: {task}",
+  "snooze": {
+    "label": "Snooze",
+    "for": "Snooze: {task}",
+    "tomorrow": "Until tomorrow",
+    "threeDays": "For 3 days",
+    "nextWeek": "For a week"
+  },
+  "errors": {
+    "generic": "Could not update the task. Try again."
+  }
+}

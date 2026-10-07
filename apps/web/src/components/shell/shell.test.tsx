@@ -26,6 +26,7 @@ describe('Nav', () => {
     const nav = screen.getByRole('navigation', { name: 'Main navigation' });
     const links = within(nav).getAllByRole('link');
     expect(links.map((l) => l.getAttribute('href'))).toEqual([
+      '/a/acme/tasks',
       '/a/acme/positions',
       '/a/acme/candidates',
       '/a/acme/clients',

@@ -87,5 +87,19 @@
     "cancelled": "Cancelled. Nothing was saved.",
     "failed": "The assistant could not finish: {reason}",
     "retry": "Try again"
+  },
+  "evidence": {
+    "inferred": "Inferred",
+    "count": "Evidence ({count})",
+    "from": "From {source}",
+    "source": {
+      "resume": "Resume",
+      "profile": "Profile",
+      "notes": "Notes",
+      "jd": "Job description",
+      "intake": "Intake",
+      "feedback": "Feedback"
+    },
+    "inferredHint": "No source cites this: it is the assistant's inference."
   }
 }

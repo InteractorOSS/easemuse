@@ -1,12 +1,14 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import type { PromptRegistry } from '../prompts';
+import { callQuestionsPrompt } from './call-questions';
 import { factCheckVerifierPrompt } from './factcheck';
 import { intakeQuestionsPrompt } from './intake-questions';
 import { jdStructurePrompt } from './jd-structure';
 import { matchAnalyzePrompt } from './match-analyze';
 import { outreachDraftPrompt } from './outreach-draft';
 import { profileStructurePrompt } from './profile-structure';
+import { qualifyNotesPrompt } from './qualify-notes';
 import { searchCriteriaPrompt } from './search-criteria';
 import { successProfilePrompt } from './success-profile';
 
@@ -20,4 +22,6 @@ export function registerBuiltInPrompts(registry: PromptRegistry): void {
   registry.register(profileStructurePrompt);
   registry.register(matchAnalyzePrompt);
   registry.register(outreachDraftPrompt);
+  registry.register(callQuestionsPrompt);
+  registry.register(qualifyNotesPrompt);
 }

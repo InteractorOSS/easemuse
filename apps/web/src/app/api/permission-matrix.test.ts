@@ -223,6 +223,14 @@ vi.mock('@/server/messaging/outbox-list', async (importOriginal) => ({
   listOutbox: async () => ({ items: [], nextCursor: null }),
 }));
 vi.mock('@/server/messaging/outbox', () => ({ dispatchOutboxMessage: async () => undefined }));
+vi.mock('@/server/qualification/service', () => ({
+  getQualification: async () => ({}),
+  createBlankQualification: async () => ({}),
+  planQualification: async () => ({}),
+  generateQualification: async () => ({}),
+  planCallQuestions: async () => ({}),
+  generateCallQuestions: async () => ({}),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -332,6 +340,10 @@ import { POST as responsePost } from './v1/agencies/[agencyId]/pipeline/[entryId
 import { POST as draftPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/draft/route';
 import { POST as touchSendPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/send/route';
 import { POST as markSentPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/touches/[n]/mark-sent/route';
+import { GET as qualificationGet } from './v1/agencies/[agencyId]/pipeline/[entryId]/qualification/route';
+import { POST as qualificationBlankPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/qualification/blank/route';
+import { POST as qualificationStructurePost } from './v1/agencies/[agencyId]/pipeline/[entryId]/qualification/structure/route';
+import { POST as callQuestionsPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/call-questions/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -974,6 +986,39 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', json({ versionId: '11111111-1111-4111-8111-111111111111' })),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET qualification',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/qualification/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => qualificationGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST qualification blank',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/qualification/blank/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      qualificationBlankPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'POST qualification structure',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/qualification/structure/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      qualificationStructurePost(
+        new Request('http://x.test/', json({ notes: 'Keen, wants 180-190k, 30 days notice.' })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST call questions',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/call-questions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => callQuestionsPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET screening',

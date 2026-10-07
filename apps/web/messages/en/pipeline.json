@@ -351,5 +351,56 @@
       "first": "the candidate's first name",
       "recruiter": "your name"
     }
+  },
+  "qualification": {
+    "title": "Qualification call",
+    "hint": "Prepare questions, then record what the candidate said. You confirm every field before it counts.",
+    "topics": {
+      "interest": "Interest level",
+      "motivation": "Career motivation",
+      "reasonForMove": "Reason for considering a move",
+      "satisfaction": "Current job satisfaction",
+      "compensation": "Compensation expectation",
+      "location": "Location and relocation",
+      "workAuthorization": "Work authorization",
+      "availability": "Availability and notice",
+      "interviewReadiness": "Interview availability",
+      "otherProcesses": "Other interview processes",
+      "decisionFactors": "Decision-making factors",
+      "counterofferRisk": "Counteroffer risk",
+      "toConfirm": "To confirm from the match analysis"
+    },
+    "levels": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "none": "Not rated"
+    },
+    "questionsTitle": "Call questions",
+    "questionsHint": "Standard topics plus the open points from the reviewed match analysis.",
+    "writeQuestions": "Write call questions",
+    "rewriteQuestions": "Write a new list",
+    "question": "Question {n}",
+    "addQuestion": "Add a question",
+    "newQuestion": "New question",
+    "newTopic": "Topic",
+    "add": "Add",
+    "remove": "Remove question {n}",
+    "copyQuestions": "Copy list",
+    "copied": "Copied",
+    "recordTitle": "Call record",
+    "notes": "Call notes",
+    "notesHint": "Paste or type your rough notes. The candidate's name is removed before the AI reads them.",
+    "structure": "Structure notes",
+    "structuring": "Structuring…",
+    "blank": "Fill in by hand",
+    "field": "{topic}",
+    "value": "What the candidate said",
+    "level": "Level",
+    "inferred": "Inferred from the notes: check it",
+    "confirm": "Confirmed",
+    "confirmField": "Confirm {topic}",
+    "unconfirmed": "Confirm each filled field before approving.",
+    "notesStored": "Notes"
   }
 }

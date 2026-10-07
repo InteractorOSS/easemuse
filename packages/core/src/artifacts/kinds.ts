@@ -1,10 +1,12 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
+import { callQuestionsContentSchema } from './call-questions';
 import { candidateProfileContentSchema } from './candidate-profile';
 import { matchAnalysisContentSchema } from './match-analysis';
 import { intakeQuestionsContentSchema } from './intake-questions';
 import { outreachMessageContentSchema } from './outreach-message';
+import { qualificationContentSchema } from './qualification';
 import { searchCriteriaSchema } from './search-criteria';
 import { structuredJdContentSchema } from './structured-jd';
 import { successProfileContentSchema } from './success-profile';
@@ -106,8 +108,12 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
   outreach_message: spec('outreach_message', 'pipeline_entry', {
     schema: outreachMessageContentSchema as unknown as z.ZodType<Record<string, unknown>>,
   }),
-  call_questions: spec('call_questions', 'pipeline_entry'),
-  qualification: spec('qualification', 'pipeline_entry'),
+  call_questions: spec('call_questions', 'pipeline_entry', {
+    schema: callQuestionsContentSchema as unknown as z.ZodType<Record<string, unknown>>,
+  }),
+  qualification: spec('qualification', 'pipeline_entry', {
+    schema: qualificationContentSchema as unknown as z.ZodType<Record<string, unknown>>,
+  }),
   // Generated documents are fact-checked; the tailored resume must not change facts (§9.1).
   tailored_resume: spec('tailored_resume', 'pipeline_entry', { factCheckRequired: true }),
   // Section 14, the recruiter's assessment, is human-only and mandatory (§10, ADR-006).

@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: MIT
 import {
   candidateFieldsFromProfile,
+  qualificationContentSchema,
+  unconfirmedTopics,
   candidateProfileContentSchema,
   candidateSearchParts,
   employerKeys,
@@ -11,6 +13,7 @@ import {
   type SubjectType,
 } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
+import { ApiError } from '@/lib/http/errors';
 
 export interface ApprovalContext {
   agencyId: string;
@@ -65,6 +68,26 @@ const BUILT_IN: Partial<Record<ArtifactKind, Hook>> = {
     await tx.matchAnalysis.updateMany({
       where: { entry: { positionId: subject.id }, stale: false },
       data: { stale: true },
+    });
+  },
+  qualification: async (tx, { agencyId, subject, versionId }) => {
+    // Approving the record means the recruiter checked every filled field against the call (FR-QUA-03).
+    const version = await tx.artifactVersion.findUnique({
+      where: { id: versionId },
+      select: { artifactId: true, content: true },
+    });
+    const content = qualificationContentSchema.parse(version?.content);
+    const open = unconfirmedTopics(content);
+    if (open.length > 0) {
+      throw new ApiError('fields_unconfirmed', 'Confirm each filled field first', {
+        status: 409,
+        fields: Object.fromEntries(open.map((k) => [k, 'Confirm this field'])),
+      });
+    }
+    await tx.qualificationRecord.upsert({
+      where: { entryId: subject.id },
+      create: { agencyId, entryId: subject.id, artifactId: version!.artifactId },
+      update: { artifactId: version!.artifactId },
     });
   },
   candidate_profile: async (tx, { subject, versionId }) => {

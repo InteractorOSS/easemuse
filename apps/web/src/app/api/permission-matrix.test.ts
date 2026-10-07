@@ -173,6 +173,12 @@ vi.mock('@/server/search/global', () => ({
 vi.mock('@/server/candidates/do-not-contact', () => ({
   setDoNotContact: async () => ({ doNotContact: true, reason: 'x', at: null }),
 }));
+vi.mock('@/server/pipeline/service', () => ({
+  getEntry: async () => ({}),
+  listPositionPipeline: async () => [],
+  addCandidateToPosition: async () => ({}),
+  transitionEntry: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -254,6 +260,10 @@ import {
 import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
 import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
 import { PATCH as dncPatch } from './v1/agencies/[agencyId]/candidates/[candidateId]/do-not-contact/route';
+import { GET as entryGet } from './v1/agencies/[agencyId]/pipeline/[entryId]/route';
+import { POST as transitionPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/transitions/route';
+import { POST as addToPositionPost } from './v1/agencies/[agencyId]/positions/[positionId]/candidates/route';
+import { GET as pipelineGet } from './v1/agencies/[agencyId]/positions/[positionId]/pipeline/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -284,6 +294,7 @@ const agencyParams = {
     contactId: 'k1',
     positionId: 'p1',
     candidateId: 'cand1',
+    entryId: 'e1',
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
@@ -690,6 +701,42 @@ const endpoints: Endpoint[] = [
         }),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET pipeline entry',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => entryGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST pipeline transition',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/transitions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      transitionPost(new Request('http://x.test/', json({ to: 'reviewed' })), agencyParams),
+  },
+  {
+    name: 'POST add candidate to position',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/candidates/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      addToPositionPost(
+        new Request(
+          'http://x.test/',
+          json({ candidateId: '11111111-1111-4111-8111-111111111111' }),
+        ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET position pipeline',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/pipeline/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => pipelineGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'GET tasks',

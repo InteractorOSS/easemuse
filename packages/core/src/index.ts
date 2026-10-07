@@ -26,3 +26,4 @@ export * from './artifacts/candidate-profile';
 export * from './candidates/keys';
 export * from './candidates/from-profile';
 export * from './schemas/candidate-search';
+export * from './schemas/pipeline';

@@ -96,3 +96,83 @@ export async function getAgencyDefaultLocale(agencyId: string): Promise<string |
   }
   return null;
 }
+
+export interface AgencyListItem extends AgencyRef {
+  region: string;
+  plan: string | null;
+  createdAt: Date;
+}
+
+/** One page of agencies for /admin, newest first. Agency is a platform table, so no agency scope is needed. */
+export async function findAgenciesPage(input: {
+  q?: string | undefined;
+  status?: AgencyRef['status'] | undefined;
+  limit: number;
+  after?: { createdAt: Date; id: string } | undefined;
+}): Promise<AgencyListItem[]> {
+  const { prisma } = getDbHandle();
+  const q = input.q?.trim();
+  return prisma.agency.findMany({
+    where: {
+      AND: [
+        ...(input.status ? [{ status: input.status }] : []),
+        ...(q
+          ? [
+              {
+                OR: [
+                  { name: { contains: q, mode: 'insensitive' as const } },
+                  { slug: { contains: q, mode: 'insensitive' as const } },
+                ],
+              },
+            ]
+          : []),
+        ...(input.after
+          ? [
+              {
+                OR: [
+                  { createdAt: { lt: input.after.createdAt } },
+                  { createdAt: input.after.createdAt, id: { lt: input.after.id } },
+                ],
+              },
+            ]
+          : []),
+      ],
+    },
+    orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+    take: input.limit + 1,
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      status: true,
+      region: true,
+      plan: true,
+      createdAt: true,
+    },
+  });
+}
+
+export async function findUserByEmail(email: string): Promise<PlatformUser | null> {
+  const { prisma } = getDbHandle();
+  return prisma.user.findFirst({
+    where: { email: { equals: email, mode: 'insensitive' } },
+    select: USER_SELECT,
+  });
+}
+
+/** One agency with the fields /admin shows (region, plan, created). */
+export async function getAgencyListItem(ref: string): Promise<AgencyListItem | null> {
+  const { prisma } = getDbHandle();
+  return prisma.agency.findUnique({
+    where: UUID.test(ref) ? { id: ref } : { slug: ref },
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      status: true,
+      region: true,
+      plan: true,
+      createdAt: true,
+    },
+  });
+}

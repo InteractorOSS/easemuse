@@ -6,6 +6,7 @@ import { enqueue } from '@/lib/queue';
 import { getGateway } from '@/server/ai';
 import { extractCandidateDocument } from '@/server/candidates/extract';
 import { structureCandidateJob } from '@/server/candidates/structure';
+import { runBatchJob } from '@/server/matching/batch';
 import { runRenderJob } from '@/server/documents/render/job';
 import { createClaudePdfReader } from '@/server/ai/pdf-reader';
 import { extractJd } from '@/server/positions/jd-extract';
@@ -47,6 +48,10 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
   registry.register('ai', 'profile.structure', (ctx) =>
     structureCandidateJob(ctx, getGateway().run),
   );
+  // Match analysis for several candidates of one position (A10).
+  registry.register('ai', 'match.batch', async (ctx) => {
+    await runBatchJob(ctx, getGateway().run);
+  });
   // Prints an approved version to PDF with headless Chromium (ADR-011).
   registry.register('documents', 'render', (ctx) => runRenderJob(ctx));
   // Nightly (see scheduler.ts): artifacts whose subject no longer exists (ADR-006).

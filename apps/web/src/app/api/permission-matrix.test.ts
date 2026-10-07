@@ -179,6 +179,13 @@ vi.mock('@/server/pipeline/service', () => ({
   addCandidateToPosition: async () => ({}),
   transitionEntry: async () => ({}),
 }));
+vi.mock('@/server/matching/batch', () => ({
+  startBatchAnalysis: async () => ({ jobRunId: 'run1', total: 1 }),
+}));
+vi.mock('@/server/matching/analyze', () => ({
+  planMatchAnalysis: async () => ({}),
+  analyzeEntry: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -264,6 +271,8 @@ import { GET as entryGet } from './v1/agencies/[agencyId]/pipeline/[entryId]/rou
 import { POST as transitionPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/transitions/route';
 import { POST as addToPositionPost } from './v1/agencies/[agencyId]/positions/[positionId]/candidates/route';
 import { GET as pipelineGet } from './v1/agencies/[agencyId]/positions/[positionId]/pipeline/route';
+import { POST as batchPost } from './v1/agencies/[agencyId]/positions/[positionId]/analyses/route';
+import { POST as analyzePost } from './v1/agencies/[agencyId]/pipeline/[entryId]/analysis/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -737,6 +746,24 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => pipelineGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST batch analysis',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/analyses/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      batchPost(
+        new Request('http://x.test/', json({ entryIds: ['11111111-1111-4111-8111-111111111111'] })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST analyze one candidate',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/analysis/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => analyzePost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET tasks',

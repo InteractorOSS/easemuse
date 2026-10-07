@@ -47,15 +47,37 @@ export async function createUser(admin: pg.Client): Promise<string> {
   return id;
 }
 
-/** Removes test agencies and users (tenant rows cascade from Agency / User). */
+/**
+ * Removes test agencies and users together with every row that belongs to them. Tenant deletion is
+ * an explicit job in production (ADR-016), not a database cascade, so tests delete table by table
+ * with foreign-key checks switched off for the cleanup transaction (needs the owner/superuser).
+ */
 export async function cleanup(
   admin: pg.Client,
   ids: { agencies?: string[]; users?: string[] },
 ): Promise<void> {
-  if (ids.agencies?.length) {
-    await admin.query('DELETE FROM "Agency" WHERE id = ANY($1::uuid[])', [ids.agencies]);
-  }
-  if (ids.users?.length) {
-    await admin.query('DELETE FROM "User" WHERE id = ANY($1::uuid[])', [ids.users]);
+  await admin.query('BEGIN');
+  try {
+    await admin.query("SET LOCAL session_replication_role = 'replica'");
+    if (ids.agencies?.length) {
+      const { rows } = await admin.query<{ table_name: string }>(
+        `SELECT c.table_name FROM information_schema.columns c
+         JOIN information_schema.tables t USING (table_schema, table_name)
+         WHERE c.table_schema = 'public' AND c.column_name = 'agencyId' AND t.table_type = 'BASE TABLE'`,
+      );
+      for (const { table_name } of rows) {
+        await admin.query(`DELETE FROM "${table_name}" WHERE "agencyId" = ANY($1::uuid[])`, [
+          ids.agencies,
+        ]);
+      }
+      await admin.query('DELETE FROM "Agency" WHERE id = ANY($1::uuid[])', [ids.agencies]);
+    }
+    if (ids.users?.length) {
+      await admin.query('DELETE FROM "User" WHERE id = ANY($1::uuid[])', [ids.users]);
+    }
+    await admin.query('COMMIT');
+  } catch (error) {
+    await admin.query('ROLLBACK');
+    throw error;
   }
 }

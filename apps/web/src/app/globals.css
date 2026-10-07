@@ -1,11 +1,14 @@
 @import 'tailwindcss';
+@import '@easemuse/tokens/theme.css';
 
-:root {
-  --color-background: #ffffff;
-  --color-foreground: #111827;
-}
+@source '../components';
 
 body {
   background: var(--color-background);
   color: var(--color-foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }

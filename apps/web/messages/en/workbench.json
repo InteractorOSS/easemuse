@@ -1,0 +1,12 @@
+{
+  "welcome": "Welcome to {agency}",
+  "signedInAs": "Signed in as {name}",
+  "signOut": "Sign out",
+  "roles": {
+    "admin": "Agency admin",
+    "lead": "Lead",
+    "recruiter": "Recruiter"
+  },
+  "yourRole": "Your role: {role}",
+  "skipToContent": "Skip to content"
+}

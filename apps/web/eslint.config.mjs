@@ -11,7 +11,10 @@ export default defineConfig([
   {
     rules: {
       // UI copy goes through next-intl (ADR-015): no bare string literals in JSX.
-      'react/jsx-no-literals': ['error', { noStrings: false, allowedStrings: ['·', '/', '—'] }],
+      'react/jsx-no-literals': [
+        'error',
+        { noStrings: false, allowedStrings: ['·', '/', '—', '×'] },
+      ],
     },
   },
   {

@@ -5,7 +5,7 @@ import type { Locale } from './config';
 export type Messages = { [key: string]: string | Messages };
 
 /** Namespaces: one JSON file per area under `messages/<locale>/`. Add a file, then list it here. */
-export const NAMESPACES = ['common', 'nav', 'home'] as const;
+export const NAMESPACES = ['common', 'nav', 'home', 'workbench'] as const;
 
 /** Overlays `override` on `base`: a key missing from the override keeps the base (English) text. */
 export function mergeMessages(base: Messages, override: Messages): Messages {

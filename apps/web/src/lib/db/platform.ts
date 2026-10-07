@@ -81,3 +81,18 @@ export async function setUserLocale(userId: string, locale: string | null): Prom
   const { prisma } = getDbHandle();
   await prisma.user.update({ where: { id: userId }, data: { locale } });
 }
+
+/** The agency's default UI language from `Agency.settings.locale` (ADR-015), or null if unset. */
+export async function getAgencyDefaultLocale(agencyId: string): Promise<string | null> {
+  const { prisma } = getDbHandle();
+  const row = await prisma.agency.findUnique({
+    where: { id: agencyId },
+    select: { settings: true },
+  });
+  const settings = row?.settings;
+  if (settings && typeof settings === 'object' && !Array.isArray(settings)) {
+    const locale = (settings as Record<string, unknown>).locale;
+    return typeof locale === 'string' ? locale : null;
+  }
+  return null;
+}

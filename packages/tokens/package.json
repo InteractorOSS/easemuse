@@ -7,13 +7,14 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./theme.css": "./dist/theme.css"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "lint": "echo 'linted via apps/web eslint'",
-    "build": "echo 'source-only package'"
+    "build": "node scripts/build-css.mjs"
   },
   "devDependencies": {
     "typescript": "^6",

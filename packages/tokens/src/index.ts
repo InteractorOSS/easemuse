@@ -1,18 +1,27 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 
-/** Design tokens. Rendered to CSS custom properties by `tokensToCss` (T-F-20 wires the UI kit). */
+/**
+ * Design tokens, the single source for colors and radii. `scripts/build-css.mjs` renders them to a
+ * Tailwind 4 `@theme` block (dist/theme.css), so `bg-primary`, `text-muted` and friends exist as
+ * utilities and every value traces back to this file.
+ */
 export const tokens = {
   color: {
     background: '#ffffff',
     foreground: '#111827',
-    muted: '#6b7280',
-    border: '#e5e7eb',
-    primary: '#2563eb',
+    surface: '#f9fafb',
+    muted: '#4b5563',
+    border: '#d1d5db',
+    primary: '#1d4ed8',
     primaryForeground: '#ffffff',
-    draftBadge: '#b45309',
+    danger: '#b91c1c',
+    dangerForeground: '#ffffff',
+    // The "AI draft" badge (brief §1.1: AI output is a draft until the recruiter approves it).
+    draftBadge: '#92400e',
+    draftBadgeBackground: '#fef3c7',
   },
-  radius: { sm: '4px', md: '8px' },
+  radius: { sm: '4px', md: '8px', lg: '12px' },
 } as const;
 
 type TokenTree = { readonly [key: string]: string | TokenTree };
@@ -29,8 +38,18 @@ function flatten(tree: TokenTree, prefix: string, out: string[]): void {
   }
 }
 
-export function tokensToCss(tree: TokenTree = tokens): string {
+function declarations(tree: TokenTree): string {
   const lines: string[] = [];
   flatten(tree, '-', lines);
-  return `:root {\n${lines.join('\n')}\n}\n`;
+  return lines.join('\n');
+}
+
+/** Plain CSS custom properties on `:root`. */
+export function tokensToCss(tree: TokenTree = tokens): string {
+  return `:root {\n${declarations(tree)}\n}\n`;
+}
+
+/** Tailwind 4 theme block: `--color-x` becomes `bg-x` / `text-x`, `--radius-x` becomes `rounded-x`. */
+export function tokensToTheme(tree: TokenTree = tokens): string {
+  return `@theme {\n${declarations(tree)}\n}\n`;
 }

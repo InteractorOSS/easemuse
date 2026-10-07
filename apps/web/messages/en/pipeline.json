@@ -464,6 +464,16 @@
     "consentAction": "Consent",
     "recordConsent": "Record consent",
     "consentRecorded": "Consent recorded",
-    "consentHistory": "History"
+    "consentHistory": "History",
+    "exportTitle": "Export",
+    "exportHint": "The approved resume as a Word file or a PDF.",
+    "docx": "Download Word file",
+    "pdf": "Create PDF",
+    "pdfAgain": "Create PDF again",
+    "pdfWorking": "Creating the PDF…",
+    "pdfReady": "Download PDF",
+    "pdfOutOfDate": "This PDF is older than the approved resume or the agency branding. Create it again.",
+    "exportError": "Could not export. Try again.",
+    "exportNotApproved": "Approve the tailored resume first."
   }
 }

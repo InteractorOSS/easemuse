@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { apiFetch } from '@/lib/api-client';
 import { ResumeDecision } from './resume-decision';
+import { ResumeExport } from './resume-export';
 import { ResumeEditor } from './resume-editor';
 
 interface Overview {
@@ -95,6 +96,7 @@ export function ResumePanel({
           ContentEditor={ResumeEditor}
         />
       ) : null}
+      {o.approvedVersionId ? <ResumeExport agencyId={agencyId} entryId={entryId} /> : null}
       {o.artifactId ? (
         <ResumeDecision agencyId={agencyId} entryId={entryId} onChanged={refresh} />
       ) : null}

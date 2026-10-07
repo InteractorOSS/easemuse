@@ -1,0 +1,95 @@
+// Copyright (c) 2026 Team of Wakers
+// SPDX-License-Identifier: MIT
+'use client';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { ApiClientError, apiFetch } from '@/lib/api-client';
+
+interface PdfStatus {
+  versionId: string | null;
+  document: { fileId: string; createdAt: string; upToDate: boolean } | null;
+}
+
+/** Export of the approved tailored resume: a Word file at once, a PDF rendered in the background (T-7-03). */
+export function ResumeExport({ agencyId, entryId }: { agencyId: string; entryId: string }) {
+  const t = useTranslations('pipeline.resume');
+  const queryClient = useQueryClient();
+  const base = `/api/v1/agencies/${agencyId}/pipeline/${entryId}/tailored-resume/export`;
+  const key = ['resume-export', agencyId, entryId];
+  const [error, setError] = useState<string | null>(null);
+  const [requested, setRequested] = useState(false);
+  const status = useQuery({
+    queryKey: key,
+    queryFn: ({ signal }) => apiFetch<PdfStatus>(base, { signal }),
+    refetchInterval: (q) => (requested && !q.state.data?.data.document?.upToDate ? 2000 : false),
+  });
+  const document = status.data?.data.document ?? null;
+  const waiting = requested && !document?.upToDate;
+  const explain = (e: unknown) =>
+    e instanceof ApiClientError && e.status === 409 ? t('exportNotApproved') : t('exportError');
+
+  const docx = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(base, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ format: 'docx' }),
+      });
+      if (!response.ok)
+        throw new ApiClientError(response.status, 'export_failed', response.statusText);
+      const url = URL.createObjectURL(await response.blob());
+      const link = window.document.createElement('a');
+      link.href = url;
+      link.download = 'resume.docx';
+      link.click();
+      URL.revokeObjectURL(url);
+    },
+    onSuccess: () => setError(null),
+    onError: (e) => setError(explain(e)),
+  });
+  const pdf = useMutation({
+    mutationFn: () => apiFetch(base, { body: { format: 'pdf' } }),
+    onSuccess: async () => {
+      setError(null);
+      setRequested(true);
+      await queryClient.invalidateQueries({ queryKey: key });
+    },
+    onError: (e) => setError(explain(e)),
+  });
+
+  return (
+    <div className="flex max-w-2xl flex-col gap-2">
+      <h3 className="font-medium">{t('exportTitle')}</h3>
+      <p className="text-sm text-muted">{t('exportHint')}</p>
+      <div className="flex flex-wrap items-center gap-3">
+        <Button variant="secondary" disabled={docx.isPending} onClick={() => docx.mutate()}>
+          {t('docx')}
+        </Button>
+        <Button
+          variant="secondary"
+          disabled={pdf.isPending || waiting}
+          onClick={() => pdf.mutate()}
+        >
+          {document ? t('pdfAgain') : t('pdf')}
+        </Button>
+        {waiting ? <span role="status">{t('pdfWorking')}</span> : null}
+        {document ? (
+          <a className="underline" href={`/api/v1/agencies/${agencyId}/files/${document.fileId}`}>
+            {t('pdfReady')}
+          </a>
+        ) : null}
+      </div>
+      {document && !document.upToDate && !waiting ? (
+        <p className="text-sm text-warning">{t('pdfOutOfDate')}</p>
+      ) : null}
+      {error ? (
+        <p role="alert" className="text-sm text-danger">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}

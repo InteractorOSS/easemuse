@@ -12,7 +12,10 @@ import type { PdfRenderer } from './renderer';
 import { signRenderToken } from './token';
 
 /** The artifact kind each print template renders. */
-const KIND_OF: Record<RenderKind, 'structured_jd'> = { jd: 'structured_jd' };
+const KIND_OF: Record<RenderKind, 'structured_jd' | 'tailored_resume'> = {
+  jd: 'structured_jd',
+  resume: 'tailored_resume',
+};
 
 export interface RenderDeps {
   withAgency<T>(fn: (tx: ScopedTx) => Promise<T>): Promise<T>;

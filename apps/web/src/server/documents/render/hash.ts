@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import type { AgencyBranding } from '@easemuse/core';
 
 /** Change this when a print template changes, so documents rendered with the old one are redone. */
-export const TEMPLATE_VERSIONS = { jd: 'jd-print-v1' } as const;
+export const TEMPLATE_VERSIONS = { jd: 'jd-print-v1', resume: 'resume-print-v1' } as const;
 export type RenderKind = keyof typeof TEMPLATE_VERSIONS;
 
 /** JSON with object keys sorted, so the same content always gives the same text. */

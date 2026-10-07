@@ -56,6 +56,7 @@ vi.mock('@/server/tenancy/members', () => ({
   revokeInvite: async () => undefined,
 }));
 vi.mock('@/lib/db', () => ({
+  getAgencyDefaultLocale: async () => null,
   getPlatformUser: async () => ({ id: 'u1', email: 'u@x.test', name: 'U' }),
   withAgency: async (_agencyId: string, fn: (tx: unknown) => unknown) => fn({}),
   getJobRun: async () => ({
@@ -243,6 +244,11 @@ vi.mock('@/server/resume/approval', () => ({
   listConsents: async () => ({ items: [] }),
   recordConsent: async () => ({ items: [] }),
 }));
+vi.mock('@/server/resume/export', () => ({
+  getResumePdfStatus: async () => ({ versionId: null, document: null }),
+  startResumePdfExport: async () => ({ jobRunId: 'job1', versionId: 'v1' }),
+  exportResumeDocx: async () => ({ bytes: Buffer.from('docx'), filename: 'resume.docx' }),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -369,6 +375,10 @@ import {
   GET as consentsGet,
   POST as consentsPost,
 } from './v1/agencies/[agencyId]/candidates/[candidateId]/consents/route';
+import {
+  GET as resumeExportGet,
+  POST as resumeExportPost,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/export/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -1118,6 +1128,21 @@ const endpoints: Endpoint[] = [
         ),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET resume export status',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/export/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => resumeExportGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST resume export',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/export/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      resumeExportPost(new Request('http://x.test/', json({ format: 'docx' })), agencyParams),
   },
   {
     name: 'GET screening',

@@ -7,7 +7,7 @@ import type { JobContext } from '@/worker/registry';
 import { createChromiumRenderer, type PdfRenderer } from './renderer';
 import { renderDocument, type RenderDeps } from './service';
 
-const dataSchema = z.object({ kind: z.enum(['jd']), versionId: z.guid() });
+const dataSchema = z.object({ kind: z.enum(['jd', 'resume']), versionId: z.guid() });
 
 /** Enqueue payload for `documents:render`. */
 export type RenderJobData = z.infer<typeof dataSchema>;

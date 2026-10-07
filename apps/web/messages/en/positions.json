@@ -87,7 +87,8 @@
       "override": "Go ahead anyway",
       "blocked": "Resolve this first."
     },
-    "questionsLink": "Write intake questions"
+    "questionsLink": "Write intake questions",
+    "profileLink": "Write the success profile"
   },
   "errors": {
     "generic": "Could not save. Check the values and try again.",
@@ -269,5 +270,43 @@
     "copied": "Copied to the clipboard.",
     "download": "Download as text",
     "invalid": "This draft cannot be shown as a form."
+  },
+  "profile": {
+    "title": "Candidate success profile",
+    "back": "Back to the position",
+    "run": "Write success profile",
+    "rerun": "Write it again",
+    "hint": "AI combines the approved job description and your intake notes into one definition of the ideal candidate. You edit it and confirm it; matching uses the confirmed version.",
+    "confirmed": "Confirmed version: {n}",
+    "notConfirmed": "No version confirmed yet. Matching needs a confirmed profile.",
+    "guardTitle": "The hiring manager has not approved the job description",
+    "guardWarn": "You can go ahead anyway. Say why:",
+    "guardReason": "Reason for going ahead",
+    "guardGo": "Write it anyway",
+    "guardBlocked": "Record the hiring manager's decision first."
+  },
+  "profileEditor": {
+    "summary": "Summary",
+    "criteriaTitle": "Criteria",
+    "criteriaNone": "No criteria yet.",
+    "criterion": "Criterion {n}",
+    "category": "Category of criterion {n}",
+    "basis": "Where criterion {n} comes from",
+    "bases": {
+      "jd": "Job description",
+      "intake": "Intake"
+    },
+    "moveUp": "Move criterion {n} up",
+    "moveDown": "Move criterion {n} down",
+    "remove": "Remove criterion {n}",
+    "newCriterion": "New criterion",
+    "newCategory": "New criterion category",
+    "add": "Add criterion",
+    "expectationsTitle": "Expectations",
+    "sixMonths": "After 6 months",
+    "twelveMonths": "After 1 year",
+    "challenges": "Key challenges, one per line",
+    "invalid": "This draft cannot be shown as a form.",
+    "dealBreakers": "Deal-breakers: {count}"
   }
 }

@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { intakeQuestionsContentSchema } from './intake-questions';
 import { structuredJdContentSchema } from './structured-jd';
+import { successProfileContentSchema } from './success-profile';
 
 /**
  * Artifact kinds (ADR-006): everything an AI draft can become, one lifecycle for all. Mirrors the
@@ -82,7 +83,9 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
   intake_questions: spec('intake_questions', 'position', {
     schema: intakeQuestionsContentSchema as z.ZodType<Record<string, unknown>>,
   }),
-  success_profile: spec('success_profile', 'position'),
+  success_profile: spec('success_profile', 'position', {
+    schema: successProfileContentSchema as z.ZodType<Record<string, unknown>>,
+  }),
   benchmark_report: spec('benchmark_report', 'position'),
   search_criteria: spec('search_criteria', 'position'),
   candidate_profile: spec('candidate_profile', 'candidate'),

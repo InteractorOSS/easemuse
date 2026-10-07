@@ -58,13 +58,19 @@ export async function streamAiRunRequest<T>(
 
   if (!response.ok || !response.body) {
     const body = (await response.json().catch(() => null)) as {
-      error?: { code?: string; message?: string; fields?: Record<string, string> };
+      error?: {
+        code?: string;
+        message?: string;
+        fields?: Record<string, string>;
+        guards?: { guard: string; mode: 'block' | 'warn'; message: string }[];
+      };
     } | null;
     throw new ApiClientError(
       response.status,
       body?.error?.code ?? 'unknown_error',
       body?.error?.message ?? response.statusText,
       body?.error?.fields,
+      body?.error?.guards,
     );
   }
 

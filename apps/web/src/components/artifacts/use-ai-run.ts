@@ -11,6 +11,8 @@ export interface AiRunState {
   /** Text received so far. */
   text: string;
   error?: string;
+  /** Set when the request was refused by guards (409 `guard_failed`). */
+  guards?: { guard: string; mode: 'block' | 'warn'; message: string }[];
 }
 
 /**
@@ -26,31 +28,37 @@ export function useAiRun<T>(
   const controller = useRef<AbortController | null>(null);
   const { body, onDone } = options;
 
-  const start = useCallback(async () => {
-    controller.current?.abort();
-    const abort = new AbortController();
-    controller.current = abort;
-    setState({ status: 'running', text: '' });
-    try {
-      const result = await streamAiRunRequest<T>(url, {
-        body,
-        signal: abort.signal,
-        onDelta: (delta) => setState((s) => ({ ...s, text: s.text + delta })),
-      });
-      setState((s) => ({ ...s, status: 'done' }));
-      onDone?.(result);
-    } catch (error) {
-      if ((error as Error).name === 'AbortError') {
-        setState((s) => ({ ...s, status: 'cancelled' }));
-        return;
+  const start = useCallback(
+    async (bodyOverride?: unknown) => {
+      controller.current?.abort();
+      const abort = new AbortController();
+      controller.current = abort;
+      setState({ status: 'running', text: '' });
+      try {
+        const result = await streamAiRunRequest<T>(url, {
+          body: bodyOverride ?? body,
+          signal: abort.signal,
+          onDelta: (delta) => setState((s) => ({ ...s, text: s.text + delta })),
+        });
+        setState((s) => ({ ...s, status: 'done' }));
+        onDone?.(result);
+      } catch (error) {
+        if ((error as Error).name === 'AbortError') {
+          setState((s) => ({ ...s, status: 'cancelled' }));
+          return;
+        }
+        setState((s) => ({
+          ...s,
+          status: 'error',
+          error: error instanceof ApiClientError ? error.message : String(error),
+          ...(error instanceof ApiClientError && error.guards.length
+            ? { guards: error.guards }
+            : {}),
+        }));
       }
-      setState((s) => ({
-        ...s,
-        status: 'error',
-        error: error instanceof ApiClientError ? error.message : String(error),
-      }));
-    }
-  }, [url, body, onDone]);
+    },
+    [url, body, onDone],
+  );
 
   const cancel = useCallback(() => controller.current?.abort(), []);
 

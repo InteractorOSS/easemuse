@@ -136,6 +136,11 @@ export function PositionDetail({
           {d('questionsLink')}
         </Link>
       ) : null}
+      {canEdit ? (
+        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/profile`}>
+          {d('profileLink')}
+        </Link>
+      ) : null}
       <JdPanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
       <IntakePanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
       <WeightsEditor

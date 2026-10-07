@@ -41,7 +41,18 @@ const BUILT_IN: Partial<Record<ArtifactKind, Hook>> = {
       })),
     });
   },
-  success_profile: async (tx, { subject }) => {
+  success_profile: async (tx, { subject, versionId }) => {
+    // Confirming the profile makes it the position's reference for matching (FR-INT-11).
+    const version = await tx.artifactVersion.findUnique({
+      where: { id: versionId },
+      select: { artifactId: true },
+    });
+    if (version) {
+      await tx.position.updateMany({
+        where: { id: subject.id },
+        data: { successProfileArtifactId: version.artifactId },
+      });
+    }
     await tx.matchAnalysis.updateMany({
       where: { entry: { positionId: subject.id }, stale: false },
       data: { stale: true },

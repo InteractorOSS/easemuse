@@ -21,6 +21,13 @@ import {
   readApproved,
 } from './service';
 
+const PROFILE = {
+  summary: 's',
+  criteria: [],
+  expectations: { sixMonths: '', twelveMonths: '' },
+  keyChallenges: [],
+};
+
 describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
   let admin: pg.Client;
   let handle: DbHandle;
@@ -95,10 +102,10 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
     it('findOrCreateArtifact reuses the artifact for the same subject', async () => {
       const subject = { type: 'position' as const, id: randomUUID() };
       const a = await run((tx) =>
-        findOrCreateArtifact(tx, { agencyId: agencyA, kind: 'success_profile', subject }),
+        findOrCreateArtifact(tx, { agencyId: agencyA, kind: 'search_criteria', subject }),
       );
       const b = await run((tx) =>
-        findOrCreateArtifact(tx, { agencyId: agencyA, kind: 'success_profile', subject }),
+        findOrCreateArtifact(tx, { agencyId: agencyA, kind: 'search_criteria', subject }),
       );
       expect(b.id).toBe(a.id);
     });
@@ -169,14 +176,14 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
   describe('approving', () => {
     it('makes the version official, supersedes the previous approved one and logs it', async () => {
       const subject = { type: 'position' as const, id: randomUUID() };
-      const { id } = await newArtifact('success_profile', subject);
+      const { id } = await newArtifact('search_criteria', subject);
       const v1 = await draft(id, { n: 1 });
       const v2 = await draft(id, { n: 2 });
-      expect(await run((tx) => readApproved(tx, { kind: 'success_profile', subject }))).toBeNull();
+      expect(await run((tx) => readApproved(tx, { kind: 'search_criteria', subject }))).toBeNull();
 
       await run((tx) => approveVersion(tx, actor, v1.id));
       expect(
-        (await run((tx) => readApproved(tx, { kind: 'success_profile', subject })))?.content,
+        (await run((tx) => readApproved(tx, { kind: 'search_criteria', subject })))?.content,
       ).toEqual({ n: 1 });
       await run((tx) => approveVersion(tx, actor, v2.id));
 
@@ -189,7 +196,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
       expect(all.versions[0]).toMatchObject({ approvedById: userId });
       expect(all.versions[0]!.approvedAt).toBeInstanceOf(Date);
       expect(
-        (await run((tx) => readApproved(tx, { kind: 'success_profile', subject })))?.content,
+        (await run((tx) => readApproved(tx, { kind: 'search_criteria', subject })))?.content,
       ).toEqual({ n: 2 });
     });
 
@@ -399,12 +406,12 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
     const staleOf = async (id: string) =>
       (await admin.query(`SELECT stale FROM "MatchAnalysis" WHERE id = $1`, [id])).rows[0]
         .stale as boolean;
-    const approveNew = (artifactId: string) =>
+    const approveNew = (artifactId: string, content: unknown = { v: 1 }) =>
       run(async (tx) => {
         const v = await addDraftVersion(tx, {
           agencyId: agencyA,
           artifactId,
-          content: { v: 1 },
+          content,
           origin: 'ai',
           createdById: userId,
         });
@@ -416,7 +423,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
       expect(await staleOf(seeded.a1.id)).toBe(false);
 
       const sp = await newArtifact('success_profile', { type: 'position', id: seeded.positionId });
-      await approveNew(sp.id);
+      await approveNew(sp.id, PROFILE);
       expect(await staleOf(seeded.a1.id)).toBe(true);
       expect(await staleOf(seeded.a2.id)).toBe(true);
 
@@ -435,6 +442,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
       const other = await seed('Stale Other');
       await approveNew(
         (await newArtifact('success_profile', { type: 'position', id: randomUUID() })).id,
+        PROFILE,
       );
       await approveNew(
         (await newArtifact('candidate_profile', { type: 'candidate', id: randomUUID() })).id,

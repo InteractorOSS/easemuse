@@ -231,6 +231,12 @@ vi.mock('@/server/qualification/service', () => ({
   planCallQuestions: async () => ({}),
   generateCallQuestions: async () => ({}),
 }));
+vi.mock('@/server/resume/tailor', () => ({
+  getTailoredResume: async () => ({}),
+  planTailoredResume: async () => ({}),
+  generateTailoredResume: async () => ({}),
+  recheckTailoredResume: async () => ({ ranAt: '', warnings: [] }),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -344,6 +350,11 @@ import { GET as qualificationGet } from './v1/agencies/[agencyId]/pipeline/[entr
 import { POST as qualificationBlankPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/qualification/blank/route';
 import { POST as qualificationStructurePost } from './v1/agencies/[agencyId]/pipeline/[entryId]/qualification/structure/route';
 import { POST as callQuestionsPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/call-questions/route';
+import {
+  GET as tailoredGet,
+  POST as tailoredPost,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/route';
+import { POST as tailoredRecheckPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/fact-check/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -1019,6 +1030,28 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => callQuestionsPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET tailored resume',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => tailoredGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST tailored resume',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => tailoredPost(new Request('http://x.test/', json({ blind: false })), agencyParams),
+  },
+  {
+    name: 'POST tailored resume fact check',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/fact-check/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      tailoredRecheckPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET screening',

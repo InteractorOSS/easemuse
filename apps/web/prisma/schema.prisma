@@ -683,6 +683,7 @@ model TailoredResume {
   agencyId   String   @db.Uuid
   entryId    String   @db.Uuid
   artifactId String   @db.Uuid
+  versionId  String?  @db.Uuid // the approved ArtifactVersion this row stands for
   blind      Boolean  @default(false)
   pdfFileId  String?  @db.Uuid
   docxFileId String?  @db.Uuid

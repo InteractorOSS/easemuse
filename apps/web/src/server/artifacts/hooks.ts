@@ -3,6 +3,7 @@
 import {
   candidateFieldsFromProfile,
   qualificationContentSchema,
+  tailoredResumeContentSchema,
   unconfirmedTopics,
   candidateProfileContentSchema,
   candidateSearchParts,
@@ -88,6 +89,27 @@ const BUILT_IN: Partial<Record<ArtifactKind, Hook>> = {
       where: { entryId: subject.id },
       create: { agencyId, entryId: subject.id, artifactId: version!.artifactId },
       update: { artifactId: version!.artifactId },
+    });
+  },
+  tailored_resume: async (tx, { agencyId, subject, versionId }) => {
+    // Each approved version gets its own row, so a candidate's approval of earlier text never
+    // covers this one (FR-RES-03): the approval is recorded against the row later.
+    const version = await tx.artifactVersion.findUnique({
+      where: { id: versionId },
+      select: { artifactId: true, content: true },
+    });
+    const content = tailoredResumeContentSchema.parse(version?.content);
+    // An artifact whose entry is gone (an orphan, see orphans.ts) has nothing to record against.
+    if (!(await tx.pipelineEntry.findUnique({ where: { id: subject.id }, select: { id: true } })))
+      return;
+    await tx.tailoredResume.create({
+      data: {
+        agencyId,
+        entryId: subject.id,
+        artifactId: version!.artifactId,
+        versionId,
+        blind: content.blind,
+      },
     });
   },
   candidate_profile: async (tx, { subject, versionId }) => {

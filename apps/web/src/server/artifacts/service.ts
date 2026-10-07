@@ -297,6 +297,18 @@ export async function setFactCheck(
   return merged;
 }
 
+/** The newest draft version of an artifact, if it has one (content as stored). */
+export async function latestDraft(
+  tx: ScopedTx,
+  artifactId: string,
+): Promise<{ id: string; content: Prisma.JsonValue } | null> {
+  return tx.artifactVersion.findFirst({
+    where: { artifactId, status: 'draft' },
+    orderBy: { version: 'desc' },
+    select: { id: true, content: true },
+  });
+}
+
 /** Throws the draft away. Approved versions cannot be discarded (supersede them by approving a newer one). */
 export async function discardVersion(
   tx: ScopedTx,

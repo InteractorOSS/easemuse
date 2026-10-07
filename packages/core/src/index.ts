@@ -35,3 +35,4 @@ export * from './schemas/outreach';
 export * from './artifacts/outreach-message';
 export * from './artifacts/call-questions';
 export * from './artifacts/qualification';
+export * from './artifacts/tailored-resume';

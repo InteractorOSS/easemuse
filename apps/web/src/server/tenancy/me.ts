@@ -1,8 +1,15 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import type { AgencyRole } from '@easemuse/core';
-import { getAgenciesByIds, getPlatformUser, withUser, type PlatformUser } from '@/lib/db';
+import {
+  getAgenciesByIds,
+  getPlatformUser,
+  setUserLocale,
+  withUser,
+  type PlatformUser,
+} from '@/lib/db';
 import { notFound } from '@/lib/http/errors';
+import type { Locale } from '@/i18n/config';
 
 export interface Me {
   user: PlatformUser;
@@ -31,4 +38,12 @@ export async function getMe(userId: string): Promise<Me> {
       .filter((a) => a.status !== 'closed')
       .map((a) => ({ agencyId: a.id, slug: a.slug, name: a.name, role: roleByAgency.get(a.id)! })),
   };
+}
+
+/** Sets (or clears, with null) the signed-in user's UI language. */
+export async function updateMyLocale(userId: string, locale: Locale | null): Promise<PlatformUser> {
+  await setUserLocale(userId, locale);
+  const user = await getPlatformUser(userId);
+  if (!user) throw notFound('User');
+  return user;
 }

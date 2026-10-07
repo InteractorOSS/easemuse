@@ -1,0 +1,12 @@
+{
+  "appName": "EaseMuse",
+  "tagline": "AI-assisted recruiter workbench",
+  "aiDraft": "AI draft",
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "approve": "Approve",
+    "discard": "Discard",
+    "close": "Close"
+  }
+}

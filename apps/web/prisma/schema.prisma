@@ -57,6 +57,7 @@ model User {
   email             String
   name              String?
   platformRole      PlatformRole? // Team of Wakers platform administrator (/admin); null for everyone else
+  locale            String? // UI language (ADR-015); null = use the agency default, then English
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
 

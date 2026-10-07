@@ -5,7 +5,13 @@ import type { AgencyRef, PlatformUser } from '@/lib/db/platform';
 import { createAuthorizers, type AuthDeps } from './authorizers';
 
 const agency: AgencyRef = { id: 'a-1', slug: 'acme', name: 'Acme', status: 'active' };
-const user: PlatformUser = { id: 'u-1', email: 'u@x.test', name: 'U', platformRole: null };
+const user: PlatformUser = {
+  id: 'u-1',
+  email: 'u@x.test',
+  name: 'U',
+  platformRole: null,
+  locale: null,
+};
 
 function setup(overrides: Partial<AuthDeps> = {}) {
   const deps: AuthDeps = {

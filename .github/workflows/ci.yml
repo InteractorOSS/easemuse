@@ -32,6 +32,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: bash scripts/db/setup-dev.sh --test-only
+      - run: pnpm db:generate
+        env:
+          DATABASE_URL: postgresql://easemuse_app:easemuse_app@localhost:5432/easemuse_test
       - run: pnpm format:check
       - run: pnpm lint:headers
       - run: pnpm check:cycles

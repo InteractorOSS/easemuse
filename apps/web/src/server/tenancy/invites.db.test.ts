@@ -13,7 +13,7 @@ import {
   dbAvailable,
 } from '@/test/db';
 import { acceptInvite, hashToken } from './invites';
-import { getMe } from './me';
+import { getMe, updateMyLocale } from './me';
 import type { DbHandle } from '@/lib/db/client';
 
 /**
@@ -148,5 +148,12 @@ describe.skipIf(!dbAvailable())('invites and /me (pre-agency lookups)', () => {
     }
     const me = await getMe(u.id);
     expect(me.memberships.map((m) => m.agencyId).sort()).toEqual([agencyA, agencyB].sort());
+  });
+
+  it('stores and clears the user locale', async () => {
+    const u = await user('lang@example.test');
+    expect((await updateMyLocale(u.id, 'ko')).locale).toBe('ko');
+    expect((await getMe(u.id)).user.locale).toBe('ko');
+    expect((await updateMyLocale(u.id, null)).locale).toBeNull();
   });
 });

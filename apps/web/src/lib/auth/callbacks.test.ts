@@ -4,7 +4,7 @@ import type { Session } from 'next-auth';
 import { describe, expect, it, vi } from 'vitest';
 import { createAuthCallbacks, type UserStore } from './callbacks';
 
-const localUser = { id: 'u-1', email: 'a@b.test', name: 'Ann', platformRole: null };
+const localUser = { id: 'u-1', email: 'a@b.test', name: 'Ann', platformRole: null, locale: null };
 
 function setup() {
   const store: UserStore = { upsertUserBySubject: vi.fn().mockResolvedValue(localUser) };

@@ -3,6 +3,9 @@
 import path from 'node:path';
 import { loadEnvConfig } from '@next/env';
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 // Local values live in the repo-root `.env.local` (git-ignored), not in apps/web.
 loadEnvConfig(path.resolve(__dirname, '../..'));
@@ -13,4 +16,4 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

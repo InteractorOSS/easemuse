@@ -12,6 +12,8 @@ export interface PlatformUser {
   email: string;
   name: string | null;
   platformRole: PlatformRoleName | null;
+  /** UI language; null means the agency default, then English (ADR-015). */
+  locale: string | null;
 }
 
 export interface AgencyRef {
@@ -21,7 +23,13 @@ export interface AgencyRef {
   status: 'trial' | 'active' | 'suspended' | 'closed';
 }
 
-const USER_SELECT = { id: true, email: true, name: true, platformRole: true } as const;
+const USER_SELECT = {
+  id: true,
+  email: true,
+  name: true,
+  platformRole: true,
+  locale: true,
+} as const;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
@@ -66,4 +74,10 @@ export async function getAgenciesByIds(ids: string[]): Promise<AgencyRef[]> {
     select: { id: true, slug: true, name: true, status: true },
     orderBy: { name: 'asc' },
   });
+}
+
+/** The user's own UI language; pass null to fall back to the agency default. */
+export async function setUserLocale(userId: string, locale: string | null): Promise<void> {
+  const { prisma } = getDbHandle();
+  await prisma.user.update({ where: { id: userId }, data: { locale } });
 }

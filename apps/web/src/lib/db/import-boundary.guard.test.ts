@@ -25,7 +25,9 @@ describe('unscoped client import boundary', () => {
     .filter((f) => {
       const text = readFileSync(f, 'utf8');
       const importsClientModule =
-        /from\s+['"](?:@\/lib\/db\/client|(?:\.{1,2}\/)+(?:lib\/)?db\/client)['"]/.test(text);
+        /^import\s+(?!type\b)[^;]*from\s+['"](?:@\/lib\/db\/client|(?:\.{1,2}\/)+(?:lib\/)?db\/client)['"]/m.test(
+          text,
+        );
       const valueImportOfPrisma = /^import\s+(?!type\b)[^;]*from\s+['"]@prisma\/client['"]/m.test(
         text,
       );

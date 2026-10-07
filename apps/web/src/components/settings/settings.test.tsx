@@ -13,7 +13,7 @@ import { DefaultsForm } from './defaults-form';
 import { SettingsNav } from './settings-nav';
 import { UsageSummary } from './usage-summary';
 
-let pathname = '/a/acme/settings/defaults';
+const pathname = '/a/acme/settings/defaults';
 vi.mock('next/navigation', () => ({
   usePathname: () => pathname,
   useRouter: () => ({ push: vi.fn() }),

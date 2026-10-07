@@ -25,7 +25,8 @@
     "db:generate": "pnpm --filter @easemuse/web run db:generate",
     "db:migrate": "pnpm --filter @easemuse/web run db:migrate",
     "db:studio": "pnpm --filter @easemuse/web run db:studio",
-    "admin:grant": "pnpm --filter @easemuse/web run admin:grant"
+    "admin:grant": "pnpm --filter @easemuse/web run admin:grant",
+    "check": "pnpm format:check && pnpm lint:headers && pnpm check:cycles && pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.0.0",

@@ -1,0 +1,53 @@
+{
+  "title": "Members",
+  "invite": "Invite member",
+  "inviteForm": {
+    "title": "Invite a member",
+    "description": "They receive an email with a link that works once.",
+    "email": "Email",
+    "role": "Role",
+    "submit": "Send invitation"
+  },
+  "roles": {
+    "admin": "Agency admin",
+    "lead": "Lead",
+    "recruiter": "Recruiter"
+  },
+  "columns": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Deactivated"
+  },
+  "deactivate": "Deactivate",
+  "reactivate": "Reactivate",
+  "changeRole": "Role for {name}",
+  "pending": {
+    "title": "Pending invitations",
+    "empty": "No pending invitations.",
+    "expires": "Expires {date}",
+    "revoke": "Revoke"
+  },
+  "invited": "Invitation sent to {email}.",
+  "errors": {
+    "lastAdmin": "An agency needs at least one active admin.",
+    "alreadyPending": "This person already has a pending invitation.",
+    "generic": "Something went wrong. Try again."
+  },
+  "accept": {
+    "title": "Join {agency}",
+    "description": "Accept the invitation to start using EaseMuse with {agency}.",
+    "action": "Accept invitation",
+    "working": "Joining…",
+    "failed": "This invitation could not be accepted: {reason}",
+    "expired": "This invitation has expired. Ask an admin to send a new one.",
+    "wrongEmail": "This invitation was sent to a different email address. Sign in with the invited address.",
+    "used": "This invitation was already used.",
+    "missing": "This invitation link is incomplete."
+  }
+}

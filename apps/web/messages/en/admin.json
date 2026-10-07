@@ -1,0 +1,64 @@
+{
+  "title": "Platform admin",
+  "nav": {
+    "label": "Admin navigation",
+    "agencies": "Agencies"
+  },
+  "signedInAs": "Signed in as {name} ({role})",
+  "roles": {
+    "owner": "Owner",
+    "admin": "Admin",
+    "support": "Support"
+  },
+  "agencies": {
+    "title": "Agencies",
+    "search": "Search agencies",
+    "searchPlaceholder": "Name or slug",
+    "statusFilter": "Status",
+    "allStatuses": "All statuses",
+    "create": "Create agency",
+    "empty": "No agencies match.",
+    "loadMore": "Load more",
+    "columns": {
+      "name": "Name",
+      "slug": "Slug",
+      "status": "Status",
+      "region": "Region",
+      "members": "Members",
+      "created": "Created"
+    },
+    "status": {
+      "trial": "Trial",
+      "active": "Active",
+      "suspended": "Suspended",
+      "closed": "Closed"
+    },
+    "form": {
+      "title": "Create agency",
+      "description": "The first admin receives an invitation by email.",
+      "name": "Agency name",
+      "slug": "URL name",
+      "slugHint": "Used in the address: /a/your-name",
+      "adminEmail": "First admin's email",
+      "region": "Region",
+      "submit": "Create and invite"
+    },
+    "created": "Agency created. Invitation sent to {email}.",
+    "detail": {
+      "members": "Active members",
+      "invites": "Pending invitations",
+      "created": "Created",
+      "suspend": "Suspend",
+      "reactivate": "Reactivate",
+      "reason": "Reason (kept in the audit log)",
+      "suspendTitle": "Suspend {agency}?",
+      "suspendDescription": "Its users see \"Workspace suspended\" at sign-in and background jobs are skipped. Data is not touched.",
+      "reactivateTitle": "Reactivate {agency}?",
+      "back": "All agencies"
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong. Try again.",
+    "slugTaken": "This URL name is already taken."
+  }
+}

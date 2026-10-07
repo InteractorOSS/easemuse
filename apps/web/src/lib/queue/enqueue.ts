@@ -15,6 +15,9 @@ export interface EnqueueInput {
   data?: unknown;
   /** Same key on the same queue returns the existing JobRun instead of adding a second job. */
   idempotencyKey: string;
+  /** Retry policy override (default: 3 attempts, 5 s exponential backoff). */
+  attempts?: number;
+  backoffMs?: number;
 }
 
 export interface EnqueueResult {
@@ -53,7 +56,11 @@ export async function enqueue(
     data: input.data ?? null,
   };
   try {
-    await getQueue(input.queue, options).add(input.name, payload, { jobId: jobRun.id });
+    await getQueue(input.queue, options).add(input.name, payload, {
+      jobId: jobRun.id,
+      ...(input.attempts ? { attempts: input.attempts } : {}),
+      ...(input.backoffMs ? { backoff: { type: 'exponential', delay: input.backoffMs } } : {}),
+    });
   } catch (error) {
     await updateJobRun(jobRun.id, { status: 'failed', error: 'enqueue_failed' });
     throw error;

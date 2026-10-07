@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import Anthropic from '@anthropic-ai/sdk';
-import type { PdfReader } from './extract';
+import type { PdfReader } from '@/server/documents/extract';
 
 /** Sonnet 5.5 for high-volume extraction (ADR-005). */
 export const PDF_READER_MODEL = 'claude-sonnet-5-5';

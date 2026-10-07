@@ -2,7 +2,11 @@
 // SPDX-License-Identifier: MIT
 import { describe, expect, it, vi } from 'vitest';
 import { makeDocx, makePdf, RESUME_LINES } from '@/test/fixtures';
-import { createClaudePdfReader, PDF_READER_MODEL, type MessagesClient } from './claude-pdf-reader';
+import {
+  createClaudePdfReader,
+  PDF_READER_MODEL,
+  type MessagesClient,
+} from '@/server/ai/pdf-reader';
 import { detectFileType } from './detect';
 import { extractDocument, type PdfReader } from './extract';
 import { MAX_UPLOAD_BYTES } from './limits';

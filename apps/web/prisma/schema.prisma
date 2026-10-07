@@ -1,0 +1,1044 @@
+// EaseMuse schema (moved from docs/planning/schema-draft.prisma in T-F-06).
+// Conventions follow Interactor product-manager: UUID ids, camelCase fields, PascalCase models,
+// lowercase enum values. Every agency-owned model has `agencyId` (indexed first) and gets a
+// Postgres RLS policy in a raw-SQL migration (ADR-001). Brief sections (init.docx §) are noted.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ───────────────────────────── Platform & tenancy ─────────────────────────────
+
+enum AgencyStatus {
+  trial
+  active
+  suspended
+  closed
+}
+
+enum AgencyRole {
+  admin
+  lead
+  recruiter
+}
+
+model Agency {
+  id                 String       @id @default(uuid()) @db.Uuid
+  slug               String       @unique
+  name               String
+  status             AgencyStatus @default(trial)
+  region             String       @default("us") // FR-TEN-08: "us" now, "kr" later
+  plan               String? // Billing Server plan key (ADR-013)
+  settings           Json         @default("{}") // defaults: weights, outreach intervals, guard modes, rejection reasons
+  branding           Json         @default("{}") // logo file key, colors (FR-TEN-04)
+  aiMonthlyBudgetUsd Decimal?     @db.Decimal(10, 2)
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  memberships   Membership[]
+  supportGrants SupportAccessGrant[]
+  clients       Client[]
+  candidates    Candidate[]
+}
+
+enum PlatformRole {
+  owner // manages platform admins
+  admin // agencies, plans, usage, configuration
+  support // read-only platform metadata; agency data only through SupportAccessGrant
+}
+
+model User {
+  id                String        @id @default(uuid()) @db.Uuid
+  interactorSubject String        @unique // Account Server `sub`
+  email             String
+  name              String?
+  platformRole      PlatformRole? // Team of Wakers platform administrator (/admin); null for everyone else
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  memberships Membership[]
+}
+
+model Membership {
+  id        String     @id @default(uuid()) @db.Uuid
+  agencyId  String     @db.Uuid
+  userId    String     @db.Uuid
+  role      AgencyRole @default(recruiter)
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([agencyId, userId])
+  @@index([userId])
+}
+
+model MemberInvite {
+  id          String     @id @default(uuid()) @db.Uuid
+  agencyId    String     @db.Uuid
+  email       String
+  role        AgencyRole @default(recruiter)
+  tokenHash   String     @unique // store hash only; accept route carries :agencySlug (ADR-001)
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  revokedAt   DateTime?
+  invitedById String     @db.Uuid
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([agencyId, email])
+}
+
+model SupportAccessGrant {
+  id          String    @id @default(uuid()) @db.Uuid
+  agencyId    String    @db.Uuid
+  adminId     String    @db.Uuid // platform administrator (User)
+  grantedById String    @db.Uuid // agency admin
+  reason      String
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, expiresAt])
+}
+
+// Platform-level tables (not under RLS; reached only through authorizePlatformAdmin, ADR-001/012)
+model PlatformAdminInvite {
+  id          String       @id @default(uuid()) @db.Uuid
+  email       String
+  role        PlatformRole
+  tokenHash   String       @unique
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  invitedById String       @db.Uuid
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([email])
+}
+
+model PlatformAuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  adminId    String   @db.Uuid
+  action     String // e.g. agency.create, agency.suspend, admin.invite, grant.request, grant.use, config.update
+  agencyId   String?  @db.Uuid // target agency, if any
+  targetType String?
+  targetId   String?  @db.Uuid
+  data       Json? // summary only; never candidate or client content
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([agencyId, createdAt])
+  @@index([adminId, createdAt])
+}
+
+// ───────────────────────────── Clients & positions (§3) ─────────────────────────────
+
+model Client {
+  id         String    @id @default(uuid()) @db.Uuid
+  agencyId   String    @db.Uuid
+  name       String
+  archivedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  agency    Agency          @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  contacts  ClientContact[]
+  positions Position[]
+  consents  Consent[]
+
+  @@index([agencyId, name])
+}
+
+model ClientContact {
+  id        String   @id @default(uuid()) @db.Uuid
+  agencyId  String   @db.Uuid
+  clientId  String   @db.Uuid
+  name      String
+  title     String?
+  email     String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  client     Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  portalUser PortalUser?
+
+  @@index([agencyId, clientId])
+}
+
+enum PositionStatus {
+  draft
+  intake
+  sourcing
+  interviewing
+  offer
+  filled
+  on_hold
+  cancelled
+}
+
+model Position {
+  id                       String         @id @default(uuid()) @db.Uuid
+  agencyId                 String         @db.Uuid
+  clientId                 String         @db.Uuid
+  ownerId                  String         @db.Uuid // recruiter (User)
+  hiringManagerId          String?        @db.Uuid // ClientContact
+  status                   PositionStatus @default(draft)
+  // §3.1 intake fields
+  title                    String
+  department               String?
+  reportingLine            String?
+  location                 String
+  workArrangement          String? // onsite | hybrid | remote
+  compMin                  Decimal?       @db.Decimal(12, 2)
+  compMax                  Decimal?       @db.Decimal(12, 2)
+  compCurrency             String         @default("USD")
+  requiredExperience       String?
+  requiredSkills           String[]
+  hiringTimeline           String?
+  openings                 Int            @default(1)
+  workAuthorization        String?
+  // §5.1 matching weights (sum = 100, validated in code)
+  matchingWeights          Json
+  successProfileArtifactId String?        @db.Uuid // confirmed Candidate Success Profile (§3.4)
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
+
+  client          Client               @relation(fields: [clientId], references: [id])
+  jobDescriptions JobDescription[]
+  requirements    Requirement[]
+  intake          IntakeRecord?
+  pipeline        PipelineEntry[]
+  transitions     PositionTransition[]
+
+  @@index([agencyId, status])
+  @@index([agencyId, clientId])
+  @@index([agencyId, ownerId])
+}
+
+// Position status history: Time-to-Fill, positions per recruiter (brief §1.1 performance metric)
+model PositionTransition {
+  id         String          @id @default(uuid()) @db.Uuid
+  agencyId   String          @db.Uuid
+  positionId String          @db.Uuid
+  fromStatus PositionStatus?
+  toStatus   PositionStatus
+  actorId    String          @db.Uuid
+  reason     String?
+  createdAt  DateTime        @default(now())
+
+  position Position @relation(fields: [positionId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, positionId, createdAt])
+  @@index([agencyId, toStatus, createdAt])
+}
+
+enum JdKind {
+  original
+  structured
+  improved
+}
+
+model JobDescription {
+  id         String   @id @default(uuid()) @db.Uuid
+  agencyId   String   @db.Uuid
+  positionId String   @db.Uuid
+  kind       JdKind
+  fileId     String?  @db.Uuid // original upload (FileObject)
+  text       String? // original pasted text
+  artifactId String?  @db.Uuid // structured/improved content lives in Artifact versions
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  position Position @relation(fields: [positionId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, positionId, kind])
+}
+
+enum RequirementCategory {
+  must_have
+  preferred
+  nice_to_have
+  disqualifying
+}
+
+model Requirement {
+  id         String              @id @default(uuid()) @db.Uuid
+  agencyId   String              @db.Uuid
+  positionId String              @db.Uuid
+  section    String // §3.2 section key, e.g. "technical_skills"
+  text       String
+  category   RequirementCategory
+  sortOrder  Int
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  position Position @relation(fields: [positionId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, positionId, sortOrder])
+}
+
+model IntakeRecord {
+  id           String   @id @default(uuid()) @db.Uuid
+  agencyId     String   @db.Uuid
+  positionId   String   @unique @db.Uuid
+  answers      Json // §3.4: 10 topics, each { value, source: "recruiter" | "hm_portal", status: "proposed" | "accepted" }; HM answers stay proposed until the recruiter accepts (FR-HMP-03)
+  jdApprovalId String?  @db.Uuid // Approval
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  position Position @relation(fields: [positionId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId])
+}
+
+// ───────────────────────────── Candidates & talent pool (§4) ─────────────────────────────
+
+enum CandidateSource {
+  linkedin
+  referral
+  direct_sourcing
+  database
+  networking
+  other
+}
+
+model Candidate {
+  id                 String                   @id @default(uuid()) @db.Uuid
+  agencyId           String                   @db.Uuid
+  fullName           String
+  email              String?
+  phone              String?
+  profileUrl         String?
+  source             CandidateSource
+  createdById        String                   @db.Uuid
+  profileArtifactId  String?                  @db.Uuid // approved structured profile (§4.2)
+  tags               String[]
+  // Denormalized from the approved profile on approval (pool search filters, FR-SRC-08, NFR-P03)
+  currentTitle       String?
+  location           String?
+  seniority          String?
+  skills             String[]
+  yearsExperience    Int?
+  availability       String?
+  lastContactedAt    DateTime?
+  doNotContact       Boolean                  @default(false) // FR-SRC-09
+  doNotContactReason String?
+  doNotContactAt     DateTime?
+  mergedIntoId       String?                  @db.Uuid
+  searchText         Unsupported("tsvector")?
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+
+  agency     Agency              @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  documents  CandidateDocument[]
+  pipeline   PipelineEntry[]
+  portalUser PortalUser?
+  consents   Consent[]
+
+  @@index([agencyId, email])
+  @@index([agencyId, phone])
+  @@index([agencyId, location])
+  @@index([agencyId, lastContactedAt])
+  @@index([skills], type: Gin)
+  @@index([agencyId, profileUrl])
+  @@index([agencyId, fullName])
+}
+
+model CandidateDocument {
+  id            String   @id @default(uuid()) @db.Uuid
+  agencyId      String   @db.Uuid
+  candidateId   String   @db.Uuid
+  fileId        String   @db.Uuid // FileObject; originals never overwritten (FR-PLT-05)
+  kind          String // resume | profile_text | other
+  extractedText String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, candidateId])
+}
+
+model FileObject {
+  id          String   @id @default(uuid()) @db.Uuid
+  agencyId    String   @db.Uuid
+  store       String // "db" (originals, ADR-010) | "s3" (generated files, ADR-011)
+  externalRef String? // S3 key when store = "s3"
+  filename    String
+  contentType String
+  sizeBytes   Int
+  sha256      String
+  createdById String?  @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([agencyId, sha256])
+}
+
+// Original uploads stored in our own database (ADR-010, Q-34); separate table keeps main tables small
+model FileBlob {
+  id        String   @id @default(uuid()) @db.Uuid
+  agencyId  String   @db.Uuid
+  fileId    String   @unique @db.Uuid
+  bytes     Bytes
+  createdAt DateTime @default(now())
+
+  @@index([agencyId])
+}
+
+// ───────────────────────────── Pipeline (§2, §5–§12) ─────────────────────────────
+
+enum PipelineState {
+  sourced
+  reviewed
+  screened
+  contacting
+  no_response
+  not_interested
+  interested
+  qualified
+  resume_ready
+  candidate_approved
+  submitted
+  client_rejected
+  interviewing
+  rejected
+  on_hold
+  offer
+  declined
+  accepted
+  reneged
+  started
+  withdrawn
+  closed
+}
+
+enum ScreeningClass {
+  priority
+  potential
+  hold
+  not_qualified
+}
+
+model PipelineEntry {
+  id             String          @id @default(uuid()) @db.Uuid
+  agencyId       String          @db.Uuid
+  positionId     String          @db.Uuid
+  candidateId    String          @db.Uuid
+  state          PipelineState   @default(sourced)
+  screeningClass ScreeningClass?
+  manualRank     Int? // recruiter's manual review order (§5.3)
+  ownerId        String          @db.Uuid
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  position      Position             @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  candidate     Candidate            @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  transitions   PipelineTransition[]
+  analyses      MatchAnalysis[]
+  touches       OutreachTouch[]
+  submissions   Submission[]
+  interviews    Interview[]
+  offer         Offer?
+  screening     ScreeningAssessment?
+  qualification QualificationRecord?
+  resumes       TailoredResume[]
+  reports       SubmissionReport[]
+  proposals     ProposedTransition[]
+
+  @@unique([positionId, candidateId])
+  @@index([agencyId, positionId, state])
+  @@index([agencyId, candidateId])
+}
+
+model PipelineTransition {
+  id         String         @id @default(uuid()) @db.Uuid
+  agencyId   String         @db.Uuid
+  entryId    String         @db.Uuid
+  fromState  PipelineState?
+  toState    PipelineState
+  actorId    String         @db.Uuid // always a recruiter (brief §1.1)
+  reasonCode String? // agency rejection/withdrawal taxonomy (FR-IVW-02; brief §14 drop-off analysis)
+  reason     String?
+  overrides  Json? // guards overridden, with reasons
+  createdAt  DateTime       @default(now())
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, entryId, createdAt])
+  @@index([agencyId, toState, createdAt])
+}
+
+model ProposedTransition {
+  id           String        @id @default(uuid()) @db.Uuid
+  agencyId     String        @db.Uuid
+  entryId      String        @db.Uuid
+  toState      PipelineState
+  proposedBy   String        @db.Uuid // PortalUser (HM)
+  reason       String?
+  resolvedAt   DateTime?
+  resolvedById String?       @db.Uuid
+  accepted     Boolean?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, entryId, resolvedAt])
+}
+
+model MatchAnalysis {
+  id                      String   @id @default(uuid()) @db.Uuid
+  agencyId                String   @db.Uuid
+  entryId                 String   @db.Uuid
+  artifactId              String   @db.Uuid // criterion scores, evidence, strengths, gaps, to-confirm
+  profileVersionId        String   @db.Uuid
+  successProfileVersionId String   @db.Uuid
+  weights                 Json // weights used (§5.1)
+  overallScore            Int // computed in code from criterion scores (ADR-007)
+  overrideScore           Int? // FR-MAT-04
+  overrideReason          String?
+  criterionOverrides      Json? // [{ key, original, score, reason, byId, at }] (FR-MAT-04)
+  recruiterAssessment     String? // human-written only (FR-MAT-05)
+  stale                   Boolean  @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, entryId, createdAt])
+}
+
+model ScreeningAssessment {
+  id        String   @id @default(uuid()) @db.Uuid
+  agencyId  String   @db.Uuid
+  entryId   String   @unique @db.Uuid
+  items     Json // §6: 14 items { rating, notes }
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId])
+}
+
+// ───────────────────────────── Outreach & messaging (§7) ─────────────────────────────
+
+enum OutreachChannel {
+  linkedin
+  email
+  text
+  phone
+}
+
+enum TouchStatus {
+  planned
+  drafted
+  sent
+  skipped
+  cancelled
+  failed // permanent delivery failure (ADR-009)
+}
+
+model OutreachTouch {
+  id              String          @id @default(uuid()) @db.Uuid
+  agencyId        String          @db.Uuid
+  entryId         String          @db.Uuid
+  touchNumber     Int // 1 initial, 2 follow-up, 3 final (§7.2)
+  channel         OutreachChannel
+  status          TouchStatus     @default(planned)
+  dueAt           DateTime?
+  artifactId      String?         @db.Uuid // draft/approved message
+  outboxMessageId String?         @db.Uuid
+  sentAt          DateTime?
+  response        String? // no_response | interested | not_interested | not_now | referred
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@unique([entryId, touchNumber])
+  @@index([agencyId, status, dueAt])
+}
+
+enum OutboxStatus {
+  queued
+  sending
+  sent
+  failed
+  captured // dev-capture transport: never delivered
+  suppressed
+  bounced
+}
+
+model OutboxMessage {
+  id         String       @id @default(uuid()) @db.Uuid
+  agencyId   String       @db.Uuid
+  senderId   String?      @db.Uuid // null for system notifications
+  toAddress  String
+  subject    String
+  bodyHtml   String
+  bodyText   String
+  kind       String // outreach | portal_invite | notification
+  entityType String?
+  entityId   String?      @db.Uuid
+  transport  String // dev-capture | log-only | smtp | gmail | graph
+  status     OutboxStatus @default(queued)
+  attempts   Int          @default(0)
+  lastError  String?
+  sentAt     DateTime?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  @@index([agencyId, status, createdAt])
+}
+
+model Suppression {
+  id        String   @id @default(uuid()) @db.Uuid
+  agencyId  String   @db.Uuid
+  address   String // lowercase email or phone
+  reason    String // opted_out | bounced | manual
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([agencyId, address])
+}
+
+// Outreach templates (FR-OUT-06, release 2): AI drafts start from these
+model OutreachTemplate {
+  id        String          @id @default(uuid()) @db.Uuid
+  agencyId  String          @db.Uuid
+  ownerId   String?         @db.Uuid // null = agency-wide
+  clientId  String?         @db.Uuid
+  name      String
+  channel   OutreachChannel
+  body      String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@index([agencyId, ownerId])
+}
+
+// ───────────────────────────── Qualification, documents, submission (§8–§10) ─────────────────────────────
+
+model QualificationRecord {
+  id         String   @id @default(uuid()) @db.Uuid
+  agencyId   String   @db.Uuid
+  entryId    String   @unique @db.Uuid
+  artifactId String   @db.Uuid // structured fields (§8) + raw notes
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId])
+}
+
+model TailoredResume {
+  id         String   @id @default(uuid()) @db.Uuid
+  agencyId   String   @db.Uuid
+  entryId    String   @db.Uuid
+  artifactId String   @db.Uuid
+  blind      Boolean  @default(false)
+  pdfFileId  String?  @db.Uuid
+  docxFileId String?  @db.Uuid
+  approvalId String?  @db.Uuid // candidate approval (§9.2)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, entryId])
+}
+
+model SubmissionReport {
+  id         String   @id @default(uuid()) @db.Uuid
+  agencyId   String   @db.Uuid
+  entryId    String   @db.Uuid
+  artifactId String   @db.Uuid // 14 sections (§10); section 14 human-only
+  pdfFileId  String?  @db.Uuid
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, entryId])
+}
+
+model Submission {
+  id               String   @id @default(uuid()) @db.Uuid
+  agencyId         String   @db.Uuid
+  entryId          String   @db.Uuid
+  reportId         String   @db.Uuid
+  reportVersionId  String   @db.Uuid // exact approved report version sent (US-802)
+  reportPdfFileId  String   @db.Uuid // exact PDF sent; never regenerated in place
+  tailoredResumeId String   @db.Uuid
+  resumeVersionId  String   @db.Uuid
+  resumeFileId     String   @db.Uuid
+  toContactId      String   @db.Uuid
+  method           String // portal | email | other
+  submittedAt      DateTime
+  submittedById    String   @db.Uuid
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, entryId])
+}
+
+// ───────────────────────────── Interviews & offers (§11–§12) ─────────────────────────────
+
+model Interview {
+  id           String    @id @default(uuid()) @db.Uuid
+  agencyId     String    @db.Uuid
+  entryId      String    @db.Uuid
+  roundName    String
+  scheduledAt  DateTime?
+  format       String?
+  interviewers String[]
+  status       String    @default("scheduled") // scheduled | completed | cancelled | no_show
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  entry    PipelineEntry       @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  feedback InterviewFeedback[]
+
+  @@index([agencyId, entryId])
+  @@index([agencyId, scheduledAt])
+}
+
+enum FeedbackRating {
+  strong
+  moderate
+  gap
+}
+
+model InterviewFeedback {
+  id                 String          @id @default(uuid()) @db.Uuid
+  agencyId           String          @db.Uuid
+  interviewId        String          @db.Uuid
+  fromRole           String // hm | candidate
+  source             String // portal | recorded_by_recruiter
+  technicalFit       FeedbackRating?
+  leadershipFit      FeedbackRating?
+  communication      FeedbackRating?
+  culturalFit        FeedbackRating?
+  industryExperience FeedbackRating?
+  comments           String?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  interview Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, interviewId])
+}
+
+model Offer {
+  id               String    @id @default(uuid()) @db.Uuid
+  agencyId         String    @db.Uuid
+  entryId          String    @unique @db.Uuid
+  milestones       Json // §12: 9 items { status, date, notes }
+  counterofferRisk String? // low | medium | high
+  resignationDate  DateTime?
+  startDate        DateTime?
+  outcome          String? // accepted | declined | reneged | started
+  outcomeReason    String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, startDate])
+}
+
+// ───────────────────────────── Approvals, consent, portals ─────────────────────────────
+
+enum ApprovalSubject {
+  jd
+  tailored_resume
+  candidate_profile
+}
+
+enum ApprovalDecision {
+  approved
+  changes_requested
+}
+
+model Approval {
+  id           String           @id @default(uuid()) @db.Uuid
+  agencyId     String           @db.Uuid
+  subject      ApprovalSubject
+  subjectId    String           @db.Uuid
+  versionId    String           @db.Uuid // the exact ArtifactVersion approved
+  decision     ApprovalDecision
+  comments     String?
+  source       String // portal | recorded_by_recruiter
+  method       String? // email | phone | other (when recorded)
+  approverName String
+  portalUserId String?          @db.Uuid
+  recordedById String?          @db.Uuid
+  decidedAt    DateTime
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@index([agencyId, subject, subjectId])
+}
+
+// Consent is append-only: giving and withdrawing are separate rows (ADR-016)
+model Consent {
+  id           String   @id @default(uuid()) @db.Uuid
+  agencyId     String   @db.Uuid
+  candidateId  String   @db.Uuid
+  clientId     String?  @db.Uuid // null = general data-processing consent
+  action       String // given | withdrawn
+  at           DateTime
+  source       String // portal | recorded_by_recruiter
+  method       String?
+  recordedById String?  @db.Uuid
+  createdAt    DateTime @default(now())
+
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  client    Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, candidateId, clientId, at])
+}
+
+enum PortalAudience {
+  hiring_manager
+  candidate
+}
+
+model PortalUser {
+  id              String         @id @default(uuid()) @db.Uuid
+  agencyId        String         @db.Uuid
+  audience        PortalAudience
+  email           String
+  clientContactId String?        @unique @db.Uuid
+  candidateId     String?        @unique @db.Uuid
+  disabledAt      DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  clientContact ClientContact? @relation(fields: [clientContactId], references: [id], onDelete: Cascade)
+  candidate     Candidate?     @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  links         MagicLink[]
+  shares        PortalShare[]
+
+  @@unique([agencyId, audience, email]) // per-agency identity (Q-26)
+}
+
+model MagicLink {
+  id           String    @id @default(uuid()) @db.Uuid
+  agencyId     String    @db.Uuid
+  portalUserId String    @db.Uuid
+  tokenHash    String    @unique // store hash only
+  expiresAt    DateTime
+  usedAt       DateTime?
+  createdById  String?   @db.Uuid
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  portalUser PortalUser @relation(fields: [portalUserId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, portalUserId])
+}
+
+model PortalShare {
+  id           String    @id @default(uuid()) @db.Uuid
+  agencyId     String    @db.Uuid
+  portalUserId String    @db.Uuid
+  kind         String // jd_for_approval | intake_form | submission | tailored_resume | status
+  subjectId    String    @db.Uuid
+  snapshot     Json // exactly what the portal user sees (read model, ADR-003)
+  revokedAt    DateTime?
+  createdById  String    @db.Uuid
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  portalUser PortalUser @relation(fields: [portalUserId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, portalUserId, revokedAt])
+}
+
+// ───────────────────────────── AI artifacts & provenance (§1.1, ADR-006) ─────────────────────────────
+
+enum ArtifactKind {
+  structured_jd
+  improved_jd
+  intake_questions
+  success_profile
+  benchmark_report
+  search_criteria
+  candidate_profile
+  match_analysis
+  screening_draft
+  outreach_message
+  call_questions
+  qualification
+  tailored_resume
+  submission_report
+  interview_feedback
+  pattern_summary
+  similar_candidates
+  portfolio_fit
+}
+
+enum VersionStatus {
+  draft
+  approved
+  superseded
+  discarded
+}
+
+model Artifact {
+  id                String       @id @default(uuid()) @db.Uuid
+  agencyId          String       @db.Uuid
+  kind              ArtifactKind
+  subjectType       String // position | candidate | pipeline_entry | interview
+  subjectId         String       @db.Uuid
+  approvedVersionId String?      @db.Uuid
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  versions ArtifactVersion[]
+
+  @@index([agencyId, subjectType, subjectId, kind])
+}
+
+model ArtifactVersion {
+  id              String        @id @default(uuid()) @db.Uuid
+  agencyId        String        @db.Uuid
+  artifactId      String        @db.Uuid
+  version         Int
+  content         Json // validated by the kind's zod schema in packages/core
+  status          VersionStatus @default(draft)
+  origin          String // ai | human | ai_edited
+  aiGenerationId  String?       @db.Uuid
+  parentVersionId String?       @db.Uuid
+  factCheck       Json? // warnings from X1 and how each was resolved
+  createdById     String        @db.Uuid
+  approvedById    String?       @db.Uuid
+  approvedAt      DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  artifact Artifact @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+
+  @@unique([artifactId, version])
+  @@index([agencyId, artifactId])
+}
+
+model AiGeneration {
+  id            String  @id @default(uuid()) @db.Uuid
+  agencyId      String  @db.Uuid
+  purpose       String // e.g. "jd.structure", "match.analyze" (A1–A18)
+  requestedById String? @db.Uuid // null only for purpose "embedding.index" (FR-AI-01 exception)
+  promptVersion String
+  model         String
+  inputRefs     Json // ids + versions of every record used
+  status        String // running | succeeded | failed | cancelled
+  error         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId, purpose, createdAt])
+}
+
+model LlmCall {
+  id             String   @id @default(uuid()) @db.Uuid
+  agencyId       String   @db.Uuid
+  aiGenerationId String?  @db.Uuid // one generation may make several calls (A3 two-step, fact check)
+  requestedById  String?  @db.Uuid
+  positionId     String?  @db.Uuid // cost per position (FR-AI-08)
+  purpose        String
+  model          String
+  promptVersion  String
+  inputTokens    Int
+  outputTokens   Int
+  cachedTokens   Int      @default(0)
+  costUsd        Decimal  @db.Decimal(12, 6)
+  latencyMs      Int
+  createdAt      DateTime @default(now())
+
+  @@index([agencyId, createdAt])
+  @@index([agencyId, positionId])
+  @@index([aiGenerationId])
+}
+
+model ProfileEmbedding {
+  id        String                      @id @default(uuid()) @db.Uuid
+  agencyId  String                      @db.Uuid
+  kind      String // candidate_profile | success_profile
+  subjectId String                      @db.Uuid
+  versionId String                      @db.Uuid
+  model     String
+  embedding Unsupported("vector(1024)")
+  createdAt DateTime                    @default(now())
+
+  @@unique([kind, versionId])
+  @@index([agencyId, kind])
+}
+
+// ───────────────────────────── Tasks, audit, jobs ─────────────────────────────
+
+model Task {
+  id           String    @id @default(uuid()) @db.Uuid
+  agencyId     String    @db.Uuid
+  ownerId      String    @db.Uuid
+  kind         String // outreach_due | interview | offer_milestone | approval_received | proposal
+  entityType   String
+  entityId     String    @db.Uuid
+  dueAt        DateTime
+  snoozedUntil DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([agencyId, ownerId, completedAt, dueAt])
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  agencyId   String   @db.Uuid
+  actorType  String // user | portal_user | platform_admin | system
+  actorId    String?  @db.Uuid
+  action     String
+  entityType String
+  entityId   String   @db.Uuid
+  data       Json? // before/after summary; never raw candidate documents
+  createdAt  DateTime @default(now())
+
+  @@index([agencyId, entityType, entityId, createdAt])
+}
+
+// Platform table: NOT under RLS (ids and status only, no candidate data).
+// agencyId is null for system jobs; access is checked in app code (queue layer, SSE job channel).
+model JobRun {
+  id             String   @id @default(uuid()) @db.Uuid
+  agencyId       String?  @db.Uuid
+  queue          String
+  name           String
+  idempotencyKey String
+  requestedById  String?  @db.Uuid
+  status         String   @default("queued") // queued | running | succeeded | failed
+  progress       Json?
+  error          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([queue, idempotencyKey])
+  @@index([agencyId, createdAt])
+}

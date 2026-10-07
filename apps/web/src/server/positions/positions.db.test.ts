@@ -7,6 +7,7 @@ import {
   DEFAULT_MATCH_WEIGHTS,
   POSITION_TRANSITIONS,
   POSITION_STATUSES,
+  positionPatchSchema,
   type AgencyActor,
 } from '@easemuse/core';
 import type { DbHandle } from '@/lib/db/client';
@@ -191,6 +192,21 @@ describe.skipIf(!dbAvailable())('positions and status service (T-1-03, T-1-14)',
       expect(
         (await inA((tx) => updatePosition(tx, lead, p.id, { ownerId: rec2.userId }))).ownerId,
       ).toBe(rec2.userId);
+    });
+
+    it('logs old and new matching weights when they change', async () => {
+      const p = await inA((tx) => createPosition(tx, rec1, base()));
+      const next = { ...DEFAULT_MATCH_WEIGHTS, coreCompetencies: 30, careerLevel: 20 };
+      await inA((tx) => updatePosition(tx, rec1, p.id, { matchingWeights: next }));
+      const log = await admin.query(
+        `SELECT data FROM "ActivityLog" WHERE "entityId" = $1 AND action = 'position.updated'`,
+        [p.id],
+      );
+      expect(log.rows[0].data.weights).toEqual({ from: DEFAULT_MATCH_WEIGHTS, to: next });
+      // The sum-to-100 rule is the request schema's job (422 at the route), not the service's.
+      expect(
+        positionPatchSchema.safeParse({ matchingWeights: { ...next, careerLevel: 25 } }).success,
+      ).toBe(false);
     });
 
     it('keeps agencies apart', async () => {

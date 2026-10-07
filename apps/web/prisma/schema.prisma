@@ -251,15 +251,20 @@ enum JdKind {
 }
 
 model JobDescription {
-  id         String   @id @default(uuid()) @db.Uuid
-  agencyId   String   @db.Uuid
-  positionId String   @db.Uuid
-  kind       JdKind
-  fileId     String?  @db.Uuid // original upload (FileObject)
-  text       String? // original pasted text
-  artifactId String?  @db.Uuid // structured/improved content lives in Artifact versions
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id               String   @id @default(uuid()) @db.Uuid
+  agencyId         String   @db.Uuid
+  positionId       String   @db.Uuid
+  kind             JdKind
+  fileId           String?  @db.Uuid // original upload (FileObject)
+  text             String? // original pasted text
+  artifactId       String?  @db.Uuid // structured/improved content lives in Artifact versions
+  // Text extraction of an uploaded original (T-1-05): pending until the worker reads the file
+  extractionStatus String   @default("ready") // pending | ready | failed ("ready" for pasted text)
+  extractionMethod String? // pasted | pdf_text | docx | text | pdf_model
+  extractionError  String?
+  parsedFromImage  Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   position Position @relation(fields: [positionId], references: [id], onDelete: Cascade)
 

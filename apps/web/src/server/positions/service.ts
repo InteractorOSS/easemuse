@@ -177,6 +177,23 @@ function assertCanEdit(actor: AgencyActor, row: { ownerId: string }) {
     throw forbidden('Only the owner, a lead or an admin can change this position');
 }
 
+/** For features that attach to a position: loads it as `read` (anyone who can see it) or `edit` (owner, lead, admin). */
+export async function requirePosition(
+  tx: ScopedTx,
+  actor: AgencyActor,
+  positionId: string,
+  mode: 'read' | 'edit',
+): Promise<{ id: string; clientId: string; ownerId: string; status: PositionStatus }> {
+  const row = await load(tx, actor, positionId);
+  if (mode === 'edit') assertCanEdit(actor, row);
+  return {
+    id: row.id,
+    clientId: row.clientId,
+    ownerId: row.ownerId,
+    status: row.status as PositionStatus,
+  };
+}
+
 export async function getPosition(
   tx: ScopedTx,
   actor: AgencyActor,
@@ -298,7 +315,13 @@ export async function updatePosition(
     action: 'position.updated',
     entityType: 'position',
     entityId: positionId,
-    data: { fields: Object.keys(patch) },
+    data: {
+      fields: Object.keys(patch),
+      // Weights change how candidates are ranked, so the old and new values are kept (T-1-13).
+      ...(matchingWeights
+        ? { weights: { from: current.matchingWeights, to: matchingWeights } }
+        : {}),
+    },
   });
   return (await toViews(tx, [row]))[0]!;
 }

@@ -39,6 +39,7 @@ const position = (over: Record<string, unknown> = {}) => ({
   updatedAt: '2026-10-01T00:00:00.000Z',
   ...over,
 });
+const OWNER = { userId: 'u1', role: 'recruiter' } as const;
 const clients = {
   data: [
     {
@@ -183,6 +184,7 @@ describe('PositionDetail', () => {
     const stub = stubApi({
       [`GET ${api}/positions/p1`]: () => json({ data: position(over) }),
       [`GET ${api}/activity`]: () => json({ data: [], nextCursor: null }),
+      [`GET ${api}/positions/p1/jd`]: () => json({ data: [] }),
       ...extra,
     });
     vi.stubGlobal('fetch', stub.impl);
@@ -191,7 +193,7 @@ describe('PositionDetail', () => {
 
   it('shows the details, owner and only the status moves that are allowed', async () => {
     serve();
-    renderApp(<PositionDetail agencyId="a1" positionId="p1" />);
+    renderApp(<PositionDetail agencyId="a1" positionId="p1" viewer={OWNER} />);
     expect(await screen.findByRole('heading', { name: 'Staff Engineer' })).toBeTruthy();
     expect(screen.getByText('90000 – 120000 USD')).toBeTruthy();
     expect(screen.getByText('Go, SQL')).toBeTruthy();
@@ -207,7 +209,7 @@ describe('PositionDetail', () => {
       [`POST ${api}/positions/p1/status`]: () => json({ data: position({ status: 'on_hold' }) }),
     });
     const user = userEvent.setup();
-    renderApp(<PositionDetail agencyId="a1" positionId="p1" />);
+    renderApp(<PositionDetail agencyId="a1" positionId="p1" viewer={OWNER} />);
     await user.selectOptions(await screen.findByLabelText('Move to'), 'on_hold');
     await user.type(screen.getByLabelText('Reason'), 'Budget freeze');
     await user.click(screen.getByRole('button', { name: 'Change status' }));
@@ -224,7 +226,7 @@ describe('PositionDetail', () => {
         json({ error: { code: 'conflict', message: 'x' } }, 409),
     });
     const user = userEvent.setup();
-    renderApp(<PositionDetail agencyId="a1" positionId="p1" />);
+    renderApp(<PositionDetail agencyId="a1" positionId="p1" viewer={OWNER} />);
     await user.selectOptions(await screen.findByLabelText('Move to'), 'intake');
     await user.click(screen.getByRole('button', { name: 'Change status' }));
     expect((await screen.findByRole('alert')).textContent).toBe(
@@ -234,16 +236,31 @@ describe('PositionDetail', () => {
 
   it('says a closed position cannot change', async () => {
     serve({}, { status: 'filled' });
-    renderApp(<PositionDetail agencyId="a1" positionId="p1" />);
+    renderApp(<PositionDetail agencyId="a1" positionId="p1" viewer={OWNER} />);
     expect(
       await screen.findByText('This position is closed; its status cannot change.'),
     ).toBeTruthy();
   });
 
+  it('hides the edit, weights and status controls from a recruiter who is not the owner', async () => {
+    serve();
+    renderApp(
+      <PositionDetail
+        agencyId="a1"
+        positionId="p1"
+        viewer={{ userId: 'someone-else', role: 'recruiter' }}
+      />,
+    );
+    expect(await screen.findByRole('heading', { name: 'Staff Engineer' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Edit' })).toBeNull();
+    expect(screen.queryByLabelText('Move to')).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Save weights' })).toBeNull();
+  });
+
   it('switches to the edit form', async () => {
     serve({ [`GET ${api}/clients`]: () => json(clients) });
     const user = userEvent.setup();
-    renderApp(<PositionDetail agencyId="a1" positionId="p1" />);
+    renderApp(<PositionDetail agencyId="a1" positionId="p1" viewer={OWNER} />);
     await user.click(await screen.findByRole('button', { name: 'Edit' }));
     expect(await screen.findByRole('form', { name: 'Edit position' })).toBeTruthy();
   });

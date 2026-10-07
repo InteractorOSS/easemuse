@@ -5,16 +5,32 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { POSITION_TRANSITIONS, REASON_REQUIRED, type PositionStatus } from '@easemuse/core';
+import {
+  POSITION_TRANSITIONS,
+  REASON_REQUIRED,
+  type MatchWeightKey,
+  type PositionStatus,
+} from '@easemuse/core';
 import { EntityTimeline } from '@/components/activity/entity-timeline';
 import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { PositionView } from '@/server/positions/service';
+import { JdPanel } from './jd-panel';
 import { PositionForm } from './position-form';
+import { WeightsEditor } from './weights-editor';
 
 /** The position page shell (T-1-04): details, edit, status control and timeline. JD, intake and pipeline attach here later. */
-export function PositionDetail({ agencyId, positionId }: { agencyId: string; positionId: string }) {
+export function PositionDetail({
+  agencyId,
+  positionId,
+  viewer,
+}: {
+  agencyId: string;
+  positionId: string;
+  /** Who is looking: only the owner, a lead or an admin sees the controls (the API enforces it regardless). */
+  viewer: { userId: string; role: 'admin' | 'lead' | 'recruiter' };
+}) {
   const t = useTranslations('positions');
   const d = useTranslations('positions.detail');
   const states = useTranslations('common.states');
@@ -34,6 +50,8 @@ export function PositionDetail({ agencyId, positionId }: { agencyId: string; pos
     });
     await queryClient.invalidateQueries({ queryKey: ['positions', agencyId] });
   };
+
+  const canEdit = viewer.role !== 'recruiter' || position?.ownerId === viewer.userId;
 
   if (query.isPending) return <p role="status">{states('loading')}</p>;
   if (query.isError || !position) return <p role="alert">{states('error')}</p>;
@@ -74,7 +92,7 @@ export function PositionDetail({ agencyId, positionId }: { agencyId: string; pos
             {d('ownerLine', { name: position.ownerName ?? t('unknownOwner') })}
           </p>
         </div>
-        {editing ? null : (
+        {editing || !canEdit ? null : (
           <Button variant="secondary" onClick={() => setEditing(true)}>
             {d('edit')}
           </Button>
@@ -102,7 +120,18 @@ export function PositionDetail({ agencyId, positionId }: { agencyId: string; pos
         </dl>
       )}
 
-      <StatusControl agencyId={agencyId} position={position} onChanged={refresh} />
+      <JdPanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
+      <WeightsEditor
+        key={JSON.stringify(position.matchingWeights)}
+        agencyId={agencyId}
+        positionId={positionId}
+        weights={position.matchingWeights as Record<MatchWeightKey, number>}
+        canEdit={canEdit}
+        onSaved={refresh}
+      />
+      {canEdit ? (
+        <StatusControl agencyId={agencyId} position={position} onChanged={refresh} />
+      ) : null}
       <EntityTimeline agencyId={agencyId} entityType="position" entityId={positionId} />
     </div>
   );

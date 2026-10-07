@@ -84,5 +84,36 @@
     "generic": "Could not save. Check the values and try again.",
     "transition": "That status change is not allowed right now.",
     "forbidden": "Only the owner, a lead or an admin can change this position."
+  },
+  "jd": {
+    "title": "Original job description",
+    "none": "No job description yet. Upload the client's file or paste the text.",
+    "upload": "Upload file",
+    "uploadHint": "PDF, DOCX or plain text, up to 10 MB.",
+    "paste": "Or paste the text",
+    "pasteLabel": "Job description text",
+    "addText": "Save pasted text",
+    "pending": "Reading the file…",
+    "failed": "The file could not be read: {reason} Paste the text instead.",
+    "fromImage": "This text was read from page images. Check it against the original.",
+    "download": "Download original",
+    "viewText": "Show text",
+    "added": "Added {date}",
+    "pasted": "Pasted text",
+    "errors": {
+      "generic": "Could not add the job description. Try again.",
+      "unsupported": "Upload a PDF, DOCX or plain text file.",
+      "tooLarge": "Files can be at most 10 MB.",
+      "tooShort": "Paste at least 50 characters."
+    }
+  },
+  "weights": {
+    "title": "Matching weights",
+    "intro": "How much each area counts toward a candidate's overall match. The weights must add up to 100.",
+    "sum": "Total: {sum} of 100",
+    "sumError": "The weights must add up to 100 (now {sum}).",
+    "save": "Save weights",
+    "saved": "Weights saved.",
+    "reset": "Use agency defaults"
   }
 }

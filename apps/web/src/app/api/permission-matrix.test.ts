@@ -108,6 +108,12 @@ vi.mock('@/server/positions/service', () => ({
   updatePosition: async () => ({}),
   changeStatus: async () => ({}),
 }));
+vi.mock('@/server/positions/jd', () => ({
+  listOriginals: async () => [],
+  addPastedOriginal: async () => ({}),
+  addUploadedOriginal: async () => ({ id: 'j1' }),
+  startExtraction: async () => 'run1',
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -150,6 +156,10 @@ import {
   PATCH as positionPatch,
 } from './v1/agencies/[agencyId]/positions/[positionId]/route';
 import { POST as positionStatus } from './v1/agencies/[agencyId]/positions/[positionId]/status/route';
+import {
+  GET as jdGet,
+  POST as jdPost,
+} from './v1/agencies/[agencyId]/positions/[positionId]/jd/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -383,6 +393,20 @@ const endpoints: Endpoint[] = [
     allowed: AGENCY_ALL,
     call: () =>
       positionStatus(new Request('http://x.test/', json({ status: 'intake' })), agencyParams),
+  },
+  {
+    name: 'GET position jd',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/jd/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => jdGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST position jd',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/jd/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => jdPost(new Request('http://x.test/', json({ text: 'x'.repeat(60) })), agencyParams),
   },
   {
     name: 'GET tasks',

@@ -13,5 +13,11 @@ export default async function PositionPage({
   const { agencySlug, positionId } = await params;
   const access = await agencyAccess(agencySlug);
   if (!z.guid().safeParse(positionId).success) notFound();
-  return <PositionDetail agencyId={access.agency.id} positionId={positionId} />;
+  return (
+    <PositionDetail
+      agencyId={access.agency.id}
+      positionId={positionId}
+      viewer={{ userId: access.userId, role: access.role }}
+    />
+  );
 }

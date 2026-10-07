@@ -13,3 +13,4 @@ export * from './schemas/settings';
 export * from './schemas/tasks';
 export * from './schemas/clients';
 export * from './schemas/positions';
+export * from './schemas/jd';

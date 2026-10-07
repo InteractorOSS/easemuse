@@ -11,6 +11,7 @@ import { useAiRun } from '@/components/artifacts/use-ai-run';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { apiFetch } from '@/lib/api-client';
+import { ResumeDecision } from './resume-decision';
 import { ResumeEditor } from './resume-editor';
 
 interface Overview {
@@ -93,6 +94,9 @@ export function ResumePanel({
           artifactId={o.artifactId}
           ContentEditor={ResumeEditor}
         />
+      ) : null}
+      {o.artifactId ? (
+        <ResumeDecision agencyId={agencyId} entryId={entryId} onChanged={refresh} />
       ) : null}
     </section>
   );

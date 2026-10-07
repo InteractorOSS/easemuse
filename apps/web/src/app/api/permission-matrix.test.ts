@@ -237,6 +237,12 @@ vi.mock('@/server/resume/tailor', () => ({
   generateTailoredResume: async () => ({}),
   recheckTailoredResume: async () => ({ ranAt: '', warnings: [] }),
 }));
+vi.mock('@/server/resume/approval', () => ({
+  getApprovals: async () => ({}),
+  recordResumeApproval: async () => ({}),
+  listConsents: async () => ({ items: [] }),
+  recordConsent: async () => ({ items: [] }),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -355,6 +361,14 @@ import {
   POST as tailoredPost,
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/route';
 import { POST as tailoredRecheckPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/fact-check/route';
+import {
+  GET as approvalsGet,
+  POST as approvalsPost,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/approvals/route';
+import {
+  GET as consentsGet,
+  POST as consentsPost,
+} from './v1/agencies/[agencyId]/candidates/[candidateId]/consents/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -1052,6 +1066,58 @@ const endpoints: Endpoint[] = [
     allowed: AGENCY_ALL,
     call: () =>
       tailoredRecheckPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET resume approvals',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/approvals/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => approvalsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST resume approval',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/approvals/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      approvalsPost(
+        new Request(
+          'http://x.test/',
+          json({
+            decision: 'approved',
+            approverName: 'Alex Kim',
+            method: 'email',
+            decidedAt: '2026-10-01T00:00:00Z',
+          }),
+        ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET consents',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/consents/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => consentsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST consent',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/consents/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      consentsPost(
+        new Request(
+          'http://x.test/',
+          json({
+            clientId: '11111111-1111-4111-8111-111111111111',
+            action: 'given',
+            at: '2026-10-01T00:00:00Z',
+            method: 'email',
+          }),
+        ),
+        agencyParams,
+      ),
   },
   {
     name: 'GET screening',

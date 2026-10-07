@@ -430,6 +430,40 @@
     "email": "Email",
     "phone": "Phone",
     "location": "Location",
-    "factsLocked": "Employers, titles, dates and degrees come from the confirmed profile."
+    "factsLocked": "Employers, titles, dates and degrees come from the confirmed profile.",
+    "approvalTitle": "Candidate's decision",
+    "approvalHint": "Send the approved resume and profile to the candidate, then record what they answered. Changing the resume later means asking again.",
+    "approvalNeeded": "Approve the tailored resume first.",
+    "decision": "Decision",
+    "decisions": {
+      "approved": "Approved",
+      "changes_requested": "Changes requested"
+    },
+    "approver": "Name of the person who answered",
+    "method": "How they answered",
+    "methods": {
+      "email": "Email",
+      "phone": "Phone",
+      "other": "Other"
+    },
+    "decidedAt": "Date of the answer",
+    "comments": "Comments",
+    "record": "Record decision",
+    "recorded": "Decision recorded",
+    "history": "Recorded decisions",
+    "decisionLine": "{decision} by {name} on {date} ({method})",
+    "outdated": "Applies to an earlier version of the resume.",
+    "none": "No decision recorded yet.",
+    "consentTitle": "Consent to submit to {client}",
+    "consentNone": "No consent recorded for this client.",
+    "consentLine": "{action} on {date} ({method})",
+    "consentActions": {
+      "given": "Given",
+      "withdrawn": "Withdrawn"
+    },
+    "consentAction": "Consent",
+    "recordConsent": "Record consent",
+    "consentRecorded": "Consent recorded",
+    "consentHistory": "History"
   }
 }

@@ -70,6 +70,23 @@ async function loadEntry(tx: ScopedTx, actor: AgencyActor, entryId: string): Pro
   return row;
 }
 
+/**
+ * For features that work on one candidate in one position (analysis, screening, outreach...): loads
+ * the entry as `read` (anyone who can see the position) or `edit` (the entry's owner, a lead or an admin).
+ */
+export async function requireEntry(
+  tx: ScopedTx,
+  actor: AgencyActor,
+  entryId: string,
+  mode: 'read' | 'edit',
+): Promise<PipelineEntryView> {
+  const row = await loadEntry(tx, actor, entryId);
+  if (mode === 'edit' && !isManager(actor) && row.ownerId !== actor.userId) {
+    throw forbidden('Only the owner, a lead or an admin can do this for this candidate');
+  }
+  return toView(row);
+}
+
 export async function getEntry(
   tx: ScopedTx,
   actor: AgencyActor,

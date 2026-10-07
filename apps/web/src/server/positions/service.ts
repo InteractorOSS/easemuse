@@ -17,6 +17,7 @@ import { decodeCursor, toPage } from '@/lib/http/pagination';
 import { logActivity } from '@/server/activity/service';
 import { applyGuards } from '@/server/guards';
 import { getAgencySettings } from '@/server/tenancy/settings';
+import { recomputePositionScores } from '@/server/matching/scoring';
 import { isJdApproved } from './jd-approval';
 
 /**
@@ -315,6 +316,8 @@ export async function updatePosition(
     data: { ...rest, ...(matchingWeights ? { matchingWeights } : {}) },
     select,
   });
+  // New weights change every overall score of the position at once, with no new analysis (ADR-007).
+  if (matchingWeights) await recomputePositionScores(tx, positionId, matchingWeights);
   await logActivity(tx, {
     agencyId: actor.agencyId,
     actor: { type: 'user', id: actor.userId },

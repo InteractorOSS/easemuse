@@ -16,6 +16,7 @@ import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { AnalysisDetail } from '@/server/matching/detail';
 import type { AnalysisView } from '@/server/matching/overrides';
 import type { PipelineEntryView } from '@/server/pipeline/service';
+import { ScreeningPanel } from './screening-panel';
 import { TransitionControl } from './transition-control';
 
 type Evidence = AnalysisDetail['criteria'][number]['evidence'][number];
@@ -103,6 +104,8 @@ export function AnalysisView({
           onMoved={refresh}
         />
       </div>
+
+      <ScreeningPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
 
       <section aria-labelledby="analyze-heading" className="flex max-w-2xl flex-col gap-2">
         <h2 id="analyze-heading" className="text-lg font-semibold">

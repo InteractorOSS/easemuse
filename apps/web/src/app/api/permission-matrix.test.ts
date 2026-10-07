@@ -209,6 +209,11 @@ vi.mock('@/server/matching/detail', () => ({
   getAnalysisDetail: async () => ({}),
   markReviewed: async () => ({ reviewed: true }),
 }));
+vi.mock('@/server/screening/service', () => ({
+  getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
+  saveScreening: async () => ({}),
+  classifyEntry: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -290,6 +295,11 @@ import {
 import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
 import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
 import { PATCH as dncPatch } from './v1/agencies/[agencyId]/candidates/[candidateId]/do-not-contact/route';
+import {
+  GET as screeningGet,
+  PUT as screeningPut,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/screening/route';
+import { POST as classifyPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/classification/route';
 import { GET as entryGet } from './v1/agencies/[agencyId]/pipeline/[entryId]/route';
 import { POST as transitionPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/transitions/route';
 import { POST as addToPositionPost } from './v1/agencies/[agencyId]/positions/[positionId]/candidates/route';
@@ -880,6 +890,35 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => jobGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET screening',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/screening/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => screeningGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PUT screening',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/screening/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      screeningPut(
+        new Request('http://x.test/', { ...json({ items: {} }), method: 'PUT' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST classification',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/classification/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      classifyPost(
+        new Request('http://x.test/', json({ screeningClass: 'priority' })),
+        agencyParams,
+      ),
   },
   {
     name: 'GET tasks',

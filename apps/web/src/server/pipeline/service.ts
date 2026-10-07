@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import type { Prisma } from '@prisma/client';
 import {
+  OUTREACH_CLASSES,
   PIPELINE_TRANSITIONS,
   REASON_CODE_REQUIRED,
   REASON_TEXT_REQUIRED,
@@ -10,6 +11,7 @@ import {
   type AgencyActor,
   type PipelineState,
   type PipelineTransitionInput,
+  type ScreeningClassValue,
 } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 import { ApiError, forbidden, notFound } from '@/lib/http/errors';
@@ -204,6 +206,19 @@ export async function transitionEntry(
       finished
         ? `This candidate's process has ended (${from.replace('_', ' ')})`
         : `A candidate who is ${from.replace('_', ' ')} cannot move to ${input.to.replace('_', ' ')}`,
+      { status: 409 },
+    );
+  }
+
+  // Only Priority and Potential candidates continue to outreach (handoff section 3).
+  if (
+    from === 'screened' &&
+    input.to === 'contacting' &&
+    !OUTREACH_CLASSES.includes(entry.screeningClass as ScreeningClassValue)
+  ) {
+    throw new ApiError(
+      'invalid_transition',
+      'Classify the candidate as Priority or Potential before contacting them',
       { status: 409 },
     );
   }

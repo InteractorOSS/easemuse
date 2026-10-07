@@ -239,7 +239,15 @@ describe.skipIf(!dbAvailable())('pipeline service (T-3-01, T-2-07)', () => {
       for (const to of path) {
         // Submitting needs the resume approval, consent and assessment on record (see guard-library.db.test.ts).
         if (to === 'submitted') await satisfySubmissionGuards(entry.id);
-        if (to === 'contacting') await satisfyJdGuard(entry.positionId);
+        if (to === 'contacting') {
+          await satisfyJdGuard(entry.positionId);
+          await run((tx) =>
+            tx.pipelineEntry.update({
+              where: { id: entry.id },
+              data: { screeningClass: 'priority' },
+            }),
+          );
+        }
         expect((await move(entry.id, to)).state).toBe(to);
       }
       const history = await admin.query(

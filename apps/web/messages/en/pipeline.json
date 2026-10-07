@@ -226,5 +226,50 @@
     },
     "stageLine": "Stage: {stage}",
     "criterionLine": "{name}: {level}"
+  },
+  "screening": {
+    "title": "Screening",
+    "hint": "Your own reading of the candidate. Every item is optional, and nothing here is filled in by AI.",
+    "items": {
+      "careerConsistency": "Career consistency",
+      "jobChanges": "Job changes",
+      "employmentGaps": "Employment gaps",
+      "scopeOfResponsibility": "Actual scope of responsibility",
+      "teamSize": "Team size",
+      "reportingStructure": "Reporting structure",
+      "accomplishments": "Relevant accomplishments",
+      "technicalCompetency": "Technical competency",
+      "leadershipCompetency": "Leadership competency",
+      "compensationExpectation": "Compensation expectation",
+      "location": "Location",
+      "workAuthorization": "Work authorization",
+      "relocation": "Relocation possibility",
+      "careerMotivation": "Career motivation"
+    },
+    "rating": "Rating for {item}",
+    "notes": "Notes on {item}",
+    "noRating": "Not rated",
+    "ratings": {
+      "strong": "Strong",
+      "adequate": "Adequate",
+      "concern": "Concern"
+    },
+    "save": "Save screening",
+    "saved": "Screening saved",
+    "classTitle": "Classification",
+    "classHint": "Only Priority and Potential candidates continue to outreach.",
+    "classes": {
+      "priority": "Priority",
+      "potential": "Potential",
+      "hold": "Hold",
+      "not_qualified": "Not qualified"
+    },
+    "classLabel": "Classification",
+    "classNone": "Not classified yet",
+    "reason": "Reason",
+    "reasonRequired": "Say why a candidate is not qualified",
+    "classify": "Set classification",
+    "classified": "Classification saved",
+    "current": "Current classification: {value}"
   }
 }

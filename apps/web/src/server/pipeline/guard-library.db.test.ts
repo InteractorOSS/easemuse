@@ -73,7 +73,12 @@ describe.skipIf(!dbAvailable())('pipeline guards (T-3-02)', () => {
       )
     ).id;
     const entry = await run((tx) => addCandidateToPosition(tx, actor, positionId, { candidateId }));
-    await run((tx) => tx.pipelineEntry.update({ where: { id: entry.id }, data: { state } }));
+    await run((tx) =>
+      tx.pipelineEntry.update({
+        where: { id: entry.id },
+        data: { state, ...(state === 'screened' ? { screeningClass: 'priority' as const } : {}) },
+      }),
+    );
     return { ...entry, positionId, candidateId };
   };
   const submit = (entryId: string, overrides: { guard: GuardKey; reason: string }[] = []) =>

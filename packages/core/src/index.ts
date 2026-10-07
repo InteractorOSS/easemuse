@@ -9,3 +9,4 @@ export * from './artifacts/fact-check';
 export * from './schemas/artifacts';
 export * from './schemas/evidence';
 export * from './schemas/usage';
+export * from './schemas/settings';

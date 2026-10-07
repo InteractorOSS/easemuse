@@ -73,6 +73,14 @@ vi.mock('@/server/platform/audit-log', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/server/platform/audit-log')>()),
   listAuditEntries: async () => ({ items: [], nextCursor: null }),
 }));
+vi.mock('@/server/tenancy/settings', () => ({
+  readSettings: async () => ({}),
+  updateSettings: async () => ({}),
+}));
+vi.mock('@/server/tenancy/agency-usage', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/tenancy/agency-usage')>()),
+  getAgencyUsage: async () => ({ month: '2026-10' }),
+}));
 vi.mock('@/server/ai/provenance', () => ({ getProvenance: async () => ({ id: 'g1' }) }));
 
 import { GET as agenciesGet, POST as agenciesPost } from './admin/v1/agencies/route';
@@ -82,6 +90,11 @@ import { POST as reactivatePost } from './admin/v1/agencies/[id]/reactivate/rout
 import { PATCH as budgetPatch } from './admin/v1/agencies/[id]/budget/route';
 import { GET as usageGet } from './admin/v1/usage/route';
 import { GET as auditGet } from './admin/v1/audit/route';
+import {
+  GET as settingsGet,
+  PATCH as settingsPatch,
+} from './v1/agencies/[agencyId]/settings/route';
+import { GET as agencyUsageGet } from './v1/agencies/[agencyId]/usage/route';
 import { GET as membersGet } from './v1/agencies/[agencyId]/members/route';
 import { PATCH as memberPatch } from './v1/agencies/[agencyId]/members/[userId]/route';
 import { GET as invitesGet, POST as invitesPost } from './v1/agencies/[agencyId]/invites/route';
@@ -163,6 +176,31 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: ['admin'],
     call: () => inviteDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
+  },
+  {
+    name: 'GET settings',
+    file: 'v1/agencies/[agencyId]/settings/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => settingsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PATCH settings',
+    file: 'v1/agencies/[agencyId]/settings/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () =>
+      settingsPatch(
+        new Request('http://x.test/', { ...json({ recentlyContactedDays: 7 }), method: 'PATCH' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET agency usage',
+    file: 'v1/agencies/[agencyId]/usage/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => agencyUsageGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'GET artifact',

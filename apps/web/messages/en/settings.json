@@ -1,0 +1,84 @@
+{
+  "title": "Settings",
+  "nav": {
+    "label": "Settings sections",
+    "members": "Members",
+    "defaults": "Defaults",
+    "usage": "AI usage"
+  },
+  "defaults": {
+    "title": "Agency defaults",
+    "intro": "These apply to every position and every recruiter in your agency.",
+    "readOnly": "Only an admin can change these.",
+    "weights": {
+      "title": "Matching weights",
+      "intro": "How much each area counts in the match score. They must add up to 100. Recruiters can change them for one position.",
+      "sum": "Total: {sum} of 100",
+      "sumError": "The weights must add up to 100 (now {sum}).",
+      "keys": {
+        "coreCompetencies": "Core competencies",
+        "relevantExperience": "Relevant experience",
+        "industryFunctional": "Industry / functional experience",
+        "careerLevel": "Career level / years of experience",
+        "locationArrangement": "Location / work arrangement",
+        "educationCertification": "Education / certification",
+        "compensationOther": "Compensation / other requirements"
+      }
+    },
+    "outreach": {
+      "title": "Outreach timing",
+      "second": "Days from the first message to the follow-up",
+      "third": "Days from the follow-up to the final follow-up",
+      "recent": "Warn if a candidate was contacted in the last N days (0 turns the warning off)"
+    },
+    "guards": {
+      "title": "Rules before important steps",
+      "intro": "Block stops the step. Warn lets the recruiter continue after seeing the warning.",
+      "mode": { "block": "Block", "warn": "Warn" },
+      "keys": {
+        "jdApproval": "Moving a position to sourcing without an approved job description",
+        "resumeApproval": "Submitting without the candidate's approved resume",
+        "consent": "Submitting without the candidate's consent for this client",
+        "recruiterAssessment": "Submitting without the recruiter's own assessment"
+      }
+    },
+    "reasons": {
+      "title": "Rejection reasons",
+      "label": "One reason per line",
+      "hint": "Shown when a candidate is rejected or withdraws. 1 to 30 different reasons.",
+      "error": "Enter 1 to 30 different reasons, each 2 to 60 characters."
+    },
+    "visibility": {
+      "title": "What recruiters can see",
+      "label": "Positions visible to recruiters",
+      "all_positions": "All positions in the agency",
+      "own_and_shared": "Their own and shared positions"
+    },
+    "language": {
+      "label": "Default language",
+      "hint": "Used for people who have not chosen their own.",
+      "en": "English",
+      "ko": "한국어"
+    },
+    "save": "Save defaults",
+    "saved": "Defaults saved.",
+    "failed": "Could not save. Check the values and try again."
+  },
+  "usage": {
+    "title": "AI usage this month",
+    "month": "Month",
+    "budget": {
+      "none": "No monthly limit is set.",
+      "line": "{spent} of {limit} used",
+      "level": {
+        "ok": "Within budget",
+        "warning": "Over 80% of the budget",
+        "over": "Budget used: AI drafting is paused, everything else keeps working"
+      }
+    },
+    "byPurpose": "Cost by purpose",
+    "columns": { "purpose": "Purpose", "calls": "Calls", "cost": "Cost (USD)" },
+    "empty": "No AI use this month.",
+    "total": "Total"
+  }
+}

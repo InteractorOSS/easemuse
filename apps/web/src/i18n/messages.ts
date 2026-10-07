@@ -14,6 +14,7 @@ export const NAMESPACES = [
   'admin',
   'members',
   'artifacts',
+  'settings',
 ] as const;
 
 /** Overlays `override` on `base`: a key missing from the override keeps the base (English) text. */

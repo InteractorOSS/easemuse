@@ -13,8 +13,19 @@ import email from '../../messages/en/email.json';
 import admin from '../../messages/en/admin.json';
 import members from '../../messages/en/members.json';
 import artifacts from '../../messages/en/artifacts.json';
+import settings from '../../messages/en/settings.json';
 
-export const messages = { common, nav, home, workbench, email, admin, members, artifacts };
+export const messages = {
+  common,
+  nav,
+  home,
+  workbench,
+  email,
+  admin,
+  members,
+  artifacts,
+  settings,
+};
 
 function IntlWrapper({ children }: { children: ReactNode }) {
   return (

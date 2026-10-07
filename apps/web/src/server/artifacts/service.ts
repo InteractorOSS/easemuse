@@ -269,6 +269,37 @@ export async function saveEditToLatest(
   return next;
 }
 
+/**
+ * Stores a fact-check result on a DRAFT (T-AI-08/09). Re-running the check after an edit keeps the
+ * decisions the recruiter already made for warnings that are still raised, and drops the rest.
+ */
+export async function setFactCheck(
+  tx: ScopedTx,
+  versionId: string,
+  factCheck: FactCheck,
+): Promise<FactCheck> {
+  const version = await loadVersion(tx, versionId);
+  if (version.status !== 'draft')
+    throw conflict('not_draft', 'The fact check applies to drafts only');
+  const previous = factCheckSchema.safeParse(version.factCheck);
+  const decided = new Map(
+    previous.success
+      ? previous.data.warnings.flatMap((w) => (w.resolution ? [[w.id, w.resolution] as const] : []))
+      : [],
+  );
+  const merged: FactCheck = {
+    ...factCheck,
+    warnings: factCheck.warnings.map((w) =>
+      decided.has(w.id) && !w.resolution ? { ...w, resolution: decided.get(w.id)! } : w,
+    ),
+  };
+  await tx.artifactVersion.update({
+    where: { id: versionId },
+    data: { factCheck: merged as unknown as Prisma.InputJsonValue },
+  });
+  return merged;
+}
+
 /** Throws the draft away. Approved versions cannot be discarded (supersede them by approving a newer one). */
 export async function discardVersion(
   tx: ScopedTx,

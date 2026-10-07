@@ -10,6 +10,7 @@ import {
   type Subject,
   addDraftVersion,
   saveEditToLatest,
+  setFactCheck,
   listVersionsOfGeneration,
   approveVersion,
   createArtifact,
@@ -515,6 +516,74 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
       { artifactId: id, versionId: v.id, version: 1, status: 'draft' },
     ]);
     expect(await run((tx) => listVersionsOfGeneration(tx, randomUUID()))).toEqual([]);
+  });
+
+  describe('storing a fact check (T-AI-08/09)', () => {
+    const check = (ids: string[]) => ({
+      ranAt: new Date().toISOString(),
+      warnings: ids.map((id) => ({ id, claim: `claim ${id}`, step: 'deterministic' as const })),
+    });
+    const fresh = async () => {
+      const { id } = await newArtifact('tailored_resume', {
+        type: 'pipeline_entry',
+        id: randomUUID(),
+      });
+      return { id, v: await draft(id, { text: 'resume' }) };
+    };
+
+    it('stores the result on a draft so approval can use it', async () => {
+      const { id, v } = await fresh();
+      await run((tx) => setFactCheck(tx, v.id, check(['w1'])));
+      expect(
+        (await run((tx) => getArtifactWithVersions(tx, id))).versions[0]!.factCheck?.warnings.map(
+          (w) => w.id,
+        ),
+      ).toEqual(['w1']);
+    });
+
+    it('keeps earlier decisions for warnings that are still raised when the check is re-run', async () => {
+      const { id, v } = await fresh();
+      await run((tx) =>
+        setFactCheck(tx, v.id, {
+          ranAt: 'then',
+          warnings: [
+            {
+              id: 'w1',
+              claim: 'a',
+              step: 'verifier',
+              resolution: {
+                kind: 'confirmed',
+                reason: 'said on call',
+                resolvedById: userId,
+                resolvedAt: 'x',
+              },
+            },
+            {
+              id: 'w2',
+              claim: 'b',
+              step: 'verifier',
+              resolution: { kind: 'edited', resolvedById: userId, resolvedAt: 'x' },
+            },
+          ],
+        }),
+      );
+      await run((tx) => setFactCheck(tx, v.id, check(['w1', 'w3'])));
+      const stored = (await run((tx) => getArtifactWithVersions(tx, id))).versions[0]!.factCheck!;
+      expect(stored.warnings.map((w) => [w.id, w.resolution?.kind])).toEqual([
+        ['w1', 'confirmed'],
+        ['w3', undefined],
+      ]);
+    });
+
+    it('refuses to change the check of anything that is not a draft', async () => {
+      const { v } = await fresh();
+      await run((tx) => setFactCheck(tx, v.id, check([])));
+      await run((tx) => approveVersion(tx, actor, v.id));
+      await expect(run((tx) => setFactCheck(tx, v.id, check(['w1'])))).rejects.toMatchObject({
+        status: 409,
+        code: 'not_draft',
+      });
+    });
   });
 
   it("hides one agency's artifacts from another (404)", async () => {

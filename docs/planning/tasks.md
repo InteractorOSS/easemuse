@@ -11,6 +11,8 @@
 
 **Also done 2026-10-07:** T-ADM-01, T-13-01, T-13-02, T-13-03, plus T-ADM-02 (suspend / reactivate with a required reason), the audit-log writer from T-ADM-05, the outbox core and capture transports from T-5-01 / T-5-02 (SMTP is still open) and the invitation email from T-5-05. Open here: the audit page (T-ADM-05), usage figures on the agency page (T-ADM-04) and the last-owner rule for platform admins (T-ADM-03).
 
+**Also done 2026-10-07 (AI core):** T-AI-01 to T-AI-15 and T-AI-07: gateway and routing table, Anthropic client, `LlmCall` ledger and budget gate, artifact lifecycle with approval rules and stale-marking hooks, the read-rule guard, the kind registry, fact check (deterministic step and LLM verifier), generic artifact editor with streaming plumbing, provenance, protected-attribute redaction, evidence references, draft-quality metric and the nightly orphan report. Open: prompt modules and real schemas for each kind arrive with their feature tasks (T-1-06 onward), and the fact check is wired into A15/A16 with T-7-*. The gateway was tested with a fake model client; no live Anthropic call has been made (no API key yet).
+
 Estimates are ideal engineering hours (≤ 8 = under one day). "Dep" lists blocking tasks. Every AI task includes adding its cases to the eval set (T-QA-03) and an isolation test for its routes (T-QA-01).
 
 ---

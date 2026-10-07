@@ -16,6 +16,7 @@ export default async function PositionPage({
   return (
     <PositionDetail
       agencyId={access.agency.id}
+      agencySlug={access.agency.slug}
       positionId={positionId}
       viewer={{ userId: access.userId, role: access.role }}
     />

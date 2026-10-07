@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
-import type { ArtifactKind, SubjectType } from '@easemuse/core';
+import { structuredJdContentSchema, type ArtifactKind, type SubjectType } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 
 export interface ApprovalContext {
@@ -17,7 +17,30 @@ type Hook = (tx: ScopedTx, context: ApprovalContext) => Promise<void>;
  * profile or candidate profile marks the match analyses that used the old one as stale (FR-MAT-07),
  * so a recruiter never relies on a score computed from content that has since changed.
  */
+const GUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const BUILT_IN: Partial<Record<ArtifactKind, Hook>> = {
+  // Approving a structured JD makes its requirements the position's requirement rows (FR-INT-05):
+  // the list replaces the previous one, in the recruiter's order, one category each.
+  structured_jd: async (tx, { agencyId, subject, versionId }) => {
+    const version = await tx.artifactVersion.findUnique({
+      where: { id: versionId },
+      select: { content: true },
+    });
+    const content = structuredJdContentSchema.parse(version?.content);
+    await tx.requirement.deleteMany({ where: { positionId: subject.id } });
+    await tx.requirement.createMany({
+      data: content.requirements.map((r, index) => ({
+        ...(GUID.test(r.id) ? { id: r.id } : {}),
+        agencyId,
+        positionId: subject.id,
+        section: r.section,
+        text: r.text,
+        category: r.category,
+        sortOrder: index,
+      })),
+    });
+  },
   success_profile: async (tx, { subject }) => {
     await tx.matchAnalysis.updateMany({
       where: { entry: { positionId: subject.id }, stale: false },

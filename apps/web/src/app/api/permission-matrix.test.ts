@@ -118,6 +118,10 @@ vi.mock('@/server/positions/structure-jd', () => ({
   planStructureJd: async () => ({ input: {}, inputRefs: {} }),
   runStructureJd: async () => ({}),
 }));
+vi.mock('@/server/positions/structured-jd', () => ({
+  getStructuredJdArtifact: async () => ({ artifactId: null, approvedVersionId: null }),
+  listRequirements: async () => [],
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -166,6 +170,7 @@ import {
   POST as jdPost,
 } from './v1/agencies/[agencyId]/positions/[positionId]/jd/route';
 import { POST as structurePost } from './v1/agencies/[agencyId]/positions/[positionId]/jd/structure/route';
+import { GET as structuredGet } from './v1/agencies/[agencyId]/positions/[positionId]/structured-jd/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -420,6 +425,13 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => structurePost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET position structured jd',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/structured-jd/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => structuredGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'GET tasks',

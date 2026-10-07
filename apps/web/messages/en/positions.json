@@ -78,7 +78,8 @@
     "moveButton": "Change status",
     "reasonLabel": "Reason",
     "reasonNeeded": "A reason is required for this change.",
-    "finalStatus": "This position is closed; its status cannot change."
+    "finalStatus": "This position is closed; its status cannot change.",
+    "structureLink": "Structure the JD"
   },
   "errors": {
     "generic": "Could not save. Check the values and try again.",
@@ -115,5 +116,62 @@
     "save": "Save weights",
     "saved": "Weights saved.",
     "reset": "Use agency defaults"
+  },
+  "jdSections": {
+    "position_summary": "Position summary",
+    "key_responsibilities": "Key responsibilities",
+    "required_qualifications": "Required qualifications",
+    "preferred_qualifications": "Preferred qualifications",
+    "core_competencies": "Core competencies",
+    "technical_skills": "Technical skills",
+    "industry_experience": "Industry experience",
+    "leadership_management": "Leadership / management",
+    "years_of_experience": "Years of experience",
+    "education_certification": "Education / certification",
+    "location": "Location",
+    "compensation": "Compensation",
+    "work_authorization": "Work authorization"
+  },
+  "categories": {
+    "must_have": "Must-have",
+    "preferred": "Preferred",
+    "nice_to_have": "Nice-to-have",
+    "disqualifying": "Disqualifying"
+  },
+  "structure": {
+    "title": "Structured job description",
+    "back": "Back to the position",
+    "run": "Structure JD",
+    "rerun": "Structure again",
+    "hint": "AI reads the original job description and drafts the 13 sections and a priority for each requirement. You review and approve it.",
+    "needJd": "Add the client's job description first (upload it or paste the text).",
+    "noOriginal": "Add the job description on the position page first.",
+    "approvedRequirements": "Approved requirements",
+    "noRequirements": "No requirements approved yet.",
+    "errors": {
+      "budget": "This month's AI budget has been used. Ask your admin to raise it.",
+      "generic": "Could not structure the JD. Try again."
+    }
+  },
+  "jdEditor": {
+    "missingTitle": "Missing from the JD: ask the hiring manager",
+    "missingNone": "Every section was found in the JD.",
+    "sectionMissing": "Missing, ask the hiring manager",
+    "sectionFound": "Found in the JD",
+    "summary": "Summary of {section}",
+    "requirementsTitle": "Requirements",
+    "requirementsNone": "No requirements yet.",
+    "requirementText": "Requirement {n}",
+    "category": "Category of requirement {n}",
+    "section": "Section of requirement {n}",
+    "moveUp": "Move requirement {n} up",
+    "moveDown": "Move requirement {n} down",
+    "remove": "Remove requirement {n}",
+    "addTitle": "Add a requirement",
+    "newText": "New requirement",
+    "newCategory": "New requirement category",
+    "newSection": "New requirement section",
+    "add": "Add requirement",
+    "invalid": "This draft cannot be shown as a form."
   }
 }

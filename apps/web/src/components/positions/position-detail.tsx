@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 'use client';
 
+import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
@@ -23,10 +24,12 @@ import { WeightsEditor } from './weights-editor';
 /** The position page shell (T-1-04): details, edit, status control and timeline. JD, intake and pipeline attach here later. */
 export function PositionDetail({
   agencyId,
+  agencySlug,
   positionId,
   viewer,
 }: {
   agencyId: string;
+  agencySlug: string;
   positionId: string;
   /** Who is looking: only the owner, a lead or an admin sees the controls (the API enforces it regardless). */
   viewer: { userId: string; role: 'admin' | 'lead' | 'recruiter' };
@@ -120,6 +123,11 @@ export function PositionDetail({
         </dl>
       )}
 
+      {canEdit ? (
+        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/structure`}>
+          {d('structureLink')}
+        </Link>
+      ) : null}
       <JdPanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
       <WeightsEditor
         key={JSON.stringify(position.matchingWeights)}

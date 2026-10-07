@@ -1,0 +1,44 @@
+{
+  "title": "Clients",
+  "new": "New client",
+  "search": "Search clients",
+  "showArchived": "Show archived",
+  "empty": "No clients yet. Add the first one.",
+  "emptySearch": "No client matches that search.",
+  "positions": "{count, plural, =0 {No positions} one {# position} other {# positions}}",
+  "archived": "Archived",
+  "archivedBadge": "(Archived)",
+  "archive": "Archive",
+  "restore": "Restore",
+  "archiveFor": "Archive {name}",
+  "restoreFor": "Restore {name}",
+  "contacts": {
+    "title": "Contacts",
+    "none": "No contacts yet.",
+    "add": "Add contact",
+    "show": "Contacts of {name}",
+    "remove": "Remove",
+    "removeFor": "Remove {name}",
+    "removed": "Contact removed.",
+    "added": "Contact added."
+  },
+  "form": {
+    "title": "New client",
+    "description": "Clients are the companies you recruit for.",
+    "name": "Company name",
+    "submit": "Create client",
+    "similar": "A client named \"{name}\" already exists. This one was still created; archive it if it is a duplicate."
+  },
+  "contactForm": {
+    "name": "Name",
+    "title": "Job title",
+    "email": "Email",
+    "phone": "Phone",
+    "submit": "Add contact"
+  },
+  "errors": {
+    "generic": "Could not save. Check the values and try again.",
+    "contactInUse": "This contact is a hiring manager or has portal access. Reassign first.",
+    "archived": "Restore this client before adding contacts."
+  }
+}

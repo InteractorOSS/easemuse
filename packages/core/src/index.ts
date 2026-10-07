@@ -11,3 +11,4 @@ export * from './schemas/evidence';
 export * from './schemas/usage';
 export * from './schemas/settings';
 export * from './schemas/tasks';
+export * from './schemas/clients';

@@ -92,6 +92,15 @@ vi.mock('@/server/activity/service', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/server/activity/service')>()),
   listTimeline: async () => ({ items: [], nextCursor: null }),
 }));
+vi.mock('@/server/clients/service', () => ({
+  listClients: async () => ({ items: [], nextCursor: null }),
+  createClient: async () => ({ client: {}, similar: [] }),
+  getClient: async () => ({}),
+  updateClient: async () => ({}),
+  addContact: async () => ({}),
+  updateContact: async () => ({}),
+  removeContact: async () => undefined,
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -115,6 +124,16 @@ import { GET as adminsGet, POST as adminsPost } from './admin/v1/admins/route';
 import { PATCH as adminPatch, DELETE as adminDelete } from './admin/v1/admins/[userId]/route';
 import { DELETE as adminInviteDelete } from './admin/v1/admin-invites/[id]/route';
 import { GET as activityGet } from './v1/agencies/[agencyId]/activity/route';
+import { GET as clientsGet, POST as clientsPost } from './v1/agencies/[agencyId]/clients/route';
+import {
+  GET as clientGet,
+  PATCH as clientPatch,
+} from './v1/agencies/[agencyId]/clients/[clientId]/route';
+import { POST as contactPost } from './v1/agencies/[agencyId]/clients/[clientId]/contacts/route';
+import {
+  PATCH as contactPatch,
+  DELETE as contactDelete,
+} from './v1/agencies/[agencyId]/clients/[clientId]/contacts/[contactId]/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -141,6 +160,8 @@ const agencyParams = {
     artifactId: 'art1',
     versionId: 'v1',
     id: 'g1',
+    clientId: 'c1',
+    contactId: 'k1',
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
@@ -237,6 +258,63 @@ const endpoints: Endpoint[] = [
         ),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET clients',
+    file: 'v1/agencies/[agencyId]/clients/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => clientsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST clients',
+    file: 'v1/agencies/[agencyId]/clients/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => clientsPost(new Request('http://x.test/', json({ name: 'Acme' })), agencyParams),
+  },
+  {
+    name: 'GET client',
+    file: 'v1/agencies/[agencyId]/clients/[clientId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => clientGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PATCH client',
+    file: 'v1/agencies/[agencyId]/clients/[clientId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      clientPatch(
+        new Request('http://x.test/', { ...json({ name: 'Acme 2' }), method: 'PATCH' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST contact',
+    file: 'v1/agencies/[agencyId]/clients/[clientId]/contacts/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => contactPost(new Request('http://x.test/', json({ name: 'Pat Kim' })), agencyParams),
+  },
+  {
+    name: 'PATCH contact',
+    file: 'v1/agencies/[agencyId]/clients/[clientId]/contacts/[contactId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      contactPatch(
+        new Request('http://x.test/', { ...json({ name: 'Pat K' }), method: 'PATCH' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'DELETE contact',
+    file: 'v1/agencies/[agencyId]/clients/[clientId]/contacts/[contactId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => contactDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
   },
   {
     name: 'GET tasks',

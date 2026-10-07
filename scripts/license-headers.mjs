@@ -12,7 +12,14 @@ import { fileURLToPath } from 'node:url';
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HEADER = '// Copyright (c) 2026 Team of Wakers\n// SPDX-License-Identifier: MIT\n';
 
-const ROOTS = ['apps/web/src', 'apps/web/prisma', 'apps/web/tests', 'packages', 'scripts'];
+const ROOTS = [
+  'apps/web/src',
+  'apps/web/evals',
+  'apps/web/prisma',
+  'apps/web/tests',
+  'packages',
+  'scripts',
+];
 const ROOT_FILES = [
   'apps/web/next.config.ts',
   'apps/web/vitest.config.ts',

@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production next start -p ${PORT:-3000}",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src/ tests/ --cache --cache-strategy content --cache-location node_modules/.cache/eslint/web.json",
+    "lint": "eslint src/ tests/ evals/ --cache --cache-strategy content --cache-location node_modules/.cache/eslint/web.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -21,7 +21,8 @@
     "worker:dev": "PROCESS_ROLE=worker tsx watch src/worker/index.ts",
     "predev": "pnpm --filter @easemuse/tokens run build",
     "prebuild": "pnpm --filter @easemuse/tokens run build",
-    "admin:grant": "tsx scripts/grant-platform-role.ts"
+    "admin:grant": "tsx scripts/grant-platform-role.ts",
+    "eval": "tsx evals/run.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

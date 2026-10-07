@@ -21,6 +21,7 @@ const PREFIX_AUDIENCE: [prefix: string, audience: Audience][] = [
   ['api/v1/me', 'user'],
   ['api/v1/invites/', 'user'],
   ['api/sse/', 'user'],
+  ['api/v1/platform-invites/', 'user'],
 ];
 
 const REQUIRED_CALL: Record<Exclude<Audience, 'public'>, RegExp> = {

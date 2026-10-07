@@ -81,3 +81,17 @@ export async function cleanup(
     throw error;
   }
 }
+
+/**
+ * Serialises test files that depend on GLOBAL state (for example "how many platform owners exist"),
+ * since vitest runs files in parallel against one database. Hold the lock for the whole file:
+ * `beforeAll(() => acquireGlobalLock(admin, 'platform-roles'))`, `afterAll(() => releaseGlobalLock(...))`.
+ */
+const lockKey = (name: string) =>
+  Array.from(name).reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 2_000_000_000, 7);
+export async function acquireGlobalLock(admin: pg.Client, name: string): Promise<void> {
+  await admin.query('SELECT pg_advisory_lock($1)', [lockKey(name)]);
+}
+export async function releaseGlobalLock(admin: pg.Client, name: string): Promise<void> {
+  await admin.query('SELECT pg_advisory_unlock($1)', [lockKey(name)]);
+}

@@ -4,7 +4,8 @@
     "label": "Admin navigation",
     "agencies": "Agencies",
     "usage": "AI usage",
-    "audit": "Audit log"
+    "audit": "Audit log",
+    "admins": "Administrators"
   },
   "signedInAs": "Signed in as {name} ({role})",
   "roles": {
@@ -115,5 +116,59 @@
     },
     "loadMore": "Load more",
     "system": "(unknown user)"
+  },
+  "admins": {
+    "title": "Platform administrators",
+    "invite": "Invite administrator",
+    "empty": "No administrators.",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "actions": "Actions"
+    },
+    "changeRole": "Role for {name}",
+    "remove": "Remove",
+    "removeFor": "Remove {name}",
+    "removed": "Access removed.",
+    "pending": {
+      "title": "Pending invitations",
+      "empty": "No pending invitations.",
+      "expires": "Expires {date}",
+      "revoke": "Revoke",
+      "revokeFor": "Revoke the invitation for {email}"
+    },
+    "form": {
+      "title": "Invite an administrator",
+      "description": "They sign in with the invited email address and open the link you send them. The link works once.",
+      "email": "Email",
+      "role": "Role",
+      "submit": "Create invitation"
+    },
+    "link": {
+      "title": "Send this link",
+      "description": "Copy it now and send it to {email}. It is shown only once and works once.",
+      "copy": "Copy link",
+      "copied": "Link copied.",
+      "close": "Done"
+    },
+    "errors": {
+      "lastOwner": "The platform needs at least one owner.",
+      "alreadyAdmin": "This person is already an administrator.",
+      "alreadyPending": "This person already has a pending invitation.",
+      "generic": "Something went wrong. Try again."
+    },
+    "accept": {
+      "title": "Join the platform administrators",
+      "description": "Accept to become a platform {role}.",
+      "action": "Accept invitation",
+      "working": "Joining…",
+      "expired": "This invitation has expired. Ask an owner for a new one.",
+      "wrongEmail": "This invitation was sent to a different email address. Sign in with the invited address.",
+      "used": "This invitation was already used.",
+      "failed": "This invitation could not be accepted: {reason}",
+      "missing": "This invitation link is incomplete."
+    },
+    "you": "you"
   }
 }

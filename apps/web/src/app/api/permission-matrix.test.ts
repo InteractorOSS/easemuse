@@ -81,6 +81,13 @@ vi.mock('@/server/tenancy/agency-usage', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/server/tenancy/agency-usage')>()),
   getAgencyUsage: async () => ({ month: '2026-10' }),
 }));
+vi.mock('@/server/platform/admins', () => ({
+  listPlatformAdmins: async () => ({ admins: [], invites: [] }),
+  invitePlatformAdmin: async () => ({ invite: { id: 'i' }, acceptUrl: 'x' }),
+  changePlatformAdminRole: async () => ({ userId: 'u2' }),
+  removePlatformAdmin: async () => undefined,
+  revokePlatformAdminInvite: async () => undefined,
+}));
 vi.mock('@/server/ai/provenance', () => ({ getProvenance: async () => ({ id: 'g1' }) }));
 
 import { GET as agenciesGet, POST as agenciesPost } from './admin/v1/agencies/route';
@@ -95,6 +102,9 @@ import {
   PATCH as settingsPatch,
 } from './v1/agencies/[agencyId]/settings/route';
 import { GET as agencyUsageGet } from './v1/agencies/[agencyId]/usage/route';
+import { GET as adminsGet, POST as adminsPost } from './admin/v1/admins/route';
+import { PATCH as adminPatch, DELETE as adminDelete } from './admin/v1/admins/[userId]/route';
+import { DELETE as adminInviteDelete } from './admin/v1/admin-invites/[id]/route';
 import { GET as membersGet } from './v1/agencies/[agencyId]/members/route';
 import { PATCH as memberPatch } from './v1/agencies/[agencyId]/members/[userId]/route';
 import { GET as invitesGet, POST as invitesPost } from './v1/agencies/[agencyId]/invites/route';
@@ -289,6 +299,48 @@ const endpoints: Endpoint[] = [
     audience: 'admin',
     allowed: ['owner', 'admin', 'support'],
     call: () => auditGet(new Request('http://x.test/')),
+  },
+  {
+    name: 'GET admins',
+    file: 'admin/v1/admins/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () => adminsGet(),
+  },
+  {
+    name: 'POST admins (invite)',
+    file: 'admin/v1/admins/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () =>
+      adminsPost(new Request('http://x.test/', json({ email: 'a@b.test', role: 'support' }))),
+  },
+  {
+    name: 'PATCH admin role',
+    file: 'admin/v1/admins/[userId]/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () =>
+      adminPatch(new Request('http://x.test/', { ...json({ role: 'admin' }), method: 'PATCH' }), {
+        params: Promise.resolve({ userId: 'u2' }),
+      }),
+  },
+  {
+    name: 'DELETE admin',
+    file: 'admin/v1/admins/[userId]/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () =>
+      adminDelete(new Request('http://x.test/', { method: 'DELETE' }), {
+        params: Promise.resolve({ userId: 'u2' }),
+      }),
+  },
+  {
+    name: 'DELETE admin invite',
+    file: 'admin/v1/admin-invites/[id]/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () => adminInviteDelete(new Request('http://x.test/', { method: 'DELETE' }), adminParams),
   },
   {
     name: 'POST suspend',

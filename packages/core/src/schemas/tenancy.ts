@@ -75,3 +75,16 @@ export const agencyBudgetInputSchema = z.object({
   aiMonthlyBudgetUsd: z.number().min(0).max(1_000_000).nullable(),
 });
 export type AgencyBudgetInput = z.infer<typeof agencyBudgetInputSchema>;
+
+/** `POST /api/admin/v1/admins` (owner only, US-1603). */
+export const invitePlatformAdminInputSchema = z.object({
+  email: emailSchema,
+  role: z.enum(['owner', 'admin', 'support']),
+});
+export type InvitePlatformAdminInput = z.infer<typeof invitePlatformAdminInputSchema>;
+
+/** `PATCH /api/admin/v1/admins/:userId`. */
+export const updatePlatformAdminInputSchema = z.object({
+  role: z.enum(['owner', 'admin', 'support']),
+});
+export type UpdatePlatformAdminInput = z.infer<typeof updatePlatformAdminInputSchema>;

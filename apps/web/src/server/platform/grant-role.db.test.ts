@@ -2,7 +2,14 @@
 // SPDX-License-Identifier: MIT
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { adminClient, cleanup, createUser, dbAvailable } from '@/test/db';
+import {
+  acquireGlobalLock,
+  adminClient,
+  cleanup,
+  createUser,
+  dbAvailable,
+  releaseGlobalLock,
+} from '@/test/db';
 import { grantPlatformRole } from './grant-role';
 
 describe.skipIf(!dbAvailable())('grantPlatformRole', () => {
@@ -12,12 +19,14 @@ describe.skipIf(!dbAvailable())('grantPlatformRole', () => {
 
   beforeAll(async () => {
     admin = await adminClient();
+    await acquireGlobalLock(admin, 'platform-roles');
     userId = await createUser(admin);
     await admin.query(`UPDATE "User" SET email = $1 WHERE id = $2`, [email, userId]);
   });
   afterAll(async () => {
     await admin.query(`DELETE FROM "PlatformAuditLog" WHERE "adminId" = $1`, [userId]);
     await cleanup(admin, { users: [userId] });
+    await releaseGlobalLock(admin, 'platform-roles');
     await admin.end();
   });
 

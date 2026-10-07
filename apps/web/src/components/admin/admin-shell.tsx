@@ -23,6 +23,7 @@ export function AdminShell({ userName, role, children }: AdminShellProps) {
     { href: '/admin/agencies', label: t('nav.agencies') },
     { href: '/admin/usage', label: t('nav.usage') },
     { href: '/admin/audit', label: t('nav.audit') },
+    ...(role === 'owner' ? [{ href: '/admin/admins', label: t('nav.admins') }] : []),
   ];
   return (
     <div className="flex min-h-screen flex-col">

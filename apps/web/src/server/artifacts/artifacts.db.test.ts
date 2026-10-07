@@ -107,8 +107,9 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
 
     it('survives two writers adding a version at the same moment', async () => {
       const { id } = await newArtifact('benchmark_report');
-      const results = await Promise.all([draft(id, { a: 1 }), draft(id, { a: 2 })]);
-      expect(results.map((v) => v.version).sort()).toEqual([1, 2]);
+      // More writers than connections, so some must wait for another to commit.
+      const results = await Promise.all([1, 2, 3, 4, 5, 6].map((n) => draft(id, { a: n })));
+      expect(results.map((v) => v.version).sort()).toEqual([1, 2, 3, 4, 5, 6]);
     });
 
     it('rejects content that is not an object (422)', async () => {

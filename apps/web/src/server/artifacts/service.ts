@@ -175,35 +175,32 @@ export async function addDraftVersion(tx: ScopedTx, input: AddDraftInput): Promi
     }
   }
 
-  // The unique (artifactId, version) index settles a race between two writers: retry once.
-  for (let attempt = 0; ; attempt++) {
-    const latest = await tx.artifactVersion.aggregate({
-      where: { artifactId: artifact.id },
-      _max: { version: true },
-    });
-    try {
-      const row = await tx.artifactVersion.create({
-        data: {
-          agencyId: input.agencyId,
-          artifactId: artifact.id,
-          version: (latest._max.version ?? 0) + 1,
-          content: content as Prisma.InputJsonValue,
-          status: 'draft',
-          origin: input.origin,
-          aiGenerationId: input.aiGenerationId ?? null,
-          parentVersionId: input.parentVersionId ?? null,
-          factCheck: input.factCheck
-            ? (input.factCheck as unknown as Prisma.InputJsonValue)
-            : undefined,
-          createdById: input.createdById,
-        },
-      });
-      return toRecord(row);
-    } catch (error) {
-      if ((error as { code?: string }).code === 'P2002' && attempt === 0) continue;
-      throw error;
-    }
-  }
+  // Two writers adding a version at the same moment must not both pick the same number. A failed
+  // insert cannot be retried inside this transaction (Postgres aborts it), so writers take turns:
+  // the row lock makes the second one wait for the first to commit, then it reads the new maximum.
+  // The unique (artifactId, version) index stays as the safety net.
+  await tx.$queryRaw`SELECT id FROM "Artifact" WHERE id = ${artifact.id}::uuid FOR UPDATE`;
+  const latest = await tx.artifactVersion.aggregate({
+    where: { artifactId: artifact.id },
+    _max: { version: true },
+  });
+  const row = await tx.artifactVersion.create({
+    data: {
+      agencyId: input.agencyId,
+      artifactId: artifact.id,
+      version: (latest._max.version ?? 0) + 1,
+      content: content as Prisma.InputJsonValue,
+      status: 'draft',
+      origin: input.origin,
+      aiGenerationId: input.aiGenerationId ?? null,
+      parentVersionId: input.parentVersionId ?? null,
+      factCheck: input.factCheck
+        ? (input.factCheck as unknown as Prisma.InputJsonValue)
+        : undefined,
+      createdById: input.createdById,
+    },
+  });
+  return toRecord(row);
 }
 
 async function loadVersion(tx: ScopedTx, versionId: string) {

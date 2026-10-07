@@ -5,6 +5,7 @@ import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { DEFAULT_REJECTION_REASONS, type AgencyActor, type PipelineState } from '@easemuse/core';
 import type { DbHandle } from '@/lib/db/client';
+import { addDraftVersion, createArtifact } from '@/server/artifacts/service';
 import { createClient } from '@/server/clients/service';
 import { createPosition } from '@/server/positions/service';
 import {
@@ -59,6 +60,66 @@ describe.skipIf(!dbAvailable())('pipeline service (T-3-01, T-2-07)', () => {
     } = {},
     actor = rec1,
   ) => run((tx) => transitionEntry(tx, actor, entryId, { to, ...rest }));
+  /** Puts the three submission records on file for an entry, as the recruiter would have by then. */
+  const satisfySubmissionGuards = async (entryId: string) => {
+    await run(async (tx) => {
+      const entry = await tx.pipelineEntry.findUniqueOrThrow({
+        where: { id: entryId },
+        include: { position: true },
+      });
+      const approval = await tx.approval.create({
+        data: {
+          agencyId: agencyA,
+          subject: 'tailored_resume',
+          subjectId: entryId,
+          versionId: randomUUID(),
+          decision: 'approved',
+          source: 'recorded_by_recruiter',
+          approverName: 'Candidate',
+          decidedAt: new Date(),
+        },
+      });
+      await tx.tailoredResume.create({
+        data: { agencyId: agencyA, entryId, artifactId: randomUUID(), approvalId: approval.id },
+      });
+      await tx.consent.create({
+        data: {
+          agencyId: agencyA,
+          candidateId: entry.candidateId,
+          clientId: entry.position.clientId,
+          action: 'given',
+          at: new Date(),
+          source: 'recorded_by_recruiter',
+        },
+      });
+    });
+    const artifact = await run((tx) =>
+      createArtifact(tx, {
+        agencyId: agencyA,
+        kind: 'submission_report',
+        subject: { type: 'pipeline_entry', id: entryId },
+      }),
+    );
+    const version = await run((tx) =>
+      addDraftVersion(tx, {
+        agencyId: agencyA,
+        artifactId: artifact.id,
+        content: { recruiterAssessment: 'Strong fit.' },
+        origin: 'human',
+        createdById: rec1.userId,
+      }),
+    );
+    await admin.query(`UPDATE "ArtifactVersion" SET status = 'approved' WHERE id = $1`, [
+      version.id,
+    ]);
+    await admin.query(`UPDATE "Artifact" SET "approvedVersionId" = $2 WHERE id = $1`, [
+      artifact.id,
+      version.id,
+    ]);
+  };
+  /** The position has passed the JD gate, so working candidates is allowed. */
+  const satisfyJdGuard = (positionId: string) =>
+    run((tx) => tx.position.update({ where: { id: positionId }, data: { status: 'sourcing' } }));
   const entryFor = async (actor = rec1) => {
     const positionId = await newPosition(actor);
     const candidateId = await newCandidate();
@@ -175,7 +236,12 @@ describe.skipIf(!dbAvailable())('pipeline service (T-3-01, T-2-07)', () => {
         'accepted',
         'started',
       ];
-      for (const to of path) expect((await move(entry.id, to)).state).toBe(to);
+      for (const to of path) {
+        // Submitting needs the resume approval, consent and assessment on record (see guard-library.db.test.ts).
+        if (to === 'submitted') await satisfySubmissionGuards(entry.id);
+        if (to === 'contacting') await satisfyJdGuard(entry.positionId);
+        expect((await move(entry.id, to)).state).toBe(to);
+      }
       const history = await admin.query(
         `SELECT "fromState", "toState" FROM "PipelineTransition" WHERE "entryId" = $1 ORDER BY "createdAt", id`,
         [entry.id],

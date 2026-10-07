@@ -475,5 +475,35 @@
     "pdfOutOfDate": "This PDF is older than the approved resume or the agency branding. Create it again.",
     "exportError": "Could not export. Try again.",
     "exportNotApproved": "Approve the tailored resume first."
+  },
+  "report": {
+    "title": "Submission report",
+    "hint": "Sections 1 to 13 are drafted from what you have confirmed. Section 14 is yours: the report cannot be approved without it.",
+    "draft": "Draft report",
+    "again": "Draft a new version",
+    "recheck": "Check facts again",
+    "rechecked": "Facts checked",
+    "missing": "Not drafted yet because these are missing: {items}.",
+    "missingItems": {
+      "match_analysis": "a reviewed match analysis",
+      "qualification": "a confirmed qualification"
+    },
+    "sections": {
+      "overview": "1. Candidate overview",
+      "currentPosition": "2. Current position",
+      "careerSummary": "3. Career summary",
+      "keyQualifications": "4. Key qualifications",
+      "achievements": "5. Relevant achievements",
+      "jdMatch": "6. Job description match",
+      "recommendation": "7. Reasons for recommendation",
+      "concerns": "8. Potential concerns and gaps",
+      "compensation": "9. Compensation expectation",
+      "location": "10. Location and relocation",
+      "workAuthorization": "11. Work authorization",
+      "motivation": "12. Candidate motivation",
+      "interviewAvailability": "13. Interview availability"
+    },
+    "assessment": "14. Recruiter's assessment",
+    "assessmentHint": "Write this yourself. The AI never writes it, and the report cannot be approved while it is empty."
   }
 }

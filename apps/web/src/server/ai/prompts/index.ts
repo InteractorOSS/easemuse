@@ -9,6 +9,7 @@ import { matchAnalyzePrompt } from './match-analyze';
 import { outreachDraftPrompt } from './outreach-draft';
 import { profileStructurePrompt } from './profile-structure';
 import { qualifyNotesPrompt } from './qualify-notes';
+import { reportDraftPrompt } from './report-draft';
 import { resumeTailorPrompt } from './resume-tailor';
 import { searchCriteriaPrompt } from './search-criteria';
 import { successProfilePrompt } from './success-profile';
@@ -26,4 +27,5 @@ export function registerBuiltInPrompts(registry: PromptRegistry): void {
   registry.register(callQuestionsPrompt);
   registry.register(qualifyNotesPrompt);
   registry.register(resumeTailorPrompt);
+  registry.register(reportDraftPrompt);
 }

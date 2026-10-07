@@ -16,6 +16,7 @@ import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { AnalysisDetail } from '@/server/matching/detail';
 import type { AnalysisView } from '@/server/matching/overrides';
 import type { PipelineEntryView } from '@/server/pipeline/service';
+import { ReportPanel } from './report-panel';
 import { ResumePanel } from './resume-panel';
 import { QualificationPanel } from './qualification-panel';
 import { OutreachPanel } from './outreach-panel';
@@ -120,6 +121,10 @@ export function AnalysisView({
 
       {['qualified', 'resume_ready', 'candidate_approved'].includes(e.state) ? (
         <ResumePanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
+      ) : null}
+
+      {['qualified', 'resume_ready', 'candidate_approved'].includes(e.state) ? (
+        <ReportPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
       ) : null}
 
       <section aria-labelledby="analyze-heading" className="flex max-w-2xl flex-col gap-2">

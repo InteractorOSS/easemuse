@@ -249,6 +249,12 @@ vi.mock('@/server/resume/export', () => ({
   startResumePdfExport: async () => ({ jobRunId: 'job1', versionId: 'v1' }),
   exportResumeDocx: async () => ({ bytes: Buffer.from('docx'), filename: 'resume.docx' }),
 }));
+vi.mock('@/server/submission/report', () => ({
+  getReport: async () => ({}),
+  planReportDraft: async () => ({}),
+  generateReport: async () => ({}),
+  recheckReport: async () => ({ ranAt: '', warnings: [] }),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -379,6 +385,11 @@ import {
   GET as resumeExportGet,
   POST as resumeExportPost,
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/tailored-resume/export/route';
+import {
+  GET as reportGet,
+  POST as reportPost,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/route';
+import { POST as reportRecheckPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/fact-check/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -1143,6 +1154,27 @@ const endpoints: Endpoint[] = [
     allowed: AGENCY_ALL,
     call: () =>
       resumeExportPost(new Request('http://x.test/', json({ format: 'docx' })), agencyParams),
+  },
+  {
+    name: 'GET submission report',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => reportGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST submission report',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => reportPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'POST submission report fact check',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/submission-report/fact-check/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => reportRecheckPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET screening',

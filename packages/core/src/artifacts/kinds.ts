@@ -8,6 +8,7 @@ import { intakeQuestionsContentSchema } from './intake-questions';
 import { outreachMessageContentSchema } from './outreach-message';
 import { qualificationContentSchema } from './qualification';
 import { tailoredResumeContentSchema } from './tailored-resume';
+import { submissionReportContentSchema } from './submission-report';
 import { searchCriteriaSchema } from './search-criteria';
 import { structuredJdContentSchema } from './structured-jd';
 import { successProfileContentSchema } from './success-profile';
@@ -122,6 +123,7 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
   }),
   // Section 14, the recruiter's assessment, is human-only and mandatory (§10, ADR-006).
   submission_report: spec('submission_report', 'pipeline_entry', {
+    schema: submissionReportContentSchema as unknown as z.ZodType<Record<string, unknown>>,
     humanOnlyFields: ['recruiterAssessment'],
     requiredOnApprove: ['recruiterAssessment'],
     factCheckRequired: true,

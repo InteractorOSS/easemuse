@@ -1,0 +1,95 @@
+# Step 7: Open Questions and Decisions Needed
+
+| Field | Value |
+|-------|-------|
+| **Status** | All P0 questions answered 2026-10-06 (Q-21 to Q-23 by accepting defaults). P1 questions to close during Planning; P2 can wait for implementation |
+| **Date** | 2026-10-06 |
+
+Each question lists the default assumption the discovery documents currently use, so Planning can proceed on the default if needed and revisit.
+
+| ID | Pri | Question | Why it matters | Current default | Owner | Answer |
+|----|-----|----------|----------------|-----------------|-------|--------|
+| Q-01 | **P0** | Who uses it: EaseMuse's own recruiters only, or will it be sold to other agencies (multi-tenant SaaS)? How many recruiters? Is there a team/lead role? | Tenancy model, access rules, roles, scale, billing | Single company (EaseMuse), < 50 recruiters, roles recruiter + admin, "lead" optional | Sponsor | **Multi-tenant SaaS sold to other agencies; many recruiters.** (2026-10-06) |
+| Q-02 | **P0** | Do hiring managers ever log in (client portal to approve JD, view submissions, leave feedback)? | Whole second user type, auth, permissions | No portal in release 1; recruiter records HM actions; consider portal later | Product owner | **Yes, hiring managers log in.** (2026-10-06) |
+| Q-03 | **P0** | Do candidates ever log in (approve resume, update profile, consent)? | Candidate auth, consent capture | No; approval tracked by recruiter (by email) | Product owner | **Yes, candidates log in.** (2026-10-06) |
+| Q-04 | **P0** | Should the system send email (via the recruiter's Gmail/Outlook) and read replies, or only draft + "copy & mark sent"? Same for SMS. | Integrations, OAuth verification, consent, effort | Release 1: copy & mark sent, no sync. Email send/sync later | Product owner | **Sending is a required feature; connecting a real mail service is not needed now.** Build send + outbox behind a pluggable transport; provider later. (2026-10-06) |
+| Q-05 | **P0** | Market benchmarking data source: AI web search with citations, a paid data provider, or postpone? Budget? | Feasibility and cost of FR-INT-07 | Postpone to release 3; prototype with cited web search | Product owner | **AI web search; no paid data.** Answer read as "AI web search with our [own data]": cited web results combined with the agency's own past positions in the system. ⚠ Confirm (Q-21). (2026-10-06) |
+| Q-06 | P1 | Should the numeric Match Score be shown at all, or only criterion levels (Strong / Partial / Gap) plus strengths and gaps? | Legal exposure (R1), recruiter trust | Show numeric score per brief, with option to hide | Product owner + Legal | |
+| Q-07 | **P0** | Which jurisdictions: where are candidates, jobs and staff (U.S. states, Korea, EU)? Where must data be hosted? | Privacy law, AI-in-hiring law, data residency, AI provider terms | U.S. roles and candidates, some Korean staff/candidates; counsel to confirm | Legal | **Mainly U.S.; Korea possible later.** Design for U.S. first, without blocking a Korean region or PIPA compliance. (2026-10-06) |
+| Q-08 | P1 | UI language: English, Korean, or both? Language of JDs, resumes and reports? | next-intl setup, prompts, eval set | English UI first, Korean-ready (NFR-U04); documents mostly English | Product owner | |
+| Q-09 | P1 | Is mobile needed in release 1? If so, for what (tasks, call notes)? | Expo app scope | Web only in release 1; responsive read views | Product owner | |
+| Q-10 | P1 | What tools hold current data (ATS, spreadsheets, Google Drive)? Import needed at launch? | Migration, talent pool seed, duplicate handling | One-time CSV + resume bulk import | Recruiter lead | |
+| Q-11 | P1 | Baselines and targets for: positions per recruiter, hours per position, time-to-fill. Who runs the baseline time study? | Success metrics can't be proven without them | Targets in problem statement are placeholders | Sponsor | |
+| Q-12 | P1 | Can feedback and candidate knowledge from one client be used when working for another client? Any client contracts restricting this? | Talent pool reuse, System 12, access rules | Candidate records shared across clients; client feedback and compensation visible only within that client's context | Legal + Sponsor | |
+| Q-13 | P2 | Are placement fees, invoicing or contracts with clients in scope? | Not in brief | Out of scope | Sponsor | |
+| Q-14 | P1 | Who pays for AI usage, and is there a monthly budget per recruiter? Use Interactor Billing Server? | Cost controls, metering | ~~Internal cost, no hard limit~~ Superseded by Q-27 (SaaS plans) and FR-TEN-05 metering | Sponsor | Superseded |
+| Q-15 | P1 | Default submission report and resume template (Team of Wakers as vendor): who designs it? Should blind submission (no contact info) be the default per agency? | PDF design | Team of Wakers provides the default template; agencies brand it (FR-TEN-04); blind optional per agency | Product owner | |
+| Q-16 | P1 | Default outreach intervals between touches and the "recently contacted" window? | Reminder defaults | 4 and 7 days; 30-day warning window | Recruiter lead | |
+| Q-17 | P2 | Data retention: how long to keep candidates with no activity? Auto-anonymize? | Privacy compliance, storage | Ask for consent renewal after 24 months; counsel to set | Legal | |
+| Q-18 | P1 | Can we get 30+ real JDs and 100+ resumes (anonymized) for the AI evaluation set? | NFR-AI01; model selection | Yes, from past searches | Recruiter lead | **Decided 2026-10-06:** 30 public JDs collected from company job-board APIs (`eval-data/job-descriptions/`, not in git); resumes from three sources: 100 synthetic with answer keys (`eval-data/resumes-synthetic/`), licensed public datasets after license/provenance review (`eval-data/resumes-licensed/`), and consented, anonymized resumes from the first customer, Team of Wakers' internal use (`eval-data/resumes-pilot/`). No crawling of real people's resumes |
+| Q-19 | P2 | Which Interactor services beyond Account Server should be used (credentials, agents, workflows, webhooks, SKB, UKB, userdb, Billing Server)? | Architecture | Decide in Planning ADRs | Tech lead | |
+| Q-20 | P2 | Is call recording / transcription wanted (FR-QUA-04)? | Consent laws (two-party consent states) | Not in release 1 | Product owner | |
+
+## Follow-up questions raised by the 2026-10-06 answers
+
+| ID | Pri | Question | Why it matters | Current default | Owner | Answer |
+|----|-----|----------|----------------|-----------------|-------|--------|
+| Q-21 | **P0** | Q-05 answer read "AI web search with our…". Does it mean web search **combined with our own data** (the agency's past positions and placements), or web search **with citations**? | Benchmark design | Both: cited web results plus the agency's own history, labelled separately | Product owner | **Default accepted** (2026-10-06) |
+| Q-22 | **P0** | Talent pools between agencies: fully private per agency? Is there ever a shared or platform-wide pool? | Tenant isolation, candidate identity, legal | Fully private per agency; no sharing | Sponsor + Legal | **Default accepted** (2026-10-06) |
+| Q-23 | **P0** | How do hiring managers and candidates sign in: Interactor Account Server accounts, passwordless magic links, or both? | Auth design for external users | Magic-link invites issued by the recruiter, backed by Account Server | Tech lead | **Default accepted** (2026-10-06); feasibility on Account Server to confirm in Planning ADR |
+| Q-24 | P1 | Hiring manager portal scope: approve JD, answer intake, review submissions, give interview feedback, decide? Anything else (e.g., see the pipeline)? | Portal features, permissions | Those five; HM sees only candidates submitted to them | Product owner | |
+| Q-25 | P1 | Candidate portal scope: approve tailored resume, update profile, give consent, privacy requests, see status, reply to outreach? | Portal features | Approve resume, update profile, consent and privacy requests, see status of their own submissions | Product owner | |
+| Q-26 | P1 | A candidate working with two agencies: one login that sees both, or a separate identity per agency? | Identity model, privacy | Separate per agency (strict isolation) | Tech lead + Legal | |
+| Q-27 | P1 | Commercial model: per-recruiter subscription, usage-based AI, tiers? Through Interactor Billing Server? Free trial? | Billing, metering, plan limits | Per-seat plans plus AI usage allowance, via Billing Server | Sponsor | |
+| Q-28 | P1 | Agency branding: logo, colors and domain on portals, PDFs and emails? | White-label scope | Logo + colors on portals, PDFs and emails; no custom domain at first | Product owner | |
+| Q-29 | P1 | Which agency is the pilot customer (tenant #1)? (The product is owned and maintained by Team of Wakers, 2026-10-06.) | Pilot plan | Yes | Sponsor | **Internal use is the first customer** (Team of Wakers' own recruiting, tenant #1; 2026-10-06) |
+| Q-30 | P2 | Who are target agency customers (size, U.S. vs Korea, industry)? Any committed design partners? | Personas, pricing, onboarding | Small–mid U.S. agencies; validate with 2–3 design partners | Sponsor | |
+
+## Questions raised in Planning (2026-10-06)
+
+| ID | Pri | Question | Why it matters | Current default | Owner | Answer |
+|----|-----|----------|----------------|-----------------|-------|--------|
+| Q-31 | P1 | License header text for source files: "Copyright (c) 2026 Interactor, Inc." + SPDX (as in product-manager), or another owner? Which license? | License-header check (stack quality tooling), task T-F-02 | Same as product-manager until told otherwise | Product owner | **Decided (product owner delegated):** MIT license, owner **Team of Wakers**. Header: `// Copyright (c) 2026 Team of Wakers` + `// SPDX-License-Identifier: MIT`. LICENSE file updated; all Pulzze template references removed (2026-10-06) |
+| Q-32 | **P1** | ADR-002 proposes that hiring managers and candidates **do not** get Interactor Account Server accounts (app-local magic links instead). This refines the Q-23 default ("backed by Account Server"). Accept? | Portal auth design (release 2); removes risk TR-008 | Accept ADR-002 | Product owner | **Use Interactor auth like product-manager**; product owner provides the app client id/secret (env only). ADR-002 accepted (2026-10-06) |
+| Q-33 | P1 | ADR-005 starts with Claude Opus 5.5 for every AI purpose. After the eval, should high-volume purposes (profile structuring, notes) move to cheaper models if accuracy holds? | AI cost per position (TR-003) vs quality | Decide after eval (T-QA-04) | Product owner | **Use Sonnet 5.5 for high-volume purposes** (ADR-005 routing); eval still gates each purpose (2026-10-06) |
+| Q-34 | P1 | Voyage AI (embeddings, release 3) and Interactor userdb receive candidate data. OK as sub-processors? | DPA sub-processor list (NFR-S10) | Yes, list both | Legal | **Voyage AI OK. Do not use Interactor userdb; documents stay in EaseMuse's own database** (ADR-010 revised, 2026-10-06) |
+
+## Decisions log
+
+| Date | Decision | By |
+|------|----------|----|
+| 2026-10-06 | Tech stack = Interactor product-manager stack (see requirements C5); infrastructure out of discovery scope | Product owner |
+| 2026-10-06 | No automated sourcing/scraping; AI recruiter-triggered and draft-only (from brief) | Brief |
+| 2026-10-06 | Product is **multi-tenant SaaS** for recruiting agencies, many recruiters (Q-01) | Product owner |
+| 2026-10-06 | **Hiring manager portal** and **candidate portal** are in scope (Q-02, Q-03) | Product owner |
+| 2026-10-06 | **In-app email sending** is in scope behind a pluggable transport; no real provider connected yet (Q-04) | Product owner |
+| 2026-10-06 | Market benchmarking via **AI web search**, no paid data (Q-05; wording to confirm in Q-21) | Product owner |
+| 2026-10-06 | **U.S. first**; keep Korea possible (data region, PIPA, Korean UI) (Q-07) | Product owner |
+| 2026-10-06 | Benchmarking = cited web search **plus** agency's own past positions, labelled separately (Q-21) | Product owner (default) |
+| 2026-10-06 | Talent pools **fully private per agency**, never shared (Q-22) | Product owner (default) |
+| 2026-10-06 | HMs and candidates sign in by **recruiter-issued invite / magic link**, backed by Account Server (Q-23) | Product owner (default) |
+| 2026-10-06 | Product is **owned and maintained by Team of Wakers**; MIT license, Team of Wakers copyright (Q-31) | Product owner |
+| 2026-10-06 | Add a **`/admin` section for platform administrators** (Team of Wakers staff): agencies, platform admins, usage and budgets, audit log in release 1; support access, billing, tenant lifecycle, system health and configuration in release 2 (FR-ADM-01…10) | Product owner |
+| 2026-10-06 | First customer (tenant #1) is **Team of Wakers' internal use** (Q-29). PopResume approved for the evaluation set, subject to Hugging Face access approval | Product owner |
+| 2026-10-06 | **All ADRs 001–017 accepted**; Interactor auth like product-manager (Q-32); Sonnet 5.5 for high-volume AI purposes (Q-33); Voyage OK, no userdb (Q-34) | Product owner |
+
+## Change record: 2026-10-06 P0 answers
+
+**Type**: Requirement (scope change). **Triggered by**: product owner answers to Q-01 to Q-07.
+
+| Area | Before | After |
+|------|--------|-------|
+| Business model | Internal tool for EaseMuse recruiters | SaaS sold to recruiting agencies; Team of Wakers (owner and maintainer of EaseMuse) is the vendor |
+| Users | Recruiters only | Agency recruiters and admins, **hiring managers** (client users), **candidates**, Team of Wakers platform administrators |
+| Data | One company's data | Strict per-agency isolation; per-client isolation inside an agency |
+| Outreach | Copy & mark sent | Compose and send in the app through an outbox; transport stubbed until a provider is chosen |
+| Benchmarking | Source unknown, release 3 | AI web search with citations (+ own data, Q-21), no paid data |
+| Compliance | Single agency's internal tool | Team of Wakers is a **vendor/processor** to agencies: DPAs, vendor bias-audit support, U.S. first, Korea later |
+
+Impact:
+- [x] Problem statement, stakeholders, personas updated
+- [x] Requirements: new tenancy, portal and messaging requirements; NFRs for isolation and scale
+- [x] User stories: new epics E13 (Agency admin), E14 (HM portal), E15 (Candidate portal); messaging stories re-prioritized
+- [x] Research notes: competitors, feasibility, regulatory, risks
+- [x] Planning handoff: domain model, state guards, release slices, ADRs
+

@@ -1,0 +1,133 @@
+# Step 6: Research Notes (Competitive, Technical, Regulatory)
+
+| Field | Value |
+|-------|-------|
+| **Status** | Desk research draft, 2026-10-06; v0.2 reflects the SaaS decision. Vendor features and regulations change quickly: **verify before relying on any item**, and have counsel confirm §3 |
+
+---
+
+## 1. Competitive landscape
+
+### 1.1 Categories
+
+| Category | Examples | What they do well | Gap vs. EaseMuse brief |
+|----------|----------|-------------------|------------------------|
+| Agency ATS / recruiting CRM | Bullhorn, Loxo, Recruit CRM, Crelate, Vincere, JobAdder | Pipelines, client/contact records, placements, reporting | Records and tracking, not intake → success profile → explainable match → submission report. AI add-ons vary |
+| AI sourcing / outreach platforms | LinkedIn Recruiter (incl. AI-assisted search and agent features), hireEZ, SeekOut, Gem, Fetcher, Juicebox | Large candidate databases, AI search, automated sequences | Lean toward **AI finds and contacts automatically**, which the brief rules out (DP-1, DP-2) |
+| Corporate (in-house) ATS | Greenhouse, Lever, Workday Recruiting, Ashby | Applicant flow for one employer | Built for employers, not agencies serving many clients |
+| Resume parsing / matching engines | Textkernel, Daxtra, Affinda | Parsing and taxonomy-based matching | Components, not a workbench |
+| General AI chat (ChatGPT, Claude, Gemini) | — | Recruiters already paste resumes and JDs into them | **The real incumbent workaround.** No records, no pipeline, no provenance, privacy risk from pasting candidate data into personal accounts |
+
+### 1.2 Feature comparison (category level)
+
+| Capability (brief) | Agency ATS | AI sourcing | Chat AI | EaseMuse target |
+|--------------------|-----------|-------------|---------|-----------------|
+| JD structuring + Must/Preferred/Disqualifying | Rare | Partial | Ad hoc | ✔ with HM intake + success profile |
+| Market benchmarking | No | Partial (own data) | Ad hoc, uncited | ✔ cited, on request |
+| Candidate DB / talent pool | ✔ | ✔ (large external DB) | No | ✔ own pool, recruiter-entered |
+| Explainable match (evidence, gaps, to-confirm) | Rare | Score / ranking | Ad hoc | ✔ weighted, evidence-linked, overridable |
+| Automated outreach | Sequences | ✔ automated | No | ✘ by design: drafts + reminders, recruiter sends |
+| Qualification notes → structured | No | No | Ad hoc | ✔ |
+| Tailored resume, facts locked | Templates | No | Ad hoc, may invent | ✔ fact-checked |
+| Submission report (14 sections, PDF) | Templates | No | Ad hoc | ✔ |
+| Interview, offer, through start date | ✔ | Partial | No | ✔ |
+| Experience reuse (HM preferences, outcomes) | Reports | Partial | No | ✔ |
+
+### 1.3 Differentiation
+
+1. **Recruiter-led by design.** Draft-only AI with provenance and fact checks. This is a trust story for recruiters, candidates and clients, and makes regulatory positioning easier (§3).
+2. **Intake-to-submission chain.** The confirmed success profile drives matching, outreach, qualification questions and the submission report, so information is entered once and reused.
+3. **Explainable submissions.** Hiring managers get why-fit and gaps, not just a resume.
+4. **Agency knowledge capture.** Structured HM feedback and outcomes per client become reusable.
+
+### 1.4 Positioning as a SaaS product (updated 2026-10-06)
+
+Since the workbench will be sold to agencies, **agency ATS/CRM vendors are now direct competitors**, and agencies will compare on table stakes (pipeline, client records, placements, reporting, email) as well as on the AI workbench. Implications:
+
+- Table stakes (Systems 9–11, messaging, portals) must be solid, not minimal.
+- **Import from incumbent ATSs** (Bullhorn, Loxo, Recruit CRM, etc.) and spreadsheets lowers switching cost (Q-10).
+- Portals for clients and candidates exist in some agency ATSs; ours differ by showing the explainable submission report and candidate-approved resumes.
+- The "recruiter-led, draft-only AI" stance doubles as a compliance selling point for agencies worried about AI-in-hiring laws.
+
+---
+
+## 2. Technical feasibility
+
+Target stack is in [requirements.md C5](./requirements.md#constraints) (Infra excluded per product owner). Assessment per capability:
+
+| Capability | Approach with target stack | Feasibility | Notes / decisions for Planning |
+|-----------|-----------------------------|-------------|--------------------------------|
+| Auth & users | Interactor Account Server via Auth.js v5; service tokens for worker | High | Agency users via Interactor login; **portal users (HMs, candidates) by invite/magic link** (Q-23). Confirm Account Server supports external, invite-only users per tenant |
+| Multi-tenancy | Tenant ID on every row; Prisma client extension that forces tenant scoping, plus **Postgres row-level security** as a second guard; tenant-aware BullMQ jobs and SSE channels | High | ADR: shared schema + RLS (recommended) vs schema-per-tenant vs DB-per-tenant; Korea region later means region-aware deployment |
+| JD / resume text extraction | PDF and DOCX text extraction in worker; OCR fallback for scanned PDFs | High (OCR Medium) | Choose libraries in ADR; OCR could be release 2 |
+| Structuring (JD, profile, notes, feedback) | LLM with JSON-schema / tool output, validated with **zod 4** schemas shared with the UI forms | High | One schema per artifact = form + AI contract + DB shape |
+| Match analysis | LLM scores each criterion with evidence quotes against the success profile; **overall score computed in code** as the weighted sum | High | Keeps the score explainable and stable; store criterion inputs for audit |
+| Talent pool similarity, portfolio | Embeddings of profiles and success profiles in **pgvector**; LLM re-ranks top N with reasons | High | Embedding model choice in ADR; re-embed on profile approval |
+| Batch work, long AI calls | **BullMQ** jobs started by the recruiter; progress over **SSE** via Postgres LISTEN/NOTIFY | High | Fits stack as-is; jobs carry the requesting user (DP-2 audit) |
+| Drafting (outreach, resume, report) | LLM with streaming to UI | High | Fact-check pass compares named entities/numbers against the approved profile (FR-AI-06) |
+| PDF export | Server-side HTML → PDF (headless Chromium) or React-PDF | High | ADR; brand template needed |
+| Market benchmarking | **Decided: LLM web search with citations, no paid data.** Search targets: public job postings (pay-transparency postings in CA, NY, CO, WA etc.), public salary data (U.S. DOL H-1B LCA disclosures, BLS OEWS); combined with the agency's own past positions (Q-21) | Medium | Quality depends on search results; label web vs internal sources; cache per position; cost per search counted in AI usage |
+| Email send | **Decided: in-app send through an outbox (BullMQ) and a pluggable transport.** First release: dev/capture transport only. Later: agency Gmail/Microsoft 365 via OAuth (tokens in **Interactor credentials**) and/or a Team of Wakers sending domain | High (outbox) / Medium (provider) | Provider choice is an ADR; Google restricted-scope verification can take weeks; per-tenant sending domain (SPF/DKIM) if Team of Wakers sends |
+| HM and candidate portals | Same Next.js app, separate route group and layouts, strict permission layer; mobile-first; next-intl | High | Biggest new UI surface; keep scope tight (Q-24, Q-25) |
+| SMS | Provider API | Medium | Consent (TCPA) required; maybe log-only in release 1 |
+| LinkedIn | Copy and paste only; no API automation | n/a | Hard constraint C4 |
+| i18n | **next-intl** for UI; AI output language chosen per request | High | English first, Korean-ready |
+| AI orchestration | Direct LLM calls from worker, or Interactor **agents/workflows** | High | Whichever is chosen must stay recruiter-triggered (DP-2) and record provenance (FR-AI-03). ADR |
+| AI usage metering & SaaS billing | Per-request token/cost records per tenant; plans, seats and limits through Interactor **Billing Server** | High | Q-27 pricing model; per-tenant quotas (NFR-SC03) |
+| Knowledge reuse (System 12) | SQL reports + pgvector search over feedback; Interactor **SKB/UKB** as candidates for a knowledge store | Medium | Planning to evaluate whether SKB/UKB fit; nothing in discovery depends on them |
+| Mobile | Expo 56 / RN 0.86 available | High | Not required by the brief; recommend release 1 web-only (Q-09) |
+| Testing | Vitest; Playwright + axe for E2E and WCAG | High | Add an **AI eval suite** (NFR-AI01–05) run in CI on prompt/model changes |
+
+### 2.1 LLM choice (for the ADR)
+
+- Default to current Claude models. A sensible split to evaluate: a fast, cheap model (e.g., `claude-haiku-4-5`) for extraction and structuring; a stronger model (e.g., `claude-sonnet-5-5`) for match analysis and long drafts; escalate to `claude-opus-5-5` only if eval quality requires it.
+- Requirements: zero data retention / no training on inputs, DPA, region terms compatible with Q-07.
+- Use the eval set (NFR-AI01) to pick models by measured accuracy, latency and cost.
+
+### 2.2 Rough AI cost driver (to size in Planning)
+
+Per position: 1 JD structure + 1 success profile + ~30–50 profile structurings + ~30 match analyses + ~10 outreach drafts × 3 touches + ~5 qualification structurings + ~3 tailored resumes + ~3 reports. Planning should price this per model mix to answer Q-14.
+
+---
+
+## 3. Regulatory and compliance notes
+
+**Not legal advice. These are areas for counsel to confirm.** Scope decided 2026-10-06: **U.S. first, Korea possible later.**
+
+**New since the SaaS decision:** Team of Wakers, which owns and maintains EaseMuse, is now a **vendor** to agencies. Several laws treat tool *developers/vendors* differently from *deployers/users* (e.g., Colorado's AI Act has separate developer duties; NYC LL144 puts the audit duty on the employer or agency, but customers will expect the vendor to supply a bias audit). Expect customers to ask for: DPA, sub-processor list, security overview, bias audit summary, and documentation of the human-in-the-loop design.
+
+| Area | Why it may apply | Product impact |
+|------|------------------|----------------|
+| **NYC Local Law 144 (AEDT)** | Covers employers *and employment agencies* using automated tools that substantially assist hiring decisions for NYC-based jobs | If match scoring is in scope: independent bias audit, candidate notice. DP-4 (score is reference only, human decides) helps but counsel must decide whether the tool "substantially assists" |
+| **Colorado AI Act (SB 24-205)** | High-risk AI in employment decisions; effective date was pushed to mid-2026 | Risk management, impact assessment, notices for Colorado candidates/roles, if in scope |
+| **Illinois HB 3773** (Human Rights Act amendment, effective 2026-01-01) | Use of AI in employment decisions | Notice to candidates; no discriminatory effect; no zip code as proxy |
+| **California** (CCPA/CPRA incl. applicant data; Civil Rights Council rules on automated-decision systems; CPPA ADMT rules) | Candidates in California | Privacy notice at collection, access/delete rights, record retention for ADS data, possible ADMT notice/opt-out obligations |
+| **EU AI Act / GDPR** | Not targeted (U.S. first, Korea later). Revisit if an agency customer recruits in the EU | Employment AI is high-risk under the AI Act; GDPR lawful basis, Art. 22 |
+| **Korea PIPA** | **Later phase** (Korea possible) | Consent and notice; rights regarding automated decisions; cross-border transfer rules; likely a Korean data region (FR-TEN-08). Design now so it isn't blocked |
+| **TCPA (U.S.)** | Texting candidates | Consent before automated texts; manual 1:1 texting carries lower risk; log consent |
+| **CAN-SPAM** | Email outreach | Identification, opt-out honored (FR-OUT-07) |
+| **LinkedIn User Agreement** | Sourcing and messaging | No scraping or automation (constraint C4) |
+| **Client confidentiality / contracts** | Client JDs, compensation, feedback | Access control; no cross-client use of confidential data without permission (Q-12) |
+
+Design choices that reduce exposure (already in requirements): human decision at every step, no auto-reject, evidence and override logging, exclusion of protected characteristics (FR-AI-09), bias testing (NFR-AI04), data rights (FR-PLT-08), full audit (NFR-S06).
+
+---
+
+## 4. Risks surfaced during discovery
+
+| ID | Risk | Likelihood | Impact | Mitigation |
+|----|------|-----------|--------|------------|
+| R1 | Match scoring is treated as an automated employment decision tool in some jurisdiction | Medium | High | Legal review before pilot; bias audit readiness; option to hide numeric score and show only strengths/gaps |
+| R2 | AI invents or inflates candidate facts in resumes/reports | Medium | High | Fact check (FR-AI-06), evidence links, approval required, eval set with 0-tolerance target |
+| R3 | Recruiters don't adopt (extra data entry, low trust) | Medium | High | Co-design with pilot recruiters; measure draft edit rates; make spreadsheets unnecessary |
+| R4 | Web-search benchmarks are thin or inaccurate for niche roles | Medium | Medium | Always show sources; label confidence; let recruiter discard; combine with agency's own data |
+| R5 | AI cost per position higher than expected | Medium | Medium | Model split, caching, recruiter-triggered only, per-request cost tracking |
+| R6 | Scope: 12 systems + tenancy + two portals + messaging | **Very high** | High | Release slices in [planning-handoff.md §5](./planning-handoff.md#5-proposed-release-slices); tenancy in from day one, portals in a later slice |
+| R7 | No baseline metrics, so success can't be shown | High | Medium | 2–4 week time study before pilot |
+| R8 | Mail provider integration delays (OAuth verification, deliverability) | Medium | Low | Outbox + dev transport ships first; provider is a swap-in |
+| R9 | Korea expansion needs a separate data region and PIPA work | Medium (later) | Medium | Region-aware tenancy design now (FR-TEN-08); no Korea commitments until assessed |
+| R10 | Low-quality source data (scanned PDFs, sparse LinkedIn profiles) | Medium | Medium | OCR fallback; "missing" fields shown rather than guessed |
+| R11 | Cross-tenant data leak | Low | **Critical** | RLS + scoped client, isolation tests in CI, pen test before first external customer |
+| R12 | Portal users (HMs, candidates) see data they shouldn't (scores, other candidates, notes) | Medium | High | Separate portal permission layer and API; permission tests per role |
+| R13 | Legal liability as an AI-in-hiring vendor | Medium | High | Counsel review of terms and DPA; bias-audit readiness; human-in-the-loop documented |
+| R14 | Agencies won't switch from their ATS | Medium | High | Import tools; design partners (Q-30); focus on the AI workbench value |

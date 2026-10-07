@@ -1,0 +1,23 @@
+# Architecture Decision Records
+
+All ADRs were **accepted** by the product owner on 2026-10-06. Each cites the `init.docx` section and requirements it serves.
+
+| ADR | Decision | Release needed | Product-owner input |
+|-----|----------|----------------|---------------------------|
+| [001](./adr-001-multi-tenancy-and-isolation.md) | Shared schema + agency-scoped Prisma client + Postgres RLS | 1 | — |
+| [002](./adr-002-identity-for-agency-and-portal-users.md) | Interactor auth via Auth.js like product-manager; magic links for portal users | 1 (agency), 2 (portal) | Decided (Q-32) |
+| [003](./adr-003-portal-architecture.md) | Same app, separate route groups, portal reads only published snapshots | 2 (built partly in 1) | — |
+| [004](./adr-004-ai-orchestration.md) | Direct model calls through one in-app AI gateway; no Interactor agents/workflows | 1 | — |
+| [005](./adr-005-llm-model-selection.md) | Sonnet 5.5 for high-volume extraction, Opus 5.5 for client/candidate-facing outputs; web search tool for benchmarking | 1 | Decided (Q-33) |
+| [006](./adr-006-draft-approval-versioning.md) | Generic Artifact / ArtifactVersion lifecycle + fact check | 1 | — |
+| [007](./adr-007-match-scoring-method.md) | LLM scores criteria with evidence; code computes the weighted overall score; explain-only mode | 1 | Q-06 (show numeric score) |
+| [008](./adr-008-embeddings-and-pool-search.md) | Full-text + pgvector (Voyage `voyage-3-large`, 1024 dims) | 1 (full-text), 3 (vectors) | Decided (Q-34: Voyage OK) |
+| [009](./adr-009-messaging-outbox-and-transport.md) | Outbox + pluggable transport (dev-capture, SMTP; Gmail/Graph later) | 1 | — |
+| [010](./adr-010-document-ingestion-and-parsing.md) | Originals in EaseMuse's own Postgres (`FileBlob`, RLS) + in-app extraction; PDF-to-model fallback (no userdb, Q-34) | 1 | — |
+| [011](./adr-011-generated-documents-and-pdf.md) | Headless-Chromium PDFs; `docx` for editable files; agency branding | 1 | Q-15 (template) |
+| [012](./adr-012-access-control-model.md) | Route wrappers + service capability checks; 404 across agencies; platform administrator grants | 1 | — |
+| [013](./adr-013-billing-metering-and-ai-budgets.md) | LlmCall ledger + local budget gate; Billing Server metering in release 2 | 1 (ledger), 2 (billing) | Q-27 (pricing) |
+| [014](./adr-014-use-of-interactor-services.md) | Which Interactor services are used, when | 1–3 | — |
+| [015](./adr-015-internationalization.md) | next-intl from day one; English first, Korean-ready | 1 | — |
+| [016](./adr-016-audit-log-and-data-rights.md) | Append-only audit tables; anonymization that keeps KPIs | 1 | Q-17 (retention) |
+| [017](./adr-017-mobile-scope.md) | No native app in releases 1–3; mobile-first portals | — | — |

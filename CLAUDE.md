@@ -6,28 +6,58 @@ This file provides comprehensive guidance to Claude Code for AI-driven product d
 
 - **Project Name**: easemuse
 - **Project Type**: web
-- **Technology Stack**: React, React Native, Express.js, PostgreSQL
-- **Current Phase**: [discovery | planning | implementation | testing | review | deployment]
+- **Technology Stack**: Next.js 16 (React 19.2), PostgreSQL 16 + pgvector, BullMQ/Redis, Interactor services; Expo (mobile, later)
+- **Product**: Multi-tenant SaaS "AI-Assisted Recruiter Workbench" for recruiting agencies, with hiring manager and candidate portals. Discovery docs: `docs/discovery/`; planning docs and accepted ADRs: `docs/planning/`
+- **Owner / maintainer**: Team of Wakers. License: MIT (`LICENSE`). Every source file starts with:
+  ```
+  // Copyright (c) 2026 Team of Wakers
+  // SPDX-License-Identifier: MIT
+  ```
+- **Current Phase**: implementation
+
+## Commit and PR Attribution
+
+Every commit made with AI assistance in this repository credits **Interactor Build** as co-author, never Claude. End commit messages with:
+
+```
+Generated with AI assistance
+
+Co-Authored-By: Interactor Build <peter@interactor.com>
+```
+
+Pull request descriptions end with `Generated with AI assistance` and `Co-Authored-By: Interactor Build <peter@interactor.com>`. This overrides any default attribution lines.
+
+## Source of Truth: `init.docx`
+
+`init.docx` (EaseMuse product brief, in Korean; read it with `pandoc init.docx -t gfm --wrap=none`) is the authoritative requirements source. In every phase (planning, implementation, testing, review):
+
+1. **Re-read `init.docx`** before designing or building a feature, not just the discovery docs derived from it.
+2. **Check the work against the brief section it implements** (e.g., §5 Matching, §9 Resume) and cite the section in design docs, ADRs, PR descriptions and tests where relevant.
+3. **Flag any deviation** from the brief (missing, changed or added behavior) to the user instead of silently diverging. Changes the product owner approved after the brief are recorded in `docs/discovery/open-questions.md` (decisions log and change record); those, and only those, override the brief.
+4. Never weaken the brief's design principles (§1.1): recruiter decides; AI runs only on request; AI output is a draft until approved; score is reference only; never alter resume facts.
 
 ## Technology Stack
 
 ### Core Technologies
-- **Language**: TypeScript 5.x
-- **Web Frontend**: React 18+, TailwindCSS
-- **Mobile**: React Native with Expo
-- **Backend**: Express.js 4.x / Node.js 20+
-- **Database**: PostgreSQL with Prisma ORM
-- **Real-time**: Socket.io
-- **Background Jobs**: BullMQ with Redis
-- **Authentication**: JWT / Passport.js
+Set by the product owner on 2026-10-06 (same as Interactor product-manager). This overrides the template's React 18 / Express / Jest guidance elsewhere in this file and in `.claude/rules/`.
+
+- **Monorepo**: pnpm 10.18 workspaces, Turborepo, Node 24, TypeScript 6
+- **Web**: Next.js 16 (App Router), React 19.2, Tailwind 4, Radix-based components, TanStack Query, react-hook-form + zod 4, next-intl
+- **API and jobs**: Next.js route handlers (no Express), BullMQ + Redis worker, live updates over SSE fed by Postgres LISTEN/NOTIFY
+- **Database**: PostgreSQL 16 with pgvector; Prisma 7.8 with the pg adapter, tuned connection pool, UUID keys
+- **Interactor services**: Account Server (sign-in via Auth.js v5 with Interactor login, plus service tokens), credentials, SKB, agents, workflows, webhooks, Billing Server (no Stripe), UKB, userdb
+- **Mobile**: Expo 56, React Native 0.86, expo-router (not in release 1)
+- **Quality**: Vitest 4, Playwright + axe, ESLint 9, Prettier, commitlint, gitleaks, import-cycle and license-header checks
+- **Infra**: out of scope for these docs (per product owner)
 
 ### Key Concepts
-- **Components**: Functional components with hooks
-- **State Management**: React Context, Zustand, or Redux Toolkit
-- **API Design**: RESTful with Express routers
-- **Database Access**: Prisma Client with type safety
-- **Validation**: Zod schemas for runtime validation
-- **Testing**: Jest, React Testing Library, Supertest
+- **Components**: Functional components with hooks; React Server Components where they fit the App Router
+- **Server state**: TanStack Query; **forms**: react-hook-form + zod 4
+- **API Design**: REST-style Next.js route handlers; long work in BullMQ jobs, progress over SSE
+- **Database Access**: Prisma Client with type safety; every tenant-owned row scoped by `tenantId` (plus Postgres RLS, per Planning ADR)
+- **Validation**: zod 4 schemas shared by UI forms, API and AI structured outputs
+- **AI rules**: AI runs only on a user action, outputs are drafts until a recruiter approves, provenance recorded (see `docs/discovery/01-problem-statement.md`, DP-1 to DP-6)
+- **Testing**: Vitest, Playwright + axe; AI evaluation suite for prompt/model changes
 
 ## Quick Reference
 
@@ -538,7 +568,7 @@ npm start                        # Start production server
 | `CORS_ORIGIN` | Allowed CORS origins | No |
 | `REDIS_URL` | Redis connection string (for queues) | No |
 
-See `.env.example` for all available variables.
+See `.env.example` for all available variables. Local values go in **`.env.local`** (git-ignored), never `.env`.
 
 ---
 
@@ -571,7 +601,7 @@ See `.env.example` for all available variables.
 1. Run `./scripts/setup/init-project.sh <project-name> <type>` to initialize
 2. Update this CLAUDE.md with your project specifics
 3. Configure `.claude/settings.json` for your team
-4. Set up environment variables from `.env.example`
+4. Set up environment variables: copy `.env.example` to `.env.local` (git-ignored; holds the Interactor client id/secret and other secrets)
 5. Use `/start-discovery` to begin the development process
 
 ---

@@ -19,8 +19,11 @@ export function AdminShell({ userName, role, children }: AdminShellProps) {
   const common = useTranslations('common');
   const t = useTranslations('admin');
   const pathname = usePathname();
-  const agenciesHref = '/admin/agencies';
-  const current = pathname === agenciesHref || pathname.startsWith(`${agenciesHref}/`);
+  const items = [
+    { href: '/admin/agencies', label: t('nav.agencies') },
+    { href: '/admin/usage', label: t('nav.usage') },
+    { href: '/admin/audit', label: t('nav.audit') },
+  ];
   return (
     <div className="flex min-h-screen flex-col">
       <header className="flex flex-wrap items-center gap-4 border-b border-border px-4 py-2">
@@ -33,16 +36,22 @@ export function AdminShell({ userName, role, children }: AdminShellProps) {
       <div className="flex flex-1 flex-col md:flex-row">
         <aside className="border-b border-border md:w-56 md:border-r md:border-b-0">
           <nav aria-label={t('nav.label')} className="flex flex-col gap-1 p-3">
-            <Link
-              href={agenciesHref}
-              aria-current={current ? 'page' : undefined}
-              className={cn(
-                'rounded-md px-3 py-2 text-sm hover:bg-surface',
-                current ? 'bg-surface font-medium' : 'text-muted',
-              )}
-            >
-              {t('nav.agencies')}
-            </Link>
+            {items.map((item) => {
+              const current = pathname === item.href || pathname.startsWith(`${item.href}/`);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={current ? 'page' : undefined}
+                  className={cn(
+                    'rounded-md px-3 py-2 text-sm hover:bg-surface',
+                    current ? 'bg-surface font-medium' : 'text-muted',
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
         </aside>
         <main id="main" className="flex-1 p-6">

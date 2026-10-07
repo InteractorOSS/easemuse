@@ -187,3 +187,75 @@ export async function listActiveAgencyIds(): Promise<string[]> {
   });
   return rows.map((r) => r.id);
 }
+
+export interface AuditEntry {
+  id: string;
+  adminId: string;
+  adminEmail: string | null;
+  action: string;
+  agencyId: string | null;
+  agencyName: string | null;
+  targetType: string | null;
+  targetId: string | null;
+  data: unknown;
+  createdAt: Date;
+}
+
+/** One page of the platform audit log, newest first (T-ADM-05). Entries never hold agency content. */
+export async function findAuditPage(input: {
+  adminId?: string | undefined;
+  agencyId?: string | undefined;
+  action?: string | undefined;
+  limit: number;
+  after?: { createdAt: Date; id: string } | undefined;
+}): Promise<AuditEntry[]> {
+  const { prisma } = getDbHandle();
+  const rows = await prisma.platformAuditLog.findMany({
+    where: {
+      AND: [
+        ...(input.adminId ? [{ adminId: input.adminId }] : []),
+        ...(input.agencyId ? [{ agencyId: input.agencyId }] : []),
+        ...(input.action ? [{ action: { startsWith: input.action } }] : []),
+        ...(input.after
+          ? [
+              {
+                OR: [
+                  { createdAt: { lt: input.after.createdAt } },
+                  { createdAt: input.after.createdAt, id: { lt: input.after.id } },
+                ],
+              },
+            ]
+          : []),
+      ],
+    },
+    orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+    take: input.limit + 1,
+  });
+  const adminIds = [...new Set(rows.map((r) => r.adminId))];
+  const agencyIds = [...new Set(rows.flatMap((r) => (r.agencyId ? [r.agencyId] : [])))];
+  const [admins, agencies] = await Promise.all([
+    adminIds.length
+      ? prisma.user.findMany({ where: { id: { in: adminIds } }, select: { id: true, email: true } })
+      : [],
+    agencyIds.length
+      ? prisma.agency.findMany({
+          where: { id: { in: agencyIds } },
+          select: { id: true, name: true },
+        })
+      : [],
+  ]);
+  const email = new Map(admins.map((a) => [a.id, a.email]));
+  const name = new Map(agencies.map((a) => [a.id, a.name]));
+  return rows.map((r) => ({
+    id: r.id,
+    adminId: r.adminId,
+    adminEmail: email.get(r.adminId) ?? null,
+    action: r.action,
+    agencyId: r.agencyId,
+    agencyName: r.agencyId ? (name.get(r.agencyId) ?? null) : null,
+    targetType: r.targetType,
+    targetId: r.targetId,
+    data: r.data,
+    createdAt: r.createdAt,
+  }));
+}

@@ -13,6 +13,7 @@ import {
 import { getEnv } from '@/lib/env';
 import { ApiError, notFound } from '@/lib/http/errors';
 import { decodeCursor, toPage } from '@/lib/http/pagination';
+import { getBudgetStatus, type BudgetStatus } from '@/server/ai/ledger';
 import { createOutboxMessage, dispatchOutboxMessage } from '@/server/messaging/outbox';
 import { renderMemberInviteEmail } from '@/server/messaging/templates';
 import { recordPlatformAudit } from '@/server/platform/audit';
@@ -26,6 +27,8 @@ export interface AgencySummary extends AgencyListItem {
 
 export interface AgencyDetail extends AgencySummary {
   pendingInvites: number;
+  /** Monthly AI budget, spend so far and how close it is (ADR-013). */
+  budget: BudgetStatus;
 }
 
 /** Counts through the agency's own scope: /admin never reads another agency's rows directly (RLS). */
@@ -72,7 +75,11 @@ export async function listAgencies(input: {
 export async function getAgencyDetail(ref: string): Promise<AgencyDetail> {
   const agency = await getAgencyListItem(ref);
   if (!agency) throw notFound('Agency');
-  return { ...agency, ...(await counts(agency.id)) };
+  const [c, budget] = await Promise.all([
+    counts(agency.id),
+    withAgency(agency.id, (tx) => getBudgetStatus(tx, agency.id)),
+  ]);
+  return { ...agency, ...c, budget };
 }
 
 const isUniqueViolation = (error: unknown): boolean =>
@@ -198,5 +205,45 @@ export async function setAgencyStatus(
       data: { reason, from: agency.status },
     });
     return updated;
+  });
+}
+
+/**
+ * Sets the agency's monthly AI budget in USD, or removes the limit with null (US-1604, ADR-013).
+ * The change and its audit entry commit together.
+ */
+export async function setAgencyBudget(
+  agencyRef: string,
+  aiMonthlyBudgetUsd: number | null,
+  actor: PlatformAdminActor,
+): Promise<{ id: string; aiMonthlyBudgetUsd: number | null }> {
+  const agency = await getAgencyByRef(agencyRef);
+  if (!agency) throw notFound('Agency');
+  return withAgency(agency.id, async (tx) => {
+    const before = await tx.agency.findUniqueOrThrow({
+      where: { id: agency.id },
+      select: { aiMonthlyBudgetUsd: true },
+    });
+    const updated = await tx.agency.update({
+      where: { id: agency.id },
+      data: { aiMonthlyBudgetUsd },
+      select: { id: true, aiMonthlyBudgetUsd: true },
+    });
+    await recordPlatformAudit(tx, {
+      adminId: actor.userId,
+      action: 'agency.budget',
+      agencyId: agency.id,
+      targetType: 'agency',
+      targetId: agency.id,
+      data: {
+        from: before.aiMonthlyBudgetUsd === null ? null : Number(before.aiMonthlyBudgetUsd),
+        to: aiMonthlyBudgetUsd,
+      },
+    });
+    return {
+      id: updated.id,
+      aiMonthlyBudgetUsd:
+        updated.aiMonthlyBudgetUsd === null ? null : Number(updated.aiMonthlyBudgetUsd),
+    };
   });
 }

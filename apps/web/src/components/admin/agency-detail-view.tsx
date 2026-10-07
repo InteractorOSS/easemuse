@@ -8,6 +8,7 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { BudgetEditor } from './budget-editor';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
@@ -80,6 +81,13 @@ export function AgencyDetailView({ agencyId, canWrite }: { agencyId: string; can
         <dt className="text-muted">{t('detail.created')}</dt>
         <dd>{format.dateTime(new Date(agency.createdAt), { dateStyle: 'medium' })}</dd>
       </dl>
+
+      <BudgetEditor
+        key={`${agency.budget.limitUsd}-${agency.budget.spentUsd}`}
+        agencyId={agency.id}
+        budget={agency.budget}
+        canWrite={canWrite}
+      />
 
       {canChange ? (
         <Dialog

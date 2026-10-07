@@ -8,5 +8,9 @@
     "recruiter": "Recruiter"
   },
   "yourRole": "Your role: {role}",
-  "skipToContent": "Skip to content"
+  "skipToContent": "Skip to content",
+  "suspended": {
+    "title": "Workspace suspended",
+    "body": "This workspace has been suspended, so it cannot be opened right now. Your data has not been changed. Contact your agency administrator or EaseMuse support."
+  }
 }

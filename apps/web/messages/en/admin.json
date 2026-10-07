@@ -2,7 +2,9 @@
   "title": "Platform admin",
   "nav": {
     "label": "Admin navigation",
-    "agencies": "Agencies"
+    "agencies": "Agencies",
+    "usage": "AI usage",
+    "audit": "Audit log"
   },
   "signedInAs": "Signed in as {name} ({role})",
   "roles": {
@@ -54,11 +56,64 @@
       "suspendTitle": "Suspend {agency}?",
       "suspendDescription": "Its users see \"Workspace suspended\" at sign-in and background jobs are skipped. Data is not touched.",
       "reactivateTitle": "Reactivate {agency}?",
-      "back": "All agencies"
+      "back": "All agencies",
+      "budget": {
+        "title": "Monthly AI budget",
+        "current": "Limit: {limit}",
+        "none": "No limit",
+        "spent": "Spent this month: {spent}",
+        "level": {
+          "ok": "Within budget",
+          "warning": "Over 80% of the budget",
+          "over": "Budget used: AI drafting is paused"
+        },
+        "label": "Limit in USD (leave empty for no limit)",
+        "save": "Save budget",
+        "remove": "Remove limit",
+        "saved": "Budget saved.",
+        "invalid": "Enter a number from 0 to 1,000,000."
+      }
     }
   },
   "errors": {
     "generic": "Something went wrong. Try again.",
     "slugTaken": "This URL name is already taken."
+  },
+  "usage": {
+    "title": "AI usage",
+    "from": "From",
+    "to": "To (inclusive)",
+    "groupBy": "Group by",
+    "group": {
+      "agency": "Agency",
+      "purpose": "Purpose",
+      "model": "Model",
+      "day": "Day"
+    },
+    "columns": {
+      "key": "Group",
+      "calls": "Calls",
+      "input": "Input tokens",
+      "output": "Output tokens",
+      "cached": "Cached tokens",
+      "cost": "Cost (USD)"
+    },
+    "total": "Total",
+    "empty": "No AI usage in this period."
+  },
+  "audit": {
+    "title": "Audit log",
+    "action": "Action starts with",
+    "actionPlaceholder": "agency.",
+    "empty": "No entries match.",
+    "columns": {
+      "when": "When",
+      "who": "Who",
+      "action": "Action",
+      "agency": "Agency",
+      "target": "Target"
+    },
+    "loadMore": "Load more",
+    "system": "(unknown user)"
   }
 }

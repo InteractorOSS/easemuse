@@ -187,7 +187,10 @@ describe('AgenciesView', () => {
 
 describe('AgencyDetailView', () => {
   const id = '00000000-0000-4000-8000-000000000001';
-  const detail = (status: string) => ({ data: { ...agency(1, status), pendingInvites: 2 } });
+  const budget = { spentUsd: 12.5, limitUsd: 100, ratio: 0.125, level: 'ok' };
+  const detail = (status: string) => ({
+    data: { ...agency(1, status), pendingInvites: 2, budget },
+  });
 
   it('shows metadata and counts', async () => {
     vi.stubGlobal(

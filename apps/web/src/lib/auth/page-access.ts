@@ -18,6 +18,8 @@ async function guard<T>(run: () => Promise<T>, callbackUrl: string): Promise<T> 
     if (error instanceof ApiError) {
       if (error.status === 401)
         redirect(`/api/auth/signin?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+      // A suspended workspace says so (US-1602); every other refusal looks like a missing page.
+      if (error.code === 'agency_suspended') redirect('/suspended');
       notFound();
     }
     throw error;

@@ -69,3 +69,9 @@ export const updateMemberInputSchema = z
   .object({ role: z.enum(AGENCY_ROLES).optional(), active: z.boolean().optional() })
   .refine((v) => v.role !== undefined || v.active !== undefined, 'Nothing to change');
 export type UpdateMemberInput = z.infer<typeof updateMemberInputSchema>;
+
+/** `PATCH /api/admin/v1/agencies/:id/budget`: the monthly AI budget in USD; null removes the limit (ADR-013). */
+export const agencyBudgetInputSchema = z.object({
+  aiMonthlyBudgetUsd: z.number().min(0).max(1_000_000).nullable(),
+});
+export type AgencyBudgetInput = z.infer<typeof agencyBudgetInputSchema>;

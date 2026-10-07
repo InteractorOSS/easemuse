@@ -46,6 +46,7 @@ vi.mock('@/server/tenancy/agencies', () => ({
     inviteExpiresAt: new Date(),
   }),
   setAgencyStatus: async () => ({ id: 'a1' }),
+  setAgencyBudget: async () => ({ id: 'a1', aiMonthlyBudgetUsd: 10 }),
 }));
 vi.mock('@/server/tenancy/members', () => ({
   listMembers: async () => ({ items: [], nextCursor: null }),
@@ -64,12 +65,23 @@ vi.mock('@/server/artifacts/service', () => ({
   approveVersion: async () => ({ versionId: 'v1' }),
   discardVersion: async () => ({ id: 'v1' }),
 }));
+vi.mock('@/server/platform/usage', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/platform/usage')>()),
+  getPlatformUsage: async () => [],
+}));
+vi.mock('@/server/platform/audit-log', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/platform/audit-log')>()),
+  listAuditEntries: async () => ({ items: [], nextCursor: null }),
+}));
 vi.mock('@/server/ai/provenance', () => ({ getProvenance: async () => ({ id: 'g1' }) }));
 
 import { GET as agenciesGet, POST as agenciesPost } from './admin/v1/agencies/route';
 import { GET as agencyGet } from './admin/v1/agencies/[id]/route';
 import { POST as suspendPost } from './admin/v1/agencies/[id]/suspend/route';
 import { POST as reactivatePost } from './admin/v1/agencies/[id]/reactivate/route';
+import { PATCH as budgetPatch } from './admin/v1/agencies/[id]/budget/route';
+import { GET as usageGet } from './admin/v1/usage/route';
+import { GET as auditGet } from './admin/v1/audit/route';
 import { GET as membersGet } from './v1/agencies/[agencyId]/members/route';
 import { PATCH as memberPatch } from './v1/agencies/[agencyId]/members/[userId]/route';
 import { GET as invitesGet, POST as invitesPost } from './v1/agencies/[agencyId]/invites/route';
@@ -214,6 +226,31 @@ const endpoints: Endpoint[] = [
     audience: 'admin',
     allowed: ['owner', 'admin', 'support'],
     call: () => agencyGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'PATCH budget',
+    file: 'admin/v1/agencies/[id]/budget/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      budgetPatch(
+        new Request('http://x.test/', { ...json({ aiMonthlyBudgetUsd: 100 }), method: 'PATCH' }),
+        adminParams,
+      ),
+  },
+  {
+    name: 'GET usage',
+    file: 'admin/v1/usage/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => usageGet(new Request('http://x.test/?from=2026-09-01&to=2026-10-01')),
+  },
+  {
+    name: 'GET audit',
+    file: 'admin/v1/audit/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => auditGet(new Request('http://x.test/')),
   },
   {
     name: 'POST suspend',

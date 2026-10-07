@@ -170,6 +170,9 @@ vi.mock('@/server/candidates/search', () => ({
 vi.mock('@/server/search/global', () => ({
   globalSearch: async () => ({ clients: [], positions: [], candidates: [] }),
 }));
+vi.mock('@/server/candidates/do-not-contact', () => ({
+  setDoNotContact: async () => ({ doNotContact: true, reason: 'x', at: null }),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -250,6 +253,7 @@ import {
 } from './v1/agencies/[agencyId]/candidates/route';
 import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
 import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
+import { PATCH as dncPatch } from './v1/agencies/[agencyId]/candidates/[candidateId]/do-not-contact/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -672,6 +676,20 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => searchGet(new Request('http://x.test/?q=hr'), agencyParams),
+  },
+  {
+    name: 'PATCH candidate do-not-contact',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/do-not-contact/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      dncPatch(
+        new Request('http://x.test/', {
+          ...json({ value: true, reason: 'Asked us to stop' }),
+          method: 'PATCH',
+        }),
+        agencyParams,
+      ),
   },
   {
     name: 'GET tasks',

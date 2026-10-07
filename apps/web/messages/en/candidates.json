@@ -161,5 +161,45 @@
     "count": "{count, plural, =0 {No results} one {# result} other {# results}}",
     "archived": "Archived",
     "error": "Search is not available right now."
+  },
+  "detail": {
+    "back": "Back to candidates",
+    "draft": "This candidate has not been confirmed yet.",
+    "reviewLink": "Open the review",
+    "source": "Source: {source}",
+    "experience": "{count, plural, one {# year of experience} other {# years of experience}}",
+    "contact": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "profileLink": "Profile link",
+    "notStated": "Not stated",
+    "tags": "Tags",
+    "noTags": "No tags.",
+    "profile": "Profile",
+    "noProfile": "No profile yet.",
+    "documents": "Original files",
+    "noDocuments": "No files.",
+    "download": "Download original",
+    "positions": "Positions",
+    "noPositions": "Not in any position yet.",
+    "stateLabel": "Stage: {state}",
+    "dnc": {
+      "title": "Do not contact",
+      "badge": "Do not contact",
+      "since": "Marked on {date}: {reason}",
+      "mark": "Mark as do not contact",
+      "clear": "Clear do-not-contact",
+      "reason": "Reason",
+      "markHelp": "Outreach for this person will be blocked.",
+      "clearHelp": "Say why it is safe to contact them again.",
+      "onlyAdmin": "Only an admin can clear this.",
+      "saved": "Saved.",
+      "cancel": "Cancel",
+      "errors": {
+        "generic": "Could not save. Try again.",
+        "conflict": "Confirm the candidate first.",
+        "forbidden": "Only an admin can clear this."
+      }
+    }
   }
 }

@@ -57,3 +57,10 @@ export const confirmCandidateInputSchema = z
     },
   );
 export type ConfirmCandidateInput = z.infer<typeof confirmCandidateInputSchema>;
+
+/** `PATCH /candidates/:id/do-not-contact`: setting or clearing the flag always needs a reason. */
+export const doNotContactInputSchema = z.object({
+  value: z.boolean(),
+  reason: z.string().trim().min(3).max(500),
+});
+export type DoNotContactInput = z.infer<typeof doNotContactInputSchema>;

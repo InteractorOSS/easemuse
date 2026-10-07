@@ -20,7 +20,18 @@ export interface CandidateView {
   skills: string[];
   yearsExperience: number | null;
   doNotContact: boolean;
+  doNotContactReason: string | null;
+  doNotContactAt: Date | null;
+  tags: string[];
   createdAt: Date;
+  /** The positions this candidate is in (pipeline entries). */
+  positions: {
+    entryId: string;
+    positionId: string;
+    title: string;
+    clientName: string;
+    state: string;
+  }[];
   /** The newest profile artifact (draft or approved), if the AI has produced one. */
   profileArtifactId: string | null;
   approvedProfileVersionId: string | null;
@@ -39,7 +50,7 @@ export interface CandidateView {
 export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<CandidateView> {
   const row = await tx.candidate.findUnique({ where: { id: candidateId } });
   if (!row || row.status === 'discarded') throw notFound('Candidate');
-  const [documents, artifact] = await Promise.all([
+  const [documents, artifact, entries] = await Promise.all([
     tx.candidateDocument.findMany({
       where: { candidateId },
       orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
@@ -47,6 +58,15 @@ export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<C
     findArtifact(tx, {
       kind: 'candidate_profile',
       subject: { type: 'candidate', id: candidateId },
+    }),
+    tx.pipelineEntry.findMany({
+      where: { candidateId },
+      orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      select: {
+        id: true,
+        state: true,
+        position: { select: { id: true, title: true, client: { select: { name: true } } } },
+      },
     }),
   ]);
   const files = documents.length
@@ -69,7 +89,17 @@ export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<C
     skills: row.skills,
     yearsExperience: row.yearsExperience,
     doNotContact: row.doNotContact,
+    doNotContactReason: row.doNotContactReason,
+    doNotContactAt: row.doNotContactAt,
+    tags: row.tags,
     createdAt: row.createdAt,
+    positions: entries.map((e) => ({
+      entryId: e.id,
+      positionId: e.position.id,
+      title: e.position.title,
+      clientName: e.position.client.name,
+      state: e.state,
+    })),
     profileArtifactId: artifact?.id ?? null,
     approvedProfileVersionId: artifact?.approvedVersionId ?? null,
     documents: documents.map((d) => ({

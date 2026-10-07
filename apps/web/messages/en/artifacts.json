@@ -1,0 +1,91 @@
+{
+  "title": "Review draft",
+  "kinds": {
+    "structured_jd": "Structured job description",
+    "improved_jd": "Improved job description",
+    "intake_questions": "Intake questions",
+    "success_profile": "Candidate success profile",
+    "benchmark_report": "Market benchmark",
+    "search_criteria": "Search criteria",
+    "candidate_profile": "Candidate profile",
+    "match_analysis": "Match analysis",
+    "screening_draft": "Screening draft",
+    "outreach_message": "Outreach message",
+    "call_questions": "Call questions",
+    "qualification": "Qualification notes",
+    "tailored_resume": "Tailored resume",
+    "submission_report": "Submission report",
+    "interview_feedback": "Interview feedback",
+    "pattern_summary": "Pattern summary",
+    "similar_candidates": "Similar candidates",
+    "portfolio_fit": "Portfolio fit"
+  },
+  "status": {
+    "draftEdited": "Edited draft",
+    "draftHuman": "Your draft",
+    "approved": "Approved",
+    "superseded": "Replaced",
+    "discarded": "Discarded"
+  },
+  "version": "Version {n}",
+  "history": {
+    "title": "Version history",
+    "select": "Show version {n}",
+    "origin": {
+      "ai": "AI draft",
+      "ai_edited": "AI draft, edited",
+      "human": "Written by a person"
+    }
+  },
+  "content": {
+    "label": "Content",
+    "hint": "Edit the text, then save. Nothing is final until you approve it.",
+    "invalidJson": "This is not valid JSON.",
+    "notObject": "The content must be a JSON object."
+  },
+  "actions": {
+    "save": "Save edit",
+    "approve": "Approve",
+    "discard": "Discard draft",
+    "confirmDiscardTitle": "Discard this draft?",
+    "confirmDiscardBody": "The draft is removed from the active versions. Earlier versions stay in the history."
+  },
+  "messages": {
+    "saved": "Edit saved as a new version.",
+    "approved": "Approved. This version is now the official one.",
+    "discarded": "Draft discarded.",
+    "unsaved": "Save your edit before approving."
+  },
+  "diff": {
+    "toggle": "Show changes from the AI original",
+    "none": "No changes from the AI original.",
+    "added": "Added",
+    "removed": "Removed"
+  },
+  "factCheck": {
+    "title": "Fact check",
+    "intro": "These claims could not be found in the source. Decide on each one before approving.",
+    "none": "The fact check found nothing unsupported.",
+    "edited": "I edited the text",
+    "confirmed": "The claim is correct",
+    "reason": "Why is it correct?",
+    "decisionFor": "Decision for: {claim}",
+    "resolvedBy": "Decided: {kind}"
+  },
+  "errors": {
+    "factcheckUnresolved": "Decide on every fact-check warning first.",
+    "missingAssessment": "Write your own assessment before approving.",
+    "missingRequired": "A required field is empty.",
+    "factcheckNotRun": "The fact check has not run for this draft.",
+    "notDraft": "This version can no longer be changed.",
+    "humanOnly": "Only a recruiter can write that field.",
+    "generic": "Something went wrong. Try again."
+  },
+  "streaming": {
+    "working": "Drafting…",
+    "cancel": "Cancel",
+    "cancelled": "Cancelled. Nothing was saved.",
+    "failed": "The assistant could not finish: {reason}",
+    "retry": "Try again"
+  }
+}

@@ -186,6 +186,11 @@ vi.mock('@/server/matching/analyze', () => ({
   planMatchAnalysis: async () => ({}),
   analyzeEntry: async () => ({}),
 }));
+vi.mock('@/server/matching/overrides', () => ({
+  getLatestAnalysis: async () => null,
+  overrideScore: async () => ({}),
+  saveAssessment: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -272,7 +277,12 @@ import { POST as transitionPost } from './v1/agencies/[agencyId]/pipeline/[entry
 import { POST as addToPositionPost } from './v1/agencies/[agencyId]/positions/[positionId]/candidates/route';
 import { GET as pipelineGet } from './v1/agencies/[agencyId]/positions/[positionId]/pipeline/route';
 import { POST as batchPost } from './v1/agencies/[agencyId]/positions/[positionId]/analyses/route';
-import { POST as analyzePost } from './v1/agencies/[agencyId]/pipeline/[entryId]/analysis/route';
+import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
+import { PUT as assessmentPut } from './v1/agencies/[agencyId]/analyses/[analysisId]/assessment/route';
+import {
+  POST as analyzePost,
+  GET as analysisGet,
+} from './v1/agencies/[agencyId]/pipeline/[entryId]/analysis/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -304,6 +314,7 @@ const agencyParams = {
     positionId: 'p1',
     candidateId: 'cand1',
     entryId: 'e1',
+    analysisId: 'an1',
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
@@ -764,6 +775,38 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => analyzePost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET latest analysis',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/analysis/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => analysisGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PATCH analysis overrides',
+    file: 'v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      overridePatch(
+        new Request('http://x.test/', {
+          ...json({ kind: 'overall', score: 70, reason: 'Interview went well' }),
+          method: 'PATCH',
+        }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'PUT analysis assessment',
+    file: 'v1/agencies/[agencyId]/analyses/[analysisId]/assessment/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      assessmentPut(
+        new Request('http://x.test/', { ...json({ text: 'Strong fit.' }), method: 'PUT' }),
+        agencyParams,
+      ),
   },
   {
     name: 'GET tasks',

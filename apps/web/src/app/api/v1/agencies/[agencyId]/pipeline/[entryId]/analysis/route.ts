@@ -4,9 +4,10 @@
 import { authorizeAgency } from '@/lib/auth/authorize';
 import { withAgency } from '@/lib/db';
 import { streamAiRun } from '@/lib/http/ai-stream';
-import { handleRoute } from '@/lib/http/responses';
+import { handleRoute, ok } from '@/lib/http/responses';
 import { getGateway } from '@/server/ai';
 import { analyzeEntry, planMatchAnalysis } from '@/server/matching/analyze';
+import { getLatestAnalysis } from '@/server/matching/overrides';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 180;
@@ -33,6 +34,23 @@ export async function POST(
         entryId,
         stream,
       ),
+    );
+  });
+}
+
+/** The newest analysis of this candidate (`null` before the first), with overrides and assessment. */
+export async function GET(
+  _req: Request,
+  ctx: { params: Promise<{ agencyId: string; entryId: string }> },
+): Promise<Response> {
+  return handleRoute(async () => {
+    const { agencyId, entryId } = await ctx.params;
+    const authed = await authorizeAgency(agencyId);
+    if (authed instanceof Response) return authed;
+    return ok(
+      await withAgency(authed.agency.id, (tx) => getLatestAnalysis(tx, authed.actor, entryId), {
+        userId: authed.userId,
+      }),
     );
   });
 }

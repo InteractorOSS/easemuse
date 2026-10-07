@@ -1,7 +1,12 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { describe, expect, it } from 'vitest';
-import { candidateFieldsFromProfile, firstYear } from './from-profile';
+import {
+  candidateFieldsFromProfile,
+  candidateSearchParts,
+  firstYear,
+  seniorityFromTitle,
+} from './from-profile';
 
 const base = {
   fullName: null,
@@ -49,6 +54,7 @@ describe('candidateFieldsFromProfile', () => {
       location: null,
       skills: [],
       yearsExperience: null,
+      seniority: null,
       employers: [],
     });
   });
@@ -88,5 +94,64 @@ describe('candidateFieldsFromProfile', () => {
     expect(fields.skills).toEqual(['payroll', 'compliance', 'Workday']);
     expect(fields.currentTitle).toBe('Director');
     expect(fields.employers).toEqual(['Northwind', 'Contoso']);
+  });
+});
+
+describe('seniorityFromTitle', () => {
+  it('reads the level a title names, highest first', () => {
+    expect(seniorityFromTitle('Senior HR Director')).toBe('Director');
+    expect(seniorityFromTitle('VP of Engineering')).toBe('VP');
+    expect(seniorityFromTitle('Chief People Officer')).toBe('C-level');
+    expect(seniorityFromTitle('Head of Talent')).toBe('Director');
+    expect(seniorityFromTitle('HR Manager')).toBe('Manager');
+    expect(seniorityFromTitle('Staff Engineer')).toBe('Lead');
+    expect(seniorityFromTitle('Senior Backend Engineer')).toBe('Senior');
+    expect(seniorityFromTitle('Junior Analyst')).toBe('Junior');
+  });
+  it('reads common Korean titles', () => {
+    expect(seniorityFromTitle('인사팀 팀장')).toBe('Manager');
+    expect(seniorityFromTitle('이사')).toBe('Director');
+    expect(seniorityFromTitle('수석 연구원')).toBe('Lead');
+    expect(seniorityFromTitle('신입 사원')).toBe('Junior');
+  });
+  it('is null when the title names no level, or there is no title', () => {
+    expect(seniorityFromTitle('Software Engineer')).toBeNull();
+    expect(seniorityFromTitle('')).toBeNull();
+    expect(seniorityFromTitle(null)).toBeNull();
+  });
+  it('does not take part of a word for a level', () => {
+    expect(seniorityFromTitle('Assistant to the Leadership Team')).toBe('Junior');
+    expect(seniorityFromTitle('Seniority Analyst')).toBeNull();
+  });
+});
+
+describe('candidateSearchParts', () => {
+  it('puts name and titles first, skills and employers second, and the rest last', () => {
+    const profile = {
+      ...base,
+      fullName: 'Alex Kim',
+      currentPosition: { title: 'HR Director', company: 'Northwind' },
+      location: 'Seoul',
+      coreSkills: ['payroll'],
+      careerHistory: [
+        {
+          company: 'Northwind',
+          title: 'HR Director',
+          start: '2019',
+          end: null,
+          current: true,
+          summary: 'Ran benefits',
+        },
+      ],
+      majorAchievements: [{ text: 'Cut cost', evidence: [{ type: 'inferred' as const }] }],
+    };
+    const fields = candidateFieldsFromProfile(profile, NOW);
+    const parts = candidateSearchParts(profile, fields);
+    expect(parts.primary).toBe('Alex Kim HR Director HR Director');
+    expect(parts.secondary).toContain('payroll');
+    expect(parts.secondary).toContain('Northwind');
+    expect(parts.rest).toContain('Seoul');
+    expect(parts.rest).toContain('Ran benefits');
+    expect(parts.rest).toContain('Cut cost');
   });
 });

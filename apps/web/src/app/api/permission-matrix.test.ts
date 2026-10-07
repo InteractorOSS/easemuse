@@ -164,6 +164,12 @@ vi.mock('@/server/candidates/service', () => ({
   getCandidate: async () => ({ id: 'c1' }),
   discardDraft: async () => undefined,
 }));
+vi.mock('@/server/candidates/search', () => ({
+  searchCandidates: async () => ({ items: [], nextCursor: null }),
+}));
+vi.mock('@/server/search/global', () => ({
+  globalSearch: async () => ({ clients: [], positions: [], candidates: [] }),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -237,7 +243,11 @@ import {
 import { POST as intakePost } from './v1/agencies/[agencyId]/candidates/intake/route';
 import { POST as structureAgainPost } from './v1/agencies/[agencyId]/candidates/[candidateId]/structure/route';
 import { GET as duplicatesGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/duplicates/route';
-import { POST as confirmPost } from './v1/agencies/[agencyId]/candidates/route';
+import { GET as searchGet } from './v1/agencies/[agencyId]/search/route';
+import {
+  POST as confirmPost,
+  GET as candidatesGet,
+} from './v1/agencies/[agencyId]/candidates/route';
 import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
 import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
@@ -648,6 +658,20 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => discardPost2(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET candidates (pool search)',
+    file: 'v1/agencies/[agencyId]/candidates/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => candidatesGet(new Request('http://x.test/?q=hr'), agencyParams),
+  },
+  {
+    name: 'GET search',
+    file: 'v1/agencies/[agencyId]/search/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => searchGet(new Request('http://x.test/?q=hr'), agencyParams),
   },
   {
     name: 'GET tasks',

@@ -3,6 +3,7 @@
 import {
   candidateFieldsFromProfile,
   candidateProfileContentSchema,
+  candidateSearchParts,
   employerKeys,
   phoneKey,
   structuredJdContentSchema,
@@ -87,9 +88,17 @@ const BUILT_IN: Partial<Record<ArtifactKind, Hook>> = {
           location: fields.location,
           skills: fields.skills,
           yearsExperience: fields.yearsExperience,
+          seniority: fields.seniority,
           profileArtifactId: version.artifactId,
         },
       });
+      const parts = candidateSearchParts(profile.data, fields);
+      await tx.$executeRaw`
+        UPDATE "Candidate" SET "searchText" =
+          setweight(to_tsvector('simple', ${parts.primary}), 'A') ||
+          setweight(to_tsvector('simple', ${parts.secondary}), 'B') ||
+          setweight(to_tsvector('simple', ${parts.rest}), 'C')
+        WHERE id = ${subject.id}::uuid`;
     }
     await tx.matchAnalysis.updateMany({
       where: { entry: { candidateId: subject.id }, stale: false },

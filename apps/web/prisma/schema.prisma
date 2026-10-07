@@ -372,9 +372,11 @@ model Candidate {
   @@index([agencyId, lastContactedAt])
   @@index([skills], type: Gin)
   @@index([agencyId, profileUrl])
+  @@index([agencyId, createdAt])
   @@index([agencyId, phoneKey])
   @@index([agencyId, profileKey])
   @@index([employerKeys], type: Gin)
+  @@index([searchText], type: Gin)
   @@index([agencyId, fullName])
 }
 

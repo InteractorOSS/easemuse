@@ -85,13 +85,13 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
     });
 
     it('survives two writers adding a version at the same moment', async () => {
-      const { id } = await newArtifact('search_criteria');
+      const { id } = await newArtifact('benchmark_report');
       const results = await Promise.all([draft(id, { a: 1 }), draft(id, { a: 2 })]);
       expect(results.map((v) => v.version).sort()).toEqual([1, 2]);
     });
 
     it('rejects content that is not an object (422)', async () => {
-      const { id } = await newArtifact('search_criteria');
+      const { id } = await newArtifact('benchmark_report');
       await expect(draft(id, 'just text')).rejects.toMatchObject({
         status: 422,
         code: 'invalid_input',
@@ -102,10 +102,10 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
     it('findOrCreateArtifact reuses the artifact for the same subject', async () => {
       const subject = { type: 'position' as const, id: randomUUID() };
       const a = await run((tx) =>
-        findOrCreateArtifact(tx, { agencyId: agencyA, kind: 'search_criteria', subject }),
+        findOrCreateArtifact(tx, { agencyId: agencyA, kind: 'benchmark_report', subject }),
       );
       const b = await run((tx) =>
-        findOrCreateArtifact(tx, { agencyId: agencyA, kind: 'search_criteria', subject }),
+        findOrCreateArtifact(tx, { agencyId: agencyA, kind: 'benchmark_report', subject }),
       );
       expect(b.id).toBe(a.id);
     });
@@ -176,14 +176,14 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
   describe('approving', () => {
     it('makes the version official, supersedes the previous approved one and logs it', async () => {
       const subject = { type: 'position' as const, id: randomUUID() };
-      const { id } = await newArtifact('search_criteria', subject);
+      const { id } = await newArtifact('benchmark_report', subject);
       const v1 = await draft(id, { n: 1 });
       const v2 = await draft(id, { n: 2 });
-      expect(await run((tx) => readApproved(tx, { kind: 'search_criteria', subject }))).toBeNull();
+      expect(await run((tx) => readApproved(tx, { kind: 'benchmark_report', subject }))).toBeNull();
 
       await run((tx) => approveVersion(tx, actor, v1.id));
       expect(
-        (await run((tx) => readApproved(tx, { kind: 'search_criteria', subject })))?.content,
+        (await run((tx) => readApproved(tx, { kind: 'benchmark_report', subject })))?.content,
       ).toEqual({ n: 1 });
       await run((tx) => approveVersion(tx, actor, v2.id));
 
@@ -196,7 +196,7 @@ describe.skipIf(!dbAvailable())('artifact lifecycle (ADR-006)', () => {
       expect(all.versions[0]).toMatchObject({ approvedById: userId });
       expect(all.versions[0]!.approvedAt).toBeInstanceOf(Date);
       expect(
-        (await run((tx) => readApproved(tx, { kind: 'search_criteria', subject })))?.content,
+        (await run((tx) => readApproved(tx, { kind: 'benchmark_report', subject })))?.content,
       ).toEqual({ n: 2 });
     });
 

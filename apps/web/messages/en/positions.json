@@ -88,7 +88,8 @@
       "blocked": "Resolve this first."
     },
     "questionsLink": "Write intake questions",
-    "profileLink": "Write the success profile"
+    "profileLink": "Write the success profile",
+    "searchLink": "Write search criteria"
   },
   "errors": {
     "generic": "Could not save. Check the values and try again.",
@@ -326,5 +327,34 @@
       "generic": "Could not export. Try again.",
       "notApproved": "Approve the structured JD first."
     }
+  },
+  "search": {
+    "title": "Search criteria",
+    "back": "Back to the position",
+    "run": "Write search criteria",
+    "rerun": "Write them again",
+    "hint": "AI turns the confirmed success profile into a sheet of search conditions. You search on LinkedIn or other sources yourself; EaseMuse does not search for you."
+  },
+  "searchEditor": {
+    "fields": {
+      "jobTitles": "Job titles",
+      "skills": "Skills",
+      "industries": "Industries",
+      "companies": "Companies",
+      "geography": "Geography",
+      "education": "Education",
+      "seniority": "Seniority",
+      "leadershipExperience": "Leadership experience"
+    },
+    "listHint": "One per line",
+    "years": "Years of experience",
+    "yearsMin": "Minimum years",
+    "yearsMax": "Maximum years",
+    "keywordSearch": "Keyword search",
+    "keywordHint": "Paste this into a search box.",
+    "copy": "Copy the sheet",
+    "copied": "Copied to the clipboard.",
+    "invalid": "This draft cannot be shown as a form.",
+    "companiesHint": "Only companies named in the profile. Add your own."
   }
 }

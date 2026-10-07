@@ -143,6 +143,11 @@ vi.mock('@/server/positions/jd-export', async (importOriginal) => ({
   startPdfExport: async () => ({ jobRunId: 'run1', versionId: 'v1' }),
   exportDocx: async () => ({ bytes: Buffer.from('docx'), filename: 'x.docx' }),
 }));
+vi.mock('@/server/positions/search-criteria', () => ({
+  getSearchCriteriaArtifact: async () => ({ artifactId: null, approvedVersionId: null }),
+  planSearchCriteria: async () => ({ input: {}, inputRefs: {} }),
+  runSearchCriteria: async () => ({}),
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -209,6 +214,10 @@ import {
   GET as exportGet,
   POST as exportPost,
 } from './v1/agencies/[agencyId]/positions/[positionId]/jd/export/route';
+import {
+  GET as scGet,
+  POST as scPost,
+} from './v1/agencies/[agencyId]/positions/[positionId]/search-criteria/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -552,6 +561,20 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => exportPost(new Request('http://x.test/', json({ format: 'pdf' })), agencyParams),
+  },
+  {
+    name: 'GET position search criteria',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/search-criteria/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => scGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST position search criteria',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/search-criteria/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => scPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET tasks',

@@ -20,3 +20,4 @@ export * from './schemas/intake';
 export * from './artifacts/intake-questions';
 export * from './artifacts/success-profile';
 export * from './schemas/branding';
+export * from './artifacts/search-criteria';

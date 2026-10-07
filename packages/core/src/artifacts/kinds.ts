@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
 import { intakeQuestionsContentSchema } from './intake-questions';
+import { searchCriteriaSchema } from './search-criteria';
 import { structuredJdContentSchema } from './structured-jd';
 import { successProfileContentSchema } from './success-profile';
 
@@ -87,7 +88,9 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
     schema: successProfileContentSchema as z.ZodType<Record<string, unknown>>,
   }),
   benchmark_report: spec('benchmark_report', 'position'),
-  search_criteria: spec('search_criteria', 'position'),
+  search_criteria: spec('search_criteria', 'position', {
+    schema: searchCriteriaSchema as z.ZodType<Record<string, unknown>>,
+  }),
   candidate_profile: spec('candidate_profile', 'candidate'),
   // The recruiter's assessment is theirs alone (FR-MAT-05); only reviewed analyses feed later steps.
   match_analysis: spec('match_analysis', 'pipeline_entry', {

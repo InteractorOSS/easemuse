@@ -13,6 +13,8 @@
 
 **Also done 2026-10-07 (AI core):** T-AI-01 to T-AI-15 and T-AI-07: gateway and routing table, Anthropic client, `LlmCall` ledger and budget gate, artifact lifecycle with approval rules and stale-marking hooks, the read-rule guard, the kind registry, fact check (deterministic step and LLM verifier), generic artifact editor with streaming plumbing, provenance, protected-attribute redaction, evidence references, draft-quality metric and the nightly orphan report. Open: prompt modules and real schemas for each kind arrive with their feature tasks (T-1-06 onward), and the fact check is wired into A15/A16 with T-7-*. The gateway was tested with a fake model client; no live Anthropic call has been made (no API key yet).
 
+**Also done 2026-10-07 (E0 and E1):** T-0-01 (task engine and "My tasks" page), T-0-02 (activity log and timeline) and all of E1, T-1-01 to T-1-14: clients and contacts, positions with the status service and weights editor, original JD upload and background reading, A1 structuring with the requirement editor, A2 intake questions, the hiring manager intake and recorded JD approval with the shared guard mechanism (block / warn / override), A5 success profile, the PDF render pipeline and the JD export (PDF and Word). All AI prompts were tested against fakes only; no live model call has been made. Gaps: agency logo is not yet drawn on documents, and the PDF path was exercised against a real Chromium only for a simple page (the print route is covered by a render test).
+
 Estimates are ideal engineering hours (≤ 8 = under one day). "Dep" lists blocking tasks. Every AI task includes adding its cases to the eval set (T-QA-03) and an isolation test for its routes (T-QA-01).
 
 ---

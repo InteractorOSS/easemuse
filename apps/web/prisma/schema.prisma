@@ -153,12 +153,14 @@ model PlatformAuditLog {
 // ───────────────────────────── Clients & positions (§3) ─────────────────────────────
 
 model Client {
-  id         String    @id @default(uuid()) @db.Uuid
-  agencyId   String    @db.Uuid
-  name       String
-  archivedAt DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id          String    @id @default(uuid()) @db.Uuid
+  agencyId    String    @db.Uuid
+  name        String
+  /// A short plain-text description of the company for outreach (brief 7.3); never invented.
+  description String?
+  archivedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   agency    Agency          @relation(fields: [agencyId], references: [id], onDelete: Cascade)
   contacts  ClientContact[]
@@ -369,7 +371,7 @@ model Candidate {
   createdAt          DateTime                 @default(now())
   updatedAt          DateTime                 @updatedAt
 
-  agency     Agency              @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  agency     Agency                    @relation(fields: [agencyId], references: [id], onDelete: Cascade)
   documents  CandidateDocument[]
   pipeline   PipelineEntry[]
   portalUser PortalUser?
@@ -500,8 +502,8 @@ model PipelineEntry {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 
-  position      Position             @relation(fields: [positionId], references: [id], onDelete: Cascade)
-  candidate     Candidate            @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  position      Position                @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  candidate     Candidate               @relation(fields: [candidateId], references: [id], onDelete: Cascade)
   transitions   PipelineTransition[]
   analyses      MatchAnalysis[]
   touches       OutreachTouch[]

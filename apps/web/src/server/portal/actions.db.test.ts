@@ -273,6 +273,25 @@ describe.skipIf(!dbAvailable())('what portal users can do (ADR-003, FR-HMP-05)',
       ).rejects.toMatchObject({ status: 409 });
     });
 
+    it('select for offer is only a proposal and only applies to a candidate being interviewed', async () => {
+      const s = await submitted();
+      await expect(
+        run((tx) => proposeDecision(tx, hm, s.shareId, { decision: 'offer' })),
+      ).rejects.toMatchObject({ status: 409 });
+      await admin.query(`UPDATE "PipelineEntry" SET state = 'interviewing' WHERE id = $1`, [
+        s.entryId,
+      ]);
+      await run((tx) => proposeDecision(tx, hm, s.shareId, { decision: 'offer' }));
+      expect(
+        (await admin.query(`SELECT state FROM "PipelineEntry" WHERE id = $1`, [s.entryId])).rows[0]
+          .state,
+      ).toBe('interviewing');
+      const open = (await run((tx) => listOpenProposals(tx, lead))).find(
+        (p) => p.entryId === s.entryId,
+      )!;
+      expect(open.toState).toBe('offer');
+    });
+
     it('declining a proposal leaves the candidate where they were; a rejection needs a reason code to accept', async () => {
       const s = await submitted();
       await run((tx) =>

@@ -28,6 +28,7 @@ const input = (over: Partial<OutreachDraftInput> = {}): OutreachDraftInput => ({
     workArrangement: 'hybrid',
     compensation: null,
   },
+  client: { name: 'Northwind Corp', description: null },
   earlier: [],
   ...over,
 });
@@ -52,7 +53,17 @@ describe('outreach draft prompt (A12)', () => {
     );
     expect(system).toMatch(/start from it/);
     expect(system).toMatch(/Keep the placeholders exactly/);
-    expect(outreachDraftPrompt.version).toBe('outreach-draft-v2');
+    expect(outreachDraftPrompt.version).toBe('outreach-draft-v3');
+  });
+
+  it('gives the company name and description, and never invents a description', () => {
+    const none = outreachDraftPrompt.buildPrompt(input()).user;
+    expect(none).toContain('Company: Northwind Corp');
+    expect(none).not.toContain('About the company');
+    const withText = outreachDraftPrompt.buildPrompt(
+      input({ client: { name: 'Northwind Corp', description: 'Payroll software' } }),
+    ).user;
+    expect(withText).toContain('About the company: Payroll software');
   });
 
   it('lists only the elements that are switched on', () => {

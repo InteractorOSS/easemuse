@@ -1,6 +1,7 @@
 {
   "label": "Main navigation",
   "agencySwitcher": "Switch agency",
+  "home": "Today",
   "tasks": "My tasks",
   "positions": "Positions",
   "candidates": "Candidates",

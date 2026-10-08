@@ -1,6 +1,8 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
+import { QUALIFICATION_TOPICS } from './call-questions';
+import { isFilled, QUALIFICATION_LEVELS, type QualificationContent } from './qualification';
 
 /** Sections 1 to 13 of the Candidate Submission Report (brief 10); section 14 is the recruiter's own. */
 export const REPORT_SECTIONS = [
@@ -40,6 +42,29 @@ export const NOT_CONFIRMED = 'Not yet confirmed';
 
 const text = z.string().max(3000);
 
+/**
+ * One line of the code-rendered qualification summary (brief 8 to 10): what the recruiter confirmed
+ * on the call, copied as is. The model never writes it.
+ */
+export const qualificationSummaryItemSchema = z.object({
+  topic: z.enum(QUALIFICATION_TOPICS),
+  value: z.string().max(400),
+  level: z.enum(QUALIFICATION_LEVELS).nullable(),
+});
+export type QualificationSummaryItem = z.infer<typeof qualificationSummaryItemSchema>;
+
+/** The filled topics of the approved qualification, in the fixed topic order. */
+export function buildQualificationSummary(
+  fields: QualificationContent['fields'] | null,
+): QualificationSummaryItem[] {
+  if (!fields) return [];
+  return QUALIFICATION_TOPICS.filter((k) => isFilled(fields[k])).map((k) => ({
+    topic: k,
+    value: fields[k].value,
+    level: fields[k].level,
+  }));
+}
+
 const sectionShapes = Object.fromEntries(REPORT_SECTIONS.map((k) => [k, text])) as Record<
   ReportSection,
   typeof text
@@ -56,6 +81,8 @@ export const submissionReportContentSchema = z.object({
     z.ZodDefault<typeof text>
   >),
   recruiterAssessment: z.string().max(6000).default(''),
+  /** Confirmed qualification topics, filled by code. Absent in older versions. */
+  qualificationSummary: z.array(qualificationSummaryItemSchema).max(20).default([]),
   /** Which records were missing when the draft was written, so the recruiter knows why a section is open. */
   missingInputs: z.array(z.string().max(80)).max(10).default([]),
 });

@@ -26,6 +26,7 @@ import { createArtifact, readApproved, readApprovedVersionById } from '@/server/
 import { createOutboxMessage } from '@/server/messaging/outbox';
 import { loadBrand } from '@/server/branding/brand';
 import { brandHeaderHtml, renderUnsubscribeFooter } from '@/server/messaging/templates';
+import { formatCompensation } from './compensation';
 import { assertFeature } from '@/server/platform/features';
 import { requireEntry, transitionEntry } from '@/server/pipeline/service';
 import { getAgencySettings } from '@/server/tenancy/settings';
@@ -290,6 +291,7 @@ export async function planOutreachDraft(
         compMin: true,
         compMax: true,
         compCurrency: true,
+        client: { select: { name: true, description: true } },
       },
     }),
   ]);
@@ -338,10 +340,7 @@ export async function planOutreachDraft(
         ).clientId,
       })
     : null;
-  const pay =
-    position.compMin !== null || position.compMax !== null
-      ? `${position.compMin ?? ''}-${position.compMax ?? ''} ${position.compCurrency}`
-      : null;
+  const pay = formatCompensation(position.compMin, position.compMax, position.compCurrency);
   return {
     entryId,
     touchNumber: touchNumber as 1 | 2 | 3,
@@ -358,6 +357,7 @@ export async function planOutreachDraft(
         workArrangement: position.workArrangement,
         compensation: pay,
       },
+      client: { name: position.client.name, description: position.client.description },
       earlier,
       ...(template ? { template: { name: template.name, body: template.body } } : {}),
     },

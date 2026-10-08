@@ -12,12 +12,20 @@ const optionalText = (max: number) =>
     .optional();
 
 /** `POST /clients`. */
-export const clientInputSchema = z.object({ name: z.string().trim().min(2).max(120) });
+export const clientInputSchema = z.object({
+  name: z.string().trim().min(2).max(120),
+  /** A short description of the company; outreach may use it, so keep to facts. */
+  description: optionalText(600),
+});
 export type ClientInput = z.infer<typeof clientInputSchema>;
 
 /** `PATCH /clients/:id`: rename, or archive/restore (archived clients stay on their positions). */
 export const clientPatchSchema = z
-  .object({ name: z.string().trim().min(2).max(120), archived: z.boolean() })
+  .object({
+    name: z.string().trim().min(2).max(120),
+    description: optionalText(600),
+    archived: z.boolean(),
+  })
   .partial()
   .refine((v) => Object.keys(v).length > 0, 'Nothing to change');
 export type ClientPatch = z.infer<typeof clientPatchSchema>;

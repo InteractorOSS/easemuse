@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { type MatchWeightKey, type PipelineState } from '@easemuse/core';
+import { matchingWeightsSchema, type MatchWeightKey, type PipelineState } from '@easemuse/core';
 import { StreamingDraft } from '@/components/artifacts/streaming-draft';
 import { useAiRun } from '@/components/artifacts/use-ai-run';
 import { Button } from '@/components/ui/button';
@@ -255,6 +255,9 @@ function DetailBody({
   const levels = useTranslations('pipeline.levels');
   const criteria = useTranslations('pipeline.criteria');
   const a = detail.analysis;
+  // The weights kept with this analysis (not the position's current ones), so the overall can be checked.
+  const parsedWeights = matchingWeightsSchema.safeParse(a.weights);
+  const weights = parsedWeights.success ? parsedWeights.data : null;
 
   return (
     <div className="flex flex-col gap-8">
@@ -329,6 +332,7 @@ function DetailBody({
                   level: levels(c.level),
                 })}
                 {c.score !== null ? ` · ${t('score', { score: c.score })}` : ''}
+                {weights ? ` · ${t('weight', { weight: weights[c.key as MatchWeightKey] })}` : ''}
                 {c.overridden ? (
                   <span className="ml-2 text-sm font-normal">{t('edited')}</span>
                 ) : null}

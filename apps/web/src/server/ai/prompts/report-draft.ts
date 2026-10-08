@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import {
   ANALYSIS_SECTIONS,
+  buildQualificationSummary,
   NOT_CONFIRMED,
   QUALIFICATION_SECTIONS,
   REPORT_SECTIONS,
@@ -139,6 +140,7 @@ export const reportDraftPrompt: PromptModule<ReportDraftInput, SubmissionReportM
       ...Object.fromEntries(
         REPORT_SECTIONS.map((k) => [k, missing.has(k) ? NOT_CONFIRMED : output[k]]),
       ),
+      qualificationSummary: buildQualificationSummary(input.qualification),
       recruiterAssessment: '',
       missingInputs: [
         ...(input.analysis ? [] : ['match_analysis']),

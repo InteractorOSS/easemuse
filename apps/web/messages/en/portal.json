@@ -101,6 +101,7 @@
     "title": "Your decision",
     "hint": "This goes to the recruiter, who confirms the next step with you.",
     "interview": "Interview",
+    "offer": "Select for offer",
     "hold": "Hold",
     "reject": "Reject",
     "reason": "Reason",

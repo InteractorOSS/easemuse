@@ -120,6 +120,28 @@ describe('AnalysisView', () => {
     expect(screen.getAllByText('Team size?').length).toBeGreaterThan(0);
   });
 
+  it('shows each criterion weight from the weights kept with the analysis', async () => {
+    serve(
+      detail(
+        {},
+        {
+          weights: {
+            coreCompetencies: 50,
+            relevantExperience: 10,
+            industryFunctional: 10,
+            careerLevel: 10,
+            locationArrangement: 5,
+            educationCertification: 10,
+            compensationOther: 5,
+          },
+        },
+      ),
+    );
+    view();
+    expect(await screen.findByText(/Core competencies: Strong.*Weight 50%/)).toBeTruthy();
+    expect(screen.getByText(/Location \/ arrangement: Gap.*Weight 5%/)).toBeTruthy();
+  });
+
   it('shows must-haves and deal-breakers in the wording that fits, and says nobody is excluded by them', async () => {
     serve(detail());
     view();

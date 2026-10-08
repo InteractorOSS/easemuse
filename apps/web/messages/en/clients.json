@@ -26,6 +26,8 @@
     "title": "New client",
     "description": "Clients are the companies you recruit for.",
     "name": "Company name",
+    "companyDescription": "Short description (optional)",
+    "companyDescriptionHint": "A line or two about the company. Outreach drafts may use it, so state only facts.",
     "submit": "Create client",
     "similar": "A client named \"{name}\" already exists. This one was still created; archive it if it is a duplicate."
   },

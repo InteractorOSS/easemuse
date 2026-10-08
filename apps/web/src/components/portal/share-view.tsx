@@ -10,7 +10,9 @@ import {
   FEEDBACK_CRITERIA,
   FEEDBACK_RATINGS,
   HM_DECISIONS,
+  MAX_PROPOSED_SLOTS,
   REPORT_SECTIONS,
+  type IntakeFormSnapshot,
   type JdForApprovalSnapshot,
   type ResumeForApprovalSnapshot,
   type SubmissionSnapshot,
@@ -69,6 +71,9 @@ export function ShareView({
       ) : null}
       {snapshot.kind === 'tailored_resume' ? (
         <ResumeShare base={base} shareId={shareId} snapshot={snapshot} />
+      ) : null}
+      {snapshot.kind === 'intake_form' ? (
+        <IntakeShare base={base} shareId={shareId} snapshot={snapshot} />
       ) : null}
     </div>
   );
@@ -218,8 +223,198 @@ function SubmissionShare({
         </section>
       ))}
       <HmDecisionForm base={base} shareId={shareId} />
+      <SlotsForm base={base} shareId={shareId} />
       <HmFeedbackForm base={base} shareId={shareId} />
     </>
+  );
+}
+
+/** The intake questionnaire (FR-HMP-03): answers go to the recruiter as proposals and change nothing until accepted. */
+function IntakeShare({
+  base,
+  shareId,
+  snapshot,
+}: {
+  base: string;
+  shareId: string;
+  snapshot: IntakeFormSnapshot;
+}) {
+  const t = useTranslations('portal.intake');
+  const topics = useTranslations('positions.intake.topics');
+  const [values, setValues] = useState<Record<string, string>>({});
+  const [stages, setStages] = useState('');
+  const [state, setState] = useState<'idle' | 'sent' | 'empty' | 'error'>('idle');
+  const send = useMutation({
+    mutationFn: () => {
+      const answers: Record<string, { value: string; stages?: string[] }> = {};
+      for (const { key } of snapshot.topics) {
+        const value = (values[key] ?? '').trim();
+        if (value) answers[key] = { value };
+      }
+      const list = stages
+        .split('\n')
+        .map((x) => x.trim())
+        .filter(Boolean);
+      if (list.length > 0) {
+        answers.interview_process = {
+          value: answers.interview_process?.value ?? list.join(', '),
+          stages: list,
+        };
+      }
+      if (Object.keys(answers).length === 0) return Promise.reject(new Error('empty'));
+      return apiFetch(`${base}/shares/${shareId}/intake-answers`, { body: { answers } });
+    },
+    onSuccess: () => setState('sent'),
+    onError: (e) => setState(e instanceof Error && e.message === 'empty' ? 'empty' : 'error'),
+  });
+  if (state === 'sent') return <p role="status">{t('sent')}</p>;
+  return (
+    <>
+      <div>
+        <h1 className="text-2xl font-semibold">
+          {t('title', { position: snapshot.positionTitle })}
+        </h1>
+        <p className="text-muted">{snapshot.clientName}</p>
+        <p className="mt-2 text-sm">{t('intro')}</p>
+      </div>
+      {snapshot.topics.map((topic) => (
+        <div key={topic.key} className="flex max-w-xl flex-col gap-1">
+          <label htmlFor={`in-${topic.key}`} className="font-medium">
+            {topics(topic.key)}
+          </label>
+          {topic.questions.length > 0 ? (
+            <div className="text-sm text-muted">
+              <p>{t('questions')}</p>
+              <ul className="list-disc pl-5">
+                {topic.questions.map((q, i) => (
+                  <li key={i}>{q}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          <textarea
+            id={`in-${topic.key}`}
+            rows={3}
+            value={values[topic.key] ?? ''}
+            onChange={(e) => setValues((v) => ({ ...v, [topic.key]: e.target.value }))}
+            className="rounded-md border border-border bg-background p-2"
+          />
+          {topic.key === 'interview_process' ? (
+            <>
+              <label htmlFor="in-stages" className="text-sm text-muted">
+                {t('stages')}
+              </label>
+              <textarea
+                id="in-stages"
+                rows={3}
+                value={stages}
+                onChange={(e) => setStages(e.target.value)}
+                className="rounded-md border border-border bg-background p-2"
+              />
+            </>
+          ) : null}
+        </div>
+      ))}
+      {state === 'empty' || state === 'error' ? (
+        <p role="alert" className="text-sm text-danger">
+          {state === 'empty' ? t('empty') : t('error')}
+        </p>
+      ) : null}
+      <div>
+        <Button disabled={send.isPending} onClick={() => send.mutate()}>
+          {t('send')}
+        </Button>
+      </div>
+    </>
+  );
+}
+
+/** Up to five interview times for the recruiter to choose from (FR-HMP-06). Nothing is booked by this. */
+function SlotsForm({ base, shareId }: { base: string; shareId: string }) {
+  const t = useTranslations('portal.slots');
+  const [slots, setSlots] = useState<string[]>(['']);
+  const [round, setRound] = useState('');
+  const [format, setFormat] = useState('');
+  const [note, setNote] = useState('');
+  const [state, setState] = useState<'idle' | 'sent' | 'pending' | 'past' | 'cannot' | 'error'>(
+    'idle',
+  );
+  const filled = slots.filter(Boolean);
+  const send = useMutation({
+    mutationFn: () =>
+      apiFetch(`${base}/shares/${shareId}/slots`, {
+        body: {
+          slots: filled.map((s) => new Date(s).toISOString()),
+          ...(round.trim() ? { roundName: round.trim() } : {}),
+          ...(format.trim() ? { format: format.trim() } : {}),
+          ...(note.trim() ? { note: note.trim() } : {}),
+        },
+      }),
+    onSuccess: () => setState('sent'),
+    onError: (e) =>
+      setState(
+        e instanceof ApiClientError && e.status === 422
+          ? 'past'
+          : e instanceof ApiClientError && e.status === 409
+            ? e.message.includes('waiting')
+              ? 'pending'
+              : 'cannot'
+            : 'error',
+      ),
+  });
+  if (state === 'sent') return <p role="status">{t('sent')}</p>;
+  const message =
+    state === 'pending'
+      ? t('pending')
+      : state === 'past'
+        ? t('past')
+        : state === 'cannot'
+          ? t('cannot')
+          : state === 'error'
+            ? t('error')
+            : null;
+  return (
+    <fieldset className="flex max-w-xl flex-col gap-2">
+      <legend className="mb-1 text-lg font-semibold">{t('title')}</legend>
+      <p className="text-sm text-muted">{t('hint')}</p>
+      {message ? <p role="alert">{message}</p> : null}
+      {slots.map((value, i) => (
+        <div key={i} className="flex items-end gap-2">
+          <div className="flex-1">
+            <TextField
+              label={t('slot', { n: i + 1 })}
+              type="datetime-local"
+              value={value}
+              onChange={(e) => setSlots((s) => s.map((x, j) => (j === i ? e.target.value : x)))}
+            />
+          </div>
+          {slots.length > 1 ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSlots((s) => s.filter((_, j) => j !== i))}
+            >
+              {t('remove', { n: i + 1 })}
+            </Button>
+          ) : null}
+        </div>
+      ))}
+      {slots.length < MAX_PROPOSED_SLOTS ? (
+        <div>
+          <Button variant="secondary" size="sm" onClick={() => setSlots((s) => [...s, ''])}>
+            {t('add')}
+          </Button>
+        </div>
+      ) : null}
+      <TextField label={t('round')} value={round} onChange={(e) => setRound(e.target.value)} />
+      <TextField label={t('format')} value={format} onChange={(e) => setFormat(e.target.value)} />
+      <TextField label={t('note')} value={note} onChange={(e) => setNote(e.target.value)} />
+      <div>
+        <Button disabled={send.isPending || filled.length === 0} onClick={() => send.mutate()}>
+          {t('send')}
+        </Button>
+      </div>
+    </fieldset>
   );
 }
 

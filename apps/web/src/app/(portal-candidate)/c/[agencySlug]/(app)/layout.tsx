@@ -25,6 +25,7 @@ export default async function SignedInLayout({
       prefix="c"
       signedIn
       links={[
+        { href: `/c/${agencySlug}/details`, label: t('details.link') },
         { href: `/c/${agencySlug}/consent`, label: t('consent.link') },
         { href: `/c/${agencySlug}/privacy`, label: t('privacy.link') },
       ]}

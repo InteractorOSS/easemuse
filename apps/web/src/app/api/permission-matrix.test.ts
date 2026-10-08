@@ -195,6 +195,24 @@ vi.mock('@/server/positions/intake', () => ({
   getIntake: async () => ({ answers: {}, jdApproval: null }),
   saveIntake: async () => ({ answers: {}, jdApproval: null }),
   recordJdApproval: async () => ({}),
+  resolveIntakeProposal: async () => ({ answers: {}, proposals: [], jdApproval: null }),
+}));
+vi.mock('@/server/knowledge/history', () => ({
+  getClientHistory: async () => ({ client: { id: 'c1', name: 'Acme' }, candidates: [] }),
+}));
+vi.mock('@/server/knowledge/patterns', () => ({
+  getPatterns: async () => ({ scope: 'client', client: null, reports: {} }),
+}));
+vi.mock('@/server/knowledge/summary', () => ({
+  getPatternSummaryArtifact: async () => ({ artifactId: null, approvedVersionId: null }),
+  planPatternSummary: async () => ({ input: {}, inputRefs: {} }),
+  runPatternSummary: async () => ({}),
+}));
+vi.mock('@/server/portal/resolve-extras', () => ({
+  listOpenSlotProposals: async () => [],
+  resolveSlotProposal: async () => ({ interviewId: null }),
+  listCandidateUpdates: async () => [],
+  resolveCandidateUpdate: async () => undefined,
 }));
 vi.mock('@/server/positions/intake-questions', () => ({
   getIntakeQuestionsArtifact: async () => ({ artifactId: null, approvedVersionId: null }),
@@ -643,6 +661,17 @@ import {
   POST as portalSharePost,
 } from './v1/agencies/[agencyId]/portal-shares/route';
 import { DELETE as portalShareDelete } from './v1/agencies/[agencyId]/portal-shares/[shareId]/route';
+import { GET as clientHistoryGet } from './v1/agencies/[agencyId]/positions/[positionId]/client-history/route';
+import { GET as patternsGet } from './v1/agencies/[agencyId]/positions/[positionId]/patterns/route';
+import {
+  GET as patternSummaryGet,
+  POST as patternSummaryPost,
+} from './v1/agencies/[agencyId]/positions/[positionId]/pattern-summary/route';
+import { POST as intakeProposalPost } from './v1/agencies/[agencyId]/positions/[positionId]/intake/proposals/route';
+import { GET as slotProposalsGet } from './v1/agencies/[agencyId]/interview-slot-proposals/route';
+import { POST as slotProposalResolvePost } from './v1/agencies/[agencyId]/interview-slot-proposals/[proposalId]/resolve/route';
+import { GET as profileUpdatesGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/profile-updates/route';
+import { POST as profileUpdateResolvePost } from './v1/agencies/[agencyId]/candidates/[candidateId]/profile-updates/[updateId]/resolve/route';
 import { GET as proposalsGet } from './v1/agencies/[agencyId]/proposed-transitions/route';
 import { POST as proposalResolvePost } from './v1/agencies/[agencyId]/proposed-transitions/[proposalId]/resolve/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
@@ -728,6 +757,17 @@ const agencyParams = {
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
+const GUID = '22222222-2222-4222-8222-222222222222';
+/** For routes that check an id is a UUID before using it. */
+const guidParams = {
+  params: Promise.resolve({
+    agencyId: 'acme',
+    positionId: 'p1',
+    candidateId: GUID,
+    updateId: GUID,
+    proposalId: GUID,
+  }),
+};
 
 interface Endpoint {
   name: string;
@@ -1688,6 +1728,78 @@ const endpoints: Endpoint[] = [
     allowed: AGENCY_ALL,
     call: () =>
       portalShareDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
+  },
+  {
+    name: 'GET client history',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/client-history/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => clientHistoryGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET patterns',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/patterns/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => patternsGet(new Request('http://x.test/?scope=agency'), agencyParams),
+  },
+  {
+    name: 'GET pattern summary',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/pattern-summary/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => patternSummaryGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST pattern summary',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/pattern-summary/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => patternSummaryPost(new Request('http://x.test/', json({})), agencyParams),
+  },
+  {
+    name: 'POST resolve intake proposal',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/intake/proposals/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      intakeProposalPost(
+        new Request('http://x.test/', json({ topic: 'business_reason', accept: true })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET interview slot proposals',
+    file: 'v1/agencies/[agencyId]/interview-slot-proposals/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => slotProposalsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST resolve interview slot proposal',
+    file: 'v1/agencies/[agencyId]/interview-slot-proposals/[proposalId]/resolve/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      slotProposalResolvePost(
+        new Request('http://x.test/', json({ decision: 'decline' })),
+        guidParams,
+      ),
+  },
+  {
+    name: 'GET candidate profile updates',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/profile-updates/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => profileUpdatesGet(new Request('http://x.test/'), guidParams),
+  },
+  {
+    name: 'POST resolve candidate profile update',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/profile-updates/[updateId]/resolve/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      profileUpdateResolvePost(new Request('http://x.test/', json({ accept: true })), guidParams),
   },
   {
     name: 'GET proposed transitions',

@@ -24,7 +24,8 @@
     "kinds": {
       "jd_for_approval": "Job description",
       "submission": "Candidate",
-      "tailored_resume": "Your resume"
+      "tailored_resume": "Your resume",
+      "intake_form": "Questions about the role"
     }
   },
   "share": {
@@ -158,5 +159,54 @@
     "open": "You already have an open request of this kind.",
     "deleteWarn": "Deleting removes your profile, resumes and documents. It cannot be undone.",
     "link": "My data"
+  },
+  "intake": {
+    "title": "Questions about {position}",
+    "intro": "Answer what you can, in your own words. Your answers go to the recruiter, who reads them before using them. You can send more later.",
+    "questions": "Questions to think about",
+    "stages": "Interview stages, one per line",
+    "send": "Send my answers",
+    "sent": "Thank you. Your answers were sent to the recruiter.",
+    "empty": "Answer at least one topic.",
+    "error": "Could not send. Try again."
+  },
+  "slots": {
+    "title": "Offer interview times",
+    "hint": "Offer up to five times. The recruiter confirms one and sets up the interview. Nothing is booked until then.",
+    "slot": "Time {n}",
+    "add": "Add a time",
+    "remove": "Remove time {n}",
+    "round": "Round name (optional)",
+    "format": "Format (optional), for example video or onsite",
+    "note": "Note for the recruiter (optional)",
+    "send": "Send these times",
+    "sent": "Thank you. The recruiter will confirm one of them.",
+    "pending": "Times are already waiting for the recruiter.",
+    "past": "Offer times that are still ahead.",
+    "cannot": "Times cannot be offered for this candidate right now.",
+    "error": "Could not send. Try again."
+  },
+  "details": {
+    "link": "My details",
+    "title": "My details",
+    "intro": "Tell us what changed. Your recruiter checks it and then updates your profile; nothing changes until they do. Fill in only what changed.",
+    "fields": {
+      "email": "Email",
+      "phone": "Phone",
+      "availability": "When you could start",
+      "compensationExpectation": "Compensation you expect",
+      "workAuthorization": "Work authorization"
+    },
+    "send": "Send to my recruiter",
+    "sent": "Sent. Your recruiter will review it.",
+    "empty": "Change at least one thing.",
+    "error": "Could not send. Try again.",
+    "historyTitle": "What you sent",
+    "none": "You have not sent anything yet.",
+    "status": {
+      "waiting": "Waiting for your recruiter",
+      "accepted": "Accepted",
+      "declined": "Not used"
+    }
   }
 }

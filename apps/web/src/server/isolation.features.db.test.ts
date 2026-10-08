@@ -27,6 +27,9 @@ import {
   recordFeedback,
   updateInterview,
 } from '@/server/interviews/service';
+import { getClientHistory } from '@/server/knowledge/history';
+import { getPatterns } from '@/server/knowledge/patterns';
+import { getPatternSummaryArtifact, planPatternSummary } from '@/server/knowledge/summary';
 import { getOffer, recordOutcome, saveOffer } from '@/server/offers/service';
 import {
   getOutreach,
@@ -36,6 +39,13 @@ import {
   sendTouchEmail,
   setSequence,
 } from '@/server/outreach/service';
+import {
+  listCandidateUpdates,
+  listOpenSlotProposals,
+  resolveCandidateUpdate,
+  resolveSlotProposal,
+} from '@/server/portal/resolve-extras';
+import { resolveIntakeProposal } from '@/server/positions/intake';
 import { anonymizeCandidate } from '@/server/privacy/anonymize';
 import { collectCandidateData } from '@/server/privacy/export';
 import { createPrivacyRequest, listPrivacyRequests } from '@/server/privacy/service';
@@ -99,7 +109,41 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
 
   const entry = () => b.entryId;
   const candidate = () => b.candidateId;
+  const position = () => b.positionId;
   const never = { versionId: guid } as const;
+  // Rows of agency B that agency A must neither see nor resolve (portal proposals).
+  let slotProposalB = '';
+  let updateB = '';
+  const asB = <T>(
+    fn: (tx: Parameters<Parameters<ReturnType<typeof appScope>['withAgency']>[1]>[0]) => Promise<T>,
+  ) => appScope(handle).withAgency(b.agencyId, fn);
+
+  beforeAll(async () => {
+    slotProposalB = (
+      await asB((tx) =>
+        tx.interviewSlotProposal.create({
+          data: {
+            agencyId: b.agencyId,
+            entryId: b.entryId,
+            proposedBy: guid,
+            slots: [new Date(Date.now() + 86_400_000).toISOString()],
+          },
+        }),
+      )
+    ).id;
+    updateB = (
+      await asB((tx) =>
+        tx.candidateUpdateProposal.create({
+          data: {
+            agencyId: b.agencyId,
+            candidateId: b.candidateId,
+            proposedBy: guid,
+            changes: { phone: '010-0000-0000' },
+          },
+        }),
+      )
+    ).id;
+  });
 
   const cases: [string, () => Promise<unknown>][] = [
     [
@@ -206,6 +250,29 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
           }),
         ),
     ],
+    ['history: client history', () => asA((tx) => getClientHistory(tx, actorA, position()))],
+    ['patterns: client', () => asA((tx) => getPatterns(tx, actorA, position(), 'client'))],
+    ['patterns: all clients', () => asA((tx) => getPatterns(tx, actorA, position(), 'agency'))],
+    [
+      'patterns: summary location',
+      () => asA((tx) => getPatternSummaryArtifact(tx, actorA, position())),
+    ],
+    ['patterns: summary plan', () => asA((tx) => planPatternSummary(tx, actorA, position()))],
+    [
+      'portal: intake proposal',
+      () =>
+        asA((tx) =>
+          resolveIntakeProposal(tx, actorA, position(), { topic: 'business_reason', accept: true }),
+        ),
+    ],
+    [
+      'portal: interview times',
+      () => asA((tx) => resolveSlotProposal(tx, actorA, slotProposalB, { decision: 'decline' })),
+    ],
+    [
+      'portal: candidate update',
+      () => asA((tx) => resolveCandidateUpdate(tx, actorA, candidate(), updateB, true)),
+    ],
     ['offer: read', () => asA((tx) => getOffer(tx, actorA, entry()))],
     [
       'offer: save',
@@ -281,6 +348,8 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
 
   it('lists show nothing of the other agency, and the other agency is unchanged', async () => {
     expect(await asA((tx) => listConsents(tx, candidate()))).toEqual({ items: [] });
+    expect(await asA((tx) => listOpenSlotProposals(tx, actorA))).toEqual([]);
+    expect(await asA((tx) => listCandidateUpdates(tx, candidate()))).toEqual([]);
     expect(await asA((tx) => listPrivacyRequests(tx, actorA))).toEqual([]);
     const rounds = await admin.query(
       `SELECT count(*)::int AS n FROM "Interview" WHERE "entryId" = $1`,
@@ -302,5 +371,10 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
       [b.agencyId],
     );
     expect(Number(intelligence.rows[0].n)).toBe(0);
+    const proposals = await admin.query(
+      `SELECT (SELECT count(*) FROM "InterviewSlotProposal" WHERE "agencyId" = $1 AND "resolvedAt" IS NOT NULL) + (SELECT count(*) FROM "CandidateUpdateProposal" WHERE "agencyId" = $1 AND "resolvedAt" IS NOT NULL) AS n`,
+      [b.agencyId],
+    );
+    expect(Number(proposals.rows[0].n)).toBe(0);
   });
 });

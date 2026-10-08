@@ -10,7 +10,10 @@ import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { DirectoryPerson } from '@/server/portal/directory';
 import type { ShareView } from '@/server/portal/publish';
 
-type Subject = { kind: 'jd_for_approval' | 'submission' | 'tailored_resume'; subjectId: string };
+type Subject = {
+  kind: 'jd_for_approval' | 'submission' | 'tailored_resume' | 'intake_form';
+  subjectId: string;
+};
 type Target = { positionId: string } | { entryId: string } | { candidateId: string };
 
 /**

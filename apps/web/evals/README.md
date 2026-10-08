@@ -23,6 +23,7 @@ pnpm eval -- --suite all --max-cost 15
 | `stability`         | Does the same resume keep its score within the tolerance over repeated runs? (TR-010)              | repeated runs            |
 | `pool-similar`      | Is each "why this person may fit" line short, grounded, gender-neutral and free of identity? (A8)  | the candidate card itself |
 | `benchmark`         | Does every web finding rest on a page the search cited, with a link, a date and no paid source? (A3) | the search result itself |
+| `pattern-summary`   | Does A18 cite real facts, copy their numbers, hedge few records, name no protected trait and ignore planted instructions? (brief 14, NFR-AI04) | built-in synthetic cases (`lib/patterns.ts`) |
 
 `benchmark` needs web search switched on for the Anthropic account (Claude Console, privacy settings),
 costs $0.01 per search on top of the tokens, and is left out of `--suite all`. Its numbers are

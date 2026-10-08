@@ -101,7 +101,8 @@ const isManager = (actor: AgencyActor) => actor.role === 'admin' || actor.role =
 
 /**
  * With the agency rule "own and shared", a recruiter sees only the positions they own. Exported so
- * features that read across positions (analytics) apply exactly the same rule.
+ * features that read across positions (analytics, the client history, the pattern reports) apply
+ * exactly the same rule and never show more than the positions list does.
  */
 export async function visibilityFilter(
   tx: ScopedTx,

@@ -53,3 +53,8 @@ export * from './schemas/billing';
 export * from './artifacts/pool-intelligence';
 export * from './artifacts/benchmark';
 export * from './candidates/embedding-text';
+export * from './schemas/knowledge';
+export * from './artifacts/pattern-summary';
+export * from './knowledge/guardrails';
+export * from './knowledge/patterns';
+export * from './knowledge/summary-facts';

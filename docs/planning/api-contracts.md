@@ -182,3 +182,28 @@ Routes that grew out of the build and are not in the tables above. All are under
 Also: `PUT/DELETE /positions/:positionId/review-order` (manual order, T-3-10), `GET /positions/:positionId/structured-jd`, `PATCH /analyses/:analysisId/overrides` (score overrides, T-3-06) and `GET /jobs/:jobRunId` (job progress).
 
 Also (session D): `GET / POST /positions/:positionId/pool-matches` ("Find in my pool", US-205; POST needs the owner, a lead or an admin; 409 until the success profile is confirmed, 402 `budget_exceeded`), `GET / POST /candidates/:candidateId/portfolio` ("Check open positions", US-206; 409 without a confirmed profile or without an open position that has a confirmed success profile), `GET / POST /positions/:positionId/benchmark` (POST streams A3; 503 `web_search_unavailable`) and `POST /positions/:positionId/benchmark/suggestions/:suggestionId` (`{versionId, decision: accepted | rejected}`; 409 until the benchmark is approved, when the JD is not structured, or when the suggestion was decided). Admin: `GET / PUT / DELETE /api/admin/v1/settings/voyage` and `POST .../voyage/test` mirror the Anthropic key routes.
+
+## 13. Reuse and portal extras (session C, 2026-10-07)
+
+Agency API, under `/api/v1/agencies/:agencyId`. Every role may call them; the service narrows it further (a recruiter sees the positions the agency's visibility rule shows, and only the entry's owner, a lead or an admin resolves a proposal or asks for a draft). 404 for another agency, 409 for a state conflict.
+
+| Method | Path | Purpose | FR |
+|--------|------|---------|----|
+| GET | `/positions/:id/client-history` | Candidates put forward to the position's client, outcomes, ratings by criterion, decline reasons; each with its record count | KNW-01 |
+| GET | `/positions/:id/patterns?scope=client\|agency` | The seven reports of brief 14; every row has `n`, `hits`, `small` and references to the records | KNW-02 |
+| GET / POST | `/positions/:id/pattern-summary` | Where the A18 draft is · ask for a draft (SSE, 409 until a candidate has been put forward). The draft keeps the records behind every sentence | KNW-03 |
+| POST | `/positions/:id/intake/proposals` | `{topic, accept}`: accept or decline the hiring manager's answer to one topic | HMP-03 |
+| GET | `/interview-slot-proposals` | Offers of interview times waiting for a recruiter | HMP-06 |
+| POST | `/interview-slot-proposals/:id/resolve` | `{decision: confirm, slotIndex, interviewers}` creates the round · `{decision: decline}` | HMP-06 |
+| GET | `/candidates/:id/profile-updates` | What the candidate says changed, waiting | CDP-04 |
+| POST | `/candidates/:id/profile-updates/:updateId/resolve` | `{accept}`; accepting makes a new approved profile version (409 until a profile is confirmed) | CDP-04 |
+
+Portal API, under `/api/portal/v1/:agencySlug`:
+
+| Method | Path | Audience | Purpose |
+|--------|------|----------|---------|
+| POST | `/shares/:id/intake-answers` | HM | `{answers: {topic: {value, stages?}}}` for an `intake_form` share; stored as proposals (replaces the outline `PUT /shares/:id/intake`) |
+| POST | `/shares/:id/slots` | HM | `{slots: [1 to 5 future times], roundName?, format?, note?}` on a `submission` share; one open offer at a time (409) |
+| GET / POST | `/profile-updates` | candidate | My updates and their status · `{email?, phone?, availability?, compensationExpectation?, workAuthorization?}` |
+
+A new share kind, `intake_form` (subject: the position, audience: hiring manager), carries the ten topics with the recruiter's approved questions.

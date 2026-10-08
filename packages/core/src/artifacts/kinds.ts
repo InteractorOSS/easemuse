@@ -6,6 +6,7 @@ import { candidateProfileContentSchema } from './candidate-profile';
 import { matchAnalysisContentSchema } from './match-analysis';
 import { intakeQuestionsContentSchema } from './intake-questions';
 import { outreachMessageContentSchema } from './outreach-message';
+import { patternSummaryContentSchema } from './pattern-summary';
 import { qualificationContentSchema } from './qualification';
 import { tailoredResumeContentSchema } from './tailored-resume';
 import { submissionReportContentSchema } from './submission-report';
@@ -136,7 +137,10 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
     factCheckRequired: true,
   }),
   interview_feedback: spec('interview_feedback', 'interview'),
-  pattern_summary: spec('pattern_summary', 'position'),
+  // A18: a draft with a link to the records behind every sentence; only the recruiter makes it official.
+  pattern_summary: spec('pattern_summary', 'position', {
+    schema: patternSummaryContentSchema as unknown as z.ZodType<Record<string, unknown>>,
+  }),
   similar_candidates: spec('similar_candidates', 'position', {
     schema: similarCandidatesContentSchema as z.ZodType<Record<string, unknown>>,
   }),

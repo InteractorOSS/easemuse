@@ -29,6 +29,7 @@ import {
   rankingAccuracy,
   spread,
 } from './lib/graders';
+import { patternSummary } from './lib/patterns-suite';
 import { CostMeter, runPrompt, runResearchedPrompt } from './lib/runner';
 
 export interface SuiteContext {
@@ -470,4 +471,5 @@ export const SUITES: Record<string, Suite> = {
   stability,
   'pool-similar': poolSimilar,
   benchmark,
+  'pattern-summary': patternSummary,
 };

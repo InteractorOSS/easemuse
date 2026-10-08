@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
 import { JD_SECTIONS, REQUIREMENT_CATEGORIES } from '../artifacts/structured-jd';
+import { INTAKE_TOPICS } from './intake';
 import { REPORT_SECTIONS } from '../artifacts/submission-report';
 import { tailoredResumeContentSchema } from '../artifacts/tailored-resume';
 
@@ -67,17 +68,48 @@ export const resumeForApprovalSnapshotSchema = z
   })
   .strict();
 
+/**
+ * The intake questionnaire for the hiring manager (FR-HMP-03): the ten topics of brief 3.4, each with
+ * the recruiter's approved questions for it (none when the recruiter has not approved any). Nothing
+ * about the candidates and nothing the recruiter already recorded.
+ */
+export const intakeFormSnapshotSchema = z
+  .object({
+    kind: z.literal('intake_form'),
+    positionTitle: z.string().max(200),
+    clientName: z.string().max(200),
+    topics: z
+      .array(
+        z
+          .object({
+            key: z.enum(INTAKE_TOPICS),
+            questions: z.array(z.string().max(600)).max(8),
+          })
+          .strict(),
+      )
+      .max(INTAKE_TOPICS.length),
+    publishedAt: day,
+  })
+  .strict();
+
 export const portalSnapshotSchema = z.discriminatedUnion('kind', [
   jdForApprovalSnapshotSchema,
   submissionSnapshotSchema,
   resumeForApprovalSnapshotSchema,
+  intakeFormSnapshotSchema,
 ]);
 export type PortalSnapshot = z.infer<typeof portalSnapshotSchema>;
 export type JdForApprovalSnapshot = z.infer<typeof jdForApprovalSnapshotSchema>;
 export type SubmissionSnapshot = z.infer<typeof submissionSnapshotSchema>;
 export type ResumeForApprovalSnapshot = z.infer<typeof resumeForApprovalSnapshotSchema>;
+export type IntakeFormSnapshot = z.infer<typeof intakeFormSnapshotSchema>;
 
-export const PORTAL_SHARE_KINDS = ['jd_for_approval', 'submission', 'tailored_resume'] as const;
+export const PORTAL_SHARE_KINDS = [
+  'jd_for_approval',
+  'submission',
+  'tailored_resume',
+  'intake_form',
+] as const;
 export type PortalShareKind = (typeof PORTAL_SHARE_KINDS)[number];
 
 /** Which audience each kind is for. */
@@ -85,13 +117,14 @@ export const SHARE_AUDIENCE: Record<PortalShareKind, 'hiring_manager' | 'candida
   jd_for_approval: 'hiring_manager',
   submission: 'hiring_manager',
   tailored_resume: 'candidate',
+  intake_form: 'hiring_manager',
 };
 
 /** `POST /portal-shares`: the recruiter shares one thing with one portal user. */
 export const publishShareInputSchema = z.object({
   kind: z.enum(PORTAL_SHARE_KINDS),
   portalUserId: z.guid(),
-  /** The position (jd_for_approval) or the pipeline entry (submission, tailored_resume). */
+  /** The position (jd_for_approval, intake_form) or the pipeline entry (submission, tailored_resume). */
   subjectId: z.guid(),
 });
 export type PublishShareInput = z.infer<typeof publishShareInputSchema>;

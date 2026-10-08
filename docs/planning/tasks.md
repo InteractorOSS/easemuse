@@ -17,6 +17,8 @@
 
 **Also done 2026-10-07 (E2 to E10 and data rights):** all of E2 (sourcing and the talent pool: intake, duplicate check, confirm and merge, full-text search, do-not-contact), E3 (A10 match analysis with score bands, overrides, review dashboard, detail page and "mark reviewed"), E4 (14-item screening checklist and recruiter classification, T-4-01 and T-4-02; the optional A11 pre-fill is not built), E5 except SMTP (sequences and due tasks, A12 drafting, send for email and copy-and-mark-sent for the other channels, response tracking, signed unsubscribe with do-not-contact linkage, the admin outbox view; T-5-02 SMTP is deliberately postponed by the product owner), E6 (A13 call questions, A14 notes to qualification fields with per-field confirmation), E7 (A15 tailored resume with locked facts, fact check wired in with a re-check, recorded candidate approval and per-client consent, DOCX and PDF), E8 (A16 report with a human-only section 14, report PDF, recorded submission that pins the exact versions and files, duplicate-submission reason), E9/E10 (interview rounds with feedback and the offer record with outcomes, reminders and the position filling), and E0 data rights T-0-03 to T-0-06 (append-only audit tables, separate data-rights role, candidate export ZIP, anonymization, privacy requests with deadlines). The pipeline features also have an isolation test (`isolation.features.db.test.ts`). Still open: E11 onwards, the eval harness and data (T-QA-03 to T-QA-05), the Playwright happy path and axe checks (T-QA-06, T-QA-07), A11 screening pre-fill, Korean translations, a logo on documents, and every AI prompt is tested against fakes only (no live model call has been made).
 
+**Also done 2026-10-07 (session C, reuse and portal extras):** all of E12 (T-12-01 to T-12-05) and T-14-09, T-14-10, T-15-02. The client history and the seven pattern reports of brief 14 read the agency's own records through one loader that selects only job-related fields (a guard test pins it); every number carries its record count, references to the records and a "few records" flag; the AI summary (A18) sees counts only, cites numbered facts, and is checked by code before anyone sees it (cited facts exist, every number is one of theirs, no protected characteristic) and stays a draft until a recruiter approves it. The hiring manager's intake answers, offered interview times and a candidate's own updates arrive as proposals the recruiter accepts. Decisions are in `implementation-notes.md` (13 to 24). A18 and its guardrails were tested against fakes and the new eval suite `pattern-summary` (no live model call has been made). Not built: "similar position" in FR-KNW-01 (the history is per client), and a sign-in address change when a candidate's email is accepted.
+
 Estimates are ideal engineering hours (≤ 8 = under one day). "Dep" lists blocking tasks. Every AI task includes adding its cases to the eval set (T-QA-03) and an isolation test for its routes (T-QA-01).
 
 ---
@@ -341,21 +343,21 @@ Broken down 2026-10-07. Sessions C (reuse and history, the brief's section 14) a
 
 ### E12: Experience reuse (session C)
 
-| ID      | Task                                                                                                                                                                                                | Est | Status | Refs               |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | ------ | ------------------ |
-| T-12-01 | Client history read model: past positions, submitted candidates, interview outcomes, aggregated HM feedback by criterion, hires                                                                     | 7   |        | US-1201, FR-KNW-01 |
-| T-12-02 | "What has this client liked before?" page on the position                                                                                                                                           | 5   |        | US-1201            |
-| T-12-03 | Pattern reports for the seven section 14 questions (interview and hire profiles, quality by source, JD response, drop-off, HM preferences, job-related characteristics of hires), with counts shown | 8   |        | US-1202, FR-KNW-02 |
-| T-12-04 | Prompt A18: AI summary of patterns for a client, every statement linked to the records behind it, fact-checked                                                                                      | 8   |        | FR-KNW-03          |
-| T-12-05 | Guardrails: no protected characteristics in any pattern, small-sample warning, eval cases                                                                                                           | 4   |        | NFR-AI04           |
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-12-01 | Client history read model: past positions, submitted candidates, interview outcomes, aggregated HM feedback by criterion, hires | 7 | Done: `server/knowledge/facts.ts`, `history.ts` | US-1201, FR-KNW-01 |
+| T-12-02 | "What has this client liked before?" page on the position | 5 | Done: page `/positions/:id/client-history` | US-1201 |
+| T-12-03 | Pattern reports for the seven section 14 questions (interview and hire profiles, quality by source, JD response, drop-off, HM preferences, job-related characteristics of hires), with counts shown | 8 | Done: `core/knowledge/patterns.ts`, `server/knowledge/patterns.ts` | US-1202, FR-KNW-02 |
+| T-12-04 | Prompt A18: AI summary of patterns for a client, every statement linked to the records behind it, fact-checked | 8 | Done: prompt A18 (`pattern-summarize.ts`) | FR-KNW-03 |
+| T-12-05 | Guardrails: no protected characteristics in any pattern, small-sample warning, eval cases | 4 | Done: `core/knowledge/guardrails.ts`, eval suite `pattern-summary` | NFR-AI04 |
 
 ### E14 / E15: Portal extras (session C)
 
-| ID      | Task                                                                                                     | Est | Status | Refs               |
-| ------- | -------------------------------------------------------------------------------------------------------- | --- | ------ | ------------------ |
-| T-14-09 | HM answers the intake questionnaire online (answers land as "from HM", proposed until accepted)          | 6   |        | US-1403, FR-HMP-03 |
-| T-14-10 | HM proposes up to 5 interview slots; recruiter confirms one and the round is created                     | 6   |        | US-1406, FR-HMP-06 |
-| T-15-02 | Candidate updates contact details, availability, compensation, work authorization (arrives as proposals) | 6   |        | US-1504, FR-CDP-04 |
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-14-09 | HM answers the intake questionnaire online (answers land as "from HM", proposed until accepted) | 6 | Done: `intake_form` share, proposals on the intake record | US-1403, FR-HMP-03 |
+| T-14-10 | HM proposes up to 5 interview slots; recruiter confirms one and the round is created | 6 | Done: `InterviewSlotProposal` | US-1406, FR-HMP-06 |
+| T-15-02 | Candidate updates contact details, availability, compensation, work authorization (arrives as proposals) | 6 | Done: `CandidateUpdateProposal` | US-1504, FR-CDP-04 |
 
 ### E2 / E1: Pool intelligence and benchmark (session D)
 

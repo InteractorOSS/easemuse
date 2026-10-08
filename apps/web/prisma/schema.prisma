@@ -308,6 +308,7 @@ model IntakeRecord {
   positionId   String   @unique @db.Uuid
   answers      Json // §3.4: 10 topics, each { value, source: "recruiter" | "hm_portal", status: "proposed" | "accepted" }; HM answers stay proposed until the recruiter accepts (FR-HMP-03)
   jdApprovalId String?  @db.Uuid // Approval
+  proposals    Json     @default("{}") // HM answers from the portal waiting for the recruiter (FR-HMP-03): { topic: { value, stages?, proposedBy, at } }; accepting moves one into `answers`
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -373,6 +374,7 @@ model Candidate {
   pipeline   PipelineEntry[]
   portalUser PortalUser?
   consents   Consent[]
+  updates    CandidateUpdateProposal[]
 
   @@index([agencyId, status])
   @@index([agencyId, email])
@@ -495,6 +497,7 @@ model PipelineEntry {
   resumes       TailoredResume[]
   reports       SubmissionReport[]
   proposals     ProposedTransition[]
+  slotProposals InterviewSlotProposal[]
 
   @@unique([positionId, candidateId])
   @@index([agencyId, positionId, state])
@@ -535,6 +538,48 @@ model ProposedTransition {
   entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
 
   @@index([agencyId, entryId, resolvedAt])
+}
+
+// A hiring manager's offer of up to five interview times (FR-HMP-06). The recruiter confirms one, which
+// creates the round, or declines them all; nothing is scheduled by the portal.
+model InterviewSlotProposal {
+  id           String    @id @default(uuid()) @db.Uuid
+  agencyId     String    @db.Uuid
+  entryId      String    @db.Uuid
+  proposedBy   String    @db.Uuid // PortalUser (hiring manager)
+  roundName    String?
+  format       String?
+  slots        Json // ISO date-times, 1 to 5
+  note         String?
+  resolvedAt   DateTime?
+  resolvedById String?   @db.Uuid
+  chosenSlot   Int? // index into slots when confirmed
+  interviewId  String?   @db.Uuid // the round created when confirmed
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  entry PipelineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, entryId, resolvedAt])
+}
+
+// What a candidate says changed about them in the portal (FR-CDP-04): contact details, availability,
+// compensation expectation, work authorization. Nothing reaches the profile until the recruiter accepts.
+model CandidateUpdateProposal {
+  id           String    @id @default(uuid()) @db.Uuid
+  agencyId     String    @db.Uuid
+  candidateId  String    @db.Uuid
+  proposedBy   String    @db.Uuid // PortalUser (the candidate)
+  changes      Json // { email?, phone?, availability?, compensationExpectation?, workAuthorization? }
+  resolvedAt   DateTime?
+  resolvedById String?   @db.Uuid
+  accepted     Boolean?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, candidateId, resolvedAt])
 }
 
 model MatchAnalysis {

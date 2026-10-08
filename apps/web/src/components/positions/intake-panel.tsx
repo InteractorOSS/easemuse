@@ -33,6 +33,12 @@ export function IntakePanel({
   if (query.isError) return <p role="alert">{states('error')}</p>;
   return (
     <div className="flex flex-col gap-8">
+      <HmProposals
+        agencyId={agencyId}
+        positionId={positionId}
+        view={query.data.data}
+        canEdit={canEdit}
+      />
       <IntakeForm
         agencyId={agencyId}
         positionId={positionId}
@@ -46,6 +52,96 @@ export function IntakePanel({
         canEdit={canEdit}
       />
     </div>
+  );
+}
+
+/**
+ * The hiring manager's answers from the portal (FR-HMP-03). They sit beside the intake and change
+ * nothing, and the success profile does not use them, until the recruiter accepts an answer.
+ */
+function HmProposals({
+  agencyId,
+  positionId,
+  view,
+  canEdit,
+}: {
+  agencyId: string;
+  positionId: string;
+  view: IntakeView;
+  canEdit: boolean;
+}) {
+  const t = useTranslations('positions.intake.proposals');
+  const topics = useTranslations('positions.intake.topics');
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const proposals = view.proposals ?? [];
+  const resolve = useMutation({
+    mutationFn: (v: { topic: IntakeTopic; accept: boolean }) =>
+      apiFetch(`/api/v1/agencies/${agencyId}/positions/${positionId}/intake/proposals`, {
+        body: v,
+      }),
+    onSuccess: async () => {
+      toast({ title: t('done') });
+      await queryClient.invalidateQueries({ queryKey: ['intake', agencyId, positionId] });
+      await queryClient.invalidateQueries({
+        queryKey: ['timeline', agencyId, 'position', positionId],
+      });
+    },
+    onError: (e) => toast({ title: e instanceof ApiClientError ? e.message : t('error') }),
+  });
+  if (proposals.length === 0) return null;
+  return (
+    <section aria-labelledby="intake-proposals" className="flex max-w-2xl flex-col gap-3">
+      <h2 id="intake-proposals" className="text-lg font-semibold">
+        {t('title')}
+      </h2>
+      <p className="text-sm text-muted">{t('intro')}</p>
+      <ul className="flex flex-col gap-3">
+        {proposals.map((p) => {
+          const current = view.answers[p.topic]?.value;
+          return (
+            <li key={p.topic} className="flex flex-col gap-2 rounded-md border border-border p-3">
+              <p className="font-medium">{topics(p.topic)}</p>
+              <p className="text-sm text-muted">
+                {t('from', { name: p.proposedBy ?? t('unknown') })}
+              </p>
+              <p className="whitespace-pre-wrap">{p.value}</p>
+              {p.stages && p.stages.length > 0 ? (
+                <ol className="list-decimal pl-5 text-sm">
+                  {p.stages.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ol>
+              ) : null}
+              <p className="text-sm text-muted">
+                {current ? t('current', { value: current }) : t('noCurrent')}
+              </p>
+              {canEdit ? (
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    disabled={resolve.isPending}
+                    onClick={() => resolve.mutate({ topic: p.topic, accept: true })}
+                  >
+                    {current
+                      ? t('acceptReplace', { topic: topics(p.topic) })
+                      : t('accept', { topic: topics(p.topic) })}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    disabled={resolve.isPending}
+                    onClick={() => resolve.mutate({ topic: p.topic, accept: false })}
+                  >
+                    {t('decline', { topic: topics(p.topic) })}
+                  </Button>
+                </div>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }
 
@@ -111,6 +207,7 @@ function IntakeForm({
         <div key={topic} className="flex flex-col gap-1">
           <label htmlFor={`intake-${topic}`} className="text-sm font-medium">
             {t(`topics.${topic}`)}
+            {view.answers[topic]?.source === 'hm_portal' ? ` (${t('fromHm')})` : ''}
           </label>
           <textarea
             id={`intake-${topic}`}

@@ -10,6 +10,7 @@ import { matchAnalyzePrompt } from './match-analyze';
 import { outreachDraftPrompt } from './outreach-draft';
 import { poolSimilarPrompt } from './pool-similar';
 import { portfolioCheckPrompt } from './portfolio-check';
+import { patternSummarizePrompt } from './pattern-summarize';
 import { profileStructurePrompt } from './profile-structure';
 import { qualifyNotesPrompt } from './qualify-notes';
 import { reportDraftPrompt } from './report-draft';
@@ -36,4 +37,5 @@ export function registerBuiltInPrompts(registry: PromptRegistry): void {
   registry.register(poolSimilarPrompt);
   registry.register(portfolioCheckPrompt);
   registry.register(marketBenchmarkPrompt);
+  registry.register(patternSummarizePrompt);
 }

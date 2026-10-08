@@ -92,7 +92,8 @@
     "searchLink": "Write search criteria",
     "poolLink": "Find in my pool",
     "benchmarkLink": "Market benchmark",
-    "boardLink": "Candidates in this position"
+    "boardLink": "Candidates in this position",
+    "historyLink": "What has this client liked before?"
   },
   "errors": {
     "generic": "Could not save. Check the values and try again.",
@@ -207,6 +208,21 @@
     "saved": "Intake saved.",
     "errors": {
       "generic": "Could not save the intake. Try again."
+    },
+    "shareHeading": "Send the questionnaire to the hiring manager",
+    "fromHm": "From the hiring manager",
+    "proposals": {
+      "title": "Answers from the hiring manager",
+      "intro": "The hiring manager answered online. Nothing in the intake changes, and nothing is used for the success profile, until you accept an answer.",
+      "from": "{name} answered:",
+      "unknown": "The hiring manager",
+      "current": "Your answer now: {value}",
+      "noCurrent": "You have no answer for this topic yet.",
+      "accept": "Accept: {topic}",
+      "acceptReplace": "Accept and replace mine: {topic}",
+      "decline": "Decline: {topic}",
+      "done": "Answered",
+      "error": "Could not do that. Try again."
     }
   },
   "approval": {

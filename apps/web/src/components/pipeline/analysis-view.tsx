@@ -19,6 +19,7 @@ import type { PipelineEntryView } from '@/server/pipeline/service';
 import { InterviewPanel } from './interview-panel';
 import { PortalSharing } from './portal-sharing';
 import { ProposalsPanel } from './proposals-panel';
+import { SlotProposalsPanel } from './slot-proposals-panel';
 import { OfferPanel } from './offer-panel';
 import { SubmissionPanel } from './submission-panel';
 import { ReportPanel } from './report-panel';
@@ -168,6 +169,7 @@ export function AnalysisView({
       ) : null}
 
       <ProposalsPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
+      <SlotProposalsPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
 
       <section aria-labelledby="analyze-heading" className="flex max-w-2xl flex-col gap-2">
         <h2 id="analyze-heading" className="text-lg font-semibold">

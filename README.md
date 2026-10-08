@@ -31,7 +31,7 @@ This template provides a complete framework for AI-assisted software development
 
 ```bash
 # Clone or download this template
-git clone https://github.com/pulzze/product-dev-template-react.git my-project
+git clone <template-repository-url> my-project
 cd my-project
 
 # Initialize the project
@@ -42,9 +42,9 @@ cd my-project
 
 ```bash
 # Copy environment example
-cp .env.example .env
+cp .env.example .env.local
 
-# Edit .env with your values
+# Edit .env.local with your values (never commit it)
 # DATABASE_URL=postgresql://user:pass@localhost:5432/mydb
 # JWT_SECRET=your-secret-key
 ```

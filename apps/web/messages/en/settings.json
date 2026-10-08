@@ -4,6 +4,7 @@
     "label": "Settings sections",
     "members": "Members",
     "defaults": "Defaults",
+    "branding": "Branding",
     "usage": "AI usage",
     "outbox": "Outbox",
     "privacy": "Privacy requests"
@@ -152,5 +153,37 @@
     "confirmDelete": "This permanently removes the candidate's personal data and files. Pipeline stages and counts are kept. It cannot be undone.",
     "adminOnly": "Only an admin can carry out or decline a request.",
     "error": "Could not complete that. Try again."
+  },
+  "branding": {
+    "title": "Branding",
+    "intro": "Your name, colour and logo appear on PDFs, Word files, the hiring manager and candidate portals, and the emails they receive.",
+    "readOnly": "Only an admin can change these.",
+    "displayName": "Name shown to clients and candidates",
+    "displayNameHint": "Leave empty to use \"{name}\".",
+    "nameError": "Use 1 to 120 characters.",
+    "color": "Colour",
+    "colorHint": "A hex colour like #1f2937, dark enough to read on white.",
+    "colorPicker": "Pick a colour",
+    "colorError": "Use a hex colour like #1f2937 that is dark enough to read on white.",
+    "save": "Save",
+    "saved": "Branding saved",
+    "failed": "This could not be saved. Try again.",
+    "logo": {
+      "title": "Logo",
+      "intro": "A PNG or JPEG, up to 512 KB and 4000 pixels on a side.",
+      "none": "No logo yet.",
+      "alt": "{name} logo",
+      "choose": "Choose a logo file",
+      "remove": "Remove logo",
+      "saved": "Logo saved",
+      "removed": "Logo removed",
+      "tooLarge": "The logo can be at most 512 KB.",
+      "wrongType": "Upload a PNG or JPEG image.",
+      "tooManyPixels": "The logo can be at most 4000 pixels wide or high."
+    },
+    "preview": {
+      "title": "Preview",
+      "sample": "How the header of a document looks"
+    }
   }
 }

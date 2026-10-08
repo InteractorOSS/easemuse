@@ -3,6 +3,7 @@
 import { Document, HeadingLevel, Packer, Paragraph, TextRun } from 'docx';
 import type { AgencyBranding } from '@easemuse/core';
 import type { JdDocumentModel } from './jd-document';
+import { logoParagraph, type DocxLogo } from './logo-docx';
 
 /**
  * The improved JD as an editable DOCX (T-1-12, ADR-011): the same content as the PDF, with the
@@ -13,6 +14,7 @@ export async function buildJdDocx(input: {
   subtitle: string | null;
   agencyName: string | null;
   branding: AgencyBranding;
+  logo?: DocxLogo | null;
   model: JdDocumentModel;
 }): Promise<Buffer> {
   const color = input.branding.primaryColor.replace('#', '');
@@ -28,6 +30,7 @@ export async function buildJdDocx(input: {
       .map((line) => new Paragraph({ spacing: { after: 80 }, children: [new TextRun(line)] }));
 
   const children: Paragraph[] = [
+    ...logoParagraph(input.logo),
     ...((input.branding.displayName ?? input.agencyName)
       ? [
           new Paragraph({

@@ -9,6 +9,7 @@ import { withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
 import { ApiError } from '@/lib/http/errors';
 import { roleRange } from '@/server/documents/resume-docx';
+import { LogoMark } from '@/components/documents/logo-mark';
 import { loadRenderSource } from '@/server/documents/render/service';
 import { verifyRenderToken } from '@/server/documents/render/token';
 
@@ -57,16 +58,24 @@ export default async function PrintResumePage({
       style={{ ['--brand' as string]: branding.primaryColor }}
       className="mx-auto max-w-3xl bg-white p-8 text-[11pt] leading-relaxed text-black"
     >
-      <header className="mb-4 border-b-4 pb-3" style={{ borderColor: 'var(--brand)' }}>
-        {content.header.name ? <h1 className="text-2xl font-bold">{content.header.name}</h1> : null}
-        {content.headline ? (
-          <p className="font-semibold" style={{ color: 'var(--brand)' }}>
-            {content.headline}
-          </p>
-        ) : null}
-        {contact.length ? (
-          <p className="text-sm text-neutral-600">{contact.join('  |  ')}</p>
-        ) : null}
+      <header
+        className="mb-4 flex items-start gap-4 border-b-4 pb-3"
+        style={{ borderColor: 'var(--brand)' }}
+      >
+        <div>
+          {content.header.name ? (
+            <h1 className="text-2xl font-bold">{content.header.name}</h1>
+          ) : null}
+          {content.headline ? (
+            <p className="font-semibold" style={{ color: 'var(--brand)' }}>
+              {content.headline}
+            </p>
+          ) : null}
+          {contact.length ? (
+            <p className="text-sm text-neutral-600">{contact.join('  |  ')}</p>
+          ) : null}
+        </div>
+        <LogoMark src={source.logoDataUri} name={branding.displayName ?? null} />
       </header>
       {content.summary ? <p className="mb-4">{content.summary}</p> : null}
 

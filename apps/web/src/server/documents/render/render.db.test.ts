@@ -19,8 +19,9 @@ import {
 } from '@/test/db';
 import { approveStructuredJd, structuredJdContent } from '@/test/jd-fixtures';
 import { addDraftVersion, createArtifact, findArtifact } from '@/server/artifacts/service';
+import { TINY_PNG } from '@/test/images';
 import { runRenderJob } from './job';
-import { findRenderedDocument, renderDocument, type RenderDeps } from './service';
+import { findRenderedDocument, loadRenderSource, renderDocument, type RenderDeps } from './service';
 import { verifyRenderToken } from './token';
 
 const PDF = new Uint8Array([...Buffer.from('%PDF-1.7\n'), ...new Uint8Array(200).fill(65)]);
@@ -144,6 +145,49 @@ describe.skipIf(!dbAvailable())('PDF render pipeline (T-1-11)', () => {
       expect(
         await run((tx) => findRenderedDocument(tx, { agencyId, kind: 'jd', versionId })),
       ).toMatchObject({ fileId: second.fileId, upToDate: true });
+    } finally {
+      await admin.query(`UPDATE "Agency" SET branding = '{}'::jsonb WHERE id = $1`, [agencyId]);
+    }
+  });
+
+  it('draws the agency logo into the print source, and renders again when the logo changes (FR-TEN-04)', async () => {
+    const versionId = await approveStructuredJd(
+      run,
+      actor,
+      positionId,
+      structuredJdContent([{ id: crypto.randomUUID(), text: 'Logo', category: 'must_have' }]),
+    );
+    const before = await run((tx) => loadRenderSource(tx, agencyId, 'jd', versionId));
+    expect(before.logoDataUri).toBeNull();
+    const first = await renderDocument(deps(), input(versionId));
+
+    const logoId = crypto.randomUUID();
+    await admin.query(
+      `INSERT INTO "FileObject" (id, "agencyId", store, filename, "contentType", "sizeBytes", sha256, "updatedAt")
+       VALUES ($1, $2, 'db', 'logo.png', 'image/png', $3, 'x', now())`,
+      [logoId, agencyId, TINY_PNG.byteLength],
+    );
+    await admin.query(
+      `INSERT INTO "FileBlob" (id, "agencyId", "fileId", bytes) VALUES (gen_random_uuid(), $1, $2, $3)`,
+      [agencyId, logoId, Buffer.from(TINY_PNG)],
+    );
+    await admin.query(`UPDATE "Agency" SET branding = $2::jsonb WHERE id = $1`, [
+      agencyId,
+      JSON.stringify({ primaryColor: '#1f2937', logoFileId: logoId }),
+    ]);
+    try {
+      const after = await run((tx) => loadRenderSource(tx, agencyId, 'jd', versionId));
+      expect(after.logoDataUri).toBe(
+        `data:image/png;base64,${Buffer.from(TINY_PNG).toString('base64')}`,
+      );
+      expect(after.hash).not.toBe(before.hash);
+      expect(
+        (await run((tx) => findRenderedDocument(tx, { agencyId, kind: 'jd', versionId })))
+          ?.upToDate,
+      ).toBe(false);
+      const second = await renderDocument(deps(), input(versionId));
+      expect(second.reused).toBe(false);
+      expect(second.documentId).not.toBe(first.documentId);
     } finally {
       await admin.query(`UPDATE "Agency" SET branding = '{}'::jsonb WHERE id = $1`, [agencyId]);
     }

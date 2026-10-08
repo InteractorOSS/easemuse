@@ -32,6 +32,7 @@ describe('SettingsNav', () => {
     expect(links('admin')).toEqual([
       'Members',
       'Defaults',
+      'Branding',
       'Privacy requests',
       'AI usage',
       'Outbox',

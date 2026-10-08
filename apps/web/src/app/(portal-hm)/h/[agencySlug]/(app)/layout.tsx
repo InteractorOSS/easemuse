@@ -18,6 +18,7 @@ export default async function SignedInLayout({
     <PortalShell
       agencyName={access.agency.branding.displayName ?? access.agency.name}
       color={access.agency.branding.primaryColor}
+      logoUrl={access.agency.logoUrl}
       slug={agencySlug}
       prefix="h"
       signedIn

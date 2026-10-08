@@ -84,6 +84,12 @@ vi.mock('@/server/platform/audit-log', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/server/platform/audit-log')>()),
   listAuditEntries: async () => ({ items: [], nextCursor: null }),
 }));
+vi.mock('@/server/branding/service', () => ({
+  readBranding: async () => ({ agencyName: 'Acme' }),
+  updateBranding: async () => ({ agencyName: 'Acme' }),
+  setLogo: async () => ({ agencyName: 'Acme' }),
+  removeLogo: async () => ({ agencyName: 'Acme' }),
+}));
 vi.mock('@/server/tenancy/settings', () => ({
   readSettings: async () => ({}),
   updateSettings: async () => ({}),
@@ -539,6 +545,11 @@ import { POST as versionPost } from './v1/agencies/[agencyId]/artifacts/[artifac
 import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route';
 import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
 import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
+import {
+  GET as brandingGet,
+  PATCH as brandingPatch,
+} from './v1/agencies/[agencyId]/branding/route';
+import { PUT as logoPut, DELETE as logoDelete } from './v1/agencies/[agencyId]/branding/logo/route';
 
 const json = (body: unknown) => ({
   method: 'POST',
@@ -1797,6 +1808,42 @@ const endpoints: Endpoint[] = [
     allowed: ['owner', 'admin'],
     call: () =>
       reactivatePost(new Request('http://x.test/', json({ reason: 'Paid' })), adminParams),
+  },
+  {
+    name: 'GET branding',
+    file: 'v1/agencies/[agencyId]/branding/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => brandingGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PATCH branding',
+    file: 'v1/agencies/[agencyId]/branding/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () =>
+      brandingPatch(
+        new Request('http://x.test/', { ...json({ primaryColor: '#1d4ed8' }), method: 'PATCH' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'PUT branding logo',
+    file: 'v1/agencies/[agencyId]/branding/logo/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => {
+      const form = new FormData();
+      form.set('file', new File([new Uint8Array([1, 2, 3])], 'logo.png'));
+      return logoPut(new Request('http://x.test/', { method: 'PUT', body: form }), agencyParams);
+    },
+  },
+  {
+    name: 'DELETE branding logo',
+    file: 'v1/agencies/[agencyId]/branding/logo/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => logoDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
   },
 ];
 

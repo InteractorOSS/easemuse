@@ -284,7 +284,7 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 | T-14-03 | HM actions: approve JD / request changes, proposals (recruiter resolves), feedback | 7 | Done | US-1402, 1405 |
 | T-14-04 | HM portal pages (enter, list, JD, submission) and candidate portal pages (resume, consent, data requests), agency colour, axe | 8 | Done | FR-HMP-07, FR-CDP-07 |
 | T-14-05 | Recruiter side: invite, share, withdraw, answer proposals | 6 | Done | US-1401 |
-| T-14-06 | Agency logo in the portal header and in emails (needs T-13-06) | 3 | | FR-TEN-04 |
+| T-14-06 | Agency logo in the portal header and in emails (needs T-13-06) | 3 | Done | FR-TEN-04 |
 | T-15-01 | Candidate status share (`status` snapshot, level chosen by the agency, refreshed on stage changes) | 5 | | US-1505, FR-CDP-05 |
 | T-14-07 | Portal notifications: email the person when something is shared or when the recruiter answers (outbox, localized) | 4 | | US-1404 |
 | T-14-08 | Portal adoption KPI (approvals, reviews and feedback done in portals ÷ all) | 2 | | planning-handoff section 6 |
@@ -326,7 +326,7 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 
 | ID | Task | Est | Status | Refs |
 |----|------|-----|--------|------|
-| T-13-06 | Agency branding: logo upload, colour, display name (settings page and API); used by PDFs, portals and emails | 6 | Partial: stored and read by documents and portals, no editing UI | US-1306, FR-TEN-04 |
+| T-13-06 | Agency branding: logo upload, colour, display name (settings page and API); used by PDFs, portals and emails | 6 | Done | US-1306, FR-TEN-04 |
 | T-13-07 | Support access: an agency admin grants a time-limited read-only view; banner; every view in both logs | 8 | | US-1305, FR-ADM-07, FR-TEN-07 |
 | T-13-08 | Plans, seats and usage through the Interactor Billing Server (client, plan assignment, admin view of plan, seats and invoices) | 10 | | US-1308, FR-TEN-05, ADR-013 |
 | T-13-09 | Tenant export (full ZIP, admin) | 5 | | US-1307, FR-TEN-06 |

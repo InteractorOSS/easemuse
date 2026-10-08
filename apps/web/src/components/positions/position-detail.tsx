@@ -21,6 +21,7 @@ import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { PositionView } from '@/server/positions/service';
 import { JdPanel } from './jd-panel';
 import { PositionForm } from './position-form';
+import { PortalSharing } from '@/components/pipeline/portal-sharing';
 import { IntakePanel } from './intake-panel';
 import { WeightsEditor } from './weights-editor';
 
@@ -39,6 +40,7 @@ export function PositionDetail({
 }) {
   const t = useTranslations('positions');
   const d = useTranslations('positions.detail');
+  const intake = useTranslations('positions.intake');
   const states = useTranslations('common.states');
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState(false);
@@ -149,8 +151,19 @@ export function PositionDetail({
       <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/candidates`}>
         {d('boardLink')}
       </Link>
+      <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/client-history`}>
+        {d('historyLink')}
+      </Link>
       <JdPanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
       <IntakePanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
+      {canEdit ? (
+        <PortalSharing
+          agencyId={agencyId}
+          target={{ positionId }}
+          subject={{ kind: 'intake_form', subjectId: positionId }}
+          heading={intake('shareHeading')}
+        />
+      ) : null}
       <WeightsEditor
         key={JSON.stringify(position.matchingWeights)}
         agencyId={agencyId}

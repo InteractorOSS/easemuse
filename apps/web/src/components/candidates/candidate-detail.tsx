@@ -14,6 +14,7 @@ import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { CandidateView } from '@/server/candidates/service';
 import { CandidateProfileEditor } from './candidate-profile-editor';
+import { CandidateUpdatesPanel } from './candidate-updates-panel';
 
 /** The candidate page (T-2-12, brief 4.2): profile, files, positions, do-not-contact and the timeline. */
 export function CandidateDetail({
@@ -109,6 +110,10 @@ export function CandidateDetail({
           ) : null}
         </dl>
       </section>
+
+      {c.status === 'active' ? (
+        <CandidateUpdatesPanel agencyId={agencyId} candidateId={c.id} />
+      ) : null}
 
       {c.status === 'active' ? (
         <DoNotContact agencyId={agencyId} candidate={c} canClear={viewerRole === 'admin'} />

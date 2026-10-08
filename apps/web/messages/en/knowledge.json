@@ -1,0 +1,182 @@
+{
+  "title": "What has this client liked before?",
+  "back": "Back to the position",
+  "intro": "These are your agency's own records for {client}: who was put forward, what the hiring managers did with them and what they said. It helps you find them again. It is not a score and not a recommendation.",
+  "asOf": "Records read on {date}.",
+  "loadError": "Could not load the history. Try again.",
+  "tabs": {
+    "label": "Sections",
+    "history": "History",
+    "patterns": "Patterns",
+    "summary": "AI summary"
+  },
+  "records": "{count, plural, one {# record} other {# records}}",
+  "few": "Few records",
+  "fewHint": "Based on fewer than {min} records. Read it as a hint, not as a pattern.",
+  "ofRecords": "{hits} of {n}",
+  "ofRecordsRate": "{hits} of {n} ({rate}%)",
+  "showRecords": "Show the records ({count})",
+  "moreRecords": "and {count} more not listed",
+  "record": "Record {n}",
+  "noRate": "No records",
+  "withheld": "{count, plural, one {# value was left out because it names a protected characteristic.} other {# values were left out because they name a protected characteristic.}}",
+  "history": {
+    "totalsTitle": "In numbers",
+    "positions": "Positions",
+    "submitted": "Put forward",
+    "interviewed": "Reached an interview",
+    "hired": "Hired",
+    "searchLabel": "Search this history",
+    "searchHint": "A name, a position, an outcome or a reason",
+    "positionsTitle": "Positions for this client",
+    "thisPosition": "This position",
+    "positionLine": "{status}, {openings, plural, one {# opening} other {# openings}}",
+    "positionCounts": "{submitted} put forward, {interviewed} interviewed, {hired} hired",
+    "candidatesTitle": "Candidates put forward",
+    "noCandidates": "No candidate has been put forward to this client yet.",
+    "noMatch": "Nothing matches your search.",
+    "rounds": "{count, plural, one {# interview round} other {# interview rounds}}",
+    "noRounds": "No interview rounds",
+    "ratings": "Ratings: {text}",
+    "ratingPart": "{criterion} {counts}",
+    "reason": "Reason given: {reason}",
+    "level": "Level: {level}",
+    "feedbackTitle": "How the hiring managers rated",
+    "feedbackHint": "Every rating given in interviews for this client, counted by criterion.",
+    "feedbackEmpty": "No ratings have been recorded yet.",
+    "criterion": "Criterion",
+    "strong": "Strong",
+    "moderate": "Moderate",
+    "gap": "Gap",
+    "ratingsCount": "Ratings",
+    "declineTitle": "Why the hiring managers turned candidates down",
+    "declineEmpty": "No reasons have been recorded.",
+    "reasonCount": "{code}: {count, plural, one {# time} other {# times}}",
+    "outcomes": {
+      "hired": "Hired",
+      "offer": "Offer made",
+      "interviewing": "In interviews",
+      "declined_after_submission": "Turned down after submission",
+      "rejected_after_interview": "Rejected after interview",
+      "withdrawn": "Withdrawn",
+      "submitted": "Waiting for a decision",
+      "other": "Other"
+    }
+  },
+  "patterns": {
+    "intro": "These describe what your records show. They do not say what will happen, and nothing here ranks or filters a person. Each row says how many records it comes from.",
+    "scopeLabel": "Look at",
+    "client": "This client",
+    "agency": "Every client I can see",
+    "empty": "There are no records to report on yet.",
+    "total": "{records, plural, one {# candidate} other {# candidates}} in {positions, plural, one {# position} other {# positions}}.",
+    "group": "Group",
+    "count": "Count",
+    "records": "Records",
+    "dimensions": {
+      "seniority": "Level of the current title",
+      "experience": "Years of experience",
+      "skill": "Skills listed on the profile",
+      "source": "Where the candidate was found"
+    },
+    "questions": {
+      "interviewProfiles": {
+        "title": "Which candidate profiles lead to an interview?",
+        "measure": "Of the candidates put forward, how many were invited to interview."
+      },
+      "hireProfiles": {
+        "title": "Which candidate profiles lead to a hire?",
+        "measure": "Of the candidates put forward, how many were hired."
+      },
+      "sources": {
+        "title": "Which sources bring quality candidates?",
+        "measure": "Quality here means the hiring manager wanted to interview the candidate: interviewed, of those put forward."
+      },
+      "jdResponse": {
+        "title": "Which job descriptions get a high response?",
+        "measure": "Of the candidates contacted, how many answered (yes or no)."
+      },
+      "dropOff": {
+        "title": "Where do candidates drop out?",
+        "measure": "Where candidates left the process without a hire, with the reason code when one was recorded."
+      },
+      "hmPreferences": {
+        "title": "What do the hiring managers actually prefer?",
+        "measure": "Of the candidates the hiring manager decided on, how many were moved to an interview; and how they rated."
+      },
+      "hireCharacteristics": {
+        "title": "Which job-related characteristics go with the people hired?",
+        "measure": "Only job-related things are used: level, years of experience, skills, source and how the reviewed match criteria were rated. Nothing about a person's age, gender, origin, family or the like is read or shown."
+      }
+    },
+    "sources": {
+      "source": "Source",
+      "added": "Added",
+      "contacted": "Contacted",
+      "submitted": "Put forward",
+      "interviewed": "Interviewed",
+      "hired": "Hired",
+      "quality": "Interviewed of put forward"
+    },
+    "jd": {
+      "byPosition": "By position",
+      "byArrangement": "By work arrangement",
+      "byPay": "By pay range"
+    },
+    "dropOff": {
+      "stage": "Left at",
+      "count": "Left",
+      "share": "Share of all who left",
+      "reasons": "Reasons",
+      "noReasons": "No reason recorded",
+      "total": "{count, plural, one {# candidate left} other {# candidates left}} the process without a hire."
+    },
+    "hm": {
+      "decidedTitle": "Moved to an interview, of those decided on",
+      "ratingsTitle": "How they rated",
+      "reasonsTitle": "Reasons for turning candidates down"
+    },
+    "hire": {
+      "hiresTitle": "Among the {count, plural, one {# hire} other {# hires}}",
+      "criteriaTitle": "How the reviewed match analyses rated the criteria",
+      "criteriaHint": "Only analyses you marked as reviewed are counted. Strong on the criterion, among hires and among the others put forward.",
+      "criterion": "Criterion",
+      "hires": "Hires rated strong",
+      "others": "Others rated strong",
+      "noHires": "Nobody has been hired yet."
+    }
+  },
+  "summary": {
+    "title": "AI summary",
+    "intro": "On request, the assistant writes a short summary of these patterns. It sees counts only, never names, contact details or comments. Every sentence links to the records behind it. It stays a draft until you approve it.",
+    "run": "Write a draft summary",
+    "rerun": "Write a new draft",
+    "running": "Reading the counts and writing the draft…",
+    "none": "No summary has been written yet.",
+    "error": "Could not write the summary. Try again.",
+    "removed": "{count, plural, =0 {Every sentence passed the check.} one {# sentence was removed because its numbers or wording did not check out.} other {# sentences were removed because their numbers or wording did not check out.}}",
+    "evidence": "Based on",
+    "tentative": "Few records",
+    "evidenceLine": "{label}: {hits} of {n}",
+    "sentence": "Sentence {n}",
+    "removeSentence": "Remove sentence {n}",
+    "empty": "No sentences are left in this draft.",
+    "asOf": "{client}, records read on {date}"
+  },
+  "criteria": {
+    "technicalFit": "Technical fit",
+    "leadershipFit": "Leadership fit",
+    "communication": "Communication",
+    "culturalFit": "Cultural fit",
+    "industryExperience": "Industry experience"
+  },
+  "weights": {
+    "coreCompetencies": "Core competencies",
+    "relevantExperience": "Relevant experience",
+    "industryFunctional": "Industry and function",
+    "careerLevel": "Career level",
+    "locationArrangement": "Location and arrangement",
+    "educationCertification": "Education and certification",
+    "compensationOther": "Compensation and other"
+  }
+}

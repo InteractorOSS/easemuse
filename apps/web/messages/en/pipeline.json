@@ -700,6 +700,36 @@
       "on_hold": "hold",
       "client_rejected": "reject",
       "rejected": "reject"
+    },
+    "slots": {
+      "title": "Interview times from the hiring manager",
+      "line": "{who} offered times for {round}",
+      "unknownWho": "The hiring manager",
+      "nextRound": "the next round",
+      "note": "Note: {note}",
+      "pick": "Choose a time",
+      "interviewers": "Interviewers, separated by commas",
+      "confirm": "Confirm this time",
+      "decline": "Decline all times",
+      "done": "Answered",
+      "passed": "That time has passed. Choose another or decline.",
+      "error": "Could not do that. Try again."
+    },
+    "updates": {
+      "title": "What the candidate says changed",
+      "intro": "The candidate sent this through the portal. Nothing in the profile changes until you accept.",
+      "fields": {
+        "email": "Email",
+        "phone": "Phone",
+        "availability": "Availability",
+        "compensationExpectation": "Compensation expectation",
+        "workAuthorization": "Work authorization"
+      },
+      "accept": "Accept into the profile",
+      "decline": "Decline",
+      "done": "Answered",
+      "needsProfile": "Confirm the candidate's profile first; these details belong in it.",
+      "error": "Could not do that. Try again."
     }
   }
 }

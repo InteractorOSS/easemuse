@@ -41,6 +41,20 @@ describe('outreach draft prompt (A12)', () => {
     expect(user).toContain('Cut deploy time by 60%');
   });
 
+  it('starts from a template when one is given, and says so in the rules', () => {
+    const without = outreachDraftPrompt.buildPrompt(input());
+    expect(without.user).not.toContain('<template');
+    const { system, user } = outreachDraftPrompt.buildPrompt(
+      input({ template: { name: 'Warm "intro"', body: 'Hi {{first_name}}, fixed opening.' } }),
+    );
+    expect(user).toContain(
+      `<template name="Warm 'intro'">\nHi {{first_name}}, fixed opening.\n</template>`,
+    );
+    expect(system).toMatch(/start from it/);
+    expect(system).toMatch(/Keep the placeholders exactly/);
+    expect(outreachDraftPrompt.version).toBe('outreach-draft-v2');
+  });
+
   it('lists only the elements that are switched on', () => {
     const { user } = outreachDraftPrompt.buildPrompt(input());
     expect(user).toContain('- the main appeal of the role');

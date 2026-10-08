@@ -181,6 +181,12 @@ vi.mock('@/server/candidates/search', () => ({
 vi.mock('@/server/search/global', () => ({
   globalSearch: async () => ({ clients: [], positions: [], candidates: [] }),
 }));
+vi.mock('@/server/outreach/templates', () => ({
+  listTemplates: async () => [],
+  createTemplate: async () => ({ id: 't1' }),
+  updateTemplate: async () => ({ id: 't1' }),
+  deleteTemplate: async () => undefined,
+}));
 vi.mock('@/server/candidates/import-csv', () => ({ importCandidateRows: async () => [] }));
 vi.mock('@/server/candidates/notes', () => ({
   setTags: async () => ({ tags: [] }),
@@ -440,6 +446,14 @@ import {
 } from './v1/agencies/[agencyId]/candidates/route';
 import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
 import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
+import {
+  GET as templatesGet,
+  POST as templatesPost,
+} from './v1/agencies/[agencyId]/outreach-templates/route';
+import {
+  DELETE as templateDelete,
+  PATCH as templatePatch,
+} from './v1/agencies/[agencyId]/outreach-templates/[templateId]/route';
 import { POST as candidatesImportPost } from './v1/agencies/[agencyId]/candidates/import/route';
 import { PUT as candidateTagsPut } from './v1/agencies/[agencyId]/candidates/[candidateId]/tags/route';
 import {
@@ -597,6 +611,7 @@ const agencyParams = {
     analysisId: 'an1',
     n: '1',
     noteId: 'note1',
+    templateId: 'tpl1',
     jobRunId: 'job1',
   }),
 };
@@ -997,6 +1012,56 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => searchGet(new Request('http://x.test/?q=hr'), agencyParams),
+  },
+  {
+    name: 'GET outreach templates',
+    file: 'v1/agencies/[agencyId]/outreach-templates/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => templatesGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST outreach template',
+    file: 'v1/agencies/[agencyId]/outreach-templates/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      templatesPost(
+        new Request(
+          'http://x.test/',
+          json({
+            name: 'Warm intro',
+            channel: 'email',
+            body: 'Hi {{first_name}}, I came across your profile.',
+          }),
+        ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'PATCH outreach template',
+    file: 'v1/agencies/[agencyId]/outreach-templates/[templateId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      templatePatch(
+        new Request('http://x.test/', {
+          ...json({
+            name: 'Warm intro',
+            channel: 'email',
+            body: 'Hi {{first_name}}, a role for you.',
+          }),
+          method: 'PATCH',
+        }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'DELETE outreach template',
+    file: 'v1/agencies/[agencyId]/outreach-templates/[templateId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => templateDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
   },
   {
     name: 'POST candidates import',

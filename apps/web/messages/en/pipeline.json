@@ -363,6 +363,14 @@
     "names": {
       "first": "the candidate's first name",
       "recruiter": "your name"
+    },
+    "template": {
+      "label": "Start from a template",
+      "none": "No template",
+      "option": "{name} ({scope})",
+      "hint": "The draft keeps the template’s structure and wording and fills in the facts.",
+      "agency": "agency template",
+      "mine": "my template"
     }
   },
   "qualification": {

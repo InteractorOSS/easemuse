@@ -316,7 +316,7 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 | T-2-13 | Tags and notes on candidates: edit UI, filter by tag (filter exists) | 4 | Done | FR-SRC-09 |
 | T-2-14 | Bulk resume upload (about 20 files) creating drafts to review | 6 | Done | FR-SRC-10 |
 | T-2-15 | CSV candidate import with column mapping (ATS exports) | 6 | Done | Q-10 |
-| T-5-11 | Outreach templates per recruiter and client, picker in the composer | 6 | | FR-OUT-06 |
+| T-5-11 | Outreach templates per recruiter and client, picker in the composer | 6 | Done | FR-OUT-06 |
 | T-5-02 | SMTP transport and per-agency selection | 5 | Postponed by the product owner | ADR-009 |
 | T-5-12 | Real mail provider with reply sync (Interactor credentials and webhooks), replies stop the sequence | 8 | | US-505, FR-MSG-04, ADR-014 |
 | T-QA-06 | Playwright happy path (needs a test sign-in and an AI stub) | 8 | Partial: the loop is covered at service level (`happy-path.db.test.ts`) | Release 1 exit |

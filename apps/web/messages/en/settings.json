@@ -6,7 +6,8 @@
     "defaults": "Defaults",
     "usage": "AI usage",
     "outbox": "Outbox",
-    "privacy": "Privacy requests"
+    "privacy": "Privacy requests",
+    "templates": "Message templates"
   },
   "defaults": {
     "title": "Agency defaults",
@@ -159,5 +160,37 @@
     "confirmDelete": "This permanently removes the candidate's personal data and files. Pipeline stages and counts are kept. It cannot be undone.",
     "adminOnly": "Only an admin can carry out or decline a request.",
     "error": "Could not complete that. Try again."
+  },
+  "templates": {
+    "title": "Message templates",
+    "intro": "Templates are the starting point of an outreach draft. The AI keeps their structure and wording and fills in the facts about the person and the role; you still edit and approve every message. Keep {first} and {recruiter} where they belong.",
+    "none": "No templates yet.",
+    "new": "New template",
+    "edit": "Edit template",
+    "name": "Name",
+    "channel": "Channel",
+    "body": "Message",
+    "bodyHint": "Up to {max} characters.",
+    "client": "Only for client",
+    "anyClient": "Every client",
+    "shared": "Share with the whole agency",
+    "sharedHint": "Everyone in the agency can use it. Only leads and admins can change it.",
+    "save": "Save template",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleteTemplate": "Delete {name}",
+    "editTemplate": "Edit {name}",
+    "scopeShared": "Agency",
+    "scopeMine": "Mine",
+    "forClient": "For {client}",
+    "saved": "Template saved.",
+    "deleted": "Template deleted.",
+    "error": "Could not save the template. Check the name and the message.",
+    "channels": {
+      "linkedin": "LinkedIn message",
+      "email": "Email",
+      "text": "Text message",
+      "phone": "Phone call script"
+    }
   }
 }

@@ -35,6 +35,7 @@ model Agency {
   plan               String? // Billing Server plan key (ADR-013)
   settings           Json         @default("{}") // defaults: weights, outreach intervals, guard modes, rejection reasons
   branding           Json         @default("{}") // logo file key, colors (FR-TEN-04)
+  featureFlags       Json         @default("{}") // platform-set switches per agency (FR-ADM-10); known keys in core/schemas/platform-config.ts
   aiMonthlyBudgetUsd Decimal?     @db.Decimal(10, 2)
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
@@ -1105,6 +1106,16 @@ model TenantDeletion {
   updatedAt     DateTime  @updatedAt
 
   @@index([tenantId, status])
+}
+
+// Platform-wide configuration an owner or admin sets in /admin (FR-ADM-10): for now the settings new
+// agencies start from. Not under RLS and holds no agency data.
+model PlatformConfig {
+  key         String   @id // for example "new_agency_defaults"
+  value       Json
+  updatedById String?  @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // Platform table: NOT under RLS (ids and status only, no candidate data).

@@ -6,6 +6,7 @@ import { getAgencyByRef, withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
 import { errorResponse } from '@/lib/http/responses';
 import { ApiError } from '@/lib/http/errors';
+import { isFeatureEnabled } from '@/server/platform/features';
 import { PORTAL_COOKIE, verifyPortalSession } from './session';
 
 export interface AuthedPortal {
@@ -47,6 +48,10 @@ export async function authorizePortal(
     agency.status === 'suspended' ||
     agency.status === 'closed'
   ) {
+    return errorResponse(new ApiError('not_found', 'Not found', { status: 404 }));
+  }
+  // Switched off for this agency (Platform configuration): the portal looks like it does not exist.
+  if (!(await isFeatureEnabled(agency.id, 'portals'))) {
     return errorResponse(new ApiError('not_found', 'Not found', { status: 404 }));
   }
   const portalUser = await withAgency(agency.id, (tx) =>

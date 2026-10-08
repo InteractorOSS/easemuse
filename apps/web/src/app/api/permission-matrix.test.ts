@@ -127,6 +127,13 @@ vi.mock('@/server/platform/health', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/server/platform/health')>()),
   getSystemHealth: async () => ({ queues: [], agencies: [], failedJobs: [] }),
 }));
+vi.mock('@/server/platform/config', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/platform/config')>()),
+  getNewAgencyDefaultsView: async () => ({}),
+  patchNewAgencyDefaults: async () => ({}),
+  getAgencyFeatures: async () => ({ agencyId: 'a1', flags: {} }),
+  setAgencyFeature: async () => ({ agencyId: 'a1', flags: {} }),
+}));
 vi.mock('@/server/tenancy/settings', () => ({
   readSettings: async () => ({}),
   updateSettings: async () => ({}),
@@ -582,6 +589,12 @@ import { POST as versionPost } from './v1/agencies/[agencyId]/artifacts/[artifac
 import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route';
 import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
 import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
+import { GET as configGet } from './admin/v1/config/route';
+import {
+  GET as defaultsGet,
+  PATCH as defaultsPatch,
+} from './admin/v1/config/new-agency-defaults/route';
+import { GET as featuresGet, PUT as featuresPut } from './admin/v1/agencies/[id]/features/route';
 import { GET as healthGet } from './admin/v1/health/route';
 import { GET as deletionGet, POST as deletionPost } from './admin/v1/agencies/[id]/deletion/route';
 import { DELETE as deletionCancel } from './admin/v1/agencies/[id]/deletion/[deletionId]/route';
@@ -2018,6 +2031,51 @@ const endpoints: Endpoint[] = [
     audience: 'admin',
     allowed: ['owner', 'admin', 'support'],
     call: () => healthGet(new Request('http://x.test/?hours=24')),
+  },
+  {
+    name: 'GET platform config',
+    file: 'admin/v1/config/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => configGet(),
+  },
+  {
+    name: 'GET new agency defaults',
+    file: 'admin/v1/config/new-agency-defaults/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => defaultsGet(),
+  },
+  {
+    name: 'PATCH new agency defaults',
+    file: 'admin/v1/config/new-agency-defaults/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      defaultsPatch(
+        new Request('http://x.test/', { ...json({ recentlyContactedDays: 7 }), method: 'PATCH' }),
+      ),
+  },
+  {
+    name: 'GET agency features',
+    file: 'admin/v1/agencies/[id]/features/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => featuresGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'PUT agency feature',
+    file: 'admin/v1/agencies/[id]/features/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      featuresPut(
+        new Request('http://x.test/', {
+          ...json({ flag: 'portals', enabled: false }),
+          method: 'PUT',
+        }),
+        adminParams,
+      ),
   },
 ];
 

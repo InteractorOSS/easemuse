@@ -39,6 +39,8 @@ vi.mock('@/lib/db', () => ({
     }),
 }));
 
+vi.mock('@/server/platform/features', () => ({ isFeatureEnabled: async () => true }));
+
 import { GET as listGet } from './v1/[agencySlug]/shares/route';
 
 const SECRET = 'portal-routes-secret-0123456789abcdef';

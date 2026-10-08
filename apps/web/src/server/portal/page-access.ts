@@ -7,6 +7,7 @@ import { parseBranding, type AgencyBranding, type PortalAudienceValue } from '@e
 import { getAgencyPortalInfo, withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
 import { logoPath } from '@/server/branding/brand';
+import { isFeatureEnabled } from '@/server/platform/features';
 import { PORTAL_PREFIX } from './links';
 import { PORTAL_COOKIE, verifyPortalSession } from './session';
 
@@ -27,6 +28,7 @@ export interface PortalPageAccess {
 export const portalAgency = cache(async (slug: string) => {
   const agency = await getAgencyPortalInfo(slug);
   if (!agency || agency.status === 'suspended' || agency.status === 'closed') notFound();
+  if (!(await isFeatureEnabled(agency.id, 'portals'))) notFound();
   const branding = parseBranding(agency.branding);
   return {
     id: agency.id,

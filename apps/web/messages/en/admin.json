@@ -5,6 +5,7 @@
     "agencies": "Agencies",
     "usage": "AI usage",
     "health": "System health",
+    "config": "Configuration",
     "audit": "Audit log",
     "deletions": "Deletions",
     "admins": "Administrators",
@@ -128,6 +129,12 @@
       "approved": "Approved. The deletion has started.",
       "cancelled": "Deletion cancelled.",
       "failed": "This did not work. Check the name you typed, and that you are not the person who asked."
+    },
+    "features": {
+      "title": "Features",
+      "intro": "Switch features on or off for this agency. Each change is logged here and in the agency's activity log.",
+      "saved": "Saved.",
+      "failed": "This could not be saved."
     }
   },
   "errors": {
@@ -319,6 +326,41 @@
         "agency": "Agency",
         "id": "Id"
       }
+    }
+  },
+  "config": {
+    "title": "Platform configuration",
+    "routing": {
+      "title": "AI routing and prompt versions",
+      "intro": "Which model and effort each AI capability uses, and the version of its prompt. These live in the code: changing one is a deploy that needs a passing evaluation run first (model change control), so this table is read only.",
+      "noPrompt": "Not built yet",
+      "columns": {
+        "code": "Capability",
+        "purpose": "Purpose",
+        "model": "Model",
+        "effort": "Effort",
+        "prompt": "Prompt version",
+        "maxTokens": "Output limit"
+      }
+    },
+    "flags": {
+      "title": "Feature flags",
+      "intro": "Switched for one agency at a time on that agency's page. Every flag is checked by the feature it names.",
+      "onByDefault": "On by default.",
+      "offByDefault": "Off by default.",
+      "names": {
+        "portals": "Portals",
+        "email_sending": "Sending email"
+      },
+      "about": {
+        "portals": "Hiring manager and candidate portals: invitations, shares and the portal pages.",
+        "email_sending": "Sending email from the product. Off keeps copy and mark as sent working."
+      }
+    },
+    "defaults": {
+      "title": "New agency defaults",
+      "formTitle": "Settings new agencies start from",
+      "intro": "A new agency is created with these settings. Agencies that already exist keep their own, and each agency's admin can change theirs. Saved changes are logged."
     }
   }
 }

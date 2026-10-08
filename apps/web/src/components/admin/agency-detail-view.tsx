@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BudgetEditor } from './budget-editor';
+import { FeatureFlagsPanel } from './feature-flags-panel';
 import { SupportAccessPanel } from './support-access-panel';
 import { TenantDeletionPanel } from './tenant-deletion-panel';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -98,6 +99,8 @@ export function AgencyDetailView({
         budget={agency.budget}
         canWrite={canWrite}
       />
+
+      <FeatureFlagsPanel agencyId={agency.id} canWrite={canWrite} />
 
       <SupportAccessPanel agencyId={agency.id} agencySlug={agency.slug} userId={userId} />
 

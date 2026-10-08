@@ -199,7 +199,15 @@ describe('AgencyDetailView', () => {
         [`GET /api/admin/v1/agencies/${id}`]: () => json(detail('active')),
         [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
         [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+          json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+          json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
         [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+          json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+          json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
       }).impl,
     );
     renderApp(<AgencyDetailView agencyId={id} canWrite userId="u1" />);
@@ -214,6 +222,8 @@ describe('AgencyDetailView', () => {
       [`GET /api/admin/v1/agencies/${id}`]: () => json(detail(status)),
       [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
       [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
+      [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+        json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
       [`POST /api/admin/v1/agencies/${id}/suspend`]: () => {
         status = 'suspended';
         return json({ data: {} });
@@ -244,7 +254,15 @@ describe('AgencyDetailView', () => {
         [`GET /api/admin/v1/agencies/${id}`]: () => json(detail('suspended')),
         [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
         [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+          json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+          json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
         [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+          json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/features`]: () =>
+          json({ data: { agencyId: agency(1).id, flags: { portals: true, email_sending: true } } }),
       }).impl,
     );
     const { unmount } = renderApp(<AgencyDetailView agencyId={id} canWrite userId="u1" />);

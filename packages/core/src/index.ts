@@ -48,3 +48,4 @@ export * from './artifacts/submission-report';
 export * from './artifacts/screening-draft';
 export * from './schemas/support';
 export * from './schemas/tenant';
+export * from './schemas/platform-config';

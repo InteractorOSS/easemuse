@@ -20,6 +20,16 @@ import { CandidateProfileEditor } from './candidate-profile-editor';
 /** How long the page keeps checking for the AI profile before it offers a manual retry. */
 const POLL_LIMIT = 90;
 
+/** AI failure codes the page explains in plain words; anything else gets the generic text. */
+const AI_ERROR_CODES = [
+  'ai_account_no_credit',
+  'ai_account_key',
+  'ai_unavailable',
+  'budget_exceeded',
+  'ai_refused',
+  'ai_failed',
+] as const;
+
 type Choice = 'none' | DuplicateResolution;
 
 /** Review of a new candidate (US-202, US-203): read status, the AI profile draft, duplicates, and the decision. */
@@ -53,6 +63,8 @@ export function CandidateReview({
     refetchInterval: (q) => {
       const c = q.state.data?.data;
       if (!c || c.status !== 'draft') return false;
+      // The AI attempt failed: stop waiting and let the recruiter decide (retry or type it in).
+      if (!c.profileArtifactId && c.profileAi?.status === 'failed') return false;
       const waiting =
         c.documents.some((x) => x.extractionStatus === 'pending') ||
         (c.documents.some((x) => x.extractionStatus === 'ready') && !c.profileArtifactId);
@@ -76,6 +88,18 @@ export function CandidateReview({
     },
     onError: () => setError(t('errors.generic')),
   });
+  const manual = useMutation({
+    mutationFn: () =>
+      apiFetch<{ artifactId: string }>(`${base}/candidates/${candidateId}/manual-profile`, {
+        method: 'POST',
+      }),
+    onSuccess: async () => {
+      setError(null);
+      toast({ title: t('manualStarted') });
+      await queryClient.invalidateQueries({ queryKey: ['candidate', agencyId, candidateId] });
+    },
+    onError: () => setError(t('errors.generic')),
+  });
   const confirm = useMutation({
     mutationFn: () =>
       apiFetch<{ candidateId: string }>(`${base}/candidates`, {
@@ -86,8 +110,14 @@ export function CandidateReview({
           ...(reason.trim() ? { reason: reason.trim() } : {}),
         },
       }),
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       toast({ title: t('confirmed') });
+      // The candidate page shares this cache entry: drop the draft's copy so it shows the saved
+      // candidate (a merge lands on the existing candidate, so refresh that one too).
+      await queryClient.invalidateQueries({ queryKey: ['candidate', agencyId, candidateId] });
+      await queryClient.invalidateQueries({
+        queryKey: ['candidate', agencyId, res.data.candidateId],
+      });
       router.push(`/a/${agencySlug}/candidates/${res.data.candidateId}`);
     },
     onError: (e) => {
@@ -121,6 +151,13 @@ export function CandidateReview({
   }
 
   const reading = candidate.documents.some((x) => x.extractionStatus === 'pending');
+  const aiFailed = !candidate.profileArtifactId && candidate.profileAi?.status === 'failed';
+  const aiErrorCode = AI_ERROR_CODES.find((c) => c === candidate.profileAi?.error) ?? 'generic';
+  const manualButton = (
+    <Button variant="secondary" disabled={manual.isPending} onClick={() => manual.mutate()}>
+      {t('enterManually')}
+    </Button>
+  );
   const failed = candidate.documents.filter((x) => x.extractionStatus === 'failed');
   const target = matches.find((m) => m.candidateId === targetId);
   const needsTarget = choice === 'merge' || choice === 'link';
@@ -176,10 +213,22 @@ export function CandidateReview({
             artifactId={candidate.profileArtifactId}
             ContentEditor={CandidateProfileEditor}
           />
-        ) : reading ? null : failed.length > 0 ? null : (
+        ) : reading ? null : failed.length > 0 ? (
           <div className="flex flex-col gap-2">
-            <p role="status">{t('waitingAi')}</p>
-            <div>
+            <p className="text-sm">{t('readFailedManual')}</p>
+            <div>{manualButton}</div>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {aiFailed ? (
+              <p role="alert" className="text-danger">
+                {t('aiFailed', { reason: t(`aiErrors.${aiErrorCode}`) })}
+              </p>
+            ) : (
+              <p role="status">{t('waitingAi')}</p>
+            )}
+            <p className="text-sm text-muted">{t('manualHint')}</p>
+            <div className="flex flex-wrap gap-2">
               <Button
                 variant="secondary"
                 disabled={structure.isPending}
@@ -187,6 +236,7 @@ export function CandidateReview({
               >
                 {t('structure')}
               </Button>
+              {manualButton}
             </div>
           </div>
         )}
@@ -203,7 +253,7 @@ export function CandidateReview({
           {matches.map((m) => (
             <li
               key={m.candidateId}
-              className="flex flex-wrap items-center gap-3 rounded-md border border-border p-3 text-sm"
+              className="flex flex-wrap items-center gap-3 rounded-2xl border border-border p-3 text-sm"
             >
               <div className="flex flex-col">
                 <span className="font-medium">{m.fullName}</span>

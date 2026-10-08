@@ -65,3 +65,30 @@ export const PROFILE_TEXT_FIELDS = [
   'compensationExpectation',
 ] as const;
 export type ProfileTextField = (typeof PROFILE_TEXT_FIELDS)[number];
+
+/**
+ * A blank profile for a recruiter who fills it in by hand (FR-SRC-02): used when the AI cannot run,
+ * or when the recruiter prefers to type it. Every field starts empty; nothing is guessed.
+ */
+export function emptyCandidateProfile(): CandidateProfileContent {
+  return {
+    fullName: null,
+    email: null,
+    phone: null,
+    currentPosition: { title: null, company: null },
+    careerHistory: [],
+    education: [],
+    coreSkills: [],
+    industryExperience: [],
+    technicalSkills: [],
+    leadershipExperience: null,
+    teamSize: null,
+    careerProgression: null,
+    majorAchievements: [],
+    location: null,
+    workAuthorization: null,
+    compensationExpectation: null,
+    potentialMotivation: null,
+    potentialConcerns: [],
+  };
+}

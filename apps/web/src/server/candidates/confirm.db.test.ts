@@ -24,7 +24,7 @@ import {
 import { confirmCandidate } from './confirm';
 import { duplicatesForCandidate } from './duplicates';
 import { createCandidateDraft } from './intake';
-import { discardDraft, getCandidate } from './service';
+import { discardDraft, getCandidate, startManualProfile } from './service';
 
 const profile = (over: Record<string, unknown> = {}) => ({
   fullName: 'Alex Kim',
@@ -208,6 +208,52 @@ describe.skipIf(!dbAvailable())('confirming and merging candidates (T-2-05, T-2-
         fields: { fullName: expect.any(String) },
       });
       expect((await row(nameless.candidateId)).status).toBe('draft');
+    });
+
+    it('lets the recruiter type the profile when the AI cannot run, and says why the AI failed (FR-SRC-02, NFR-R03)', async () => {
+      const draft = await newDraft(profile(), { noProfile: true });
+      // A failed AI attempt, as the gateway leaves it when the account has no credit.
+      await admin.query(
+        `INSERT INTO "AiGeneration" (id, "agencyId", purpose, "requestedById", "promptVersion", model, "inputRefs", status, error, "updatedAt")
+         VALUES (gen_random_uuid(), $1, 'profile.structure', $2, 'v1', 'claude-sonnet-5-5', $3, 'failed', 'ai_account_no_credit', now())`,
+        [agencyA, actor.userId, JSON.stringify({ candidateId: draft.candidateId })],
+      );
+      expect((await run((tx) => getCandidate(tx, draft.candidateId))).profileAi).toEqual({
+        status: 'failed',
+        error: 'ai_account_no_credit',
+      });
+
+      const started = await run((tx) => startManualProfile(tx, actor, draft.candidateId));
+      expect(started.created).toBe(true);
+      // A second click keeps the draft that is already there.
+      expect(await run((tx) => startManualProfile(tx, actor, draft.candidateId))).toEqual({
+        artifactId: started.artifactId,
+        created: false,
+      });
+      const blank = await run((tx) => getArtifactWithVersions(tx, started.artifactId));
+      expect(blank?.versions).toHaveLength(1);
+      expect(blank?.versions[0]).toMatchObject({ origin: 'human', status: 'draft' });
+
+      // The recruiter fills it in, then confirms as usual.
+      await run((tx) =>
+        addDraftVersion(tx, {
+          agencyId: agencyA,
+          artifactId: started.artifactId,
+          content: profile({
+            fullName: `Jordan Typed ${randomUUID().slice(0, 8)}`,
+            email: `${randomUUID()}@example.com`,
+            phone: null,
+            careerHistory: [],
+          }),
+          origin: 'human',
+          createdById: actor.userId,
+        }),
+      );
+      await confirm(draft.candidateId);
+      expect((await row(draft.candidateId)).status).toBe('active');
+      await expect(
+        run((tx) => startManualProfile(tx, actor, draft.candidateId)),
+      ).rejects.toMatchObject({ status: 409 });
     });
 
     it('cannot confirm the same candidate twice, or something that is not there', async () => {

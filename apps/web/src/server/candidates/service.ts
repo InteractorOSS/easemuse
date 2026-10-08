@@ -1,10 +1,15 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
-import type { AgencyActor, CandidateStatusValue } from '@easemuse/core';
+import { emptyCandidateProfile, type AgencyActor, type CandidateStatusValue } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 import { ApiError, notFound } from '@/lib/http/errors';
 import { logActivity } from '@/server/activity/service';
-import { findArtifact } from '@/server/artifacts/service';
+import {
+  addDraftVersion,
+  findArtifact,
+  findOrCreateArtifact,
+  getArtifactWithVersions,
+} from '@/server/artifacts/service';
 
 /** A candidate for the review and detail pages (T-2-05, T-2-12). */
 export interface CandidateView {
@@ -35,6 +40,14 @@ export interface CandidateView {
   /** The newest profile artifact (draft or approved), if the AI has produced one. */
   profileArtifactId: string | null;
   approvedProfileVersionId: string | null;
+  /**
+   * The newest AI attempt at the profile (A7), so the review page can say it failed and why instead
+   * of waiting forever. Null before the first attempt starts.
+   */
+  profileAi: {
+    status: 'running' | 'succeeded' | 'failed' | 'cancelled';
+    error: string | null;
+  } | null;
   documents: {
     id: string;
     fileId: string;
@@ -50,7 +63,7 @@ export interface CandidateView {
 export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<CandidateView> {
   const row = await tx.candidate.findUnique({ where: { id: candidateId } });
   if (!row || row.status === 'discarded') throw notFound('Candidate');
-  const [documents, artifact, entries] = await Promise.all([
+  const [documents, artifact, entries, attempt] = await Promise.all([
     tx.candidateDocument.findMany({
       where: { candidateId },
       orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
@@ -67,6 +80,14 @@ export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<C
         state: true,
         position: { select: { id: true, title: true, client: { select: { name: true } } } },
       },
+    }),
+    tx.aiGeneration.findFirst({
+      where: {
+        purpose: 'profile.structure',
+        inputRefs: { path: ['candidateId'], equals: candidateId },
+      },
+      orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      select: { status: true, error: true },
     }),
   ]);
   const files = documents.length
@@ -102,6 +123,12 @@ export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<C
     })),
     profileArtifactId: artifact?.id ?? null,
     approvedProfileVersionId: artifact?.approvedVersionId ?? null,
+    profileAi: attempt
+      ? {
+          status: attempt.status as NonNullable<CandidateView['profileAi']>['status'],
+          error: attempt.error,
+        }
+      : null,
     documents: documents.map((d) => ({
       id: d.id,
       fileId: d.fileId,
@@ -137,4 +164,53 @@ export async function discardDraft(
     entityType: 'candidate',
     entityId: candidateId,
   });
+}
+
+/**
+ * Lets the recruiter type the profile instead of waiting for the AI (FR-SRC-02, NFR-R03): a blank
+ * draft written by a person, edited in the usual profile editor and confirmed the usual way. When a
+ * profile draft already exists (from the AI or an earlier click), it is kept and returned.
+ */
+export async function startManualProfile(
+  tx: ScopedTx,
+  actor: AgencyActor,
+  candidateId: string,
+): Promise<{ artifactId: string; created: boolean }> {
+  const row = await tx.candidate.findUnique({
+    where: { id: candidateId },
+    select: { status: true },
+  });
+  if (!row || row.status === 'discarded') throw notFound('Candidate');
+  if (row.status !== 'draft') {
+    throw new ApiError('conflict', 'This candidate is already confirmed', { status: 409 });
+  }
+  const subject = { type: 'candidate' as const, id: candidateId };
+  const existing = await findArtifact(tx, { kind: 'candidate_profile', subject });
+  if (existing) {
+    const withVersions = await getArtifactWithVersions(tx, existing.id);
+    if ((withVersions?.versions.length ?? 0) > 0)
+      return { artifactId: existing.id, created: false };
+  }
+  const artifact =
+    existing ??
+    (await findOrCreateArtifact(tx, {
+      agencyId: actor.agencyId,
+      kind: 'candidate_profile',
+      subject,
+    }));
+  await addDraftVersion(tx, {
+    agencyId: actor.agencyId,
+    artifactId: artifact.id,
+    content: emptyCandidateProfile(),
+    origin: 'human',
+    createdById: actor.userId,
+  });
+  await logActivity(tx, {
+    agencyId: actor.agencyId,
+    actor: { type: 'user', id: actor.userId },
+    action: 'candidate.profile_started_by_hand',
+    entityType: 'candidate',
+    entityId: candidateId,
+  });
+  return { artifactId: artifact.id, created: true };
 }

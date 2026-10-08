@@ -232,6 +232,7 @@ describe('CandidateReview', () => {
     createdAt: '2026-10-07T00:00:00.000Z',
     profileArtifactId: null,
     approvedProfileVersionId: null,
+    profileAi: null,
     documents: [doc()],
     ...over,
   });
@@ -316,6 +317,56 @@ describe('CandidateReview', () => {
     ).toBe(true);
   });
 
+  it('says why the AI could not write the profile, and stops saying it is still writing', async () => {
+    serve(candidate({ profileAi: { status: 'failed', error: 'ai_account_no_credit' } }));
+    view();
+    expect((await screen.findByRole('alert')).textContent).toBe(
+      'AI could not write the profile draft. The AI account has run out of credit; a platform administrator has to add credit.',
+    );
+    expect(screen.queryByText('AI is writing the profile draft…')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Structure with AI' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Enter the profile myself' })).toBeTruthy();
+  });
+
+  it('explains an unknown AI failure in general words', async () => {
+    serve(candidate({ profileAi: { status: 'failed', error: 'something_new' } }));
+    view();
+    expect((await screen.findByRole('alert')).textContent).toBe(
+      'AI could not write the profile draft. Something went wrong.',
+    );
+  });
+
+  it('lets the recruiter enter the profile by hand, then shows the profile editor', async () => {
+    let started = false;
+    const stub = serve(candidate(), [], {
+      [`GET ${api}/candidates/c1`]: () =>
+        json({ data: candidate(started ? { profileArtifactId: 'art1' } : {}) }),
+      [`POST ${api}/candidates/c1/manual-profile`]: () => {
+        started = true;
+        return json({ data: { artifactId: 'art1', created: true } }, 201);
+      },
+    });
+    const user = userEvent.setup();
+    view();
+    await user.click(await screen.findByRole('button', { name: 'Enter the profile myself' }));
+    await waitFor(() =>
+      expect(
+        stub.calls.some((c) => c.method === 'POST' && c.url.pathname.endsWith('/manual-profile')),
+      ).toBe(true),
+    );
+    expect(await screen.findByText('Blank profile ready. Fill it in, then confirm.')).toBeTruthy();
+  });
+
+  it('offers to type the profile when the file could not be read', async () => {
+    serve(
+      candidate({
+        documents: [doc({ extractionStatus: 'failed', extractionError: 'The file is empty.' })],
+      }),
+    );
+    view();
+    expect(await screen.findByRole('button', { name: 'Enter the profile myself' })).toBeTruthy();
+  });
+
   it('confirms a candidate with no duplicates once the profile draft is there', async () => {
     const stub = serve(candidate({ profileArtifactId: 'art1' }), [], {
       [`POST ${api}/candidates`]: () =>
@@ -326,11 +377,17 @@ describe('CandidateReview', () => {
     expect(
       await screen.findByText('No one in your database looks like this candidate.'),
     ).toBeTruthy();
+    const reads = () =>
+      stub.calls.filter((c) => c.method === 'GET' && c.url.pathname.endsWith('/candidates/c1'))
+        .length;
+    const before = reads();
     await user.click(await screen.findByRole('button', { name: 'Confirm candidate' }));
     await waitFor(() => expect(push).toHaveBeenCalledWith('/a/acme/candidates/c1'));
     expect(
       stub.calls.find((c) => c.method === 'POST' && c.url.pathname.endsWith('/candidates'))!.body,
     ).toEqual({ draftId: 'c1' });
+    // The candidate is read again, so the next page does not show the draft's cached name.
+    expect(reads()).toBeGreaterThan(before);
   });
 
   it('needs a decision when there is a possible duplicate, and sends the merge with the chosen candidate', async () => {

@@ -174,6 +174,7 @@ vi.mock('@/server/candidates/confirm', () => ({
 vi.mock('@/server/candidates/service', () => ({
   getCandidate: async () => ({ id: 'c1' }),
   discardDraft: async () => undefined,
+  startManualProfile: async () => ({ artifactId: 'a1', created: true }),
 }));
 vi.mock('@/server/candidates/search', () => ({
   searchCandidates: async () => ({ items: [], nextCursor: null }),
@@ -458,6 +459,7 @@ import {
 } from './v1/agencies/[agencyId]/positions/[positionId]/search-criteria/route';
 import { POST as intakePost } from './v1/agencies/[agencyId]/candidates/intake/route';
 import { POST as structureAgainPost } from './v1/agencies/[agencyId]/candidates/[candidateId]/structure/route';
+import { POST as manualProfilePost } from './v1/agencies/[agencyId]/candidates/[candidateId]/manual-profile/route';
 import { GET as duplicatesGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/duplicates/route';
 import { GET as searchGet } from './v1/agencies/[agencyId]/search/route';
 import {
@@ -982,6 +984,13 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => structureAgainPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'POST candidate manual profile',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/manual-profile/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => manualProfilePost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET candidate duplicates',

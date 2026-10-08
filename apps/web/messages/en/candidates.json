@@ -73,7 +73,21 @@
       "noProfile": "There is no profile draft to confirm yet.",
       "duplicate": "This looks like someone already in your database. Choose what to do.",
       "reason": "Say why this is not a duplicate."
-    }
+    },
+    "aiFailed": "AI could not write the profile draft. {reason}",
+    "aiErrors": {
+      "ai_account_no_credit": "The AI account has run out of credit; a platform administrator has to add credit.",
+      "ai_account_key": "The AI account key is missing or was not accepted; a platform administrator has to check it.",
+      "ai_unavailable": "The AI service did not answer. You can try again in a moment.",
+      "budget_exceeded": "Your agency has used its AI budget for this month.",
+      "ai_refused": "The AI declined to read this resume.",
+      "ai_failed": "The AI's answer was incomplete.",
+      "generic": "Something went wrong."
+    },
+    "manualHint": "You can enter the profile yourself instead. Nothing is lost: the original file stays attached.",
+    "enterManually": "Enter the profile myself",
+    "manualStarted": "Blank profile ready. Fill it in, then confirm.",
+    "readFailedManual": "You can also enter the profile yourself."
   },
   "profile": {
     "invalid": "This draft cannot be shown as a form.",

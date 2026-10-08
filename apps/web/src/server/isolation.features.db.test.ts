@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
+import { startManualProfile } from '@/server/candidates/service';
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { AgencyActor } from '@easemuse/core';
@@ -101,6 +102,10 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
   const never = { versionId: guid } as const;
 
   const cases: [string, () => Promise<unknown>][] = [
+    [
+      'candidate: start a profile by hand',
+      () => asA((tx) => startManualProfile(tx, actorA, candidate())),
+    ],
     ['screening: read', () => asA((tx) => getScreening(tx, actorA, entry()))],
     [
       'screening: save',

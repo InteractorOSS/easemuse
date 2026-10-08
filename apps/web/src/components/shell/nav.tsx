@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
-const ITEMS = ['tasks', 'positions', 'candidates', 'clients', 'settings'] as const;
+const ITEMS = ['tasks', 'positions', 'candidates', 'clients', 'analytics', 'settings'] as const;
 
 /** Main navigation for one agency's workbench. The current page is marked with aria-current. */
 export function Nav({ agencySlug }: { agencySlug: string }) {

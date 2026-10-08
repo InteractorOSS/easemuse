@@ -383,6 +383,10 @@ vi.mock('@/server/screening/service', () => ({
   saveScreening: async () => ({}),
   classifyEntry: async () => ({}),
 }));
+vi.mock('@/server/analytics/service', () => ({
+  getAnalytics: async () => ({ range: { from: '2026-07-01', to: '2026-09-30' } }),
+  analyticsCsv: () => 'kpi\r\n',
+}));
 vi.mock('@/server/tasks/service', () => ({
   listTasks: async () => [],
   completeTask: async () => undefined,
@@ -591,6 +595,8 @@ import {
   POST as analyzePost,
   GET as analysisGet,
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/analysis/route';
+import { GET as analyticsGet } from './v1/agencies/[agencyId]/analytics/route';
+import { GET as analyticsExport } from './v1/agencies/[agencyId]/analytics/export/route';
 import { GET as tasksGet } from './v1/agencies/[agencyId]/tasks/route';
 import { POST as taskComplete } from './v1/agencies/[agencyId]/tasks/[taskId]/complete/route';
 import { POST as taskSnooze } from './v1/agencies/[agencyId]/tasks/[taskId]/snooze/route';
@@ -1662,6 +1668,20 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', json({ screeningClass: 'priority' })),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET analytics',
+    file: 'v1/agencies/[agencyId]/analytics/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => analyticsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET analytics export',
+    file: 'v1/agencies/[agencyId]/analytics/export/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => analyticsExport(new Request('http://x.test/?table=kpis'), agencyParams),
   },
   {
     name: 'GET tasks',

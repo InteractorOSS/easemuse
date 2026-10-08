@@ -99,8 +99,11 @@ const LEAVES_PREPARATION: PositionStatus[] = ['sourcing', 'interviewing', 'offer
 
 const isManager = (actor: AgencyActor) => actor.role === 'admin' || actor.role === 'lead';
 
-/** With the agency rule "own and shared", a recruiter sees only the positions they own. */
-async function visibilityFilter(
+/**
+ * With the agency rule "own and shared", a recruiter sees only the positions they own. Exported so
+ * features that read across positions (analytics) apply exactly the same rule.
+ */
+export async function visibilityFilter(
   tx: ScopedTx,
   actor: AgencyActor,
 ): Promise<Prisma.PositionWhereInput> {

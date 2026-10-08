@@ -333,7 +333,7 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 | T-13-10 | Tenant deletion: per-table job in dependency order, typed confirmation, second owner's approval, guard test that every `agencyId` table is in the job | 8 | Done | US-1307, FR-ADM-08, ADR-016 |
 | T-16-01 | System health: queues and failures, outbox failures, AI error and refusal rates per agency, no content | 5 | Done | US-1606, FR-ADM-09 |
 | T-16-02 | Platform configuration: view routing table and prompt versions, default templates, per-agency feature flags, changes logged | 6 | Partial: the Anthropic key is manageable in `/admin/settings` | FR-ADM-10 |
-| T-SEC-01 | Pen test, DPA and terms, sub-processor list before the first external agency | 8 | | TR-005 |
+| T-SEC-01 | Pen test, DPA and terms, sub-processor list before the first external agency | 8 | Partial: DPA, terms, sub-processor list and the pen-test pack are written as drafts in `docs/legal/` (counsel review and the bracketed decisions are open); the test itself is arranged by the product owner | TR-005 |
 
 ## Release 3: pool intelligence, reuse, benchmarking
 

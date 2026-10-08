@@ -1,0 +1,88 @@
+# Data Processing Agreement (EaseMuse)
+
+**Draft 2026-10-07, for counsel review. Square brackets are open decisions** (see [README](./README.md)). This agreement forms part of the [Terms of Service](./terms-of-service.md) between **Team of Wakers** ("Provider") and the recruiting agency that signs up ("Customer"). Where a privacy law uses the words controller and processor (for example the CCPA/CPRA's "business" and "service provider", or Korea's PIPA "personal information controller" and "entrustee"), Customer is the first and Provider the second. If the laws that apply to Customer require other terms, [counsel to attach the transfer or jurisdiction addendum].
+
+## 1. What this covers
+
+| | |
+|-|-|
+| **Subject** | Provider hosts EaseMuse, an AI-assisted workbench for recruiting agencies, and processes personal data in it for Customer. |
+| **Duration** | The term of the Terms of Service, plus the export and deletion period in section 9. |
+| **Purposes** | Providing the service Customer's users ask for: storing records, running AI drafts **only when a user asks for one**, producing documents (PDF, Word), sending the emails a user sends, running the hiring-manager and candidate portals, support Customer approves, security, backup, and billing for the service. Provider does not use Customer data for its own purposes, to train models, or for advertising. |
+| **Data subjects** | Candidates; Customer's clients' contacts (hiring managers); Customer's staff and platform users; people Customer invites to a portal. |
+| **Personal data** | Candidates: name, contact details, resume and profile content (work history, education, skills, location), compensation expectations, availability, work authorization, interview feedback, offers, consent and communication records, recruiter notes and assessments. Client contacts: name, email, phone, role, feedback. Staff: name, email, sign-in id, role, activity records. Portal users: email address and what they submit. |
+| **Special categories** | Not intended. Customer should not upload them. The product removes protected characteristics (age and date of birth, gender, race, nationality, religion, disability, marital status, photos) from resume text before AI matching, and never uses them to match or rank. Work authorization is recorded as a job-related fact when stated. |
+
+## 2. Customer's instructions
+
+Provider processes personal data only on Customer's documented instructions, which are: this agreement, the Terms of Service, and what Customer's users do in the product and its settings. Provider tells Customer if an instruction seems to breach a law. Customer is responsible for having a lawful basis and any notices and consents for its candidates and contacts, including consent records the product helps keep (per-client consent for submissions, outreach opt-outs).
+
+## 3. Confidentiality and staff
+
+People at Provider who can reach Customer data are bound by confidentiality and have access only as needed. **Provider staff cannot read Customer's workspace unless a Customer admin approves a time-limited, read-only support grant** (at most 72 hours, revocable at any time). While a grant is active, a banner shows in the workspace and every page or request read under it is recorded in Customer's activity log and in Provider's platform audit log.
+
+## 4. Security (Annex II)
+
+Provider keeps the measures in Annex II. Provider may update them if the protection does not become weaker.
+
+## 5. AI provisions
+
+1. **Draft only, on request.** AI runs only when a user asks. Every AI output is a draft until a recruiter approves it; downstream steps use approved content only. Scores are a reference and are explained with evidence; nobody is ranked, hidden or rejected by the product.
+2. **Provider of the model.** AI drafts are produced by the model provider listed in the sub-processor list, under a contract that [prohibits training on Customer data and requires zero retention: confirm with the provider].
+3. **Minimisation.** Reading a resume sends the resume text to the model. Later steps are built without names and contact details, which the product fills in after the model answers. Protected characteristics are removed before matching.
+4. **Records.** For each AI result the product keeps which prompt version and model produced it, which records it used, who approved it and when (provenance), for at least [2 years] unless Customer deletes the data.
+5. **Customer's duties in hiring.** Laws on automated employment decision tools (for example New York City Local Law 144, the Colorado AI Act, Illinois and others, and the EU AI Act where it applies) may place duties on Customer as the employer or agency using the tool: notices, bias audits, appeal routes. Provider supplies on request: the description of the human-in-the-loop design, the evaluation and bias-test summaries Provider has run, and the prompt and model versions in use. Customer decides whether and how it uses the match score; an "explain-only" setting hides numeric scores.
+
+## 6. Sub-processors
+
+Customer gives general authorisation for the sub-processors in [sub-processors.md](./sub-processors.md). Provider gives Customer [30] days' notice by email to the admin before a change that adds or replaces one. Customer can object in that period on reasonable data protection grounds; if the parties cannot agree, Customer may end the affected service and get a refund of fees paid in advance for it. Provider is responsible for its sub-processors and binds each to terms no less protective than these.
+
+## 7. Helping Customer with data subject requests
+
+The product has: candidate export (a ZIP of everything held about the candidate), candidate deletion (removes files, drafts, analyses and personal text; keeps only pipeline stages and dates so statistics stay correct), a privacy request register with deadlines (default [45] days, reminder a week before), per-candidate consent records and a do-not-contact flag, and an opt-out link in every outreach email. Customer admins run these. If a data subject contacts Provider, Provider passes the request to Customer within [5] business days and does not answer it itself.
+
+## 8. Incidents
+
+Provider tells Customer's admin without undue delay and within [48 hours] of becoming aware of a personal data breach affecting Customer, with what is known: what happened, the data and people affected, what Provider is doing, and a contact. Provider keeps a record of incidents and helps Customer notify authorities and people where the law requires.
+
+## 9. End of the agreement
+
+Customer admins can download a full export at any time (Settings, Data export): every record as JSON lines, every stored file, and a README describing the format. After the term ends, Provider keeps the data for [30 days] so Customer can export, then deletes it: stored files and objects, every table row, and the workspace itself, by a documented process that needs two Provider owners or admins to approve. Provider keeps only a deletion record (who asked, who approved, when, the number of rows removed) and the platform audit log, neither of which holds Customer's content. Copies in backups age out within [35 days]. Provider may keep data longer only where a law requires it, and says so.
+
+## 10. Audits
+
+Provider gives Customer the information needed to show compliance, including the security overview (Annex II), the latest summary of its independent penetration test, and the sub-processor list. Customer may audit once a year, or after a breach, on [30] days' notice, at its own cost, during business hours and without access to other customers' data. Provider may offer an independent report instead.
+
+## 11. Transfers
+
+Customer chooses the data region at workspace creation (U.S. by default; a Korean region is planned). Provider does not move Customer data out of that region except to a listed sub-processor that needs it to deliver the service (the model provider). [Counsel: add the transfer mechanism, for example standard contractual clauses, where required.]
+
+## 12. Liability and order of precedence
+
+[Counsel: liability for this agreement follows the Terms of Service cap, with any carve-outs the law requires.] If this agreement and the Terms conflict on personal data, this agreement prevails.
+
+---
+
+## Annex I: Parties and contacts
+
+| | Provider | Customer |
+|-|----------|----------|
+| Name | Team of Wakers [legal entity and address] | [Agency legal name and address] |
+| Privacy contact | [email] | [name and email] |
+| Data protection officer or representative, if required | [name] | [name] |
+
+## Annex II: Security measures
+
+| Area | Measure |
+|------|---------|
+| **Tenant isolation** | Every record belongs to one workspace. The database enforces this with row-level security on every table that holds workspace data, forced for the application role, and the application reaches data only through a scoped client; background jobs run in the workspace's context. On every change, automated tests try the services behind the API with another workspace's record ids, a permission test calls every route as every kind of user, and a guard fails the build if a new table lacks isolation. Another workspace's record answers "not found". |
+| **Access control** | Sign-in with the Interactor account service; multi-factor authentication [required for admins and recruiters; enforced by configuration]. Roles per workspace (admin, lead, recruiter) with ownership rules, checked on every request; platform administrator roles are separate and have no access to workspace data without a support grant. A permission matrix test covers every route. |
+| **Portals** | Hiring managers and candidates get single-use, expiring links and short-lived sessions; they see only snapshots the recruiter published to them (no scores, no unpublished candidates, no recruiter notes); portal endpoints are rate limited. |
+| **Encryption** | TLS 1.2 or higher in transit; encryption at rest for the database and stored files [Provider to confirm with the hosting entry]. Platform secrets (for example the AI provider key) are encrypted in the database. |
+| **Audit** | Append-only activity log, approvals, consent, pipeline transitions and AI call ledger: the application role cannot change or delete them. Every platform administrator action is in a separate audit log. Records kept at least [2 years]. |
+| **Support access** | Only on Customer admin approval, read-only, at most 72 hours, revocable, bannered, and every read logged in both logs. A request whose method is unknown is refused. |
+| **Data rights and deletion** | Candidate export and anonymisation, tenant export, tenant deletion with two-person approval and a guard test that every table is covered (section 7 and 9). |
+| **Files** | Uploads are checked by content, not by name; limits on size and pages; originals are immutable; downloads need an authorised, workspace-scoped request and a short-lived link for stored objects. |
+| **Resilience** | Daily backups kept [30 days] with tested restore (NFR-R02); jobs retry with back-off; one workspace's AI use cannot exhaust shared capacity (per-workspace limits and a monthly AI budget). |
+| **Development** | Code review, automated tests, static analysis, secret scanning (gitleaks) and dependency audits in CI; no personal data in logs; independent penetration test before the first external customer and [yearly] after. |
+| **AI safeguards** | Draft-only, human approval, facts in tailored resumes locked by code plus a fact check, protected characteristics removed from matching, bias tests on paired resumes, prompt and model versions pinned and re-evaluated before change. |

@@ -319,7 +319,7 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 | T-5-11 | Outreach templates per recruiter and client, picker in the composer | 6 | | FR-OUT-06 |
 | T-5-02 | SMTP transport and per-agency selection | 5 | Postponed by the product owner | ADR-009 |
 | T-5-12 | Real mail provider with reply sync (Interactor credentials and webhooks), replies stop the sequence | 8 | | US-505, FR-MSG-04, ADR-014 |
-| T-QA-06 | Playwright happy path (needs a test sign-in and an AI stub) | 8 | Partial: the loop is covered at service level (`happy-path.db.test.ts`) | Release 1 exit |
+| T-QA-06 | Playwright happy path (needs a test sign-in and an AI stub) | 8 | Done 2026-10-08: `tests/e2e/happy-path.spec.ts`, admin creates agency → invite → client → JD → HM approval → profile → candidate → pool → analysis → screening → outreach (outbox) → qualification → resume, approval and consent → report → submission, with axe checks; runs on `AI_FAKE=on` | Release 1 exit |
 | T-QA-09 | Run the AI evals against the live model and record the results (A1, A7, A10, stability, bias) | 3 | Partial: A7, A10 and bias run on 2026-10-07; A1 and stability wait for credit | NFR-AI01..05 |
 
 ### E13 / E16: Commercial and platform (session B)

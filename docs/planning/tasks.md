@@ -301,11 +301,11 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 
 | ID | Task | Est | Status | Refs |
 |----|------|-----|--------|------|
-| T-11-01 | KPI queries from `PipelineTransition`, `OutreachTouch`, `Interview`, `Offer` (the 9 KPIs, formulas of section 6), with date, client, position and recruiter filters; unit tests on a seeded history | 8 | | US-1101, FR-ANA-01 |
-| T-11-02 | Source table: added, contacted, submitted, interviewed, offered, hired per source, with stage conversion | 5 | | FR-ANA-02 |
-| T-11-03 | Capacity panel: positions per recruiter (weekly average), median time per position | 4 | | FR-ANA-03, DP-5 |
-| T-11-04 | Analytics page: KPI cards with the formula on hover, filters, source table, capacity panel; axe | 7 | | US-1101 |
-| T-11-05 | CSV export of every table with the same filters | 3 | | US-1102, FR-ANA-04 |
+| T-11-01 | KPI queries from `PipelineTransition`, `OutreachTouch`, `Interview`, `Offer` (the 9 KPIs, formulas of section 6), with date, client, position and recruiter filters; unit tests on a seeded history | 8 | Done | US-1101, FR-ANA-01 |
+| T-11-02 | Source table: added, contacted, submitted, interviewed, offered, hired per source, with stage conversion | 5 | Done | FR-ANA-02 |
+| T-11-03 | Capacity panel: positions per recruiter (weekly average), median time per position | 4 | Done | FR-ANA-03, DP-5 |
+| T-11-04 | Analytics page: KPI cards with the formula on hover, filters, source table, capacity panel; axe | 7 | Done | US-1101 |
+| T-11-05 | CSV export of every table with the same filters | 3 | Done | US-1102, FR-ANA-04 |
 
 ### E3 / E8 / E2 / E5 leftovers (session A)
 

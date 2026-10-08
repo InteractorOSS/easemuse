@@ -30,6 +30,7 @@ describe('Nav', () => {
       '/a/acme/positions',
       '/a/acme/candidates',
       '/a/acme/clients',
+      '/a/acme/analytics',
       '/a/acme/settings',
     ]);
     expect(within(nav).getByRole('link', { name: 'Positions' }).getAttribute('aria-current')).toBe(

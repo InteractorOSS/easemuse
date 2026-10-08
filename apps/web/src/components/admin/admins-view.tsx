@@ -10,8 +10,9 @@ import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 import { PLATFORM_ROLES, invitePlatformAdminInputSchema, type PlatformRole } from '@easemuse/core';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { SelectField, TextField } from '@/components/ui/field';
+import { InviteLinkDialog, type InviteLink } from '@/components/ui/invite-link-dialog';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { PlatformAdmin, PlatformAdminInviteView } from '@/server/platform/admins';
@@ -27,7 +28,7 @@ export function AdminsView({ currentUserId }: { currentUserId: string }) {
   const format = useFormatter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [link, setLink] = useState<{ email: string; url: string } | null>(null);
+  const [link, setLink] = useState<InviteLink | null>(null);
 
   const query = useQuery({
     queryKey: ['admin', 'admins'],
@@ -177,7 +178,7 @@ export function AdminsView({ currentUserId }: { currentUserId: string }) {
         </ul>
       </section>
 
-      <LinkDialog link={link} onClose={() => setLink(null)} />
+      <InviteLinkDialog link={link} onClose={() => setLink(null)} />
     </div>
   );
 }
@@ -260,53 +261,6 @@ function InviteDialog({
           </div>
         </form>
       </DialogContent>
-    </Dialog>
-  );
-}
-
-function LinkDialog({
-  link,
-  onClose,
-}: {
-  link: { email: string; url: string } | null;
-  onClose: () => void;
-}) {
-  const t = useTranslations('admin.admins.link');
-  const { toast } = useToast();
-  return (
-    <Dialog
-      open={link !== null}
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
-    >
-      {link ? (
-        <DialogContent title={t('title')} description={t('description', { email: link.email })}>
-          <div className="flex flex-col gap-3">
-            <input
-              readOnly
-              aria-label={t('title')}
-              value={link.url}
-              onFocus={(e) => e.currentTarget.select()}
-              className="h-10 rounded-md border border-border bg-surface px-2 text-xs"
-            />
-            <div className="flex justify-end gap-2">
-              <Button
-                variant="secondary"
-                onClick={async () => {
-                  await navigator.clipboard?.writeText(link.url).catch(() => undefined);
-                  toast({ title: t('copied') });
-                }}
-              >
-                {t('copy')}
-              </Button>
-              <DialogClose asChild>
-                <Button>{t('close')}</Button>
-              </DialogClose>
-            </div>
-          </div>
-        </DialogContent>
-      ) : null}
     </Dialog>
   );
 }

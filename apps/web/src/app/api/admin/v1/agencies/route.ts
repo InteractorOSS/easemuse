@@ -33,11 +33,11 @@ export async function POST(req: Request): Promise<Response> {
     if (authed instanceof Response) return authed;
     const input = await parseBody(req, createAgencyInputSchema);
     const user = await getPlatformUser(authed.actor.userId);
-    const { agency, inviteExpiresAt } = await createAgencyWithAdmin(
+    const { agency, inviteExpiresAt, acceptUrl } = await createAgencyWithAdmin(
       input,
       authed.actor,
       user?.name ?? user?.email ?? 'EaseMuse',
     );
-    return created({ ...agency, adminEmail: input.adminEmail, inviteExpiresAt });
+    return created({ ...agency, adminEmail: input.adminEmail, inviteExpiresAt, acceptUrl });
   });
 }

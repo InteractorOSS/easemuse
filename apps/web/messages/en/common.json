@@ -14,5 +14,13 @@
     "error": "Could not load this. Try again.",
     "retry": "Retry",
     "loadMore": "Load more"
+  },
+  "inviteLink": {
+    "title": "Send this invitation link",
+    "description": "Copy it now and send it to {email}. It works only for that address, once, and is shown only this time.",
+    "note": "If outgoing email is set up, they also get it by email.",
+    "copy": "Copy link",
+    "copied": "Link copied.",
+    "close": "Done"
   }
 }

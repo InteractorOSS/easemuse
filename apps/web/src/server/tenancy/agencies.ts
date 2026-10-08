@@ -90,12 +90,14 @@ const isUniqueViolation = (error: unknown): boolean =>
 /**
  * Creates an agency and its first admin invitation in ONE transaction, with the platform audit
  * entry and the outbox email (US-1602, FR-TEN-02). The email is queued for delivery after commit.
+ * `acceptUrl` is returned once for the creator to pass on, so an agency can be set up without
+ * outgoing mail; only the token's hash is stored.
  */
 export async function createAgencyWithAdmin(
   input: CreateAgencyInput,
   actor: PlatformAdminActor,
   inviterName: string,
-): Promise<{ agency: AgencyRef; inviteExpiresAt: Date }> {
+): Promise<{ agency: AgencyRef; inviteExpiresAt: Date; acceptUrl: string }> {
   const agencyId = randomUUID();
   const adminEmail = input.adminEmail.toLowerCase();
   const token = newInviteToken();
@@ -175,6 +177,7 @@ export async function createAgencyWithAdmin(
   return {
     agency: { id: agencyId, slug: input.slug, name: input.name, status: 'active' },
     inviteExpiresAt: expiresAt,
+    acceptUrl,
   };
 }
 

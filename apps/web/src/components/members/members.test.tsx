@@ -130,10 +130,11 @@ describe('MembersView', () => {
       return user;
     };
 
-    it('sends an invitation and confirms', async () => {
+    it('creates an invitation and shows the link to pass on', async () => {
+      const acceptUrl = 'https://app.test/invite/acme?token=abc123';
       const api = stubApi({
         ...routes(),
-        [`POST ${base}/invites`]: () => json({ data: { id: 'i2' } }, 201),
+        [`POST ${base}/invites`]: () => json({ data: { id: 'i2', acceptUrl } }, 201),
       });
       vi.stubGlobal('fetch', api.impl);
       renderApp(<MembersView agencyId={agencyId} canManage />);
@@ -141,7 +142,11 @@ describe('MembersView', () => {
       await user.type(screen.getByLabelText('Email'), 'Fresh@X.test');
       await user.selectOptions(screen.getByLabelText('Role'), 'lead');
       await user.click(screen.getByRole('button', { name: 'Send invitation' }));
-      expect(await screen.findByText('Invitation sent to fresh@x.test.')).toBeTruthy();
+      expect(await screen.findByText('Invitation created for fresh@x.test.')).toBeTruthy();
+      const linkDialog = await screen.findByRole('dialog', { name: 'Send this invitation link' });
+      expect(
+        (within(linkDialog).getByLabelText('Send this invitation link') as HTMLInputElement).value,
+      ).toBe(acceptUrl);
       expect(api.calls.find((c) => c.method === 'POST')?.body).toEqual({
         email: 'fresh@x.test',
         role: 'lead',

@@ -26,12 +26,12 @@ export interface AuthedPortal {
  * short of that is a 401 (no session) or 404 (wrong agency or audience), never a hint about what
  * exists. Portal routes call this first:
  *
- *   const authed = await authorizePortal(slug, 'hiring_manager');
+ *   const authed = await authorizePortal(slug, 'hiring_manager'); // or just (slug) for either audience
  *   if (authed instanceof Response) return authed;
  */
 export async function authorizePortal(
   agencySlug: string,
-  audience: PortalAudienceValue,
+  audience?: PortalAudienceValue,
 ): Promise<AuthedPortal | Response> {
   const secret = getEnv().AUTH_SECRET;
   const session = secret
@@ -43,7 +43,7 @@ export async function authorizePortal(
   if (
     !agency ||
     agency.id !== session.agencyId ||
-    session.audience !== audience ||
+    (audience !== undefined && session.audience !== audience) ||
     agency.status === 'suspended' ||
     agency.status === 'closed'
   ) {
@@ -62,7 +62,7 @@ export async function authorizePortal(
       },
     }),
   );
-  if (!portalUser || portalUser.disabledAt || portalUser.audience !== audience) {
+  if (!portalUser || portalUser.disabledAt || portalUser.audience !== session.audience) {
     return errorResponse(
       new ApiError('unauthorized', 'This access has been turned off', { status: 401 }),
     );
@@ -70,7 +70,12 @@ export async function authorizePortal(
   const { disabledAt: _off, ...user } = portalUser;
   void _off;
   return {
-    actor: { kind: 'portal', portalUserId: user.id, agencyId: agency.id, audience } as PortalActor,
+    actor: {
+      kind: 'portal',
+      portalUserId: user.id,
+      agencyId: agency.id,
+      audience: session.audience,
+    } as PortalActor,
     agency: { id: agency.id, slug: agency.slug, name: agency.name },
     portalUser: user,
   };

@@ -11,6 +11,9 @@ import { CostMeter } from './lib/runner';
 import { SUITES, type SuiteContext } from './suites';
 
 const haveData = existsSync(path.join(EVAL_DATA_DIR, 'resumes-synthetic', 'manifest.csv'));
+// The job description texts are third-party and never committed (eval-data/job-descriptions/README.md),
+// so CI has only the synthetic resumes; the suites that read a JD run where the texts are present.
+const haveJds = existsSync(path.join(EVAL_DATA_DIR, 'job-descriptions', 'jd-01.md'));
 
 /**
  * A model stand-in that answers from the answer keys, so the harness plumbing (prompt building,
@@ -180,52 +183,64 @@ describe.skipIf(!haveData)('eval suites against a model that knows the answers',
     expect(result.costUsd).toBeGreaterThan(0);
   });
 
-  it('match-analyze: levels agree with the key and strong, partial, weak rank in order', async () => {
-    const result = await SUITES['match-analyze']!(ctx({ limit: 9 }));
-    expect(result.metrics.criterionExact).toBe(1);
-    expect(result.metrics.criterionWithinOne).toBe(1);
-    expect(result.metrics.rankingOrder).toBe(1);
-  });
+  it.skipIf(!haveJds)(
+    'match-analyze: levels agree with the key and strong, partial, weak rank in order',
+    async () => {
+      const result = await SUITES['match-analyze']!(ctx({ limit: 9 }));
+      expect(result.metrics.criterionExact).toBe(1);
+      expect(result.metrics.criterionWithinOne).toBe(1);
+      expect(result.metrics.rankingOrder).toBe(1);
+    },
+  );
 
-  it('bias: a name-blind model keeps every pair within the tolerance', async () => {
-    const result = await SUITES.bias!(ctx());
-    expect(result.cases).toBe(5);
-    expect(result.metrics).toMatchObject({ pairsWithinTolerance: 1, maxSpread: 0 });
-  });
+  it.skipIf(!haveJds)(
+    'bias: a name-blind model keeps every pair within the tolerance',
+    async () => {
+      const result = await SUITES.bias!(ctx());
+      expect(result.cases).toBe(5);
+      expect(result.metrics).toMatchObject({ pairsWithinTolerance: 1, maxSpread: 0 });
+    },
+  );
 
-  it('stability: repeated runs of a steady model do not move', async () => {
+  it.skipIf(!haveJds)('stability: repeated runs of a steady model do not move', async () => {
     const result = await SUITES.stability!(ctx({ limit: 2, runs: 3 }));
     expect(result.metrics).toMatchObject({ withinTolerance: 1, maxSpread: 0 });
   });
 
-  it('pool-similar: a model that follows the prompt answers every card with a clean line', async () => {
-    const result = await SUITES['pool-similar']!(ctx({ limit: 2 }));
-    expect(result.failures).toEqual([]);
-    expect(result.metrics).toMatchObject({
-      answeredOnce: 1,
-      reasonPass: 1,
-      noIdentity: 1,
-      noGenderedWords: 1,
-      noInventedNumbers: 1,
-    });
-    expect(result.cases).toBeGreaterThan(2);
-  });
+  it.skipIf(!haveJds)(
+    'pool-similar: a model that follows the prompt answers every card with a clean line',
+    async () => {
+      const result = await SUITES['pool-similar']!(ctx({ limit: 2 }));
+      expect(result.failures).toEqual([]);
+      expect(result.metrics).toMatchObject({
+        answeredOnce: 1,
+        reasonPass: 1,
+        noIdentity: 1,
+        noGenderedWords: 1,
+        noInventedNumbers: 1,
+      });
+      expect(result.cases).toBeGreaterThan(2);
+    },
+  );
 
-  it('benchmark: keeps the cited findings, drops the one without a page, and counts the search fee', async () => {
-    const result = await SUITES.benchmark!(ctx({ limit: 2 }));
-    expect(result.cases).toBe(2);
-    expect(result.failures).toEqual([]);
-    expect(result.metrics).toMatchObject({
-      allLinked: 1,
-      paidSourceRate: 0,
-      numbersSupported: 1,
-      itemsKept: 2,
-    });
-    // Two thirds of the model's findings named a cited page.
-    expect(result.metrics.rawCitedRate).toBeCloseTo(2 / 3, 5);
-    // The 3 searches cost $0.03 on top of the tokens, per case.
-    expect(result.costUsd).toBeGreaterThanOrEqual(0.06);
-  });
+  it.skipIf(!haveJds)(
+    'benchmark: keeps the cited findings, drops the one without a page, and counts the search fee',
+    async () => {
+      const result = await SUITES.benchmark!(ctx({ limit: 2 }));
+      expect(result.cases).toBe(2);
+      expect(result.failures).toEqual([]);
+      expect(result.metrics).toMatchObject({
+        allLinked: 1,
+        paidSourceRate: 0,
+        numbersSupported: 1,
+        itemsKept: 2,
+      });
+      // Two thirds of the model's findings named a cited page.
+      expect(result.metrics.rawCitedRate).toBeCloseTo(2 / 3, 5);
+      // The 3 searches cost $0.03 on top of the tokens, per case.
+      expect(result.costUsd).toBeGreaterThanOrEqual(0.06);
+    },
+  );
 
   it('stops when the cost limit is reached', async () => {
     await expect(

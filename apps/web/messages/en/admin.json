@@ -42,7 +42,7 @@
     },
     "form": {
       "title": "Create agency",
-      "description": "The first admin receives an invitation by email.",
+      "description": "You get an invitation link for the first admin to pass on.",
       "name": "Agency name",
       "slug": "URL name",
       "slugHint": "Used in the address: /a/your-name",
@@ -50,7 +50,7 @@
       "region": "Region",
       "submit": "Create and invite"
     },
-    "created": "Agency created. Invitation sent to {email}.",
+    "created": "Agency created. Invitation created for {email}.",
     "detail": {
       "members": "Active members",
       "invites": "Pending invitations",
@@ -217,13 +217,6 @@
       "email": "Email",
       "role": "Role",
       "submit": "Create invitation"
-    },
-    "link": {
-      "title": "Send this link",
-      "description": "Copy it now and send it to {email}. It is shown only once and works once.",
-      "copy": "Copy link",
-      "copied": "Link copied.",
-      "close": "Done"
     },
     "errors": {
       "lastOwner": "The platform needs at least one owner.",

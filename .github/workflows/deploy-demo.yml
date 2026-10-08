@@ -1,0 +1,83 @@
+# Copyright (c) 2026 Team of Wakers
+# SPDX-License-Identifier: MIT
+#
+# main -> https://easemuse.demo.interactor.com. Runs after `ci` passes on a push to main (or by
+# hand), builds the three linux/amd64 images here (never on the 1 GB host) and streams them to the
+# host's locked deploy key, which can only run /opt/easemuse/bin/deploy (ops/demo-host/deploy.sh).
+name: deploy-demo
+on:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-demo
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  DEMO_HOST: 161.153.29.215
+  DEMO_URL: https://easemuse.demo.interactor.com
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      # Only the newest main ships: an older green run that finishes late must not roll main back.
+      - name: Skip superseded commits
+        id: latest
+        run: |
+          head=$(git ls-remote origin refs/heads/main | cut -f1)
+          sha=$(git rev-parse HEAD)
+          echo "tag=${sha:0:12}" >> "$GITHUB_OUTPUT"
+          if [ "$GITHUB_EVENT_NAME" != workflow_dispatch ] && [ "$head" != "$sha" ]; then
+            echo "main is now $head; skipping $sha"; echo "skip=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: docker/setup-buildx-action@v3
+        if: steps.latest.outputs.skip != '1'
+
+      - name: Build images
+        if: steps.latest.outputs.skip != '1'
+        uses: docker/bake-action@v6
+        env:
+          TAG: ${{ steps.latest.outputs.tag }}
+        with:
+          source: .
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+
+      - name: Ship and deploy
+        if: steps.latest.outputs.skip != '1'
+        env:
+          TAG: ${{ steps.latest.outputs.tag }}
+          SSH_KEY: ${{ secrets.DEMO_DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ vars.DEMO_SSH_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          docker save "easemuse-web:$TAG" "easemuse-worker:$TAG" "easemuse-migrate:$TAG" | gzip -1 |
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes -o ServerAliveInterval=30 \
+              "easemuse-deploy@$DEMO_HOST" "deploy $TAG"
+
+      - name: Smoke test
+        if: steps.latest.outputs.skip != '1'
+        run: |
+          for path in / /api/auth/providers; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$DEMO_URL$path")
+            echo "$path -> $code"; [ "$code" = 200 ]
+          done

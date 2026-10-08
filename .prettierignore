@@ -11,3 +11,5 @@ init.docx
 .claude
 *.md
 next-env.d.ts
+# Managed by Interactor Build (ibuild sync); its YAML frontmatter files are not ours to reformat.
+.build

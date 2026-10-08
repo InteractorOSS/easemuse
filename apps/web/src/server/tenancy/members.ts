@@ -159,12 +159,14 @@ export async function listPendingInvites(actor: AgencyActor): Promise<PendingInv
 /**
  * Invites someone to the agency (FR-TEN-02): stores only the token hash, queues the email through
  * the outbox, and refuses duplicates (409 `invite_already_pending`, 409 `already_member`).
+ * `acceptUrl` is returned once for the inviter to pass on when email is not set up; the link
+ * still only works for the invited address.
  */
 export async function createInvite(
   actor: AgencyActor,
   agency: { slug: string; name: string },
   input: InviteMemberInput,
-): Promise<PendingInvite> {
+): Promise<PendingInvite & { acceptUrl: string }> {
   const email = input.email.toLowerCase();
   const [inviter, existingUser, agencyLocale] = await Promise.all([
     getPlatformUser(actor.userId),
@@ -257,7 +259,7 @@ export async function createInvite(
   }).catch((error) =>
     console.error('[messaging] could not queue invitation email', (error as Error).message),
   );
-  return invite;
+  return { ...invite, acceptUrl };
 }
 
 /** Revokes a pending invitation so its link stops working. Used or unknown invites are 404. */

@@ -22,7 +22,8 @@
     "predev": "pnpm --filter @easemuse/tokens run build",
     "prebuild": "pnpm --filter @easemuse/tokens run build",
     "admin:grant": "tsx scripts/grant-platform-role.ts",
-    "eval": "tsx evals/run.ts"
+    "eval": "tsx evals/run.ts",
+    "build:worker": "node scripts/build-worker.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",
@@ -44,6 +45,7 @@
     "docx": "^9.9.0",
     "ioredis": "^5.11.1",
     "jose": "^6.2.12",
+    "jszip": "3.10.2",
     "mammoth": "^1.13.0",
     "next": "16.3.8",
     "next-auth": "5.0.0-beta.32",
@@ -70,10 +72,10 @@
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^4.1.11",
     "axe-core": "^4.14.0",
+    "esbuild": "0.28.2",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.3.8",
     "jsdom": "^30.0.1",
-    "jszip": "^3.10.2",
     "prisma": "^7.8.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.1",

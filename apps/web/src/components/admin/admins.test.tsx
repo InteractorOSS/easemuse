@@ -119,13 +119,13 @@ describe('AdminsView', () => {
         role: 'admin',
       }),
     );
-    const dialog = await screen.findByRole('dialog', { name: 'Send this link' });
-    expect((within(dialog).getByLabelText('Send this link') as HTMLInputElement).value).toBe(
-      'https://app.test/admin-invite?token=abc123',
-    );
+    const dialog = await screen.findByRole('dialog', { name: 'Send this invitation link' });
+    expect(
+      (within(dialog).getByLabelText('Send this invitation link') as HTMLInputElement).value,
+    ).toBe('https://app.test/admin-invite?token=abc123');
     expect(
       within(dialog).getByText(
-        'Copy it now and send it to fresh@x.test. It is shown only once and works once.',
+        'Copy it now and send it to fresh@x.test. It works only for that address, once, and is shown only this time.',
       ),
     ).toBeTruthy();
   });

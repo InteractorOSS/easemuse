@@ -3,7 +3,7 @@
   "invite": "Invite member",
   "inviteForm": {
     "title": "Invite a member",
-    "description": "They receive an email with a link that works once.",
+    "description": "You get a link to send them. It works once, only for their address.",
     "email": "Email",
     "role": "Role",
     "submit": "Send invitation"
@@ -34,7 +34,7 @@
     "revoke": "Revoke",
     "revokeFor": "Revoke the invitation for {email}"
   },
-  "invited": "Invitation sent to {email}.",
+  "invited": "Invitation created for {email}.",
   "errors": {
     "lastAdmin": "An agency needs at least one active admin.",
     "alreadyPending": "This person already has a pending invitation.",

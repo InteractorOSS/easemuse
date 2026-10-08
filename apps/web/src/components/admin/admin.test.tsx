@@ -137,10 +137,11 @@ describe('AgenciesView', () => {
       expect(api.calls.some((c) => c.method === 'POST')).toBe(false);
     });
 
-    it('creates the agency, confirms and refreshes the list', async () => {
+    it('creates the agency, shows the invitation link and refreshes the list', async () => {
+      const acceptUrl = 'https://app.test/invite/new-agency?token=abc123';
       const api = stubApi({
         'GET /api/admin/v1/agencies': () => json({ data: [], nextCursor: null }),
-        'POST /api/admin/v1/agencies': () => json({ data: { id: 'x' } }, 201),
+        'POST /api/admin/v1/agencies': () => json({ data: { id: 'x', acceptUrl } }, 201),
       });
       vi.stubGlobal('fetch', api.impl);
       renderApp(<AgenciesView canWrite />);
@@ -148,8 +149,12 @@ describe('AgenciesView', () => {
       await fill(user);
       await user.click(screen.getByRole('button', { name: 'Create and invite' }));
       expect(
-        await screen.findByText('Agency created. Invitation sent to boss@new.test.'),
+        await screen.findByText('Agency created. Invitation created for boss@new.test.'),
       ).toBeTruthy();
+      const linkDialog = await screen.findByRole('dialog', { name: 'Send this invitation link' });
+      expect(
+        (within(linkDialog).getByLabelText('Send this invitation link') as HTMLInputElement).value,
+      ).toBe(acceptUrl);
       const post = api.calls.find((c) => c.method === 'POST')!;
       expect(post.body).toEqual({
         name: 'New Agency',
@@ -157,6 +162,7 @@ describe('AgenciesView', () => {
         adminEmail: 'boss@new.test',
         region: 'us',
       });
+      await user.click(within(linkDialog).getByRole('button', { name: 'Done' }));
       await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
       expect(api.calls.filter((c) => c.method === 'GET').length).toBeGreaterThan(1);
     });

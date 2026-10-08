@@ -1,4 +1,54 @@
 {
   "title": "EaseMuse",
-  "subtitle": "AI-assisted recruiter workbench"
+  "subtitle": "AI-assisted recruiter workbench",
+  "signIn": "Sign in with Interactor",
+  "signOut": "Sign out",
+  "noWorkspaceTitle": "You're not in a workspace yet",
+  "noWorkspaceBody": "EaseMuse workspaces are invitation-only. Ask an administrator at your agency to invite you, then open the link in the invitation email.",
+  "adminConsole": "Platform admin console",
+  "landing": {
+    "eyebrow": "For recruiting agencies",
+    "headline": "The recruiter does the recruiting. EaseMuse does the busywork.",
+    "lead": "One workbench for the whole search, from a client's brief to a signed offer. AI reads, organizes, compares and drafts when you ask, so you have more time for candidates and clients.",
+    "processTitle": "One process, end to end",
+    "steps": {
+      "intake": "Job intake",
+      "sourcing": "Sourcing",
+      "matching": "Matching",
+      "assessment": "Recruiter assessment",
+      "outreach": "Outreach",
+      "submission": "Client submission",
+      "interview": "Interviews",
+      "hiring": "Hiring"
+    },
+    "principlesTitle": "How the AI behaves",
+    "principles": {
+      "decide": {
+        "title": "You decide",
+        "body": "Who to source, shortlist, contact and submit is always the recruiter's call."
+      },
+      "onRequest": {
+        "title": "Only when asked",
+        "body": "AI never searches, sends messages or rejects candidates on its own."
+      },
+      "drafts": {
+        "title": "Drafts until approved",
+        "body": "JD structure, match analysis, outreach and reports stay drafts until you edit and approve them."
+      },
+      "score": {
+        "title": "Scores are a guide",
+        "body": "A match score sets your review order. It never screens anyone out."
+      }
+    },
+    "portalNote": "Hiring managers and candidates: use the invitation link your recruiter sent you.",
+    "adminLink": "Platform administrators"
+  },
+  "workspaces": {
+    "greeting": "Welcome back",
+    "greetingName": "Welcome back, {name}",
+    "lead": "Choose where to work.",
+    "adminBody": "Agencies, platform admins, usage and audit log",
+    "wrongAccount": "You're signed in as {email}. If your invitation went to a different address, sign in with that account.",
+    "switchAccount": "Use a different account"
+  }
 }

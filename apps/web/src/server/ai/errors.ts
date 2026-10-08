@@ -30,6 +30,8 @@ export class AiProviderError extends AiCallError {
     super(message);
   }
 }
+/** The web search step cannot run: the tool is not switched on for this API key, or it is off here. */
+export class AiWebSearchUnavailableError extends AiCallError {}
 /** The recruiter cancelled the request (FR-AI-07). */
 export class AiCancelledError extends AiCallError {}
 
@@ -47,6 +49,13 @@ export function toApiError(error: unknown): ApiError {
     return new ApiError('ai_failed', "The assistant's answer was incomplete. Try again.", {
       status: 502,
     });
+  }
+  if (error instanceof AiWebSearchUnavailableError) {
+    return new ApiError(
+      'web_search_unavailable',
+      'Web search is not available. An owner has to switch it on for the Anthropic account.',
+      { status: 503 },
+    );
   }
   if (error instanceof AiCancelledError)
     return new ApiError('ai_cancelled', 'The request was cancelled.', { status: 499 });

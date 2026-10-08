@@ -30,10 +30,12 @@ Read this first, then `docs/planning/tasks.md` (the task list and its progress n
 ## Tools you can use
 
 - `pnpm eval -- --suite <name> --limit N --max-cost USD` runs the prompts against `eval-data/` with the real model (needs credit on the Anthropic key; see `apps/web/evals/README.md`). Results so far: A7 90% fully correct on 20 resumes with no invented numbers, A10 levels 82% exact and 99% within one step with correct ranking, bias spread at most 4 points. A1 and stability are not run yet.
-- The Anthropic key can be entered by a platform owner in `/admin/settings` (stored encrypted); `ANTHROPIC_API_KEY` is only a fallback.
+- The Anthropic key and the Voyage key can be entered by a platform owner in `/admin/settings` (stored encrypted); `ANTHROPIC_API_KEY` and `VOYAGE_API_KEY` are only fallbacks. The benchmark's web search is off unless `WEB_SEARCH=on`. `pnpm eval -- --suite pool-similar` and `--suite benchmark` exist but have not been run (no credit on the Anthropic key, no Voyage key).
 - Real-browser check of the print pages: see the header of `src/server/documents/render/live-render.db.test.ts`.
 - `DATABASE_URL_DATARIGHTS` must be set on the worker for candidate deletion.
 
 ## Known gaps
 
-SMTP and a real mail provider; Playwright end to end; Korean translations (skeleton only); agency logo editing and drawing; every drafting prompt except A7 and A10 has only been tested against fakes (no labelled data for them, they need a recruiter's review).
+Pool intelligence and the benchmark (session D) are built and tested against fakes; no live Voyage or web search call has been made.
+
+SMTP and a real mail provider; Playwright end to end; Korean translations (skeleton only); the Billing Server client has not run against the real server (no credentials, see `docs/planning/billing.md`); the legal documents in `docs/legal/` are drafts nobody has reviewed and the penetration test is not done; every drafting prompt except A7 and A10 has only been tested against fakes (no labelled data for them, they need a recruiter's review).

@@ -22,6 +22,7 @@ export const NAMESPACES = [
   'candidates',
   'pipeline',
   'portal',
+  'intelligence',
 ] as const;
 
 /** Overlays `override` on `base`: a key missing from the override keeps the base (English) text. */

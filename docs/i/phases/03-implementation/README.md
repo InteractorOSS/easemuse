@@ -21,6 +21,7 @@ Varies based on project scope and sprint length.
 ## Prerequisites
 
 Before starting implementation:
+
 - [ ] Architecture design approved
 - [ ] Development environment set up
 - [ ] Tasks created and prioritized
@@ -136,12 +137,14 @@ Before starting implementation:
 ## Checklist
 
 ### Task Start
+
 - [ ] Task requirements understood
 - [ ] Acceptance criteria clear
 - [ ] Feature branch created
 - [ ] Dependencies identified
 
 ### During Development
+
 - [ ] Code follows style guide
 - [ ] Tests written and passing
 - [ ] No hardcoded values
@@ -149,6 +152,7 @@ Before starting implementation:
 - [ ] Security considerations addressed
 
 ### Before PR
+
 - [ ] Self-review completed
 - [ ] All tests passing
 - [ ] No lint errors
@@ -156,6 +160,7 @@ Before starting implementation:
 - [ ] Commit history clean
 
 ### After PR
+
 - [ ] Review feedback addressed
 - [ ] CI checks passing
 - [ ] Approved by reviewer
@@ -201,6 +206,7 @@ Consider: network errors, validation, timeout"
 ### Best Practices with AI
 
 **DO:**
+
 - Provide context before asking for code
 - Review generated code carefully
 - Ask for explanations when unclear
@@ -208,6 +214,7 @@ Consider: network errors, validation, timeout"
 - Break complex tasks into smaller requests
 
 **DON'T:**
+
 - Accept code without understanding it
 - Skip testing generated code
 - Ignore security implications
@@ -219,6 +226,7 @@ Consider: network errors, validation, timeout"
 ## Common Patterns
 
 ### Error Handling
+
 ```javascript
 try {
   const result = await riskyOperation();
@@ -230,6 +238,7 @@ try {
 ```
 
 ### Input Validation
+
 ```javascript
 function createUser(input: CreateUserInput): User {
   const validated = CreateUserSchema.parse(input);
@@ -238,6 +247,7 @@ function createUser(input: CreateUserInput): User {
 ```
 
 ### Async Operations
+
 ```javascript
 async function fetchWithRetry(url: string, retries = 3): Promise<Response> {
   for (let i = 0; i < retries; i++) {

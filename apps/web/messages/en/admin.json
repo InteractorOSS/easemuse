@@ -246,9 +246,7 @@
   },
   "settings": {
     "title": "Settings",
-    "intro": "Platform-wide settings. Only an owner can change them.",
-    "anthropic": "Anthropic API key",
-    "none": "No key is set. The AI features cannot run until one is added.",
+    "intro": "Platform-wide settings. Only an owner can change them. A key entered here is stored encrypted and wins over the server environment.",
     "inUse": "A key is in use ({source}), ending in {last4}.",
     "updatedAt": "Changed {date}.",
     "sources": {
@@ -258,7 +256,6 @@
     },
     "unreadable": "A key is stored but cannot be read (the server's encryption key changed). Enter it again.",
     "apiKey": "New API key",
-    "apiKeyHint": "Starts with sk-ant-. It is stored encrypted and never shown again.",
     "save": "Save key",
     "saved": "Key saved",
     "remove": "Remove the stored key",
@@ -266,12 +263,31 @@
     "test": "Test the key",
     "ownerOnly": "Only an owner can change the key.",
     "error": "Could not do that. Try again.",
-    "check": {
-      "ok": "The key works and has credit.",
-      "no_key": "No key is set.",
-      "invalid_key": "Anthropic did not accept this key.",
-      "no_credit": "The key is valid but the account has no credit left.",
-      "unreachable": "Could not reach Anthropic. Try again."
+    "anthropic": {
+      "heading": "Anthropic API key",
+      "purpose": "Used by every AI draft and by the benchmark’s web search.",
+      "none": "No key is set. The AI features cannot run until one is added.",
+      "apiKeyHint": "Starts with sk-ant-. It is stored encrypted and never shown again.",
+      "check": {
+        "ok": "The key works and has credit.",
+        "no_key": "No key is set.",
+        "invalid_key": "Anthropic did not accept this key.",
+        "no_credit": "The key is valid but the account has no credit left.",
+        "unreachable": "Could not reach Anthropic. Try again."
+      }
+    },
+    "voyage": {
+      "heading": "Voyage AI API key",
+      "purpose": "Used to index approved profiles for “Find in my pool”. Candidate names and contact details are never sent.",
+      "none": "No key is set. Pool search falls back to keywords and profiles are not indexed.",
+      "apiKeyHint": "Starts with pa-. It is stored encrypted and never shown again.",
+      "check": {
+        "ok": "The key works.",
+        "no_key": "No key is set.",
+        "invalid_key": "Voyage AI did not accept this key.",
+        "no_credit": "The key is valid but the account has no credit left.",
+        "unreachable": "Could not reach Voyage AI. Try again."
+      }
     }
   },
   "deletions": {

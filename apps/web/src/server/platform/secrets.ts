@@ -8,7 +8,7 @@ import { ApiError, forbidden } from '@/lib/http/errors';
 import { recordPlatformAudit } from './audit';
 
 /** Names of the secrets an owner can store. */
-export const SECRET_NAMES = ['anthropic_api_key'] as const;
+export const SECRET_NAMES = ['anthropic_api_key', 'voyage_api_key'] as const;
 export type SecretName = (typeof SECRET_NAMES)[number];
 
 const VERSION = 'v1';
@@ -88,13 +88,43 @@ export interface SecretStatus {
   unreadable: boolean;
 }
 
+/** A Voyage key looks like `pa-...`; anything else is refused before it is stored. */
+export function validateVoyageKey(value: string): string {
+  const key = value.trim();
+  if (!/^pa-[\w-]{20,}$/.test(key)) {
+    throw new ApiError(
+      'invalid_input',
+      'That does not look like a Voyage API key (it starts with pa-)',
+      { status: 422, fields: { apiKey: 'Not a Voyage API key' } },
+    );
+  }
+  return key;
+}
+
+interface KeyKind {
+  name: SecretName;
+  validate(value: string): string;
+  fromEnvironment(): string | undefined;
+}
+
+const ANTHROPIC: KeyKind = {
+  name: 'anthropic_api_key',
+  validate: validateAnthropicKey,
+  fromEnvironment: () => getEnv().ANTHROPIC_API_KEY,
+};
+const VOYAGE: KeyKind = {
+  name: 'voyage_api_key',
+  validate: validateVoyageKey,
+  fromEnvironment: () => getEnv().VOYAGE_API_KEY,
+};
+
 function assertOwner(actor: PlatformAdminActor): void {
   if (actor.role !== 'owner') throw forbidden('Only a platform owner can change secrets');
 }
 
-export async function getAnthropicKeyStatus(actor: PlatformAdminActor): Promise<SecretStatus> {
+async function keyStatus(actor: PlatformAdminActor, kind: KeyKind): Promise<SecretStatus> {
   const row = await withUser(actor.userId, (tx) =>
-    tx.platformSecret.findUnique({ where: { name: 'anthropic_api_key' } }),
+    tx.platformSecret.findUnique({ where: { name: kind.name } }),
   );
   if (row) {
     const readable = decryptSecret(row.ciphertext, material()) !== null;
@@ -106,7 +136,7 @@ export async function getAnthropicKeyStatus(actor: PlatformAdminActor): Promise<
       unreadable: !readable,
     };
   }
-  const env = getEnv().ANTHROPIC_API_KEY;
+  const env = kind.fromEnvironment();
   return env
     ? {
         configured: true,
@@ -118,12 +148,13 @@ export async function getAnthropicKeyStatus(actor: PlatformAdminActor): Promise<
     : { configured: false, source: 'none', last4: null, updatedAt: null, unreadable: false };
 }
 
-export async function setAnthropicKey(
+async function setKey(
   actor: PlatformAdminActor,
+  kind: KeyKind,
   value: string,
 ): Promise<SecretStatus> {
   assertOwner(actor);
-  const key = validateAnthropicKey(value);
+  const key = kind.validate(value);
   await withUser(actor.userId, async (tx) => {
     const data = {
       ciphertext: encryptSecret(key, material()),
@@ -131,8 +162,8 @@ export async function setAnthropicKey(
       updatedById: actor.userId,
     };
     await tx.platformSecret.upsert({
-      where: { name: 'anthropic_api_key' },
-      create: { name: 'anthropic_api_key', ...data },
+      where: { name: kind.name },
+      create: { name: kind.name, ...data },
       update: data,
     });
     // The audit entry says the key changed, never what it is.
@@ -140,33 +171,59 @@ export async function setAnthropicKey(
       adminId: actor.userId,
       action: 'config.update',
       targetType: 'secret',
-      data: { name: 'anthropic_api_key', change: 'set' },
+      data: { name: kind.name, change: 'set' },
     });
   });
-  clearAnthropicKeyCache();
-  return getAnthropicKeyStatus(actor);
+  clearKeyCache(kind.name);
+  return keyStatus(actor, kind);
 }
 
-export async function clearAnthropicKey(actor: PlatformAdminActor): Promise<SecretStatus> {
+async function clearKey(actor: PlatformAdminActor, kind: KeyKind): Promise<SecretStatus> {
   assertOwner(actor);
   await withUser(actor.userId, async (tx) => {
-    await tx.platformSecret.deleteMany({ where: { name: 'anthropic_api_key' } });
+    await tx.platformSecret.deleteMany({ where: { name: kind.name } });
     await recordPlatformAudit(tx, {
       adminId: actor.userId,
       action: 'config.update',
       targetType: 'secret',
-      data: { name: 'anthropic_api_key', change: 'cleared' },
+      data: { name: kind.name, change: 'cleared' },
     });
   });
-  clearAnthropicKeyCache();
-  return getAnthropicKeyStatus(actor);
+  clearKeyCache(kind.name);
+  return keyStatus(actor, kind);
 }
 
-let cached: { value: string | undefined; at: number } | null = null;
+export const getAnthropicKeyStatus = (actor: PlatformAdminActor) => keyStatus(actor, ANTHROPIC);
+export const setAnthropicKey = (actor: PlatformAdminActor, value: string) =>
+  setKey(actor, ANTHROPIC, value);
+export const clearAnthropicKey = (actor: PlatformAdminActor) => clearKey(actor, ANTHROPIC);
+export const getVoyageKeyStatus = (actor: PlatformAdminActor) => keyStatus(actor, VOYAGE);
+export const setVoyageKey = (actor: PlatformAdminActor, value: string) =>
+  setKey(actor, VOYAGE, value);
+export const clearVoyageKey = (actor: PlatformAdminActor) => clearKey(actor, VOYAGE);
+
+const cache = new Map<SecretName, { value: string | undefined; at: number }>();
 const CACHE_MS = 30_000;
 
-export function clearAnthropicKeyCache(): void {
-  cached = null;
+function clearKeyCache(name: SecretName): void {
+  cache.delete(name);
+}
+export const clearAnthropicKeyCache = (): void => clearKeyCache('anthropic_api_key');
+export const clearVoyageKeyCache = (): void => clearKeyCache('voyage_api_key');
+
+async function resolveKey(kind: KeyKind, now: number): Promise<string | undefined> {
+  const hit = cache.get(kind.name);
+  if (hit && now - hit.at < CACHE_MS) return hit.value;
+  let value: string | undefined;
+  try {
+    const row = await getPlatformSecretRow(kind.name);
+    value = row ? (decryptSecret(row.ciphertext, material()) ?? undefined) : undefined;
+  } catch {
+    value = undefined; // the database is not reachable (a script, a test): fall back to the environment
+  }
+  value ??= kind.fromEnvironment();
+  cache.set(kind.name, { value, at: now });
+  return value;
 }
 
 /**
@@ -174,16 +231,7 @@ export function clearAnthropicKeyCache(): void {
  * Cached for 30 seconds, and dropped at once when the key is changed in this process. Other
  * processes (the worker) pick a change up within the cache time.
  */
-export async function resolveAnthropicKey(now: number = Date.now()): Promise<string | undefined> {
-  if (cached && now - cached.at < CACHE_MS) return cached.value;
-  let value: string | undefined;
-  try {
-    const row = await getPlatformSecretRow('anthropic_api_key');
-    value = row ? (decryptSecret(row.ciphertext, material()) ?? undefined) : undefined;
-  } catch {
-    value = undefined; // the database is not reachable (a script, a test): fall back to the environment
-  }
-  value ??= getEnv().ANTHROPIC_API_KEY;
-  cached = { value, at: now };
-  return value;
-}
+export const resolveAnthropicKey = (now: number = Date.now()) => resolveKey(ANTHROPIC, now);
+
+/** The Voyage key for embeddings: the admin area first, else `VOYAGE_API_KEY` (same rules as above). */
+export const resolveVoyageKey = (now: number = Date.now()) => resolveKey(VOYAGE, now);

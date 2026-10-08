@@ -39,6 +39,7 @@ So that [benefit].
 Using Given-When-Then format:
 
 **Scenario 1: [Happy path]**
+
 ```
 Given [precondition]
 When [action]
@@ -46,6 +47,7 @@ Then [expected result]
 ```
 
 **Scenario 2: [Alternative path]**
+
 ```
 Given [precondition]
 When [action]
@@ -53,6 +55,7 @@ Then [expected result]
 ```
 
 **Scenario 3: [Error case]**
+
 ```
 Given [precondition]
 When [action]
@@ -118,6 +121,7 @@ So that I can access my personalized dashboard.
 #### Acceptance Criteria
 
 **Scenario 1: Successful login**
+
 ```
 Given I am on the login page
 And I have a registered account
@@ -128,6 +132,7 @@ And I see a welcome message with my name
 ```
 
 **Scenario 2: Invalid credentials**
+
 ```
 Given I am on the login page
 When I enter invalid email or password
@@ -138,6 +143,7 @@ And the password field is cleared
 ```
 
 **Scenario 3: Account locked**
+
 ```
 Given I have failed login 5 times
 When I attempt to log in again
@@ -182,6 +188,7 @@ So that I can quickly find items I want to purchase.
 #### Acceptance Criteria
 
 **Scenario 1: Search by keyword**
+
 ```
 Given I am on any page with the search bar
 When I enter "wireless headphones" in the search field
@@ -192,6 +199,7 @@ And I see the total number of results
 ```
 
 **Scenario 2: No results**
+
 ```
 Given I am on any page with the search bar
 When I search for "xyznonexistent123"
@@ -200,6 +208,7 @@ And I see suggested search terms
 ```
 
 **Scenario 3: Search suggestions**
+
 ```
 Given I am typing in the search field
 When I have typed at least 2 characters
@@ -267,9 +276,9 @@ And suggestions update as I type
 
 ## Backlog Template
 
-| ID | Title | Epic | Priority | Points | Status |
-|----|-------|------|----------|--------|--------|
-| US-001 | User Login | Auth | Must Have | 3 | Ready |
-| US-002 | Product Search | Discovery | Must Have | 5 | Ready |
-| US-003 | Filter Results | Discovery | Should Have | 3 | Backlog |
-| US-004 | User Registration | Auth | Must Have | 5 | In Progress |
+| ID     | Title             | Epic      | Priority    | Points | Status      |
+| ------ | ----------------- | --------- | ----------- | ------ | ----------- |
+| US-001 | User Login        | Auth      | Must Have   | 3      | Ready       |
+| US-002 | Product Search    | Discovery | Must Have   | 5      | Ready       |
+| US-003 | Filter Results    | Discovery | Should Have | 3      | Backlog     |
+| US-004 | User Registration | Auth      | Must Have   | 5      | In Progress |

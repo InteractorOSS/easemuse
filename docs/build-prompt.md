@@ -9,6 +9,7 @@ Paste everything below the line into Claude Code, opened in this folder.
 Build **easemuse**, the AI-Assisted Recruiter Workbench, owned and maintained by **Team of Wakers**. Use the same stack, database setup and Interactor platform integrations as Interactor's product-manager app (`InteractorOSS/product-manager`), except where this prompt says otherwise.
 
 **What to build** comes from, in order of authority:
+
 1. `./init.docx`, the product brief (Korean; read it with `pandoc init.docx -t gfm --wrap=none`). This is the source of truth (see `CLAUDE.md`, "Source of Truth").
 2. The product-owner decisions in `docs/discovery/open-questions.md` (decisions log and change record). These override the brief: multi-tenant SaaS for recruiting agencies; hiring manager and candidate portals; in-app email; `/admin` for platform administrators; U.S. first.
 3. `docs/discovery/` (requirements, user stories) and `docs/planning/` (architecture, schema draft, API contracts, ADRs, tasks, risks).
@@ -16,6 +17,7 @@ Build **easemuse**, the AI-Assisted Recruiter Workbench, owned and maintained by
 **How to build it** is fixed by this prompt and the ADRs. `CLAUDE.md` already lists this stack: no Express, no npm, no Passport. Do not include an enterprise-edition (`ee/`) layer.
 
 **Non-negotiable product rules** (brief §1.1):
+
 - The recruiter makes every decision.
 - AI runs only when a user asks.
 - Every AI output is a draft until a recruiter approves it.
@@ -49,13 +51,13 @@ There is no `apps/native` in releases 1–3 (ADR-017). Keep `packages/core` free
 - **Framework:** Next.js 16 with the App Router and React 19.2.
 - **Route groups** under `src/app` (architecture §4):
 
-  | Group | URL | Who |
-  |---|---|---|
-  | `(public)`, `(auth)` | `/`, `/sign-in`, magic-link landing, unsubscribe | Anyone |
-  | `(workbench)` | `/a/[agencySlug]/…` | Recruiters, leads, agency admins (agency settings live here, not under `/admin`) |
-  | `(portal-hm)` | `/h/[agencySlug]/…` | Hiring managers (release 2) |
-  | `(portal-candidate)` | `/c/[agencySlug]/…` | Candidates (release 2) |
-  | `(admin)` | `/admin/…` | Team of Wakers platform administrators |
+  | Group                | URL                                              | Who                                                                              |
+  | -------------------- | ------------------------------------------------ | -------------------------------------------------------------------------------- |
+  | `(public)`, `(auth)` | `/`, `/sign-in`, magic-link landing, unsubscribe | Anyone                                                                           |
+  | `(workbench)`        | `/a/[agencySlug]/…`                              | Recruiters, leads, agency admins (agency settings live here, not under `/admin`) |
+  | `(portal-hm)`        | `/h/[agencySlug]/…`                              | Hiring managers (release 2)                                                      |
+  | `(portal-candidate)` | `/c/[agencySlug]/…`                              | Candidates (release 2)                                                           |
+  | `(admin)`            | `/admin/…`                                       | Team of Wakers platform administrators                                           |
 
 - **API:**
   - Agency users: `src/app/api/v1/agencies/[agencyId]/…`. `agencyId` accepts the id or slug; non-members get 404.
@@ -191,6 +193,7 @@ All Interactor code lives under `apps/web/src/lib/interactor/`, with a `README.m
 describes each service (ADR-014).
 
 **Shared rules:**
+
 - `service-urls.ts` declares every base URL once. Nothing else hard-codes a host.
 - `egress-probe.ts` checks that each host is reachable, so a health endpoint can report it.
 - Every call sends `Authorization: Bearer <JWT>`.
@@ -199,17 +202,17 @@ describes each service (ADR-014).
 - The **agency** (tenant) comes from the user's local `Membership`, checked per request. It never comes from a request body or from the token's `org` claim, which identifies the Interactor org of the app, not a customer agency.
 - Local dev hits the services on ports 4001–4007 (or the staging hosts).
 
-| Service | Prod host | Use in easemuse | When | Env vars | Client file |
-|---|---|---|---|---|---|
-| Account Server (auth), **required** | `auth.interactor.com` (dev :4001) | Sign-in for agency users and platform admins (OIDC SSO, optional email/password), JWKS, service tokens | Release 1 | `ACCOUNT_SERVER_URL`, `INTERACTOR_OAUTH_ISSUER`, `INTERACTOR_AUTH_CLIENT_ID`, `INTERACTOR_AUTH_CLIENT_SECRET`, `INTERACTOR_CLIENT_ID`, `INTERACTOR_EXPECTED_APP_NAME`, `INTERACTOR_EXPECTED_AUDIENCE`, `INTERACTOR_AUDIENCE_CHECK`, `AUTH_SECRET`, `NEXTAUTH_URL`, `AUTH_ALLOW_PASSWORD_LOGIN` | `interactor/auth/{sso-provider,service-token,jwks,audience,auth-client-guard}.ts` |
-| Billing Server | `billing.interactor.com` | Plans, seats, usage metering, subscription webhooks. No Stripe. Release 1 keeps only the local `LlmCall` ledger and budget gate | Release 2 | `BILLING_SERVER_URL`, `BILLING_WEBHOOK_SECRET`, `BILLING_REPORTING_DISABLED` | `interactor/billing/client.ts`, `lib/billing/*`, `app/api/webhooks/billing-subscription/route.ts` |
-| Core: credentials | `core.interactor.com` | OAuth vault for agency mailboxes (Gmail / Microsoft 365) used to send outreach and sync replies. easemuse stores only the `credentialId` | Release 2 | `INTERACTOR_CORE_URL` | `lib/integrations/interactor-client.ts` |
-| Core: SKB | core proxy `/api/v1/service-knowledge-base/*` | Discover the mailbox/calendar integrations available for credentials | Release 2–3 | `INTERACTOR_CORE_URL` | `interactor/skb/client.ts` |
-| Core: webhooks | inbound to easemuse | `credential.expired` / `credential.revoked` and mail events at `app/api/webhooks/interactor/route.ts`. Verify the HMAC signature and dedupe through `WebhookEvent` | Release 2 | `INTERACTOR_WEBHOOK_SECRET`, `INTERACTOR_ORG_CALLBACK_SECRET` | `interactor/webhooks/hmac.ts` |
-| Core: agents | — | **Not used** (ADR-004); maybe later for a conversational assistant over client history | — | — | — |
-| Core: workflows | — | **Not used**; multi-step AI runs as app jobs (ADR-004) | — | — | — |
-| UKB | — | **Not used** in releases 1–2; evaluate in release 3 only with per-agency scoping guaranteed | — | — | — |
-| userdb | — | **Not used** (product-owner decision Q-34); files stay in our Postgres | — | — | — |
+| Service                             | Prod host                                     | Use in easemuse                                                                                                                                                    | When        | Env vars                                                                                                                                                                                                                                                                                       | Client file                                                                                       |
+| ----------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Account Server (auth), **required** | `auth.interactor.com` (dev :4001)             | Sign-in for agency users and platform admins (OIDC SSO, optional email/password), JWKS, service tokens                                                             | Release 1   | `ACCOUNT_SERVER_URL`, `INTERACTOR_OAUTH_ISSUER`, `INTERACTOR_AUTH_CLIENT_ID`, `INTERACTOR_AUTH_CLIENT_SECRET`, `INTERACTOR_CLIENT_ID`, `INTERACTOR_EXPECTED_APP_NAME`, `INTERACTOR_EXPECTED_AUDIENCE`, `INTERACTOR_AUDIENCE_CHECK`, `AUTH_SECRET`, `NEXTAUTH_URL`, `AUTH_ALLOW_PASSWORD_LOGIN` | `interactor/auth/{sso-provider,service-token,jwks,audience,auth-client-guard}.ts`                 |
+| Billing Server                      | `billing.interactor.com`                      | Plans, seats, usage metering, subscription webhooks. No Stripe. Release 1 keeps only the local `LlmCall` ledger and budget gate                                    | Release 2   | `BILLING_SERVER_URL`, `BILLING_WEBHOOK_SECRET`, `BILLING_REPORTING_DISABLED`                                                                                                                                                                                                                   | `interactor/billing/client.ts`, `lib/billing/*`, `app/api/webhooks/billing-subscription/route.ts` |
+| Core: credentials                   | `core.interactor.com`                         | OAuth vault for agency mailboxes (Gmail / Microsoft 365) used to send outreach and sync replies. easemuse stores only the `credentialId`                           | Release 2   | `INTERACTOR_CORE_URL`                                                                                                                                                                                                                                                                          | `lib/integrations/interactor-client.ts`                                                           |
+| Core: SKB                           | core proxy `/api/v1/service-knowledge-base/*` | Discover the mailbox/calendar integrations available for credentials                                                                                               | Release 2–3 | `INTERACTOR_CORE_URL`                                                                                                                                                                                                                                                                          | `interactor/skb/client.ts`                                                                        |
+| Core: webhooks                      | inbound to easemuse                           | `credential.expired` / `credential.revoked` and mail events at `app/api/webhooks/interactor/route.ts`. Verify the HMAC signature and dedupe through `WebhookEvent` | Release 2   | `INTERACTOR_WEBHOOK_SECRET`, `INTERACTOR_ORG_CALLBACK_SECRET`                                                                                                                                                                                                                                  | `interactor/webhooks/hmac.ts`                                                                     |
+| Core: agents                        | —                                             | **Not used** (ADR-004); maybe later for a conversational assistant over client history                                                                             | —           | —                                                                                                                                                                                                                                                                                              | —                                                                                                 |
+| Core: workflows                     | —                                             | **Not used**; multi-step AI runs as app jobs (ADR-004)                                                                                                             | —           | —                                                                                                                                                                                                                                                                                              | —                                                                                                 |
+| UKB                                 | —                                             | **Not used** in releases 1–2; evaluate in release 3 only with per-agency scoping guaranteed                                                                        | —           | —                                                                                                                                                                                                                                                                                              | —                                                                                                 |
+| userdb                              | —                                             | **Not used** (product-owner decision Q-34); files stay in our Postgres                                                                                             | —           | —                                                                                                                                                                                                                                                                                              | —                                                                                                 |
 
 There is no Interactor npm SDK: every service above is called over REST with `fetch`.
 
@@ -269,6 +272,7 @@ No mobile app in releases 1–3 (ADR-017). If added later: Expo SDK 56, React Na
   - 5 bias pairs
 
   Re-run the eval before any prompt or model change (NFR-AI05).
+
 - **Guards:**
   - RLS on every agency table
   - route classification
@@ -295,7 +299,7 @@ No mobile app in releases 1–3 (ADR-017). If added later: Expo SDK 56, React Na
 The planning documents leave infrastructure out of scope; this section follows product-manager.
 
 - **Dockerfile:** multi-stage on `node:24-slim`, with stages `deps → builder → migrate →
-  runner`. `docker-bake.hcl` has the targets `web` and `migrate`. The worker image needs
+runner`. `docker-bake.hcl` has the targets `web` and `migrate`. The worker image needs
   Chromium for PDF rendering.
 - **Kubernetes:** Oracle OKE with a Helm chart at `ops/oke/helm/easemuse`. The chart includes:
   - web and worker Deployments, with an HPA and PDB
@@ -330,6 +334,7 @@ Discovery and planning are complete (`docs/discovery/`, `docs/planning/`, all AD
    - HTTP helpers (T-F-14)
 
    The RLS + pooled-connection spike (T-F-07) decides whether ADR-001 works as written. Report its result before building on it.
+
 3. Build features one vertical slice at a time: schema, API, core hooks, UI, tests, isolation test, and eval cases for any AI purpose.
 4. After each step run `pnpm lint`, `pnpm typecheck` and `pnpm test`. Do not move on until
    they pass.

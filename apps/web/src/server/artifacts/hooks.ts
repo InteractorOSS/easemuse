@@ -15,6 +15,7 @@ import {
 } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 import { ApiError } from '@/lib/http/errors';
+import { isEmbeddedKind, scheduleEmbeddingAfterApproval } from '@/server/embeddings/trigger';
 
 export interface ApprovalContext {
   agencyId: string;
@@ -174,4 +175,12 @@ export function registerApprovalHook(kind: ArtifactKind, hook: Hook): void {
 export async function runApprovalHooks(tx: ScopedTx, context: ApprovalContext): Promise<void> {
   await BUILT_IN[context.kind]?.(tx, context);
   for (const hook of extra.get(context.kind) ?? []) await hook(tx, context);
+  // Indexing for pool search (ADR-008). The job retries until this transaction has committed.
+  if (isEmbeddedKind(context.kind)) {
+    await scheduleEmbeddingAfterApproval(context.agencyId, {
+      kind: context.kind,
+      subjectId: context.subject.id,
+      versionId: context.versionId,
+    });
+  }
 }

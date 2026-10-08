@@ -17,6 +17,8 @@ export const DAILY_JOBS: readonly DailyJob[] = [
   { queue: 'maintenance', name: 'artifacts.orphan_report', hourUtc: 3 },
   // Usage out to Billing Server, plan state back (ADR-013). Does nothing while billing is not connected.
   { queue: 'maintenance', name: 'billing.report', hourUtc: 4 },
+  // Indexes approved profiles that have no vector yet (ADR-008).
+  { queue: 'maintenance', name: 'embeddings.catch_up', hourUtc: 4 },
 ];
 
 const dayKey = (now: Date) => now.toISOString().slice(0, 10);

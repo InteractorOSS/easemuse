@@ -50,3 +50,6 @@ export * from './schemas/support';
 export * from './schemas/tenant';
 export * from './schemas/platform-config';
 export * from './schemas/billing';
+export * from './artifacts/pool-intelligence';
+export * from './artifacts/benchmark';
+export * from './candidates/embedding-text';

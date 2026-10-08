@@ -15,7 +15,7 @@ Use this template when requirements, design, or scope changes after initial plan
 
 ## Summary
 
-*One sentence describing the change*
+_One sentence describing the change_
 
 ```
 [Brief description of what needs to change]
@@ -25,7 +25,7 @@ Use this template when requirements, design, or scope changes after initial plan
 
 ## Current State
 
-*What exists today*
+_What exists today_
 
 ```
 [Describe current implementation/design/requirement]
@@ -35,7 +35,7 @@ Use this template when requirements, design, or scope changes after initial plan
 
 ## Proposed Change
 
-*What should change*
+_What should change_
 
 ```
 [Describe the desired end state]
@@ -45,7 +45,7 @@ Use this template when requirements, design, or scope changes after initial plan
 
 ## Reason for Change
 
-*Why is this change needed?*
+_Why is this change needed?_
 
 - [ ] New requirement from stakeholder
 - [ ] Bug/defect discovered
@@ -57,6 +57,7 @@ Use this template when requirements, design, or scope changes after initial plan
 - [ ] Other: [specify]
 
 **Details**:
+
 ```
 [Explain the driver behind this change]
 ```
@@ -67,16 +68,16 @@ Use this template when requirements, design, or scope changes after initial plan
 
 ### Scope Impact
 
-| Area | Affected? | Details |
-|------|-----------|---------|
-| Requirements | [ ] Yes / [ ] No | |
-| Architecture | [ ] Yes / [ ] No | |
-| Database schema | [ ] Yes / [ ] No | |
-| API contracts | [ ] Yes / [ ] No | |
-| UI/UX | [ ] Yes / [ ] No | |
-| Tests | [ ] Yes / [ ] No | |
-| Documentation | [ ] Yes / [ ] No | |
-| Deployment | [ ] Yes / [ ] No | |
+| Area            | Affected?        | Details |
+| --------------- | ---------------- | ------- |
+| Requirements    | [ ] Yes / [ ] No |         |
+| Architecture    | [ ] Yes / [ ] No |         |
+| Database schema | [ ] Yes / [ ] No |         |
+| API contracts   | [ ] Yes / [ ] No |         |
+| UI/UX           | [ ] Yes / [ ] No |         |
+| Tests           | [ ] Yes / [ ] No |         |
+| Documentation   | [ ] Yes / [ ] No |         |
+| Deployment      | [ ] Yes / [ ] No |         |
 
 ### Files/Components Affected
 
@@ -175,7 +176,7 @@ mix credo --strict
 
 ## Rollback Plan
 
-*If this change causes issues, how do we revert?*
+_If this change causes issues, how do we revert?_
 
 ```
 [Describe rollback steps]
@@ -185,26 +186,26 @@ mix credo --strict
 
 ## Approval
 
-| Role | Name | Approved | Date |
-|------|------|----------|------|
-| Tech Lead | | [ ] | |
-| Product Owner | | [ ] | |
-| QA Lead | | [ ] | |
+| Role          | Name | Approved | Date |
+| ------------- | ---- | -------- | ---- |
+| Tech Lead     |      | [ ]      |      |
+| Product Owner |      | [ ]      |      |
+| QA Lead       |      | [ ]      |      |
 
 ---
 
 ## Change Log
 
-| Date | Author | Change |
-|------|--------|--------|
-| | | Initial request |
-| | | |
+| Date | Author | Change          |
+| ---- | ------ | --------------- |
+|      |        | Initial request |
+|      |        |                 |
 
 ---
 
 ## Post-Implementation Review
 
-*Fill out after the change is complete*
+_Fill out after the change is complete_
 
 ### What Went Well
 
@@ -220,7 +221,7 @@ mix credo --strict
 
 ### Template Feedback
 
-*Did this template help? What was missing?*
+_Did this template help? What was missing?_
 
 ```
 [Feedback for improving the change request template]

@@ -4,35 +4,35 @@
 
 ## 1. Scope
 
-| In scope | Out of scope |
-|----------|--------------|
+| In scope                                                                                                                                                                                                                                                                                                                                         | Out of scope                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | The EaseMuse web app and API: the workbench (`/a/<agency>`), the platform admin area (`/admin`, `/api/admin/v1`), the hiring-manager portal (`/h/<agency>`), the candidate portal (`/c/<agency>`), the public routes (`/api/public/...`: unsubscribe, portal redeem and re-login, agency logo), the print routes (`/render/...`) and the worker. | The Interactor Account Server, Billing Server and other Interactor services; Anthropic, Voyage AI and the hosting provider's own platform; denial-of-service and volumetric tests; social engineering of staff. |
 
 Environment **(to prepare)**: a staging copy with production configuration and its own database, the Interactor sign-in pointed at a test organisation, S3-compatible storage, and `AI` calls either to a stub or to the real model with a small budget (say which). Synthetic data only: no real candidate or client data may be in the test environment. Rate limits stay on; give the tester's source addresses so they are not blocked by mistake.
 
 ## 2. Accounts to create **(to prepare)**
 
-| Account | Purpose |
-|---------|---------|
-| Agency A: admin, lead, recruiter | The main test subject |
-| Agency B: admin, recruiter | The "other tenant" for every cross-tenant attempt |
-| Platform owner, platform admin, platform support (with MFA) | `/admin` and the role split |
-| A suspended agency C | Behaviour of a suspended workspace |
-| Hiring manager and candidate portal users in A and in B | Portal leakage and link handling |
-| A pending, an approved and an expired support grant on A | Support-access bypass attempts |
+| Account                                                     | Purpose                                           |
+| ----------------------------------------------------------- | ------------------------------------------------- |
+| Agency A: admin, lead, recruiter                            | The main test subject                             |
+| Agency B: admin, recruiter                                  | The "other tenant" for every cross-tenant attempt |
+| Platform owner, platform admin, platform support (with MFA) | `/admin` and the role split                       |
+| A suspended agency C                                        | Behaviour of a suspended workspace                |
+| Hiring manager and candidate portal users in A and in B     | Portal leakage and link handling                  |
+| A pending, an approved and an expired support grant on A    | Support-access bypass attempts                    |
 
 Each agency holds the same shape of data (a client, a position with an approved job description, candidates in several pipeline stages, an approved resume and report, a submission, an interview, an offer, an outbox message, files). Run the seed so both tenants look alike, and keep a list of record ids per tenant to give the tester.
 
 ## 3. Documents to hand over (all in the repository)
 
-| Document | Why |
-|----------|-----|
-| `docs/planning/architecture.md` and ADR-001 (multi-tenancy and isolation), ADR-002 (identity), ADR-003 (portals), ADR-012 (access control and support access), ADR-016 (audit and data rights) | How isolation, identity and access are meant to work |
-| `docs/planning/risks.md` (TR-001, TR-005, TR-007) and `docs/planning/spikes/tr-007-rls-pooling.md` | What we already worry about |
-| `docs/planning/api-contracts.md` and the route list | Every endpoint, its audience and its role rule |
-| `apps/web/src/app/api/permission-matrix.test.ts` and the isolation tests (`src/server/isolation*.db.test.ts`) | What is already tested; ask the tester to look for what these miss |
-| `docs/planning/implementation-notes.md` | Decisions that affect security (support access, deletion, branding) |
-| `docs/legal/data-processing-agreement.md` Annex II | The claims we make to customers; ask the tester to try to falsify them |
+| Document                                                                                                                                                                                       | Why                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `docs/planning/architecture.md` and ADR-001 (multi-tenancy and isolation), ADR-002 (identity), ADR-003 (portals), ADR-012 (access control and support access), ADR-016 (audit and data rights) | How isolation, identity and access are meant to work                   |
+| `docs/planning/risks.md` (TR-001, TR-005, TR-007) and `docs/planning/spikes/tr-007-rls-pooling.md`                                                                                             | What we already worry about                                            |
+| `docs/planning/api-contracts.md` and the route list                                                                                                                                            | Every endpoint, its audience and its role rule                         |
+| `apps/web/src/app/api/permission-matrix.test.ts` and the isolation tests (`src/server/isolation*.db.test.ts`)                                                                                  | What is already tested; ask the tester to look for what these miss     |
+| `docs/planning/implementation-notes.md`                                                                                                                                                        | Decisions that affect security (support access, deletion, branding)    |
+| `docs/legal/data-processing-agreement.md` Annex II                                                                                                                                             | The claims we make to customers; ask the tester to try to falsify them |
 
 Offer **grey-box** access: source code read access and a read-only database account on staging. It finds more per euro than black-box.
 

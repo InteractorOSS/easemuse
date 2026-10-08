@@ -18,18 +18,21 @@ Use this checklist when reviewing pull requests.
 ## Code Quality
 
 ### Readability
+
 - [ ] Code is easy to understand
 - [ ] Variable/function names are descriptive
 - [ ] No unnecessary complexity
 - [ ] Comments explain "why" not "what"
 
 ### Structure
+
 - [ ] Functions are small and focused
 - [ ] Single responsibility principle followed
 - [ ] No deeply nested code (max 3 levels)
 - [ ] Code is DRY (Don't Repeat Yourself)
 
 ### Style
+
 - [ ] Follows project style guide
 - [ ] Consistent formatting
 - [ ] No linting errors
@@ -40,18 +43,21 @@ Use this checklist when reviewing pull requests.
 ## Logic
 
 ### Correctness
+
 - [ ] Logic is correct
 - [ ] Edge cases handled
 - [ ] Error conditions handled
 - [ ] No off-by-one errors
 
 ### Error Handling
+
 - [ ] Errors caught appropriately
 - [ ] Meaningful error messages
 - [ ] Errors logged with context
 - [ ] No silent failures
 
 ### Data Handling
+
 - [ ] Input validated
 - [ ] Output sanitized
 - [ ] Null/undefined handled
@@ -62,17 +68,20 @@ Use this checklist when reviewing pull requests.
 ## Security
 
 ### Authentication/Authorization
+
 - [ ] Auth checks present where needed
 - [ ] No hardcoded credentials
 - [ ] Sensitive data protected
 
 ### Input Validation
+
 - [ ] User input validated
 - [ ] SQL injection prevented
 - [ ] XSS prevented
 - [ ] Path traversal prevented
 
 ### Data Protection
+
 - [ ] Sensitive data not logged
 - [ ] Proper encryption used
 - [ ] Secure transmission (HTTPS)
@@ -82,12 +91,14 @@ Use this checklist when reviewing pull requests.
 ## Testing
 
 ### Coverage
+
 - [ ] Tests exist for new code
 - [ ] Edge cases tested
 - [ ] Error paths tested
 - [ ] Integration tests where needed
 
 ### Quality
+
 - [ ] Tests are meaningful
 - [ ] Tests are readable
 - [ ] Tests are maintainable
@@ -98,12 +109,14 @@ Use this checklist when reviewing pull requests.
 ## Performance
 
 ### Efficiency
+
 - [ ] No obvious performance issues
 - [ ] No N+1 queries
 - [ ] Appropriate data structures used
 - [ ] Caching considered
 
 ### Resources
+
 - [ ] No memory leaks
 - [ ] Resources properly cleaned up
 - [ ] Connections pooled/reused
@@ -114,11 +127,13 @@ Use this checklist when reviewing pull requests.
 ## Documentation
 
 ### Code Documentation
+
 - [ ] Public APIs documented
 - [ ] Complex logic explained
 - [ ] TODO/FIXME comments addressed
 
 ### External Documentation
+
 - [ ] README updated if needed
 - [ ] API docs updated
 - [ ] CHANGELOG entry added
@@ -128,6 +143,7 @@ Use this checklist when reviewing pull requests.
 ## Review Feedback Format
 
 ### Blocking Issues
+
 ```markdown
 🔴 **[Required]**: [Description of issue]
 
@@ -135,6 +151,7 @@ Use this checklist when reviewing pull requests.
 ```
 
 ### Suggestions
+
 ```markdown
 🟡 **[Suggestion]**: [Description]
 
@@ -142,16 +159,19 @@ Use this checklist when reviewing pull requests.
 ```
 
 ### Minor Notes
+
 ```markdown
 🟢 **[Nit]**: [Minor issue]
 ```
 
 ### Questions
+
 ```markdown
 ❓ **[Question]**: [Your question]
 ```
 
 ### Praise
+
 ```markdown
 👍 **[Nice]**: [What's good about this code]
 ```
@@ -161,24 +181,28 @@ Use this checklist when reviewing pull requests.
 ## Common Issues to Watch For
 
 ### Security
+
 - Hardcoded secrets
 - Missing input validation
 - Improper error exposure
 - Insufficient authorization
 
 ### Performance
+
 - N+1 queries
 - Unnecessary database calls
 - Missing pagination
 - Synchronous blocking operations
 
 ### Maintainability
+
 - Magic numbers/strings
 - Duplicated code
 - Overly complex functions
 - Poor naming
 
 ### Bugs
+
 - Off-by-one errors
 - Null pointer exceptions
 - Race conditions
@@ -189,6 +213,7 @@ Use this checklist when reviewing pull requests.
 ## Approving PRs
 
 Approve when:
+
 - [ ] All critical issues addressed
 - [ ] Code meets quality standards
 - [ ] Tests are adequate
@@ -196,12 +221,14 @@ Approve when:
 - [ ] Documentation complete
 
 Request changes when:
+
 - [ ] Critical bugs found
 - [ ] Security vulnerabilities present
 - [ ] Tests missing or inadequate
 - [ ] Code quality issues
 
 Comment without approval when:
+
 - [ ] Minor suggestions only
 - [ ] Questions need answers
 - [ ] Need more context

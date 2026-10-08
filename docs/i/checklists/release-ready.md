@@ -18,15 +18,15 @@ npm audit --audit-level=high   # No vulnerabilities
 npm run build                  # Build succeeds
 ```
 
-| Check | Status |
-|-------|--------|
-| TypeScript compiles | [ ] |
-| Code formatted | [ ] |
-| No lint errors | [ ] |
-| All tests pass | [ ] |
-| Coverage >= 80% | [ ] |
-| No security vulnerabilities | [ ] |
-| Build succeeds | [ ] |
+| Check                       | Status |
+| --------------------------- | ------ |
+| TypeScript compiles         | [ ]    |
+| Code formatted              | [ ]    |
+| No lint errors              | [ ]    |
+| All tests pass              | [ ]    |
+| Coverage >= 80%             | [ ]    |
+| No security vulnerabilities | [ ]    |
+| Build succeeds              | [ ]    |
 
 ---
 
@@ -84,12 +84,12 @@ npm run build                  # Build succeeds
 
 ## Final Sign-off
 
-| Role | Name | Date |
-|------|------|------|
-| Developer | | |
-| Reviewer | | |
-| QA | | |
-| Product Owner | | |
+| Role          | Name | Date |
+| ------------- | ---- | ---- |
+| Developer     |      |      |
+| Reviewer      |      |      |
+| QA            |      |      |
+| Product Owner |      |      |
 
 ---
 

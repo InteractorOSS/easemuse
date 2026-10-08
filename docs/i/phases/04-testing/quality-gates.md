@@ -12,14 +12,15 @@ Quality gates are checkpoints that code must pass before progressing through the
 
 **When**: Before committing code
 
-| Check | Requirement | Tool |
-|-------|-------------|------|
-| Linting | No errors | ESLint / Pylint |
-| Type Checking | No errors | TypeScript / mypy |
-| Unit Tests | All passing | Jest / pytest |
-| Code Format | Properly formatted | Prettier / Black |
+| Check         | Requirement        | Tool              |
+| ------------- | ------------------ | ----------------- |
+| Linting       | No errors          | ESLint / Pylint   |
+| Type Checking | No errors          | TypeScript / mypy |
+| Unit Tests    | All passing        | Jest / pytest     |
+| Code Format   | Properly formatted | Prettier / Black  |
 
 **Commands:**
+
 ```bash
 npm run lint
 npm run type-check
@@ -33,16 +34,17 @@ npm run format:check
 
 **When**: Before merging to develop/main
 
-| Check | Requirement | Tool |
-|-------|-------------|------|
-| All Level 1 checks | Passing | CI |
-| Code Coverage | ≥ 80% overall | Istanbul / coverage.py |
-| New Code Coverage | ≥ 80% | CI |
-| Integration Tests | All passing | CI |
-| Code Review | ≥ 1 approval | GitHub |
-| No Conflicts | Clean merge | Git |
+| Check              | Requirement   | Tool                   |
+| ------------------ | ------------- | ---------------------- |
+| All Level 1 checks | Passing       | CI                     |
+| Code Coverage      | ≥ 80% overall | Istanbul / coverage.py |
+| New Code Coverage  | ≥ 80%         | CI                     |
+| Integration Tests  | All passing   | CI                     |
+| Code Review        | ≥ 1 approval  | GitHub                 |
+| No Conflicts       | Clean merge   | Git                    |
 
 **Automated Checks:**
+
 - CI/CD pipeline runs all tests
 - Coverage report generated
 - Security scan (dependencies)
@@ -54,13 +56,13 @@ npm run format:check
 
 **When**: Before deploying to staging
 
-| Check | Requirement | Tool |
-|-------|-------------|------|
-| All Level 2 checks | Passing | CI |
-| E2E Tests | All passing | Playwright |
-| Performance Baseline | Within thresholds | k6 |
-| Security Scan | No critical issues | Snyk |
-| API Contract | Valid | OpenAPI |
+| Check                | Requirement        | Tool       |
+| -------------------- | ------------------ | ---------- |
+| All Level 2 checks   | Passing            | CI         |
+| E2E Tests            | All passing        | Playwright |
+| Performance Baseline | Within thresholds  | k6         |
+| Security Scan        | No critical issues | Snyk       |
+| API Contract         | Valid              | OpenAPI    |
 
 ---
 
@@ -68,15 +70,15 @@ npm run format:check
 
 **When**: Before deploying to production
 
-| Check | Requirement | Tool |
-|-------|-------------|------|
-| All Level 3 checks | Passing | CI |
-| Staging Smoke Tests | All passing | Automated |
-| Load Testing | Meets SLA | k6 |
-| Security Audit | No critical/high | Manual + Tools |
-| UAT Sign-off | Approved | Stakeholders |
-| Documentation | Updated | Manual |
-| Rollback Plan | Documented | Manual |
+| Check               | Requirement      | Tool           |
+| ------------------- | ---------------- | -------------- |
+| All Level 3 checks  | Passing          | CI             |
+| Staging Smoke Tests | All passing      | Automated      |
+| Load Testing        | Meets SLA        | k6             |
+| Security Audit      | No critical/high | Manual + Tools |
+| UAT Sign-off        | Approved         | Stakeholders   |
+| Documentation       | Updated          | Manual         |
+| Rollback Plan       | Documented       | Manual         |
 
 ---
 
@@ -100,28 +102,29 @@ coverage:
 
 ### Performance Gate
 
-| Metric | Threshold | Action if Failed |
-|--------|-----------|------------------|
-| p50 Response Time | < 100ms | Warning |
-| p95 Response Time | < 500ms | Block |
-| p99 Response Time | < 1000ms | Block |
-| Error Rate | < 0.1% | Block |
-| Throughput | > 100 req/s | Warning |
+| Metric            | Threshold   | Action if Failed |
+| ----------------- | ----------- | ---------------- |
+| p50 Response Time | < 100ms     | Warning          |
+| p95 Response Time | < 500ms     | Block            |
+| p99 Response Time | < 1000ms    | Block            |
+| Error Rate        | < 0.1%      | Block            |
+| Throughput        | > 100 req/s | Warning          |
 
 ### Security Gate
 
-| Severity | Maximum Allowed | Action |
-|----------|-----------------|--------|
-| Critical | 0 | Block deployment |
-| High | 0 | Block deployment |
-| Medium | 5 | Warning, must fix within sprint |
-| Low | 20 | Warning, backlog |
+| Severity | Maximum Allowed | Action                          |
+| -------- | --------------- | ------------------------------- |
+| Critical | 0               | Block deployment                |
+| High     | 0               | Block deployment                |
+| Medium   | 5               | Warning, must fix within sprint |
+| Low      | 20              | Warning, backlog                |
 
 ---
 
 ## Bypass Procedures
 
 ### Emergency Bypass
+
 For critical production fixes only:
 
 1. **Justification**: Document reason for bypass
@@ -131,6 +134,7 @@ For critical production fixes only:
 5. **Post-mortem**: Review why bypass was needed
 
 ### Bypass Request Template
+
 ```markdown
 ## Emergency Gate Bypass Request
 
@@ -138,18 +142,23 @@ For critical production fixes only:
 **Requester**: [Name]
 
 ### Gate Being Bypassed
+
 [Which gate and which check]
 
 ### Justification
+
 [Why this is necessary]
 
 ### Risk Assessment
+
 [What risks are we accepting]
 
 ### Mitigation Plan
+
 [How we'll address this after deployment]
 
 ### Approvals
+
 - [ ] Engineer 1: [Name]
 - [ ] Engineer 2: [Name]
 - [ ] Product Owner: [Name]
@@ -214,12 +223,12 @@ jobs:
 
 ### Dashboard Metrics
 
-| Metric | Target | Current |
-|--------|--------|---------|
-| PRs passing first time | > 80% | |
-| Average gate duration | < 10 min | |
-| Bypass requests/month | < 2 | |
-| Gate-related delays | < 5% | |
+| Metric                 | Target   | Current |
+| ---------------------- | -------- | ------- |
+| PRs passing first time | > 80%    |         |
+| Average gate duration  | < 10 min |         |
+| Bypass requests/month  | < 2      |         |
+| Gate-related delays    | < 5%     |         |
 
 ### Improvement Process
 
@@ -233,13 +242,13 @@ jobs:
 
 ### Common Failures and Solutions
 
-| Failure | Common Cause | Solution |
-|---------|--------------|----------|
-| Coverage drop | New untested code | Add tests before PR |
-| Lint errors | Style violations | Run `npm run lint:fix` |
-| Type errors | Missing types | Add proper type annotations |
-| Security issues | Vulnerable deps | Update dependencies |
-| Performance regression | Inefficient code | Profile and optimize |
+| Failure                | Common Cause      | Solution                    |
+| ---------------------- | ----------------- | --------------------------- |
+| Coverage drop          | New untested code | Add tests before PR         |
+| Lint errors            | Style violations  | Run `npm run lint:fix`      |
+| Type errors            | Missing types     | Add proper type annotations |
+| Security issues        | Vulnerable deps   | Update dependencies         |
+| Performance regression | Inefficient code  | Profile and optimize        |
 
 ### Escalation Path
 

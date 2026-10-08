@@ -1036,6 +1036,23 @@ model ProfileEmbedding {
   @@index([agencyId, kind])
 }
 
+// A recruiter's decision on one suggested JD change of an approved benchmark (US-108): accepted
+// (and applied as a new draft of the structured JD) or rejected. One decision per suggestion.
+model BenchmarkDecision {
+  id               String   @id @default(uuid()) @db.Uuid
+  agencyId         String   @db.Uuid
+  positionId       String   @db.Uuid
+  versionId        String   @db.Uuid // the approved benchmark version
+  suggestionId     String
+  decision         String // accepted | rejected
+  decidedById      String   @db.Uuid
+  decidedAt        DateTime @default(now())
+  appliedVersionId String?  @db.Uuid // the structured JD draft the change went into
+
+  @@unique([versionId, suggestionId])
+  @@index([agencyId, positionId])
+}
+
 // ───────────────────────────── Tasks, audit, jobs ─────────────────────────────
 
 model Task {

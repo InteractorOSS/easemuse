@@ -11,6 +11,7 @@ import {
 import { withAgency, type ScopedTx } from '@/lib/db';
 import { ApiError, notFound } from '@/lib/http/errors';
 import { zodFields } from '@/lib/http/responses';
+import { smtpConfigFromEnv } from '@/server/messaging/smtp';
 
 /** The agency's settings with every default filled in (FR-TEN-03). Read this, never the raw JSON. */
 export async function getAgencySettings(tx: ScopedTx, agencyId: string): Promise<AgencySettings> {
@@ -44,6 +45,13 @@ export async function updateSettings(
         throw new ApiError('invalid_input', 'Invalid settings', {
           status: 422,
           fields: zodFields(merged.error),
+        });
+      }
+      // A real transport the server cannot run would turn every send into a failure; say so now.
+      if (merged.data.emailTransport === 'smtp' && !smtpConfigFromEnv()) {
+        throw new ApiError('invalid_input', 'SMTP is not set up on this server', {
+          status: 422,
+          fields: { emailTransport: 'SMTP is not set up on this server' },
         });
       }
       await tx.agency.update({

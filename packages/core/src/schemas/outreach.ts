@@ -47,6 +47,12 @@ export const OUTREACH_RESPONSES = [
 ] as const;
 export type OutreachResponse = (typeof OUTREACH_RESPONSES)[number];
 
+/**
+ * Stored on a touch when the connected mailbox saw a reply but the recruiter has not yet said what
+ * kind (T-5-12). It is not offered as a choice: the recruiter replaces it with one of the above.
+ */
+export const REPLY_NOTICED = 'replied';
+
 /** Replies that end the sequence: the remaining touches are cancelled (FR-OUT-05). */
 export const SEQUENCE_ENDING_RESPONSES: readonly OutreachResponse[] = [
   'interested',

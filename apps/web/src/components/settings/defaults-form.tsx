@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useId, useState } from 'react';
 import {
   CANDIDATE_STATUS_LEVELS,
+  EMAIL_TRANSPORTS,
   DEFAULT_MATCH_WEIGHTS,
   GUARD_KEYS,
   GUARD_MODES,
@@ -22,7 +23,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
-import { apiFetch } from '@/lib/api-client';
+import { ApiClientError, apiFetch } from '@/lib/api-client';
 
 /** Settings → Defaults: matching weights, outreach timing, guard rules, rejection reasons, visibility, language. */
 export function DefaultsForm({ agencyId, canEdit }: { agencyId: string; canEdit: boolean }) {
@@ -80,6 +81,7 @@ function Form({
   const [visibility, setVisibility] = useState(initial.visibility);
   const [explainOnly, setExplainOnly] = useState(initial.explainOnly);
   const [candidateStatus, setCandidateStatus] = useState(initial.candidateStatusLevel);
+  const [emailTransport, setEmailTransport] = useState(initial.emailTransport ?? 'dev-capture');
   const [locale, setLocale] = useState<string>(initial.locale ?? 'en');
   const [errors, setErrors] = useState<{ weights?: string; reasons?: string; form?: string }>({});
 
@@ -91,7 +93,13 @@ function Form({
       toast({ title: t('saved') });
       await queryClient.invalidateQueries({ queryKey: ['settings', agencyId] });
     },
-    onError: () => setErrors({ form: t('failed') }),
+    onError: (e) =>
+      setErrors({
+        form:
+          e instanceof ApiClientError && e.fields.emailTransport
+            ? t('emailTransport.unavailable')
+            : t('failed'),
+      }),
   });
 
   function submit() {
@@ -109,6 +117,7 @@ function Form({
       visibility,
       explainOnly,
       candidateStatusLevel: candidateStatus,
+      emailTransport,
       locale,
     };
     const checked = agencySettingsPatchSchema.safeParse(patch);
@@ -272,6 +281,18 @@ function Form({
           {CANDIDATE_STATUS_LEVELS.map((level) => (
             <option key={level} value={level}>
               {t(`candidateStatus.${level}`)}
+            </option>
+          ))}
+        </SelectField>
+        <SelectField
+          label={t('emailTransport.label')}
+          hint={t('emailTransport.hint')}
+          value={emailTransport}
+          onChange={(e) => setEmailTransport(e.target.value as typeof emailTransport)}
+        >
+          {EMAIL_TRANSPORTS.map((choice) => (
+            <option key={choice} value={choice}>
+              {t(`emailTransport.${choice}`)}
             </option>
           ))}
         </SelectField>

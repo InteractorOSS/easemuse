@@ -10,6 +10,7 @@ export const TASK_KINDS = [
   'approval_received',
   'proposal',
   'privacy_request',
+  'reply_received',
 ] as const;
 export type TaskKind = (typeof TASK_KINDS)[number];
 

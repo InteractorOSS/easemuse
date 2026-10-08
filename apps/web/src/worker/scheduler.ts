@@ -11,12 +11,16 @@ export interface DailyJob {
   queue: EnqueueInput['queue'];
   name: string;
   hourUtc: number;
+  /** Runs every N minutes (from `hourUtc` on) instead of once a day. */
+  everyMinutes?: number;
 }
 
 export const DAILY_JOBS: readonly DailyJob[] = [
   { queue: 'maintenance', name: 'artifacts.orphan_report', hourUtc: 3 },
   // Indexes approved profiles that have no vector yet (ADR-008).
   { queue: 'maintenance', name: 'embeddings.catch_up', hourUtc: 4 },
+  // Replies to outreach in connected mailboxes (T-5-12).
+  { queue: 'maintenance', name: 'mailbox.sync_replies', hourUtc: 0, everyMinutes: 10 },
 ];
 
 const dayKey = (now: Date) => now.toISOString().slice(0, 10);
@@ -27,6 +31,9 @@ export function dueJobs(now: Date, jobs: readonly DailyJob[] = DAILY_JOBS): Dail
 }
 
 export function dailyIdempotencyKey(job: DailyJob, now: Date): string {
+  if (job.everyMinutes) {
+    return `${job.name}:${Math.floor(now.getTime() / (job.everyMinutes * 60_000))}`;
+  }
   return `${job.name}:${dayKey(now)}`;
 }
 

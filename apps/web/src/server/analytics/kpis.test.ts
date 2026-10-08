@@ -135,6 +135,14 @@ describe('KPI formulas (T-11-01, planning-handoff §6)', () => {
     expect(kpis.outreachResponseRate).toEqual({ numerator: 5, denominator: 6, rate: 5 / 6 });
   });
 
+  it('a reply noticed in the mailbox but not yet classified counts as a reply', () => {
+    const replied = entry({
+      touches: [{ status: 'sent', response: 'replied', at: d('2026-07-08') }],
+    });
+    const silent = entry({ touches: [{ status: 'sent', response: null, at: d('2026-07-08') }] });
+    expect(computeKpis([replied, silent], [], RANGE).outreachResponseRate).toEqual(ratio(1, 2));
+  });
+
   it('Submission-to-Interview = entries with an interview ÷ entries submitted', () => {
     expect(kpis.submissionToInterview).toEqual(ratio(3, 4));
   });

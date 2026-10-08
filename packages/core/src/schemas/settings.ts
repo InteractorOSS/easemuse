@@ -56,6 +56,9 @@ export type GuardKey = (typeof GUARD_KEYS)[number];
 export const VISIBILITY_RULES = ['all_positions', 'own_and_shared'] as const;
 export type VisibilityRule = (typeof VISIBILITY_RULES)[number];
 
+export const EMAIL_TRANSPORTS = ['dev-capture', 'log-only', 'smtp', 'mailbox'] as const;
+export type EmailTransportChoice = (typeof EMAIL_TRANSPORTS)[number];
+
 export const UI_LOCALES = ['en', 'ko'] as const;
 
 export const DEFAULT_REJECTION_REASONS = [
@@ -108,8 +111,12 @@ export const agencySettingsSchema = z.object({
   candidateStatusLevel: z.enum(CANDIDATE_STATUS_LEVELS).default('basic'),
   /** Agency default UI language (ADR-015). Absent = English. */
   locale: z.enum(UI_LOCALES).optional(),
-  /** Email transport for this agency (ADR-009); capture-only until a provider is configured. */
-  emailTransport: z.enum(['dev-capture', 'log-only']).optional(),
+  /**
+   * How this agency's email leaves the system (ADR-009): `dev-capture` and `log-only` deliver nothing
+   * (test mode), `smtp` uses the SMTP service the platform operator configured, `mailbox` sends from
+   * each recruiter's connected Gmail or Microsoft 365 mailbox. Absent = capture only.
+   */
+  emailTransport: z.enum(EMAIL_TRANSPORTS).optional(),
 });
 export type AgencySettings = z.infer<typeof agencySettingsSchema>;
 

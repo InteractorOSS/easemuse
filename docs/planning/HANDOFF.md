@@ -38,4 +38,4 @@ Read this first, then `docs/planning/tasks.md` (the task list and its progress n
 
 Pool intelligence and the benchmark (session D) are built and tested against fakes; no live Voyage or web search call has been made.
 
-SMTP and a real mail provider; Playwright end to end; Korean translations (skeleton only); agency logo editing and drawing; every drafting prompt except A7 and A10 has only been tested against fakes (no labelled data for them, they need a recruiter's review).
+SMTP and the connected mailbox are built but not run against real services (see `mail-setup.md`); Playwright end to end; Korean translations (skeleton only); agency logo editing and drawing; every drafting prompt except A7 and A10 has only been tested against fakes (no labelled data for them, they need a recruiter's review).

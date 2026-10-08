@@ -181,6 +181,13 @@ vi.mock('@/server/candidates/search', () => ({
 vi.mock('@/server/search/global', () => ({
   globalSearch: async () => ({ clients: [], positions: [], candidates: [] }),
 }));
+vi.mock('@/server/messaging/mailbox', () => ({
+  getMyMailbox: async () => null,
+  mailboxDepsFromEnv: () => ({}),
+  recordMailbox: async () => ({ address: 'a@b.test' }),
+  disconnectMailbox: async () => undefined,
+  startMailboxConnection: async () => ({ authorizationUrl: 'https://accounts.example/auth' }),
+}));
 vi.mock('@/server/outreach/templates', () => ({
   listTemplates: async () => [],
   createTemplate: async () => ({ id: 't1' }),
@@ -489,6 +496,12 @@ import {
 } from './v1/agencies/[agencyId]/candidates/route';
 import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
 import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
+import {
+  DELETE as mailboxDelete,
+  GET as mailboxGet,
+  POST as mailboxPost,
+} from './v1/agencies/[agencyId]/mailbox/route';
+import { POST as mailboxConnectPost } from './v1/agencies/[agencyId]/mailbox/connect/route';
 import {
   GET as templatesGet,
   POST as templatesPost,
@@ -1075,6 +1088,42 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => searchGet(new Request('http://x.test/?q=hr'), agencyParams),
+  },
+  {
+    name: 'GET my mailbox',
+    file: 'v1/agencies/[agencyId]/mailbox/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => mailboxGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST record mailbox',
+    file: 'v1/agencies/[agencyId]/mailbox/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      mailboxPost(
+        new Request('http://x.test/', json({ provider: 'google', credentialId: 'cred-1' })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'DELETE my mailbox',
+    file: 'v1/agencies/[agencyId]/mailbox/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => mailboxDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
+  },
+  {
+    name: 'POST connect mailbox',
+    file: 'v1/agencies/[agencyId]/mailbox/connect/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      mailboxConnectPost(
+        new Request('http://x.test/', json({ provider: 'microsoft' })),
+        agencyParams,
+      ),
   },
   {
     name: 'GET outreach templates',

@@ -53,3 +53,4 @@ export * from './candidates/csv-import';
 export * from './artifacts/pool-intelligence';
 export * from './artifacts/benchmark';
 export * from './candidates/embedding-text';
+export * from './schemas/mailbox';

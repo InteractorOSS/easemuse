@@ -74,6 +74,11 @@ const envSchema = z.object({
   SMTP_USER: optionalString,
   SMTP_PASSWORD: optionalString,
   MAIL_FROM: optionalString,
+  // Connected mailboxes (T-5-12): the Interactor service ids for Gmail and Microsoft 365 as listed in
+  // the service knowledge base, and the secret that signs Interactor's credential events.
+  MAILBOX_GOOGLE_SERVICE_ID: optionalString,
+  MAILBOX_MICROSOFT_SERVICE_ID: optionalString,
+  INTERACTOR_WEBHOOK_SECRET: optionalString,
 });
 
 export type Env = z.infer<typeof envSchema>;

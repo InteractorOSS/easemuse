@@ -33,16 +33,23 @@ describe('SettingsNav', () => {
       'Members',
       'Defaults',
       'Message templates',
+      'My mailbox',
       'Privacy requests',
       'AI usage',
       'Outbox',
     ]);
   });
   it('hides usage from leads and members from recruiters', () => {
-    expect(links('lead')).toEqual(['Members', 'Defaults', 'Message templates', 'Privacy requests']);
+    expect(links('lead')).toEqual([
+      'Members',
+      'Defaults',
+      'Message templates',
+      'My mailbox',
+      'Privacy requests',
+    ]);
   });
   it('shows recruiters only the defaults', () => {
-    expect(links('recruiter')).toEqual(['Defaults', 'Message templates']);
+    expect(links('recruiter')).toEqual(['Defaults', 'Message templates', 'My mailbox']);
   });
   it('marks the current section', () => {
     renderWithIntl(<SettingsNav agencySlug="acme" role="admin" />);

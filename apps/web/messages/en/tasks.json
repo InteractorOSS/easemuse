@@ -17,7 +17,8 @@
     "offer_milestone": "Offer step",
     "approval_received": "Approval received",
     "proposal": "Proposal to prepare",
-    "privacy_request": "Privacy request due"
+    "privacy_request": "Privacy request due",
+    "reply_received": "Reply to read"
   },
   "overdue": "Overdue",
   "due": "Due {date}",

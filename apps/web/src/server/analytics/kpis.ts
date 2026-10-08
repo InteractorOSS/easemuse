@@ -75,7 +75,7 @@ export interface PositionRow {
 }
 
 /** An outreach response that counts as a reply (`no_response` does not). */
-const REPLIES = new Set(['interested', 'not_interested', 'not_now', 'referred']);
+const REPLIES = new Set(['interested', 'not_interested', 'not_now', 'referred', 'replied']);
 
 export interface Ratio {
   numerator: number;

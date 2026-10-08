@@ -354,7 +354,8 @@
       "not_interested": "Not interested",
       "not_now": "Not now",
       "referred": "Referred someone else",
-      "no_response": "No answer"
+      "no_response": "No answer",
+      "replied": "Replied (not yet classified)"
     },
     "reasonCode": "Reason",
     "record": "Record answer",

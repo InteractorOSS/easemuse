@@ -1,90 +1,94 @@
 {
   "title": "Analytics",
-  "intro": "How your searches are doing: speed, conversion between steps, results by source, and how many positions each recruiter carries. Only positions you can see are counted.",
+  "intro": "Figures come from what is recorded in the workbench. Rates cover the candidates added to a position in the selected dates.",
+  "scopeOwn": "You see your own figures.",
   "filters": {
     "label": "Filters",
     "from": "From",
     "to": "To",
     "client": "Client",
+    "position": "Position",
     "recruiter": "Recruiter",
-    "all": "All",
-    "apply": "Show"
+    "all": "All"
   },
-  "period": "{from} to {to}",
-  "notEnough": "No data in this period",
+  "noData": "No data yet",
+  "ofCount": "{numerator} of {denominator}",
   "days": "{days, plural, one {# day} other {# days}}",
-  "basedOn": "{count, plural, one {from # case} other {from # cases}}",
-  "ofTotal": "{numerator} of {denominator}",
-  "formulaButton": "How {kpi} is calculated",
+  "basedOn": "{count, plural, one {# position} other {# positions}}",
+  "formulaMark": "?",
+  "formulaFor": "Formula for {kpi}",
   "kpis": {
-    "heading": "Key figures",
+    "title": "Key figures",
     "timeToFill": {
-      "label": "Time to fill",
-      "formula": "Median days from the position's first move to sourcing until an offer was accepted, for positions with an accepted offer in this period."
+      "name": "Time-to-Fill",
+      "formula": "Median days from the position entering sourcing (or being created) to its offer being accepted and the position filled. Positions filled in the selected dates."
     },
     "timeToInterview": {
-      "label": "Time to interview",
-      "formula": "Median days from submission to the first interview, for first interviews in this period."
+      "name": "Time-to-Interview",
+      "formula": "Median days from a candidate's first submission to the client to their first interview."
     },
-    "outreachResponse": {
-      "label": "Outreach response rate",
-      "formula": "Candidates who answered (interested, not interested, not now or referred someone) ÷ candidates first contacted in this period."
+    "outreachResponseRate": {
+      "name": "Outreach Response Rate",
+      "formula": "Candidates who replied to outreach ÷ candidates who were sent at least one touch. A recorded \"no response\" does not count as a reply."
     },
     "submissionToInterview": {
-      "label": "Submission to interview",
-      "formula": "Candidates interviewed ÷ candidates submitted in this period."
+      "name": "Submission-to-Interview",
+      "formula": "Candidates with at least one interview ÷ candidates submitted to the client."
     },
     "interviewToOffer": {
-      "label": "Interview to offer",
-      "formula": "Candidates who got an offer ÷ candidates first interviewed in this period."
+      "name": "Interview-to-Offer",
+      "formula": "Candidates who reached an offer ÷ candidates with at least one interview."
     },
     "offerAcceptance": {
-      "label": "Offer acceptance rate",
-      "formula": "Offers accepted ÷ offers made in this period."
+      "name": "Offer Acceptance Rate",
+      "formula": "Offers accepted ÷ offers made."
     },
     "interviewToHire": {
-      "label": "Interview to hire",
-      "formula": "Candidates who started ÷ candidates first interviewed in this period. A hire counts when the person starts."
+      "name": "Interview-to-Hire",
+      "formula": "Candidates who started ÷ candidates with at least one interview. \"Hire\" means the candidate started."
     },
     "sourceToHire": {
-      "label": "Source to hire",
-      "formula": "Candidates who started ÷ candidates added to a position in this period."
+      "name": "Source-to-Hire",
+      "formula": "Candidates who started ÷ candidates added. The table below splits this by source."
+    },
+    "portalAdoption": {
+      "name": "Portal adoption",
+      "formula": "Approvals, submission reviews and feedback done by hiring managers and candidates in the portals ÷ all of them (including those the recruiter recorded for them)."
     }
   },
-  "conversion": {
-    "heading": "Conversion between steps",
-    "caption": "Share of candidates who reached each step and went on to the next",
-    "from": "From",
-    "to": "To",
-    "rate": "Rate",
-    "count": "Candidates"
-  },
   "stages": {
-    "sourced": "Sourced",
-    "contacted": "Contacted",
-    "interested": "Interested",
-    "qualified": "Qualified",
-    "submitted": "Submitted",
-    "interviewing": "Interviewed",
-    "offer": "Offer",
-    "accepted": "Accepted",
-    "started": "Started"
+    "title": "Candidate conversion by stage",
+    "caption": "Candidates reaching each stage, and the share of the previous stage that did",
+    "stage": "Stage",
+    "reached": "Reached",
+    "conversion": "From previous stage",
+    "names": {
+      "sourced": "Added",
+      "screened": "Screened",
+      "contacting": "Contacted",
+      "interested": "Interested",
+      "qualified": "Qualified",
+      "submitted": "Submitted",
+      "interviewing": "Interviewing",
+      "offer": "Offer",
+      "accepted": "Accepted",
+      "started": "Started"
+    }
   },
   "sources": {
-    "heading": "Results by source",
-    "caption": "Candidates added in this period, by where they were found",
+    "title": "Results by source",
+    "caption": "Candidates added, and how far each source's candidates got, with the share of the previous column",
     "source": "Source",
     "added": "Added",
     "contacted": "Contacted",
     "submitted": "Submitted",
     "interviewed": "Interviewed",
     "offered": "Offered",
-    "hired": "Started",
-    "hireRate": "Hire rate",
-    "empty": "No candidates were added in this period.",
+    "hired": "Hired",
+    "sourceToHire": "Source-to-Hire",
     "names": {
       "linkedin": "LinkedIn",
-      "referral": "Referral",
+      "referral": "Employee referral",
       "direct_sourcing": "Direct sourcing",
       "database": "Recruiting database",
       "networking": "Networking",
@@ -92,23 +96,20 @@
     }
   },
   "capacity": {
-    "heading": "Capacity",
-    "perRecruiter": "Positions being worked per recruiter, on average",
-    "timePerPosition": "Days from sourcing to filled, per filled position (median)",
-    "caption": "Positions each recruiter carried and filled in this period",
+    "title": "Recruiter capacity",
+    "intro": "What matters is how much one recruiter can carry, not how much the AI wrote.",
+    "caption": "Positions in sourcing, interviewing or offer per week, and the active time each filled position took",
     "recruiter": "Recruiter",
-    "active": "Positions per week",
-    "filled": "Filled",
-    "days": "Median days to fill",
-    "empty": "No positions were being worked in this period."
+    "everyone": "Everyone",
+    "positionsPerWeek": "Positions per week",
+    "timePerPosition": "Median active days per position",
+    "formula": "Positions per week: the average, over the weeks of the range, of the positions owned by the recruiter that are in sourcing, interviewing or offer at the end of each week. Active days: days a filled position spent in those statuses, on hold excluded."
   },
   "export": {
-    "heading": "Download",
+    "label": "Download CSV",
     "kpis": "Key figures (CSV)",
-    "conversion": "Conversion (CSV)",
+    "stages": "Conversion by stage (CSV)",
     "sources": "Results by source (CSV)",
-    "capacity": "Capacity (CSV)"
-  },
-  "howCalculated": "How these numbers are calculated",
-  "cohortNote": "Rates follow a group of candidates: a candidate counts when the starting step happened in the period, and counts as converted if they reached the next step at any time since."
+    "capacity": "Recruiter capacity (CSV)"
+  }
 }

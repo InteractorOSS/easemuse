@@ -7,6 +7,7 @@ import {
   isProtectedKey,
   redactStructured,
   redactText,
+  scrubContactDetails,
 } from './redaction';
 
 describe('redactStructured (FR-AI-09)', () => {
@@ -143,5 +144,16 @@ describe('redactText (FR-AI-09)', () => {
     const { value, removed } = redactText('Senior Engineer\nBuilt things.');
     expect(value).toBe('Senior Engineer\nBuilt things.');
     expect(removed).toEqual([]);
+  });
+});
+
+describe('scrubContactDetails', () => {
+  it('replaces emails and phone numbers but leaves figures and dates', () => {
+    const out = scrubContactDetails(
+      'Mail hm@client.test or call +82 10 1234 5678 / (02) 555-1234. Wants 180-190k, 30 days notice, start 2026-11-15.',
+    );
+    expect(out).toBe(
+      'Mail [email] or call [phone] / [phone]. Wants 180-190k, 30 days notice, start 2026-11-15.',
+    );
   });
 });

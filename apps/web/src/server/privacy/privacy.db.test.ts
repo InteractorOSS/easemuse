@@ -139,6 +139,10 @@ describe.skipIf(!dbAvailable())('candidate data rights (T-0-04, T-0-05, T-0-06)'
       [agency, candidateId],
     );
     await admin.query(
+      `INSERT INTO "CandidateNote" (id, "agencyId", "candidateId", "authorId", body, "updatedAt") VALUES (gen_random_uuid(), $1, $2, $3, 'Jane prefers calls after 6pm', now())`,
+      [agency, candidateId, rec.userId],
+    );
+    await admin.query(
       `UPDATE "PipelineTransition" SET reason = 'Jane said she is keen' WHERE "entryId" = $1`,
       [entry.id],
     );
@@ -259,6 +263,7 @@ describe.skipIf(!dbAvailable())('candidate data rights (T-0-04, T-0-05, T-0-06)'
       expect(json.approvals[0].approverName).toBe('Jane Doe');
       expect(json.outbox[0].toAddress).toBe('jane@example.com');
       expect(json.interviews[0].feedback[0].comments).toBe('Jane was sharp');
+      expect(json.notes[0].body).toBe('Jane prefers calls after 6pm');
       expect(
         Object.keys(zip.files)
           .filter((n) => n.startsWith('files/') && !n.endsWith('/'))
@@ -346,6 +351,12 @@ describe.skipIf(!dbAvailable())('candidate data rights (T-0-04, T-0-05, T-0-06)'
           ])
         ).rows[0].gone,
       ).toBe(true);
+
+      expect(
+        await count(`SELECT count(*)::int AS n FROM "CandidateNote" WHERE "candidateId" = $1`, [
+          f.candidateId,
+        ]),
+      ).toBe(0);
 
       // Files, documents, artifacts, renders, analyses and embeddings are gone
       expect(

@@ -53,6 +53,7 @@ export async function collectCandidateData(tx: ScopedTx, candidateId: string) {
     approvals: await tx.approval.findMany({
       where: { subjectId: inEntries, subject: 'tailored_resume' },
     }),
+    notes: await tx.candidateNote.findMany({ where: { candidateId } }),
     consents: await tx.consent.findMany({ where: { candidateId } }),
     candidateUpdates: await tx.candidateUpdateProposal.findMany({ where: { candidateId } }),
     privacyRequests: await tx.privacyRequest.findMany({ where: { candidateId } }),

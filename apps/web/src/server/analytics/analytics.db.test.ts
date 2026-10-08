@@ -5,8 +5,6 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { AgencyActor } from '@easemuse/core';
 import type { DbHandle } from '@/lib/db/client';
 import { createClient } from '@/server/clients/service';
-import { addCandidateToPosition } from '@/server/pipeline/service';
-import { createPosition } from '@/server/positions/service';
 import {
   adminClient,
   appHandle,
@@ -16,88 +14,67 @@ import {
   createUser,
   dbAvailable,
 } from '@/test/db';
-import { analyticsCsv, getAnalytics, resolvePeriod, type AnalyticsView } from './service';
+import { readyMatchEntry } from '@/test/match-fixtures';
+import { analyticsCsv, getAnalytics } from './service';
 
-describe.skipIf(!dbAvailable())('analytics service (US-1101)', () => {
+describe.skipIf(!dbAvailable())('analytics reads (T-11-01 to T-11-05)', () => {
   let admin: pg.Client;
   let handle: DbHandle;
   let agencyA: string;
   let agencyB: string;
-  let manager: AgencyActor;
-  let recruiter1: AgencyActor;
-  let recruiter2: AgencyActor;
-  let otherAgency: AgencyActor;
+  let lead: AgencyActor;
+  let rec1: AgencyActor;
+  let rec2: AgencyActor;
+  let outsider: AgencyActor;
+  let clientId: string;
+  let entryId: string;
   type Tx = Parameters<Parameters<ReturnType<typeof appScope>['withAgency']>[1]>[0];
-  const run = <T>(agencyId: string, fn: (tx: Tx) => Promise<T>) =>
-    appScope(handle).withAgency(agencyId, fn);
-  const view = (actor: AgencyActor, query = {}) =>
-    run(actor.agencyId, (tx) => getAnalytics(tx, actor, query));
-
-  async function member(agencyId: string, role: 'admin' | 'recruiter'): Promise<AgencyActor> {
-    const userId = await createUser(admin);
+  const runA = <T>(fn: (tx: Tx) => Promise<T>) => appScope(handle).withAgency(agencyA, fn);
+  const runB = <T>(fn: (tx: Tx) => Promise<T>) => appScope(handle).withAgency(agencyB, fn);
+  const member = async (agency: string, role: 'lead' | 'recruiter'): Promise<AgencyActor> => {
+    const u = await createUser(admin);
     await admin.query(
-      `INSERT INTO "Membership" (id, "agencyId", "userId", role, active, "updatedAt")
-       VALUES (gen_random_uuid(), $1, $2, $3::"AgencyRole", true, now())`,
-      [agencyId, userId, role],
+      `INSERT INTO "Membership" (id, "agencyId", "userId", role, active, "updatedAt") VALUES (gen_random_uuid(), $1, $2, $3::"AgencyRole", true, now())`,
+      [agency, u, role],
     );
-    return { kind: 'agency', userId, agencyId, role };
-  }
-
-  /** A position owned by the actor with one candidate; optionally submitted and interviewed today. */
-  async function positionWithCandidate(actor: AgencyActor, clientId: string, submitted: boolean) {
-    const position = await run(actor.agencyId, (tx) =>
-      createPosition(tx, actor, { clientId, title: 'HR Business Partner', location: 'Chicago' }),
-    );
-    // Being worked: positions count toward capacity only from sourcing on.
-    await admin.query(
-      `INSERT INTO "PositionTransition" (id, "agencyId", "positionId", "fromStatus", "toStatus", "actorId")
-       VALUES (gen_random_uuid(), $1, $2, 'draft', 'sourcing', $3)`,
-      [actor.agencyId, position.id, actor.userId],
-    );
-    const candidate = await run(actor.agencyId, (tx) =>
-      tx.candidate.create({
-        data: {
-          agencyId: actor.agencyId,
-          fullName: 'Jordan Rivera',
-          source: 'linkedin',
-          createdById: actor.userId,
-          status: 'active',
-        },
-        select: { id: true },
-      }),
-    );
-    const entry = await run(actor.agencyId, (tx) =>
-      addCandidateToPosition(tx, actor, position.id, { candidateId: candidate.id }),
-    );
-    if (submitted) {
-      for (const toState of ['submitted', 'interviewing'] as const) {
-        await admin.query(
-          `INSERT INTO "PipelineTransition" (id, "agencyId", "entryId", "toState", "actorId")
-           VALUES (gen_random_uuid(), $1, $2, $3::"PipelineState", $4)`,
-          [actor.agencyId, entry.id, toState, actor.userId],
-        );
-      }
-    }
-    return { positionId: position.id, entryId: entry.id };
-  }
+    return { kind: 'agency', userId: u, agencyId: agency, role };
+  };
 
   beforeAll(async () => {
     admin = await adminClient();
     handle = appHandle(2);
     agencyA = await createAgency(admin, 'Analytics A');
     agencyB = await createAgency(admin, 'Analytics B');
-    manager = await member(agencyA, 'admin');
-    recruiter1 = await member(agencyA, 'recruiter');
-    recruiter2 = await member(agencyA, 'recruiter');
-    otherAgency = await member(agencyB, 'admin');
-    const clientA = (await run(agencyA, (tx) => createClient(tx, manager, { name: 'Northwind' })))
-      .client.id;
-    const clientB = (
-      await run(agencyB, (tx) => createClient(tx, otherAgency, { name: 'Elsewhere' }))
-    ).client.id;
-    await positionWithCandidate(recruiter1, clientA, true);
-    await positionWithCandidate(recruiter2, clientA, false);
-    await positionWithCandidate(otherAgency, clientB, true);
+    lead = await member(agencyA, 'lead');
+    rec1 = await member(agencyA, 'recruiter');
+    rec2 = await member(agencyA, 'recruiter');
+    outsider = await member(agencyB, 'lead');
+    clientId = (await runA((tx) => createClient(tx, rec1, { name: 'Analytics Client' }))).client.id;
+    const made = await readyMatchEntry(runA, rec1, clientId);
+    entryId = made.entry.id;
+    // A short history: contacted by email, replied, submitted, one interview.
+    await runA(async (tx) => {
+      await tx.pipelineEntry.update({ where: { id: entryId }, data: { state: 'interviewing' } });
+      for (const toState of ['contacting', 'interested', 'submitted', 'interviewing'] as const) {
+        await tx.pipelineTransition.create({
+          data: { agencyId: agencyA, entryId, toState, actorId: rec1.userId },
+        });
+      }
+      await tx.outreachTouch.create({
+        data: {
+          agencyId: agencyA,
+          entryId,
+          touchNumber: 1,
+          channel: 'email',
+          status: 'sent',
+          sentAt: new Date(),
+          response: 'interested',
+        },
+      });
+      await tx.interview.create({
+        data: { agencyId: agencyA, entryId, roundName: 'Round 1', scheduledAt: new Date() },
+      });
+    });
   });
   afterAll(async () => {
     await cleanup(admin, { agencies: [agencyA, agencyB] });
@@ -105,123 +82,91 @@ describe.skipIf(!dbAvailable())('analytics service (US-1101)', () => {
     await handle.close();
   });
 
-  it("counts every visible position of the agency, and nothing of another agency's", async () => {
-    const v = await view(manager);
-    expect(v.sources).toEqual([
-      expect.objectContaining({ source: 'linkedin', added: 2, submitted: 1 }),
-    ]);
-    expect(v.kpis.submissionToInterview).toEqual({ numerator: 1, denominator: 1, value: 1 });
-    expect((await view(otherAgency)).sources[0]).toMatchObject({ added: 1 });
+  it('reads the entry history the formulas need', async () => {
+    const result = await runA((tx) => getAnalytics(tx, lead, {}));
+    expect(result.entryCount).toBe(1);
+    expect(result.kpis.outreachResponseRate).toMatchObject({ numerator: 1, denominator: 1 });
+    expect(result.kpis.submissionToInterview).toMatchObject({ numerator: 1, denominator: 1 });
+    expect(result.stages.find((s) => s.stage === 'interviewing')!.reached).toBe(1);
+    expect(result.sources.reduce((a, s) => a + s.added, 0)).toBe(1);
+    expect(result.capacity[0]!.recruiterId).toBeNull();
   });
 
-  it('filters by recruiter, client and position', async () => {
-    expect((await view(manager, { ownerId: recruiter2.userId })).sources[0]).toMatchObject({
-      added: 1,
-      submitted: 0,
-    });
-    const other = '00000000-0000-4000-8000-000000000000';
-    expect((await view(manager, { clientId: other })).sources).toEqual([]);
-    expect((await view(manager, { positionId: other })).sources).toEqual([]);
+  it('shows a recruiter only their own entries, and a lead can narrow by recruiter', async () => {
+    expect((await runA((tx) => getAnalytics(tx, rec1, {}))).entryCount).toBe(1);
+    // rec2 asks for rec1's figures and still gets only their own (none).
+    const other = await runA((tx) => getAnalytics(tx, rec2, { recruiterId: rec1.userId }));
+    expect(other.entryCount).toBe(0);
+    expect(other.recruiters).toEqual([]);
+    expect(
+      (await runA((tx) => getAnalytics(tx, lead, { recruiterId: rec2.userId }))).entryCount,
+    ).toBe(0);
+    const all = await runA((tx) => getAnalytics(tx, lead, { recruiterId: rec1.userId }));
+    expect(all.entryCount).toBe(1);
+    expect(all.recruiters.length).toBeGreaterThanOrEqual(3);
   });
 
-  it('applies the agency visibility rule: with "own and shared" a recruiter sees only their own positions', async () => {
-    expect((await view(recruiter2)).sources[0]).toMatchObject({ added: 2 });
+  it('applies the client, position and date filters', async () => {
+    const position = (
+      await runA((tx) => tx.pipelineEntry.findUniqueOrThrow({ where: { id: entryId } }))
+    ).positionId;
+    expect((await runA((tx) => getAnalytics(tx, lead, { clientId }))).entryCount).toBe(1);
+    expect(
+      (
+        await runA((tx) =>
+          getAnalytics(tx, lead, { clientId: '11111111-1111-4111-8111-111111111111' }),
+        )
+      ).entryCount,
+    ).toBe(0);
+    expect((await runA((tx) => getAnalytics(tx, lead, { positionId: position }))).entryCount).toBe(
+      1,
+    );
+    expect(
+      (await runA((tx) => getAnalytics(tx, lead, { from: '2020-01-01', to: '2020-02-01' })))
+        .entryCount,
+    ).toBe(0);
+  });
+
+  it("never shows another agency's data, whatever ids the filters name", async () => {
+    expect((await runB((tx) => getAnalytics(tx, outsider, {}))).entryCount).toBe(0);
+    expect((await runB((tx) => getAnalytics(tx, outsider, { clientId }))).entryCount).toBe(0);
+  });
+
+  it('counts what was done in the portals against everything done (T-14-08)', async () => {
+    const position = (
+      await runA((tx) => tx.pipelineEntry.findUniqueOrThrow({ where: { id: entryId } }))
+    ).positionId;
+    const approval = (source: string) =>
+      admin.query(
+        `INSERT INTO "Approval" (id, "agencyId", subject, "subjectId", "versionId", decision, source, "approverName", "decidedAt", "updatedAt")
+         VALUES (gen_random_uuid(), $1, 'jd'::"ApprovalSubject", $2, gen_random_uuid(), 'approved'::"ApprovalDecision", $3, 'Ms. Park', now(), now())`,
+        [agencyA, position, source],
+      );
+    await approval('portal');
+    await approval('recorded_by_recruiter');
+    const interview = await runA((tx) => tx.interview.findFirstOrThrow({ where: { entryId } }));
     await admin.query(
-      `UPDATE "Agency" SET settings = settings || '{"visibility":"own_and_shared"}'::jsonb WHERE id = $1`,
-      [agencyA],
+      `INSERT INTO "InterviewFeedback" (id, "agencyId", "interviewId", "fromRole", source, "updatedAt") VALUES (gen_random_uuid(), $1, $2, 'hm', 'portal', now())`,
+      [agencyA, interview.id],
     );
-    try {
-      const own = await view(recruiter2);
-      expect(own.sources[0]).toMatchObject({ added: 1, submitted: 0 });
-      expect(own.kpis.submissionToInterview.denominator).toBe(0);
-      // Managers still see everything.
-      expect((await view(manager)).sources[0]).toMatchObject({ added: 2 });
-    } finally {
-      await admin.query(`UPDATE "Agency" SET settings = settings - 'visibility' WHERE id = $1`, [
-        agencyA,
-      ]);
+    const result = await runA((tx) => getAnalytics(tx, lead, { positionId: position }));
+    expect(result.portalAdoption.approvals).toMatchObject({ numerator: 1, denominator: 2 });
+    expect(result.portalAdoption.feedback).toMatchObject({ numerator: 1, denominator: 1 });
+    expect(result.portalAdoption.overall).toMatchObject({ numerator: 2, denominator: 3 });
+    expect(analyticsCsv(result, 'kpis')).toContain('portal_adoption,66.7,percent,2,3');
+    // Another agency's lead sees none of it.
+    expect(
+      (await runB((tx) => getAnalytics(tx, outsider, {}))).portalAdoption.overall.denominator,
+    ).toBe(0);
+  });
+
+  it('exports every table as CSV with the same filters', async () => {
+    const result = await runA((tx) => getAnalytics(tx, lead, { clientId }));
+    for (const table of ['kpis', 'stages', 'sources', 'capacity'] as const) {
+      const csv = analyticsCsv(result, table);
+      expect(csv.startsWith('﻿')).toBe(true);
+      expect(csv.split('\r\n').length).toBeGreaterThan(2);
     }
-  });
-
-  it('names each recruiter in the capacity table', async () => {
-    const v = await view(manager);
-    expect(v.capacity.recruiters.map((r) => r.userId).sort()).toEqual(
-      [recruiter1.userId, recruiter2.userId].sort(),
-    );
-    expect(v.capacity.recruiters.every((r) => r.name.length > 0)).toBe(true);
-  });
-});
-
-describe('analytics period and CSV', () => {
-  const now = new Date('2026-10-07T15:00:00Z');
-
-  it('defaults to the last 90 days including today, and takes inclusive days', () => {
-    expect(resolvePeriod({}, now)).toEqual({
-      from: new Date('2026-07-10T00:00:00Z'),
-      to: new Date('2026-10-08T00:00:00Z'),
-    });
-    expect(resolvePeriod({ from: '2026-07-01', to: '2026-09-30' }, now)).toEqual({
-      from: new Date('2026-07-01T00:00:00Z'),
-      to: new Date('2026-10-01T00:00:00Z'),
-    });
-  });
-
-  it('refuses a period that ends before it starts or is longer than two years (422)', () => {
-    expect(() => resolvePeriod({ from: '2026-09-01', to: '2026-08-01' }, now)).toThrow(
-      expect.objectContaining({ status: 422 }),
-    );
-    expect(() => resolvePeriod({ from: '2023-01-01', to: '2026-08-01' }, now)).toThrow(
-      expect.objectContaining({ status: 422 }),
-    );
-  });
-
-  it('writes each table as CSV, quoting commas and neutralising spreadsheet formulas', () => {
-    const r = { numerator: 1, denominator: 2, value: 0.5 };
-    const empty = { medianDays: null, count: 0 };
-    const v: AnalyticsView = {
-      range: { from: '2026-07-01', to: '2026-09-30' },
-      filters: { clientId: null, positionId: null, ownerId: null },
-      kpis: {
-        timeToFill: { medianDays: 41, count: 1 },
-        timeToInterview: empty,
-        outreachResponse: r,
-        submissionToInterview: r,
-        interviewToOffer: r,
-        offerAcceptance: r,
-        interviewToHire: r,
-        sourceToHire: r,
-        conversion: [{ from: 'sourced', to: 'contacted', rate: r }],
-      },
-      sources: [],
-      capacity: {
-        weeks: 13,
-        activePositionsPerRecruiter: 1.5,
-        timePerPosition: empty,
-        recruiters: [
-          {
-            userId: 'u1',
-            name: 'Kim, "Alex"',
-            activePositionsPerWeek: 2,
-            filled: 1,
-            timePerPosition: empty,
-          },
-          {
-            userId: 'u2',
-            name: '=HYPERLINK("x")',
-            activePositionsPerWeek: 1,
-            filled: 0,
-            timePerPosition: empty,
-          },
-        ],
-      },
-    };
-    const kpis = analyticsCsv(v, 'kpis').split('\r\n');
-    expect(kpis[0]).toBe('kpi,value,numerator,denominator,median_days,count');
-    expect(kpis).toContain('timeToFill,,,,41,1');
-    expect(kpis).toContain('offerAcceptance,0.5,1,2,,');
-    const capacity = analyticsCsv(v, 'capacity');
-    expect(capacity).toContain('"Kim, ""Alex""",2,1,');
-    expect(capacity).toContain(`"'=HYPERLINK(""x"")",1,0,`);
-    expect(analyticsCsv(v, 'conversion')).toContain('sourced,contacted,0.5,1,2');
+    expect(analyticsCsv(result, 'kpis')).toContain('outreach_response_rate,100,percent,1,1');
   });
 });

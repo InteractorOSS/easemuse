@@ -149,3 +149,53 @@ ${brandHeaderHtml(input.brand)}<h1 style="font-size:20px">${escapeHtml(email('he
 </body></html>`;
   return { subject, text, html };
 }
+
+export type PortalNotice =
+  | {
+      type: 'shared';
+      kind: 'jd_for_approval' | 'submission' | 'tailored_resume' | 'status' | 'intake_form';
+      updated: boolean;
+    }
+  | { type: 'answered' };
+
+/**
+ * A short email telling a portal user that something is waiting (T-14-07). It carries no link that
+ * signs in and none of the content: the person opens the portal, and signs in again by emailed link
+ * if the session has ended. Copy comes from the localized catalogs (ADR-015).
+ */
+export async function renderPortalNoticeEmail(input: {
+  locale: Locale;
+  agencyName: string;
+  url: string;
+  notice: PortalNotice;
+}): Promise<RenderedEmail> {
+  const messages = await loadMessages(input.locale);
+  const email = createTranslator({
+    locale: input.locale,
+    messages,
+    namespace: 'email.portal.notice',
+  } as never) as unknown as Translate;
+  const values = { agency: input.agencyName };
+  const line =
+    input.notice.type === 'answered'
+      ? email('answered', values)
+      : email(`${input.notice.updated ? 'updated' : 'shared'}.${input.notice.kind}`, values);
+  const subject = email('subject', values);
+  const text = [
+    email('heading', values),
+    '',
+    line,
+    '',
+    `${email('action')}: ${input.url}`,
+    '',
+    email('signIn'),
+    email('noDetails'),
+  ].join('\n');
+  const html = `<!doctype html><html lang="${input.locale}"><body style="font-family:system-ui,sans-serif;color:#111827">
+<h1 style="font-size:20px">${escapeHtml(email('heading', values))}</h1>
+<p>${escapeHtml(line)}</p>
+<p><a href="${escapeHtml(input.url)}" style="display:inline-block;background:#1d4ed8;color:#ffffff;padding:10px 16px;border-radius:6px;text-decoration:none">${escapeHtml(email('action'))}</a></p>
+<p style="color:#4b5563;font-size:13px">${escapeHtml(email('signIn'))} ${escapeHtml(email('noDetails'))}</p>
+</body></html>`;
+  return { subject, text, html };
+}

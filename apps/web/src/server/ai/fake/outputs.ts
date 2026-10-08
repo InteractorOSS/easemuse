@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import {
   CHANNEL_LIMITS,
+  FEEDBACK_CRITERIA,
   INTAKE_TOPICS,
   JD_SECTIONS,
   MATCH_WEIGHT_KEYS,
@@ -19,11 +20,13 @@ import {
   type FitLevel,
   type IntakeQuestionsModelOutput,
   type IntakeTopic,
+  type InterviewFeedbackModelOutput,
   type JdSection,
   type MatchAnalysisModelOutput,
   type MatchLevel,
   type MatchWeightKey,
   type OutreachModelOutput,
+  type PatternSummaryModelOutput,
   type PortfolioFitModelOutput,
   type QualificationLevel,
   type QualificationModelOutput,
@@ -39,12 +42,14 @@ import {
   type TailoredResumeModelOutput,
 } from '@easemuse/core';
 import type { CallQuestionsInput } from '../prompts/call-questions';
+import type { FeedbackStructureInput } from '../prompts/feedback-structure';
 import type { VerifierOutput } from '../prompts/factcheck';
 import type { IntakeQuestionsInput } from '../prompts/intake-questions';
 import type { JdStructureInput } from '../prompts/jd-structure';
 import type { BenchmarkInput } from '../prompts/market-benchmark';
 import { renderCandidateForMatch, type MatchAnalyzeInput } from '../prompts/match-analyze';
 import type { OutreachDraftInput } from '../prompts/outreach-draft';
+import type { PatternSummarizeInput } from '../prompts/pattern-summarize';
 import type { PoolSimilarInput } from '../prompts/pool-similar';
 import type { PortfolioCheckInput } from '../prompts/portfolio-check';
 import type { ProfileStructureInput } from '../prompts/profile-structure';
@@ -1006,6 +1011,58 @@ function marketBenchmark(input: BenchmarkInput): BenchmarkModelOutput {
 }
 
 // ---------------------------------------------------------------------------------------------
+// A17 feedback.structure
+// ---------------------------------------------------------------------------------------------
+
+/** Words that point a sentence of feedback at one criterion. */
+const FEEDBACK_CUES: Record<(typeof FEEDBACK_CRITERIA)[number], RegExp> = {
+  technicalFit: /\b(technical|skills?|hands-on|expertise)\b/i,
+  leadershipFit: /\b(lead|leader|leadership|manag\w*)\b/i,
+  communication: /\b(communicat\w*|present\w*|explain\w*)\b/i,
+  culturalFit: /\b(culture|cultural|values|team fit)\b/i,
+  industryExperience: /\b(industry|sector|domain)\b/i,
+};
+
+/** Rates a criterion only when a sentence names it, from the words of that sentence. */
+function feedbackStructure(input: FeedbackStructureInput): InterviewFeedbackModelOutput {
+  const sentences = pieces(input.email);
+  const used: string[] = [];
+  const ratings = Object.fromEntries(
+    FEEDBACK_CRITERIA.map((k) => {
+      const said = sentences.find((l) => FEEDBACK_CUES[k].test(l));
+      if (!said) return [k, { rating: null, evidence: '' }];
+      used.push(said);
+      const rating = /\b(weak|lack\w*|gap|concern\w*|limited|not enough)\b/i.test(said)
+        ? 'gap'
+        : /\b(strong|excellent|great|impressive|very good)\b/i.test(said)
+          ? 'strong'
+          : 'moderate';
+      return [k, { rating, evidence: clip(said, 400) }];
+    }),
+  ) as InterviewFeedbackModelOutput['ratings'];
+  return { ratings, comments: clip([...new Set(used)].join(' '), 4000) };
+}
+
+// ---------------------------------------------------------------------------------------------
+// A18 pattern.summarize
+// ---------------------------------------------------------------------------------------------
+
+/** One plain statement per fact with records, citing it and copying its numbers. */
+function patternSummarize(input: PatternSummarizeInput): PatternSummaryModelOutput {
+  const facts = input.facts.filter((f) => f.n > 0).slice(0, 8);
+  const chosen = facts.length > 0 ? facts : input.facts.slice(0, 1);
+  return {
+    statements: chosen.map((f) => ({
+      text: clip(
+        `In these records, ${f.label}: ${f.hits} of ${f.n}${f.small ? ` (only ${f.n} records)` : ''}.`,
+        500,
+      ),
+      factIds: [f.id],
+    })),
+  };
+}
+
+// ---------------------------------------------------------------------------------------------
 // X1 factcheck.verify
 // ---------------------------------------------------------------------------------------------
 
@@ -1034,6 +1091,8 @@ const GENERATORS: Record<string, (input: never) => unknown> = {
   'pool.similar': poolSimilar,
   'portfolio.check': portfolioCheck,
   'market.benchmark': marketBenchmark,
+  'feedback.structure': feedbackStructure,
+  'pattern.summarize': patternSummarize,
   'factcheck.verify': factCheckVerify,
 };
 

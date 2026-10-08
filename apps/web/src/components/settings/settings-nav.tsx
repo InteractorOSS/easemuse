@@ -20,6 +20,8 @@ export function SettingsNav({
   const items = [
     ...(role !== 'recruiter' ? [{ key: 'members' as const }] : []),
     { key: 'defaults' as const },
+    { key: 'templates' as const },
+    { key: 'mailbox' as const },
     ...(role === 'admin' ? [{ key: 'branding' as const }] : []),
     ...(role !== 'recruiter' ? [{ key: 'privacy' as const }] : []),
     ...(role === 'admin'

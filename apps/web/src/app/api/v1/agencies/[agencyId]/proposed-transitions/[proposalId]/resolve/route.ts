@@ -7,6 +7,7 @@ import { authorizeAgency } from '@/lib/auth/authorize';
 import { withAgency } from '@/lib/db';
 import { handleRoute, ok } from '@/lib/http/responses';
 import { parseBody } from '@/lib/http/validation';
+import { dispatchOutboxMessage } from '@/server/messaging/outbox';
 import { resolveProposal } from '@/server/portal/proposals';
 
 /**
@@ -23,9 +24,18 @@ export async function POST(
     if (authed instanceof Response) return authed;
     const id = z.guid().parse(proposalId);
     const input = await parseBody(req, resolveProposalInputSchema);
-    await withAgency(authed.agency.id, (tx) => resolveProposal(tx, authed.actor, id, input), {
-      userId: authed.userId,
-    });
+    const { notificationMessageId } = await withAgency(
+      authed.agency.id,
+      (tx) => resolveProposal(tx, authed.actor, id, input),
+      { userId: authed.userId },
+    );
+    if (notificationMessageId) {
+      await dispatchOutboxMessage({
+        agencyId: authed.agency.id,
+        outboxMessageId: notificationMessageId,
+        requestedById: authed.userId,
+      });
+    }
     return ok({ resolved: true });
   });
 }

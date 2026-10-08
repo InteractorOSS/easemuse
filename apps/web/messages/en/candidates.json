@@ -163,7 +163,11 @@
       "experience": "Experience",
       "skills": "Skills"
     },
-    "searchForm": "Find candidates"
+    "searchForm": "Find candidates",
+    "tags": "Tags (all of)",
+    "tagsHint": "Separate with commas.",
+    "bulk": "Add several resumes",
+    "import": "Import from a CSV"
   },
   "globalSearch": {
     "label": "Search clients, positions and candidates",
@@ -214,6 +218,118 @@
         "conflict": "Confirm the candidate first.",
         "forbidden": "Only an admin can clear this."
       }
+    },
+    "tagsEditor": {
+      "title": "Tags",
+      "hint": "Short labels of your own. Anyone in the agency can use them to find this candidate.",
+      "none": "No tags yet.",
+      "add": "Add a tag",
+      "addButton": "Add",
+      "remove": "Remove the tag {tag}",
+      "filter": "Show candidates tagged {tag}",
+      "saved": "Tags saved.",
+      "error": "Could not save the tags. A tag is at most 40 characters and there can be 20 of them."
+    },
+    "notes": {
+      "title": "Notes",
+      "hint": "Only your agency sees these. They are included when the candidate asks for their data and removed when it is deleted.",
+      "none": "No notes yet.",
+      "label": "New note",
+      "add": "Add note",
+      "by": "{name}, {date}",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleteNote": "Delete this note",
+      "editNote": "Edit this note",
+      "edited": "(edited)",
+      "saved": "Note saved.",
+      "error": "Could not save the note."
     }
+  },
+  "bulk": {
+    "title": "Add several resumes",
+    "intro": "Choose up to {max} resume files that came from the same place. Each one becomes a draft candidate. Nothing is saved as a candidate until you open it, check the profile the AI proposes and confirm it.",
+    "source": "Where did they come from?",
+    "files": "Resume files (PDF, DOCX or text, up to 10 MB each)",
+    "tooMany": "Choose at most {max} files at a time. The first {max} were kept.",
+    "start": "Upload {count, plural, one {# file} other {# files}}",
+    "uploading": "Uploading {done} of {total}…",
+    "done": "Uploaded {ok} of {total}.",
+    "file": "File",
+    "status": "Status",
+    "states": {
+      "waiting": "Waiting",
+      "uploading": "Uploading",
+      "reading": "Reading the file",
+      "drafting": "AI is writing the profile",
+      "ready": "Ready to review",
+      "confirmed": "Confirmed",
+      "discarded": "Discarded",
+      "readFailed": "The file could not be read",
+      "rejected": "Not uploaded: {reason}"
+    },
+    "review": "Review {name}",
+    "reviewLink": "Review",
+    "errors": {
+      "unsupported": "Not a PDF, DOCX or text file",
+      "tooLarge": "More than 10 MB",
+      "generic": "Something went wrong"
+    },
+    "again": "Choose other files",
+    "back": "Back to candidates"
+  },
+  "import": {
+    "title": "Import candidates from a CSV",
+    "intro": "For an export from another system or a spreadsheet. Choose the file, check which column is which, and import. People already in the agency (same email, phone or profile link) are skipped, not changed.",
+    "source": "Where did they come from?",
+    "file": "CSV file (up to 2 MB, {max} rows)",
+    "readError": "The file could not be read as a CSV.",
+    "empty": "The file has no rows.",
+    "tooBig": "The file is larger than 2 MB.",
+    "tooManyRows": "The file has more than {max} rows. Split it and import in parts.",
+    "mapping": "Which column is which",
+    "mappingHint": "We guessed from the headings. Change any that are wrong; leave a column as \"Do not import\" to skip it.",
+    "column": "Column in your file",
+    "example": "First rows",
+    "field": "Import as",
+    "skip": "Do not import",
+    "fields": {
+      "fullName": "Full name",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "profileUrl": "Profile link",
+      "currentTitle": "Current title",
+      "currentCompany": "Current company",
+      "location": "Location",
+      "skills": "Skills (separated by commas)",
+      "yearsExperience": "Years of experience",
+      "tags": "Tags (separated by commas)",
+      "notes": "Note"
+    },
+    "needName": "Choose a column for the name: either the full name, or the first name and the last name.",
+    "start": "Import {count, plural, one {# row} other {# rows}}",
+    "progress": "Importing… {done} of {total}",
+    "summary": "Finished: {created} added, {duplicates} already in the agency, {invalid} skipped.",
+    "duplicates": "Already in the agency (not changed)",
+    "duplicateLine": "Row {row}: {name} is the same as an existing candidate ({reasons})",
+    "reasons": {
+      "email": "same email",
+      "phone": "same phone",
+      "profile_url": "same profile link",
+      "name_employer": "similar name and employer"
+    },
+    "viewExisting": "Open",
+    "skipped": "Skipped rows",
+    "skippedLine": "Row {row}: {reason}",
+    "noName": "no name",
+    "rejected": "could not be imported",
+    "seeCandidates": "See the candidates",
+    "another": "Import another file",
+    "back": "Back to candidates",
+    "failed": "The import stopped: {rows} rows were not sent. Rows already added stay. Check your connection and import the rest again; people already added are skipped."
   }
 }

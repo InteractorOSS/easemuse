@@ -95,6 +95,7 @@ describe('pipeline panels pass axe', () => {
             recentlyContacted: { at: '2026-10-01T00:00:00Z', byOtherPosition: true },
             touches: [touch(1, 'sent'), touch(2, 'planned'), touch(3, 'planned')],
           }),
+        [`GET ${api}/outreach-templates`]: () => json([]),
       }).impl,
     );
     const { container } = renderApp(<OutreachPanel agencyId="a1" entryId="e1" onChanged={noop} />);

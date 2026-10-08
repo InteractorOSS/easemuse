@@ -1,19 +1,18 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 // route-audience: agency
+import { analyticsQuerySchema } from '@easemuse/core';
 import { authorizeAgency } from '@/lib/auth/authorize';
 import { withAgency } from '@/lib/db';
 import { handleRoute, ok } from '@/lib/http/responses';
 import { parseQuery } from '@/lib/http/validation';
-import { analyticsQuerySchema } from '@/server/analytics/query';
 import { getAnalytics } from '@/server/analytics/service';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * Recruiting KPIs, results by source and capacity (US-1101). Any member; the agency's position
- * visibility rule decides which positions count. `?from&to` (inclusive days), `clientId`,
- * `positionId`, `ownerId`.
+ * The 9 KPIs, the stage funnel, the source table and the capacity panel for a date range, optionally
+ * narrowed by client, position and recruiter (US-1101). Recruiters get their own figures.
  */
 export async function GET(
   req: Request,

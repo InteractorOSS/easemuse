@@ -16,12 +16,15 @@ import {
 } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 import { ApiError, forbidden, notFound } from '@/lib/http/errors';
+import { getAgencySettings } from '@/server/tenancy/settings';
 import { logActivity } from '@/server/activity/service';
 import { readApproved, readApprovedVersionById } from '@/server/artifacts/service';
 import { assertFeature } from '@/server/platform/features';
 import { requireEntry } from '@/server/pipeline/service';
 import { requirePosition } from '@/server/positions/service';
 import { getSubmissionOverview, recordSubmission } from '@/server/submission/submit';
+import { queuePortalNotice } from './notify';
+import { buildStatusSnapshot } from './status-snapshot';
 
 export interface ShareView {
   id: string;
@@ -32,10 +35,20 @@ export interface ShareView {
   revokedAt: Date | null;
 }
 
+/** What `publishShare` returns: the share, and the email telling the person (dispatch it after the commit). */
+export interface PublishedShare extends ShareView {
+  notificationMessageId: string | null;
+}
+
 const iso = (d: Date) => d.toISOString();
 
-/** Shares about a position (the rest are about a candidate in a position). */
-const POSITION_KINDS = new Set<string>(['jd_for_approval', 'intake_form']);
+/** What a share's subject id points at, for the activity log. */
+const subjectType = (kind: string) =>
+  kind === 'jd_for_approval' || kind === 'intake_form'
+    ? 'position'
+    : kind === 'status'
+      ? 'candidate'
+      : 'pipeline_entry';
 
 async function loadPortalUser(tx: ScopedTx, id: string, audience: 'hiring_manager' | 'candidate') {
   const user = await tx.portalUser.findUnique({
@@ -266,13 +279,23 @@ export async function publishShare(
   actor: AgencyActor,
   input: PublishShareInput,
   now: Date = new Date(),
-): Promise<ShareView> {
+): Promise<PublishedShare> {
   await assertFeature(tx, actor.agencyId, 'portals');
   const audience = SHARE_AUDIENCE[input.kind];
   const user = await loadPortalUser(tx, input.portalUserId, audience);
   let snapshot: PortalSnapshot;
 
-  if (input.kind === 'jd_for_approval' || input.kind === 'intake_form') {
+  if (input.kind === 'status') {
+    // The subject is the candidate: only their own portal user may be sent it (FR-CDP-05).
+    if (user.candidateId !== input.subjectId) throw forbidden('This is not that candidate');
+    const level = (await getAgencySettings(tx, actor.agencyId)).candidateStatusLevel;
+    if (level === 'off') {
+      throw new ApiError('conflict', 'Sharing application status with candidates is turned off', {
+        status: 409,
+      });
+    }
+    snapshot = await buildStatusSnapshot(tx, input.subjectId, level, now);
+  } else if (input.kind === 'jd_for_approval' || input.kind === 'intake_form') {
     const position = await tx.position.findUnique({
       where: { id: input.subjectId },
       select: { clientId: true },
@@ -303,7 +326,7 @@ export async function publishShare(
     }
   }
 
-  await tx.portalShare.updateMany({
+  const replaced = await tx.portalShare.updateMany({
     where: { portalUserId: user.id, kind: input.kind, subjectId: input.subjectId, revokedAt: null },
     data: { revokedAt: now },
   });
@@ -321,9 +344,15 @@ export async function publishShare(
     agencyId: actor.agencyId,
     actor: { type: 'user', id: actor.userId },
     action: 'portal.shared',
-    entityType: POSITION_KINDS.has(input.kind) ? 'position' : 'pipeline_entry',
+    entityType: subjectType(input.kind),
     entityId: input.subjectId,
     data: { kind: input.kind, shareId: row.id },
+  });
+  const notice = await queuePortalNotice(tx, {
+    agencyId: actor.agencyId,
+    senderId: actor.userId,
+    portalUserId: user.id,
+    notice: { type: 'shared', kind: input.kind, updated: replaced.count > 0 },
   });
   return {
     id: row.id,
@@ -332,6 +361,7 @@ export async function publishShare(
     subjectId: input.subjectId,
     createdAt: row.createdAt,
     revokedAt: null,
+    notificationMessageId: notice?.outboxMessageId ?? null,
   };
 }
 
@@ -353,7 +383,7 @@ export async function revokeShare(
     agencyId: actor.agencyId,
     actor: { type: 'user', id: actor.userId },
     action: 'portal.share_revoked',
-    entityType: POSITION_KINDS.has(share.kind) ? 'position' : 'pipeline_entry',
+    entityType: subjectType(share.kind),
     entityId: share.subjectId,
     data: { kind: share.kind, shareId },
   });

@@ -4,11 +4,19 @@ import { randomUUID } from 'node:crypto';
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import type { DbHandle } from '@/lib/db/client';
-import { adminClient, appHandle, appScope, cleanup, createAgency, dbAvailable } from '@/test/db';
+import {
+  adminClient,
+  appHandle,
+  appScope,
+  cleanup,
+  createAgency,
+  createUser,
+  dbAvailable,
+} from '@/test/db';
 import type { JobContext } from '@/worker/registry';
 import { createOutboxMessage } from './outbox';
 import { sendOutboxMessage } from './send';
-import type { Transport } from './transport';
+import { PermanentSendError, type OutgoingMessage, type Transport } from './transport';
 
 describe.skipIf(!dbAvailable())('outbox and messaging.send (RLS)', () => {
   let admin: pg.Client;
@@ -86,6 +94,55 @@ describe.skipIf(!dbAvailable())('outbox and messaging.send (RLS)', () => {
     await sendOutboxMessage(ctxFor(id), { transportFor: () => transport });
     expect(await status(id)).toMatchObject({ status: 'sent', transport: 'smtp' });
     expect((await status(id)).sentAt).toBeInstanceOf(Date);
+  });
+
+  it('tells the transport who sends, and keeps the provider ids it returns (T-5-02, T-5-12)', async () => {
+    const userId = await createUser(admin);
+    await admin.query(
+      `UPDATE "User" SET email = 'sam@agency.test', name = 'Sam Recruiter' WHERE id = $1`,
+      [userId],
+    );
+    const { id } = await scope.withAgency(agencyId, (tx) =>
+      createOutboxMessage(tx, msg({ senderId: userId, kind: 'outreach' })),
+    );
+    let seen: OutgoingMessage | null = null;
+    const transport: Transport = {
+      name: 'gmail',
+      send: async (m) => {
+        seen = m;
+        return { status: 'sent' as const, providerId: 'msg-1', threadId: 'thr-1' };
+      },
+    };
+    await sendOutboxMessage(ctxFor(id), { transportFor: () => transport });
+    expect(seen).toMatchObject({
+      senderId: userId,
+      senderName: 'Sam Recruiter',
+      senderEmail: 'sam@agency.test',
+      agencyName: 'Mail',
+    });
+    expect(await status(id)).toMatchObject({
+      status: 'sent',
+      transport: 'gmail',
+      providerMessageId: 'msg-1',
+      providerThreadId: 'thr-1',
+    });
+  });
+
+  it('fails at once, without retries, when the transport says retrying cannot help', async () => {
+    const { id } = await scope.withAgency(agencyId, (tx) => createOutboxMessage(tx, msg()));
+    const refusing: Transport = {
+      name: 'smtp',
+      send: async () => {
+        throw new PermanentSendError('The SMTP server rejected the message (550)');
+      },
+    };
+    await expect(
+      sendOutboxMessage(ctxFor(id, 1), { transportFor: () => refusing }),
+    ).rejects.toMatchObject({ name: 'UnrecoverableError' });
+    expect(await status(id)).toMatchObject({
+      status: 'failed',
+      lastError: 'The SMTP server rejected the message (550)',
+    });
   });
 
   it('keeps the message queued for a retry on early failures and marks it failed after the last attempt', async () => {

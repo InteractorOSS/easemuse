@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
+import { CANDIDATE_STATUS_LEVELS } from './portal-snapshots';
 
 /**
  * Matching criteria and their default weights (brief §5.1). The overall score is a weighted sum of
@@ -55,6 +56,9 @@ export type GuardKey = (typeof GUARD_KEYS)[number];
 export const VISIBILITY_RULES = ['all_positions', 'own_and_shared'] as const;
 export type VisibilityRule = (typeof VISIBILITY_RULES)[number];
 
+export const EMAIL_TRANSPORTS = ['dev-capture', 'log-only', 'smtp', 'mailbox'] as const;
+export type EmailTransportChoice = (typeof EMAIL_TRANSPORTS)[number];
+
 export const UI_LOCALES = ['en', 'ko'] as const;
 
 export const DEFAULT_REJECTION_REASONS = [
@@ -103,10 +107,16 @@ export const agencySettingsSchema = z.object({
   visibility: z.enum(VISIBILITY_RULES).default('all_positions'),
   /** Explain-only mode (ADR-007, Q-06): match levels and evidence are shown, numeric scores are hidden. */
   explainOnly: z.boolean().default(false),
+  /** How much of their own applications a candidate sees when the recruiter shares their status (FR-CDP-05). */
+  candidateStatusLevel: z.enum(CANDIDATE_STATUS_LEVELS).default('basic'),
   /** Agency default UI language (ADR-015). Absent = English. */
   locale: z.enum(UI_LOCALES).optional(),
-  /** Email transport for this agency (ADR-009); capture-only until a provider is configured. */
-  emailTransport: z.enum(['dev-capture', 'log-only']).optional(),
+  /**
+   * How this agency's email leaves the system (ADR-009): `dev-capture` and `log-only` deliver nothing
+   * (test mode), `smtp` uses the SMTP service the platform operator configured, `mailbox` sends from
+   * each recruiter's connected Gmail or Microsoft 365 mailbox. Absent = capture only.
+   */
+  emailTransport: z.enum(EMAIL_TRANSPORTS).optional(),
 });
 export type AgencySettings = z.infer<typeof agencySettingsSchema>;
 
@@ -142,6 +152,7 @@ export const agencySettingsPatchSchema = z
     rejectionReasons: shape.rejectionReasons.removeDefault().optional(),
     visibility: shape.visibility.removeDefault().optional(),
     explainOnly: shape.explainOnly.removeDefault().optional(),
+    candidateStatusLevel: shape.candidateStatusLevel.removeDefault().optional(),
     locale: shape.locale,
     emailTransport: shape.emailTransport,
   })

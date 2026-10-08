@@ -82,10 +82,12 @@ describe('CandidatesPool', () => {
           seniority: '',
           minYears: '',
           maxYears: '',
+          tags: 'vip',
         }}
       />,
     );
     await waitFor(() => expect(stub.calls[0]!.url.searchParams.get('q')).toBe('payroll'));
+    expect(stub.calls[0]!.url.searchParams.get('tags')).toBe('vip');
     expect((screen.getByLabelText('Search candidates') as HTMLInputElement).value).toBe('payroll');
   });
 

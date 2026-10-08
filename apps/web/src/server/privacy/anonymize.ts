@@ -73,6 +73,7 @@ export async function anonymizeCandidate(
   await tx.artifactVersion.deleteMany({ where: { artifactId: { in: artifactIds } } });
   await tx.artifact.deleteMany({ where: { id: { in: artifactIds } } });
   await tx.candidateDocument.deleteMany({ where: { candidateId } });
+  await tx.candidateNote.deleteMany({ where: { candidateId } });
   await tx.portalUser.deleteMany({ where: { candidateId } });
   // What the candidate told us about themselves in the portal is personal data (FR-CDP-04).
   await tx.candidateUpdateProposal.deleteMany({ where: { candidateId } });

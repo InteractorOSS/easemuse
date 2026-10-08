@@ -5,7 +5,8 @@ import { z } from 'zod';
 import type { ScopedTx } from '@/lib/db';
 import type { JobContext } from '@/worker/registry';
 import { SEND_MAX_ATTEMPTS } from './outbox';
-import { selectTransport, type Transport } from './transport';
+import { selectTransport } from './transport';
+import { PermanentSendError, type Transport } from './transport-core';
 
 const dataSchema = z.object({ outboxMessageId: z.guid() });
 
@@ -13,7 +14,7 @@ const dataSchema = z.object({ outboxMessageId: z.guid() });
 const FINAL = new Set(['sent', 'captured', 'suppressed', 'bounced', 'failed']);
 
 export interface SendDeps {
-  /** Loads the transport; injectable for tests. */
+  /** Loads the transport; injectable for tests and for the mailbox transport. */
   transportFor?: (agencySettings: unknown) => Transport;
 }
 
@@ -42,14 +43,26 @@ export async function sendOutboxMessage(ctx: JobContext, deps: SendDeps = {}): P
     if (!message) return null;
     const agency = await tx.agency.findUnique({
       where: { id: message.agencyId },
-      select: { settings: true },
+      select: { settings: true, name: true },
     });
+    const sender = message.senderId
+      ? await tx.user.findUnique({
+          where: { id: message.senderId },
+          select: { name: true, email: true },
+        })
+      : null;
     const suppressed =
       message.kind === 'outreach' &&
       (await tx.suppression.findUnique({
         where: { agencyId_address: { agencyId: message.agencyId, address: message.toAddress } },
       })) !== null;
-    return { message, settings: agency?.settings ?? null, suppressed };
+    return {
+      message,
+      settings: agency?.settings ?? null,
+      agencyName: agency?.name ?? null,
+      sender,
+      suppressed,
+    };
   });
   if (!loaded) throw new UnrecoverableError('outbox_message_not_found');
   const { message } = loaded;
@@ -71,21 +84,35 @@ export async function sendOutboxMessage(ctx: JobContext, deps: SendDeps = {}): P
   );
   const transport = (deps.transportFor ?? selectTransport)(loaded.settings);
   try {
-    const outcome = await transport.send(message);
+    const outcome = await transport.send({
+      ...message,
+      senderName: loaded.sender?.name ?? null,
+      senderEmail: loaded.sender?.email ?? null,
+      agencyName: loaded.agencyName,
+    });
     await ctx.withAgency((tx) =>
       tx.outboxMessage.update({
         where: { id: message.id },
         data: {
           status: outcome.status,
-          transport: transport.name,
+          transport:
+            outcome.status === 'sent' ? (outcome.transport ?? transport.name) : transport.name,
           lastError: null,
           sentAt: outcome.status === 'sent' ? new Date() : null,
+          ...(outcome.status === 'sent'
+            ? {
+                providerMessageId: outcome.providerId ?? null,
+                providerThreadId: outcome.threadId ?? null,
+              }
+            : {}),
         },
       }),
     );
   } catch (error) {
     const text = (error instanceof Error ? error.message : String(error)).slice(0, 500);
-    const last = ctx.attempt >= SEND_MAX_ATTEMPTS;
+    // A failure retrying cannot fix ends the message now.
+    const permanent = error instanceof PermanentSendError;
+    const last = permanent || ctx.attempt >= SEND_MAX_ATTEMPTS;
     await ctx.withAgency((tx) =>
       tx.outboxMessage.update({
         where: { id: message.id },
@@ -93,6 +120,6 @@ export async function sendOutboxMessage(ctx: JobContext, deps: SendDeps = {}): P
       }),
     );
     if (last) await failTouch(ctx, message.id);
-    throw error;
+    throw permanent ? new UnrecoverableError(text) : error;
   }
 }

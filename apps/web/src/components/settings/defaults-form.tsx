@@ -6,6 +6,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useId, useState } from 'react';
 import {
+  CANDIDATE_STATUS_LEVELS,
+  EMAIL_TRANSPORTS,
   DEFAULT_MATCH_WEIGHTS,
   GUARD_KEYS,
   GUARD_MODES,
@@ -21,7 +23,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
-import { apiFetch } from '@/lib/api-client';
+import { ApiClientError, apiFetch } from '@/lib/api-client';
 
 /** Settings → Defaults: matching weights, outreach timing, guard rules, rejection reasons, visibility, language. */
 export function DefaultsForm({
@@ -94,6 +96,8 @@ function Form({
   const [reasons, setReasons] = useState(initial.rejectionReasons.join('\n'));
   const [visibility, setVisibility] = useState(initial.visibility);
   const [explainOnly, setExplainOnly] = useState(initial.explainOnly);
+  const [candidateStatus, setCandidateStatus] = useState(initial.candidateStatusLevel);
+  const [emailTransport, setEmailTransport] = useState(initial.emailTransport ?? 'dev-capture');
   const [locale, setLocale] = useState<string>(initial.locale ?? 'en');
   const [errors, setErrors] = useState<{ weights?: string; reasons?: string; form?: string }>({});
 
@@ -105,7 +109,13 @@ function Form({
       toast({ title: t('saved') });
       await queryClient.invalidateQueries({ queryKey: ['settings', scopeKey] });
     },
-    onError: () => setErrors({ form: t('failed') }),
+    onError: (e) =>
+      setErrors({
+        form:
+          e instanceof ApiClientError && e.fields.emailTransport
+            ? t('emailTransport.unavailable')
+            : t('failed'),
+      }),
   });
 
   function submit() {
@@ -122,6 +132,8 @@ function Form({
         .filter(Boolean),
       visibility,
       explainOnly,
+      candidateStatusLevel: candidateStatus,
+      emailTransport,
       locale,
     };
     const checked = agencySettingsPatchSchema.safeParse(patch);
@@ -276,6 +288,30 @@ function Form({
             <span className="block text-muted">{t('explainOnly.hint')}</span>
           </span>
         </label>
+        <SelectField
+          label={t('candidateStatus.label')}
+          hint={t('candidateStatus.hint')}
+          value={candidateStatus}
+          onChange={(e) => setCandidateStatus(e.target.value as typeof candidateStatus)}
+        >
+          {CANDIDATE_STATUS_LEVELS.map((level) => (
+            <option key={level} value={level}>
+              {t(`candidateStatus.${level}`)}
+            </option>
+          ))}
+        </SelectField>
+        <SelectField
+          label={t('emailTransport.label')}
+          hint={t('emailTransport.hint')}
+          value={emailTransport}
+          onChange={(e) => setEmailTransport(e.target.value as typeof emailTransport)}
+        >
+          {EMAIL_TRANSPORTS.map((choice) => (
+            <option key={choice} value={choice}>
+              {t(`emailTransport.${choice}`)}
+            </option>
+          ))}
+        </SelectField>
         <SelectField
           label={t('language.label')}
           hint={t('language.hint')}

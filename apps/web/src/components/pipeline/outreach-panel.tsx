@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
+import type { TemplateView } from '@/server/outreach/templates';
 
 interface TouchView {
   touchNumber: number;
@@ -62,6 +63,15 @@ export function OutreachPanel({
   const view = useQuery({
     queryKey: key,
     queryFn: ({ signal }) => apiFetch<OutreachView>(`${url}/outreach`, { signal }),
+  });
+  // The person's own templates and the agency's, those that fit this candidate's client (T-5-11).
+  const templates = useQuery({
+    queryKey: ['outreach-templates', agencyId, entryId],
+    queryFn: ({ signal }) =>
+      apiFetch<TemplateView[]>(
+        `/api/v1/agencies/${agencyId}/outreach-templates?entryId=${entryId}`,
+        { signal },
+      ),
   });
   const refresh = async () => {
     await queryClient.invalidateQueries({ queryKey: key });
@@ -110,6 +120,7 @@ export function OutreachPanel({
               url={url}
               touch={touch}
               view={o}
+              templates={(templates.data?.data ?? []).filter((x) => x.channel === touch.channel)}
               onChanged={refresh}
               date={date}
             />
@@ -187,6 +198,7 @@ function TouchCard({
   url,
   touch,
   view,
+  templates,
   onChanged,
   date,
 }: {
@@ -194,6 +206,7 @@ function TouchCard({
   url: string;
   touch: TouchView;
   view: OutreachView;
+  templates: TemplateView[];
   onChanged: () => void | Promise<void>;
   date: (iso: string) => string;
 }) {
@@ -202,9 +215,10 @@ function TouchCard({
   const queryClient = useQueryClient();
   const n = touch.touchNumber;
   const [include, setInclude] = useState(ALL_ON);
+  const [templateId, setTemplateId] = useState('');
   const closed = touch.status === 'sent' || touch.status === 'cancelled';
   const run = useAiRun(`${url}/touches/${n}/draft`, {
-    body: { include },
+    body: { include, ...(templateId ? { templateId } : {}) },
     onDone: () => {
       void queryClient.invalidateQueries({ queryKey: ['artifact', agencyId] });
       void onChanged();
@@ -289,6 +303,26 @@ function TouchCard({
               </label>
             ))}
           </fieldset>
+          {templates.length > 0 ? (
+            <div className="max-w-sm">
+              <SelectField
+                label={t('template.label')}
+                hint={t('template.hint')}
+                value={templateId}
+                onChange={(e) => setTemplateId(e.target.value)}
+              >
+                <option value="">{t('template.none')}</option>
+                {templates.map((x) => (
+                  <option key={x.id} value={x.id}>
+                    {t('template.option', {
+                      name: x.name,
+                      scope: x.clientName ?? (x.shared ? t('template.agency') : t('template.mine')),
+                    })}
+                  </option>
+                ))}
+              </SelectField>
+            </div>
+          ) : null}
           <div>
             <Button
               size="sm"

@@ -8,16 +8,20 @@ export default async function CandidatesPage({
   searchParams,
 }: {
   params: Promise<{ agencySlug: string }>;
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; tags?: string }>;
 }) {
   const { agencySlug } = await params;
-  const { q } = await searchParams;
+  const { q, tags } = await searchParams;
   const access = await agencyAccess(agencySlug);
   return (
     <CandidatesPool
       agencyId={access.agency.id}
       agencySlug={access.agency.slug}
-      initial={{ ...EMPTY_FILTERS, q: typeof q === 'string' ? q.slice(0, 200) : '' }}
+      initial={{
+        ...EMPTY_FILTERS,
+        q: typeof q === 'string' ? q.slice(0, 200) : '',
+        tags: typeof tags === 'string' ? tags.slice(0, 200) : '',
+      }}
     />
   );
 }

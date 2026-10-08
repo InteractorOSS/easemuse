@@ -47,6 +47,12 @@ export const OUTREACH_RESPONSES = [
 ] as const;
 export type OutreachResponse = (typeof OUTREACH_RESPONSES)[number];
 
+/**
+ * Stored on a touch when the connected mailbox saw a reply but the recruiter has not yet said what
+ * kind (T-5-12). It is not offered as a choice: the recruiter replaces it with one of the above.
+ */
+export const REPLY_NOTICED = 'replied';
+
 /** Replies that end the sequence: the remaining touches are cancelled (FR-OUT-05). */
 export const SEQUENCE_ENDING_RESPONSES: readonly OutreachResponse[] = [
   'interested',
@@ -67,6 +73,8 @@ export type SequenceInput = z.infer<typeof sequenceInputSchema>;
 /** `POST /pipeline/:id/touches/:n/draft` */
 export const draftInputSchema = z.object({
   include: outreachIncludeSchema.default(() => outreachIncludeSchema.parse({})),
+  /** A template the draft starts from (T-5-11); it must fit the touch's channel and the position's client. */
+  templateId: z.guid().optional(),
 });
 export type DraftInput = z.infer<typeof draftInputSchema>;
 
@@ -112,3 +120,23 @@ export const OUTBOX_STATUSES = [
   'bounced',
 ] as const;
 export type OutboxStatusValue = (typeof OUTBOX_STATUSES)[number];
+
+/** Longest template, in characters; a template is the starting point of a draft, not the draft. */
+export const MAX_TEMPLATE_LENGTH = 2000;
+
+/**
+ * `POST` and `PATCH /outreach-templates` (T-5-11, FR-OUT-06): a message the AI draft starts from.
+ * `shared` makes it the agency's (leads and admins only); otherwise it is the author's own. A client
+ * narrows it to positions of that client. Keep the placeholders {{first_name}} and {{recruiter_name}}.
+ */
+export const outreachTemplateInputSchema = z.object({
+  name: z.string().trim().min(2).max(80),
+  channel: z.enum(OUTREACH_CHANNELS),
+  body: z.string().trim().min(10).max(MAX_TEMPLATE_LENGTH),
+  clientId: z.guid().nullable().default(null),
+  shared: z.boolean().default(false),
+});
+export type OutreachTemplateInput = z.infer<typeof outreachTemplateInputSchema>;
+
+/** `GET /outreach-templates`: all the person may use, or only those that fit one candidate in a position. */
+export const outreachTemplateListQuerySchema = z.object({ entryId: z.guid().optional() });

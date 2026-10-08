@@ -18,6 +18,7 @@ import type { ScopedTx } from '@/lib/db';
 import { getEnv } from '@/lib/env';
 import { ApiError } from '@/lib/http/errors';
 import type { AiRunContext, AiRunResult } from '@/server/ai';
+import { templateForDraft } from './templates';
 import type { OutreachDraftInput } from '@/server/ai/prompts/outreach-draft';
 import { logActivity } from '@/server/activity/service';
 import { assertNoProtectedFields, redactStructured } from '@/server/ai/redaction';
@@ -263,6 +264,7 @@ export async function planOutreachDraft(
   entryId: string,
   touchNumber: number,
   include: OutreachInclude,
+  templateId?: string,
 ): Promise<OutreachPlan> {
   const entry = await requireEntry(tx, actor, entryId, 'edit');
   assertContactable(await candidateOf(tx, entry.candidateId));
@@ -325,6 +327,17 @@ export async function planOutreachDraft(
     ).id;
     await tx.outreachTouch.update({ where: { id: touch.id }, data: { artifactId } });
   }
+  const template = templateId
+    ? await templateForDraft(tx, actor, templateId, {
+        channel: touch.channel,
+        clientId: (
+          await tx.position.findUniqueOrThrow({
+            where: { id: entry.positionId },
+            select: { clientId: true },
+          })
+        ).clientId,
+      })
+    : null;
   const pay =
     position.compMin !== null || position.compMax !== null
       ? `${position.compMin ?? ''}-${position.compMax ?? ''} ${position.compCurrency}`
@@ -346,10 +359,12 @@ export async function planOutreachDraft(
         compensation: pay,
       },
       earlier,
+      ...(template ? { template: { name: template.name, body: template.body } } : {}),
     },
     inputRefs: {
       entryId,
       touchNumber,
+      ...(template ? { templateId: template.id } : {}),
       candidateProfileVersionId: profile.id,
       successProfileVersionId: success.id,
       redactedCategories: redacted.removed,
@@ -384,10 +399,10 @@ export async function draftTouch(
   entryId: string,
   touchNumber: number,
   include: OutreachInclude,
-  options: { onDelta?: (text: string) => void; signal?: AbortSignal } = {},
+  options: { onDelta?: (text: string) => void; signal?: AbortSignal; templateId?: string } = {},
 ) {
   const plan = await deps.withAgency((tx) =>
-    planOutreachDraft(tx, actor, entryId, touchNumber, include),
+    planOutreachDraft(tx, actor, entryId, touchNumber, include, options.templateId),
   );
   const entry = await deps.withAgency((tx) =>
     tx.pipelineEntry.findUniqueOrThrow({ where: { id: entryId }, select: { positionId: true } }),

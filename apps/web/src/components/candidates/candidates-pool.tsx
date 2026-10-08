@@ -19,6 +19,7 @@ export interface PoolFilters {
   seniority: string;
   minYears: string;
   maxYears: string;
+  tags: string;
 }
 
 export const EMPTY_FILTERS: PoolFilters = {
@@ -28,6 +29,7 @@ export const EMPTY_FILTERS: PoolFilters = {
   seniority: '',
   minYears: '',
   maxYears: '',
+  tags: '',
 };
 
 /** The talent pool (US-207): text search with filters over everyone in the agency, matches highlighted. */
@@ -70,12 +72,26 @@ export function CandidatesPool({
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">{t('title')}</h1>
-        <Link
-          href={`/a/${agencySlug}/candidates/new`}
-          className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
-        >
-          {t('add')}
-        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href={`/a/${agencySlug}/candidates/import`}
+            className="inline-flex h-10 items-center rounded-md border border-border px-4 text-sm font-medium"
+          >
+            {t('import')}
+          </Link>
+          <Link
+            href={`/a/${agencySlug}/candidates/bulk`}
+            className="inline-flex h-10 items-center rounded-md border border-border px-4 text-sm font-medium"
+          >
+            {t('bulk')}
+          </Link>
+          <Link
+            href={`/a/${agencySlug}/candidates/new`}
+            className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
+          >
+            {t('add')}
+          </Link>
+        </div>
       </div>
 
       <form
@@ -91,12 +107,18 @@ export function CandidatesPool({
           value={filters.q}
           onChange={set('q')}
         />
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
           <TextField
             label={t('skills')}
             hint={t('skillsHint')}
             value={filters.skills}
             onChange={set('skills')}
+          />
+          <TextField
+            label={t('tags')}
+            hint={t('tagsHint')}
+            value={filters.tags}
+            onChange={set('tags')}
           />
           <TextField label={t('location')} value={filters.location} onChange={set('location')} />
           <TextField label={t('seniority')} value={filters.seniority} onChange={set('seniority')} />

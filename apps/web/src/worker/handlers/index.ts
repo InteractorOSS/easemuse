@@ -18,7 +18,10 @@ import { runBillingJob } from '@/server/billing/service';
 import { runTenantDeletionJob } from '@/server/tenant/deletion';
 import { runTenantExportJob } from '@/server/tenant/export';
 import { resolveAnthropicKey } from '@/server/platform/secrets';
+import { createMailboxTransport, mailboxDepsFromEnv } from '@/server/messaging/mailbox';
+import { runReplySync } from '@/server/messaging/reply-sync';
 import { sendOutboxMessage } from '@/server/messaging/send';
+import { selectTransport } from '@/server/messaging/transport';
 import type { JobRegistry } from '../registry';
 
 /** Modules add their job handlers here as they land (AI gateway, document parsing, messaging...). */
@@ -27,7 +30,54 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
   registry.register('maintenance', 'health.ping', async (ctx) => {
     await ctx.progress({ pong: true });
   });
-  registry.register('messaging', 'send', (ctx) => sendOutboxMessage(ctx));
+  registry.register('messaging', 'send', (ctx) =>
+    sendOutboxMessage(ctx, {
+      // An agency that sends from each recruiter's own mailbox (T-5-12) gets the mailbox transport.
+      transportFor: (settings) => {
+        const deps = mailboxDepsFromEnv();
+        return selectTransport(settings, {
+          mailbox: createMailboxTransport(
+            {
+              find: async (agencyId, userId) => {
+                const row = await ctx.withAgency((tx) =>
+                  tx.mailConnection.findFirst({ where: { agencyId, userId } }),
+                );
+                return row
+                  ? {
+                      provider: row.provider as 'google' | 'microsoft',
+                      credentialId: row.credentialId,
+                      address: row.address,
+                      status: row.status as 'active' | 'needs_reconnect',
+                    }
+                  : null;
+              },
+              markNeedsReconnect: async (agencyId, userId) => {
+                await ctx.withAgency((tx) =>
+                  tx.mailConnection.updateMany({
+                    where: { agencyId, userId },
+                    data: { status: 'needs_reconnect' },
+                  }),
+                );
+              },
+            },
+            deps,
+          ),
+        });
+      },
+    }),
+  );
+  // Every few minutes: replies to outreach in connected mailboxes stop the sequence (T-5-12).
+  registry.register('maintenance', 'mailbox.sync_replies', async (ctx) => {
+    const deps = mailboxDepsFromEnv();
+    const summary = await runReplySync({
+      agencyIds: listActiveAgencyIds,
+      withAgency,
+      credentials: deps.credentials,
+      providers: deps.providers,
+      log: (message, data) => console.warn(JSON.stringify({ message, ...data })),
+    });
+    await ctx.progress({ ...summary });
+  });
   // Reads an uploaded original JD. Scans fall back to the model only when an API key is configured.
   registry.register('documents', 'jd.extract', async (ctx) => {
     const apiKey = await resolveAnthropicKey();

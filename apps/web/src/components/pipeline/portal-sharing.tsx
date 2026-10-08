@@ -4,16 +4,14 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
+import { SHARE_AUDIENCE, type PortalShareKind } from '@easemuse/core';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { DirectoryPerson } from '@/server/portal/directory';
 import type { ShareView } from '@/server/portal/publish';
 
-type Subject = {
-  kind: 'jd_for_approval' | 'submission' | 'tailored_resume' | 'intake_form';
-  subjectId: string;
-};
+type Subject = { kind: PortalShareKind; subjectId: string };
 type Target = { positionId: string } | { entryId: string } | { candidateId: string };
 
 /**
@@ -60,7 +58,7 @@ export function PortalSharing({
   };
   const fail = (e: unknown) =>
     toast({ title: e instanceof ApiClientError ? e.message : t('error') });
-  const audience = subject.kind === 'tailored_resume' ? 'candidate' : 'hiring_manager';
+  const audience = SHARE_AUDIENCE[subject.kind];
   const invite = useMutation({
     mutationFn: (p: DirectoryPerson) =>
       apiFetch(`${base}/portal-users`, {

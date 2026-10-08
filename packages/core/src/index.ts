@@ -58,3 +58,8 @@ export * from './artifacts/pattern-summary';
 export * from './knowledge/guardrails';
 export * from './knowledge/patterns';
 export * from './knowledge/summary-facts';
+export * from './schemas/analytics';
+export * from './artifacts/interview-feedback';
+export * from './schemas/candidate-notes';
+export * from './candidates/csv-import';
+export * from './schemas/mailbox';

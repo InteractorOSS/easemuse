@@ -168,6 +168,18 @@ export function AnalysisView({
         />
       ) : null}
 
+      {['submitted', 'interviewing', 'on_hold', 'offer', 'accepted', 'started'].includes(
+        e.state,
+      ) ? (
+        <PortalSharing
+          agencyId={agencyId}
+          target={{ candidateId: e.candidateId }}
+          subject={{ kind: 'status', subjectId: e.candidateId }}
+          heading={portalT('statusTitle')}
+          onChanged={refresh}
+        />
+      ) : null}
+
       <ProposalsPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
       <SlotProposalsPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
 
@@ -194,6 +206,8 @@ export function AnalysisView({
           onChanged={refresh}
           onReview={() => review.mutate()}
           reviewing={review.isPending}
+          onReanalyze={() => void run.start()}
+          reanalyzing={run.state.status === 'running'}
         />
       ) : null}
     </div>
@@ -226,12 +240,16 @@ function DetailBody({
   onChanged,
   onReview,
   reviewing,
+  onReanalyze,
+  reanalyzing,
 }: {
   agencyId: string;
   detail: AnalysisDetail;
   onChanged: () => void | Promise<void>;
   onReview: () => void;
   reviewing: boolean;
+  onReanalyze: () => void;
+  reanalyzing: boolean;
 }) {
   const t = useTranslations('pipeline.analysis');
   const levels = useTranslations('pipeline.levels');
@@ -262,7 +280,14 @@ function DetailBody({
           <span className={detail.reviewed ? 'font-medium' : 'text-muted'}>
             {detail.reviewed ? t('reviewedBadge') : t('draftBadge')}
           </span>
-          {a.stale ? <span className="text-warning">{t('stale')}</span> : null}
+          {a.stale ? (
+            <>
+              <span className="text-warning">{t('stale')}</span>
+              <Button variant="secondary" size="sm" disabled={reanalyzing} onClick={onReanalyze}>
+                {t('reanalyze')}
+              </Button>
+            </>
+          ) : null}
         </div>
         {detail.reviewed ? null : (
           <div className="flex flex-col gap-1">

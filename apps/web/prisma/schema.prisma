@@ -375,6 +375,7 @@ model Candidate {
   portalUser PortalUser?
   consents   Consent[]
   updates    CandidateUpdateProposal[]
+  notes      CandidateNote[]
 
   @@index([agencyId, status])
   @@index([agencyId, email])
@@ -389,6 +390,21 @@ model Candidate {
   @@index([employerKeys], type: Gin)
   @@index([searchText], type: Gin)
   @@index([agencyId, fullName])
+}
+
+// Recruiter notes on a candidate (T-2-13, FR-SRC-09): free text only the agency sees.
+model CandidateNote {
+  id          String   @id @default(uuid()) @db.Uuid
+  agencyId    String   @db.Uuid
+  candidateId String   @db.Uuid
+  authorId    String   @db.Uuid
+  body        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, candidateId, createdAt])
 }
 
 model CandidateDocument {
@@ -670,25 +686,46 @@ enum OutboxStatus {
 }
 
 model OutboxMessage {
-  id         String       @id @default(uuid()) @db.Uuid
-  agencyId   String       @db.Uuid
-  senderId   String?      @db.Uuid // null for system notifications
-  toAddress  String
-  subject    String
-  bodyHtml   String
-  bodyText   String
-  kind       String // outreach | portal_invite | notification
-  entityType String?
-  entityId   String?      @db.Uuid
-  transport  String // dev-capture | log-only | smtp | gmail | graph
-  status     OutboxStatus @default(queued)
-  attempts   Int          @default(0)
-  lastError  String?
-  sentAt     DateTime?
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id                String       @id @default(uuid()) @db.Uuid
+  agencyId          String       @db.Uuid
+  senderId          String?      @db.Uuid // null for system notifications
+  toAddress         String
+  subject           String
+  bodyHtml          String
+  bodyText          String
+  kind              String // outreach | portal_invite | notification
+  entityType        String?
+  entityId          String?      @db.Uuid
+  transport         String // dev-capture | log-only | smtp | gmail | graph
+  status            OutboxStatus @default(queued)
+  attempts          Int          @default(0)
+  providerMessageId String? // the provider's id for the sent message (T-5-02, T-5-12)
+  providerThreadId  String? // the conversation at the provider, to match replies (T-5-12)
+  lastError         String?
+  sentAt            DateTime?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 
   @@index([agencyId, status, createdAt])
+  @@index([agencyId, providerThreadId])
+}
+
+// A recruiter's connected mailbox (T-5-12): Gmail or Microsoft 365 through Interactor credentials. The
+// tokens stay with Interactor; only the credential id and the address are kept here.
+model MailConnection {
+  id           String    @id @default(uuid()) @db.Uuid
+  agencyId     String    @db.Uuid
+  userId       String    @db.Uuid
+  provider     String // google | microsoft
+  credentialId String
+  address      String // the mailbox address, lowercase
+  status       String    @default("active") // active | needs_reconnect
+  lastSyncAt   DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([agencyId, userId])
+  @@index([agencyId, status])
 }
 
 model Suppression {
@@ -825,6 +862,7 @@ model InterviewFeedback {
   communication      FeedbackRating?
   culturalFit        FeedbackRating?
   industryExperience FeedbackRating?
+  artifactVersionId  String?         @unique @db.Uuid // the approved A17 draft this came from (T-9-03)
   comments           String?
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt

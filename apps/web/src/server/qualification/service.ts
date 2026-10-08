@@ -12,7 +12,7 @@ import { ApiError } from '@/lib/http/errors';
 import type { AiRunContext, AiRunResult } from '@/server/ai';
 import type { CallQuestionsInput } from '@/server/ai/prompts/call-questions';
 import type { QualifyNotesInput } from '@/server/ai/prompts/qualify-notes';
-import { redactText } from '@/server/ai/redaction';
+import { redactText, scrubContactDetails } from '@/server/ai/redaction';
 import {
   addDraftVersion,
   findArtifact,
@@ -195,7 +195,7 @@ export async function planQualification(
     }),
     tx.position.findUniqueOrThrow({ where: { id: entry.positionId }, select: { title: true } }),
   ]);
-  const redacted = redactText(scrubName(notes, candidate.fullName));
+  const redacted = redactText(scrubContactDetails(scrubName(notes, candidate.fullName)));
   const artifact = await findOrCreateArtifact(tx, {
     agencyId: actor.agencyId,
     kind: 'qualification',

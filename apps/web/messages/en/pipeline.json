@@ -89,7 +89,10 @@
     "errors": {
       "generic": "Something went wrong. Try again.",
       "analyze": "Could not start the analysis. Check that each selected candidate has a confirmed profile and the position a confirmed success profile."
-    }
+    },
+    "reanalyze": "Analyze again",
+    "reanalyzeOne": "Analyze {name} again",
+    "reanalyzeStale": "Analyze out-of-date again ({count})"
   },
   "move": {
     "label": "Move {name}",
@@ -225,7 +228,8 @@
       "forbidden": "Only the owner, a lead or an admin can do this for this candidate."
     },
     "stageLine": "Stage: {stage}",
-    "criterionLine": "{name}: {level}"
+    "criterionLine": "{name}: {level}",
+    "reanalyze": "Analyze again now"
   },
   "screening": {
     "title": "Screening",
@@ -350,7 +354,8 @@
       "not_interested": "Not interested",
       "not_now": "Not now",
       "referred": "Referred someone else",
-      "no_response": "No answer"
+      "no_response": "No answer",
+      "replied": "Replied (not yet classified)"
     },
     "reasonCode": "Reason",
     "record": "Record answer",
@@ -359,6 +364,14 @@
     "names": {
       "first": "the candidate's first name",
       "recruiter": "your name"
+    },
+    "template": {
+      "label": "Start from a template",
+      "none": "No template",
+      "option": "{name} ({scope})",
+      "hint": "The draft keeps the template’s structure and wording and fills in the facts.",
+      "agency": "agency template",
+      "mine": "my template"
     }
   },
   "qualification": {
@@ -613,7 +626,19 @@
     "feedbackLine": "{from}",
     "saved": "Saved",
     "error": "Could not save. Try again.",
-    "rating": "{criterion}"
+    "rating": "{criterion}",
+    "fromEmail": {
+      "title": "Or paste the feedback email",
+      "hint": "A draft of the five ratings and the comments is made from the text. Names and contact details are not sent. Nothing is recorded until you have checked and confirmed each rating.",
+      "paste": "Feedback text",
+      "structure": "Make a draft",
+      "draftTitle": "Draft from the email",
+      "evidence": "From the text: {quote}",
+      "confirm": "Confirmed",
+      "confirmRating": "Confirm {criterion}",
+      "unconfirmed": "Check each rating against the email and confirm it, then approve the draft to record the feedback.",
+      "sourceTitle": "The pasted text"
+    }
   },
   "offer": {
     "title": "Offer and closing",
@@ -730,6 +755,8 @@
       "done": "Answered",
       "needsProfile": "Confirm the candidate's profile first; these details belong in it.",
       "error": "Could not do that. Try again."
-    }
+    },
+    "statusTitle": "Share application status with the candidate",
+    "statusHint": "The candidate sees where their applications stand, at the level set in Settings. It updates when the status changes."
   }
 }

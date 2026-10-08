@@ -22,8 +22,8 @@ export const NAMESPACES = [
   'candidates',
   'pipeline',
   'portal',
-  'intelligence',
   'analytics',
+  'intelligence',
   'knowledge',
 ] as const;
 

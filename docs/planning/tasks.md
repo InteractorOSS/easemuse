@@ -17,7 +17,7 @@
 
 **Also done 2026-10-07 (E2 to E10 and data rights):** all of E2 (sourcing and the talent pool: intake, duplicate check, confirm and merge, full-text search, do-not-contact), E3 (A10 match analysis with score bands, overrides, review dashboard, detail page and "mark reviewed"), E4 (14-item screening checklist and recruiter classification, T-4-01 and T-4-02; the optional A11 pre-fill is not built), E5 except SMTP (sequences and due tasks, A12 drafting, send for email and copy-and-mark-sent for the other channels, response tracking, signed unsubscribe with do-not-contact linkage, the admin outbox view; T-5-02 SMTP is deliberately postponed by the product owner), E6 (A13 call questions, A14 notes to qualification fields with per-field confirmation), E7 (A15 tailored resume with locked facts, fact check wired in with a re-check, recorded candidate approval and per-client consent, DOCX and PDF), E8 (A16 report with a human-only section 14, report PDF, recorded submission that pins the exact versions and files, duplicate-submission reason), E9/E10 (interview rounds with feedback and the offer record with outcomes, reminders and the position filling), and E0 data rights T-0-03 to T-0-06 (append-only audit tables, separate data-rights role, candidate export ZIP, anonymization, privacy requests with deadlines). The pipeline features also have an isolation test (`isolation.features.db.test.ts`). Still open: E11 onwards, the eval harness and data (T-QA-03 to T-QA-05), the Playwright happy path and axe checks (T-QA-06, T-QA-07), A11 screening pre-fill, Korean translations, a logo on documents, and every AI prompt is tested against fakes only (no live model call has been made).
 
-**Also done 2026-10-07 (session C, reuse and portal extras):** all of E12 (T-12-01 to T-12-05) and T-14-09, T-14-10, T-15-02. The client history and the seven pattern reports of brief 14 read the agency's own records through one loader that selects only job-related fields (a guard test pins it); every number carries its record count, references to the records and a "few records" flag; the AI summary (A18) sees counts only, cites numbered facts, and is checked by code before anyone sees it (cited facts exist, every number is one of theirs, no protected characteristic) and stays a draft until a recruiter approves it. The hiring manager's intake answers, offered interview times and a candidate's own updates arrive as proposals the recruiter accepts. Decisions are in `implementation-notes.md` (13 to 24). A18 and its guardrails were tested against fakes and the new eval suite `pattern-summary` (no live model call has been made). Not built: "similar position" in FR-KNW-01 (the history is per client), and a sign-in address change when a candidate's email is accepted.
+**Also done 2026-10-08 (session A, branch `session-a`):** analytics (T-11-01 to T-11-05) and the portal adoption KPI (T-14-08), portal notices and the candidate status share (T-14-07, T-15-01), A17 feedback from a pasted email (T-9-03), one-click re-analysis (T-3-12), tags and notes (T-2-13), bulk resume upload and CSV import (T-2-14, T-2-15), outreach templates (T-5-11), the SMTP transport and connected mailboxes with reply detection (T-5-02, T-5-12; configuration in [mail-setup](./mail-setup.md)) and the browser happy path (T-QA-06). T-QA-09 was not run: the Anthropic account has no credit. Decisions: implementation-notes 21 to 37.
 
 Estimates are ideal engineering hours (≤ 8 = under one day). "Dep" lists blocking tasks. Every AI task includes adding its cases to the eval set (T-QA-03) and an isolation test for its routes (T-QA-01).
 
@@ -279,25 +279,25 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 
 ### E14 / E15: Portals (session A, mostly done)
 
-| ID      | Task                                                                                                                          | Est | Status | Refs                       |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------- | --- | ------ | -------------------------- |
-| T-14-01 | Portal identity: invite, single-use magic link, re-login, `em_portal` session, `authorizePortal`                              | 8   | Done   | ADR-002, US-1401, US-1501  |
-| T-14-02 | Publish service: whitelisted snapshots, replace on new share, revoke, files only if listed, import-boundary guard             | 8   | Done   | ADR-003, FR-HMP-04         |
-| T-14-03 | HM actions: approve JD / request changes, proposals (recruiter resolves), feedback                                            | 7   | Done   | US-1402, 1405              |
-| T-14-04 | HM portal pages (enter, list, JD, submission) and candidate portal pages (resume, consent, data requests), agency colour, axe | 8   | Done   | FR-HMP-07, FR-CDP-07       |
-| T-14-05 | Recruiter side: invite, share, withdraw, answer proposals                                                                     | 6   | Done   | US-1401                    |
-| T-14-06 | Agency logo in the portal header and in emails (needs T-13-06)                                                                | 3   | Done   | FR-TEN-04                  |
-| T-15-01 | Candidate status share (`status` snapshot, level chosen by the agency, refreshed on stage changes)                            | 5   |        | US-1505, FR-CDP-05         |
-| T-14-07 | Portal notifications: email the person when something is shared or when the recruiter answers (outbox, localized)             | 4   |        | US-1404                    |
-| T-14-08 | Portal adoption KPI (approvals, reviews and feedback done in portals ÷ all)                                                   | 2   |        | planning-handoff section 6 |
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-14-01 | Portal identity: invite, single-use magic link, re-login, `em_portal` session, `authorizePortal` | 8 | Done | ADR-002, US-1401, US-1501 |
+| T-14-02 | Publish service: whitelisted snapshots, replace on new share, revoke, files only if listed, import-boundary guard | 8 | Done | ADR-003, FR-HMP-04 |
+| T-14-03 | HM actions: approve JD / request changes, proposals (recruiter resolves), feedback | 7 | Done | US-1402, 1405 |
+| T-14-04 | HM portal pages (enter, list, JD, submission) and candidate portal pages (resume, consent, data requests), agency colour, axe | 8 | Done | FR-HMP-07, FR-CDP-07 |
+| T-14-05 | Recruiter side: invite, share, withdraw, answer proposals | 6 | Done | US-1401 |
+| T-14-06 | Agency logo in the portal header and in emails (needs T-13-06) | 3 | Done | FR-TEN-04 |
+| T-15-01 | Candidate status share (`status` snapshot, level chosen by the agency, refreshed on stage changes) | 5 | Done | US-1505, FR-CDP-05 |
+| T-14-07 | Portal notifications: email the person when something is shared or when the recruiter answers (outbox, localized) | 4 | Done | US-1404 |
+| T-14-08 | Portal adoption KPI (approvals, reviews and feedback done in portals ÷ all) | 2 | Done | planning-handoff section 6 |
 
 ### E9 / E10: Feedback and reminders (session A)
 
-| ID      | Task                                                                                        | Est | Status | Refs                               |
-| ------- | ------------------------------------------------------------------------------------------- | --- | ------ | ---------------------------------- |
-| T-9-02  | Interview feedback entered by the HM or recruiter                                           | 4   | Done   | US-902 (inside T-9-01 and T-14-03) |
-| T-9-03  | Prompt A17: pasted feedback email to the five ratings and comments, recruiter confirms each | 5   |        | US-903, FR-IVW-04                  |
-| T-10-02 | Reminders until the start date; the placement closes only on "started"                      | 4   | Done   | US-1002, FR-OFF-02                 |
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-9-02 | Interview feedback entered by the HM or recruiter | 4 | Done | US-902 (inside T-9-01 and T-14-03) |
+| T-9-03 | Prompt A17: pasted feedback email to the five ratings and comments, recruiter confirms each | 5 | Done | US-903, FR-IVW-04 |
+| T-10-02 | Reminders until the start date; the placement closes only on "started" | 4 | Done | US-1002, FR-OFF-02 |
 
 ### E11: Analytics (session A)
 
@@ -313,16 +313,16 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 
 | ID | Task | Est | Status | Refs |
 |----|------|-----|--------|------|
-| T-3-12 | Stale analysis: marker and one-click re-analysis on the analysis page and the dashboard | 3 | Partial: hooks set `stale`, the page shows it; no re-analyse button | US-305, FR-MAT-07 |
+| T-3-12 | Stale analysis: marker and one-click re-analysis on the analysis page and the dashboard | 3 | Done | US-305, FR-MAT-07 |
 | T-8-05 | Duplicate-submission guard (earlier submission shown, reason required) | 3 | Done | US-803, FR-SUB-04 |
-| T-2-13 | Tags and notes on candidates: edit UI, filter by tag (filter exists) | 4 | Partial: tags stored, shown and filterable; no editing, no notes | FR-SRC-09 |
-| T-2-14 | Bulk resume upload (about 20 files) creating drafts to review | 6 | | FR-SRC-10 |
-| T-2-15 | CSV candidate import with column mapping (ATS exports) | 6 | | Q-10 |
-| T-5-11 | Outreach templates per recruiter and client, picker in the composer | 6 | | FR-OUT-06 |
-| T-5-02 | SMTP transport and per-agency selection | 5 | Postponed by the product owner | ADR-009 |
-| T-5-12 | Real mail provider with reply sync (Interactor credentials and webhooks), replies stop the sequence | 8 | | US-505, FR-MSG-04, ADR-014 |
-| T-QA-06 | Playwright happy path (needs a test sign-in and an AI stub) | 8 | Done 2026-10-08: `tests/e2e/happy-path.spec.ts`, admin creates agency → invite → client → JD → HM approval → profile → candidate → pool → analysis → screening → outreach (outbox) → qualification → resume, approval and consent → report → submission, with axe checks; runs on `AI_FAKE=on` | Release 1 exit |
-| T-QA-09 | Run the AI evals against the live model and record the results (A1, A7, A10, stability, bias) | 3 | Partial: A7, A10 and bias run on 2026-10-07; A1 and stability wait for credit | NFR-AI01..05 |
+| T-2-13 | Tags and notes on candidates: edit UI, filter by tag (filter exists) | 4 | Done | FR-SRC-09 |
+| T-2-14 | Bulk resume upload (about 20 files) creating drafts to review | 6 | Done | FR-SRC-10 |
+| T-2-15 | CSV candidate import with column mapping (ATS exports) | 6 | Done | Q-10 |
+| T-5-11 | Outreach templates per recruiter and client, picker in the composer | 6 | Done | FR-OUT-06 |
+| T-5-02 | SMTP transport and per-agency selection | 5 | Done: needs `SMTP_*` and `MAIL_FROM` ([mail-setup](./mail-setup.md)) | ADR-009 |
+| T-5-12 | Real mail provider with reply sync (Interactor credentials and webhooks), replies stop the sequence | 8 | Built behind the transport interface; needs Interactor service ids and a live test ([mail-setup](./mail-setup.md)) | US-505, FR-MSG-04, ADR-014 |
+| T-QA-06 | Playwright happy path (needs a test sign-in and an AI stub) | 8 | Done 2026-10-08: `tests/e2e/happy-path.spec.ts`, admin creates agency → invite → client → JD → HM approval → profile → candidate → pool → analysis → screening → outreach (outbox) → qualification → resume, approval and consent → report → submission, with axe checks; runs on `AI_FAKE=on`; `pnpm test:e2e` | Release 1 exit |
+| T-QA-09 | Run the AI evals against the live model and record the results (A1, A7, A10, stability, bias) | 3 | Partial: A7, A10 and bias run 2026-10-07. **Not run 2026-10-08: the Anthropic account has no credit** (A1 and stability wait) | NFR-AI01..05 |
 
 ### E13 / E16: Commercial and platform (session B)
 

@@ -3,7 +3,7 @@
 import { AnalyticsView } from '@/components/analytics/analytics-view';
 import { agencyAccess } from '@/lib/auth/page-access';
 
-/** Recruiting analytics (US-1101); any member, counting only the positions they may see. */
+/** KPIs, source results and capacity (brief §13). Every member may open it; a recruiter sees their own figures. */
 export default async function AnalyticsPage({
   params,
 }: {
@@ -12,9 +12,6 @@ export default async function AnalyticsPage({
   const { agencySlug } = await params;
   const access = await agencyAccess(agencySlug);
   return (
-    <AnalyticsView
-      agencyId={access.agency.id}
-      canFilterByRecruiter={access.role === 'admin' || access.role === 'lead'}
-    />
+    <AnalyticsView agencyId={access.agency.id} canPickRecruiter={access.role !== 'recruiter'} />
   );
 }

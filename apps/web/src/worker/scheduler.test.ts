@@ -34,6 +34,15 @@ describe('daily scheduler', () => {
     );
   });
 
+  it('runs the reply check every ten minutes, keyed by the ten-minute slot', async () => {
+    const replies = DAILY_JOBS.find((j) => j.name === 'mailbox.sync_replies')!;
+    expect(replies.everyMinutes).toBe(10);
+    expect(dueJobs(new Date('2026-10-07T00:01:00Z'), [replies])).toEqual([replies]);
+    const key = (iso: string) => dailyIdempotencyKey(replies, new Date(iso));
+    expect(key('2026-10-07T12:01:00Z')).toBe(key('2026-10-07T12:09:59Z'));
+    expect(key('2026-10-07T12:09:59Z')).not.toBe(key('2026-10-07T12:10:00Z'));
+  });
+
   it('enqueues due jobs as agency-less system jobs', async () => {
     const enqueue = vi.fn(async () => ({ deduplicated: false }));
     const result = await scheduleTick(new Date('2026-10-07T04:00:00Z'), enqueue, [job]);

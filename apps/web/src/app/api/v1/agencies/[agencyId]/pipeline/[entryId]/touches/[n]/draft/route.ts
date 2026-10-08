@@ -26,11 +26,11 @@ export async function POST(
     const authed = await authorizeAgency(agencyId);
     if (authed instanceof Response) return authed;
     const touchNumber = touchParam.parse(n);
-    const { include } = await parseBody(req, draftInputSchema);
+    const { include, templateId } = await parseBody(req, draftInputSchema);
     const scope = { userId: authed.userId };
     await withAgency(
       authed.agency.id,
-      (tx) => planOutreachDraft(tx, authed.actor, entryId, touchNumber, include),
+      (tx) => planOutreachDraft(tx, authed.actor, entryId, touchNumber, include, templateId),
       scope,
     );
     const gateway = getGateway();
@@ -41,7 +41,7 @@ export async function POST(
         entryId,
         touchNumber,
         include,
-        stream,
+        { ...stream, ...(templateId ? { templateId } : {}) },
       ),
     );
   });

@@ -22,6 +22,28 @@
     "linkHint": "If the button does not work, copy this link into your browser:",
     "expiryInvite": "This link works once and expires in {days} days.",
     "expiryRelogin": "This link works once and expires in {minutes} minutes.",
-    "ignore": "If you did not expect this email, you can ignore it. Nobody can open the page without this link."
+    "ignore": "If you did not expect this email, you can ignore it. Nobody can open the page without this link.",
+    "notice": {
+      "subject": "{agency}: something is waiting for you",
+      "heading": "Something is waiting for you at {agency}",
+      "shared": {
+        "jd_for_approval": "{agency} shared a job description for you to review.",
+        "submission": "{agency} shared a candidate submission for you to review.",
+        "tailored_resume": "{agency} shared your tailored resume for you to review and approve.",
+        "status": "{agency} shared an update on your applications.",
+        "intake_form": "{agency} sent you questions about the role to answer."
+      },
+      "updated": {
+        "jd_for_approval": "{agency} updated the job description you were asked to review.",
+        "submission": "{agency} updated a candidate submission you were asked to review.",
+        "tailored_resume": "{agency} updated your tailored resume. Please review the new version.",
+        "status": "{agency} updated the status of your applications.",
+        "intake_form": "{agency} updated the questions about the role."
+      },
+      "answered": "Your recruiter at {agency} has answered your recommendation.",
+      "action": "Open my page",
+      "signIn": "You will be asked to sign in with a new secure link sent to this address.",
+      "noDetails": "For your privacy this email does not include the details."
+    }
   }
 }

@@ -244,8 +244,11 @@ test.describe('release 1 happy path (T-QA-06)', () => {
       .getByLabel("14. Recruiter's assessment")
       .fill('A strong HR business partner from SaaS; I recommend an interview.');
     await report.getByRole('button', { name: 'Save edit' }).click();
-    await expect(report.getByRole('button', { name: 'Save edit' })).toBeDisabled();
-    for (const choice of await report.getByLabel(/^I edited the text/).all()) await choice.check();
+    await expect(report.getByRole('button', { name: 'Show version 2' })).toBeVisible();
+    for (const choice of await report.getByLabel(/^I edited the text/).all()) {
+      await choice.check();
+      await expect(choice).toBeChecked();
+    }
     await report.getByRole('button', { name: 'Approve' }).click();
     await report.getByRole('button', { name: 'Create PDF' }).click();
     await expect(report.getByRole('link', { name: /Download PDF/ })).toBeVisible();

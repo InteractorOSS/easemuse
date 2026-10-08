@@ -155,6 +155,35 @@ const INPUTS: Partial<Record<PurposeId, unknown>> = {
     position: { title: 'Senior Backend Engineer', location: 'Seoul' },
   },
   'profile.structure': { sourceText: RESUME, source: 'resume' },
+  'feedback.structure': {
+    email:
+      'Hi team, strong technical skills and clear communication. Leadership is limited for this level. Thanks',
+    fromRole: 'hm',
+    position: { title: 'HR Director' },
+  },
+  'pattern.summarize': {
+    facts: [
+      {
+        id: 'F1',
+        question: 'interviewProfiles',
+        label: 'Put forward from a referral and interviewed',
+        n: 3,
+        hits: 2,
+        rate: null,
+        small: true,
+        refs: [],
+        refCount: 0,
+      },
+    ],
+    context: {
+      clientId: '00000000-0000-4000-8000-000000000001',
+      clientName: 'Northwind',
+      asOf: '2026-10-08',
+      records: 3,
+      positions: 1,
+      withheld: 0,
+    },
+  },
   'match.analyze': {
     successProfile,
     candidate,

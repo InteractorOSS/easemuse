@@ -10,7 +10,9 @@
     "outbox": "Outbox",
     "support": "Support access",
     "export": "Data export",
-    "privacy": "Privacy requests"
+    "privacy": "Privacy requests",
+    "templates": "Message templates",
+    "mailbox": "My mailbox"
   },
   "defaults": {
     "title": "Agency defaults",
@@ -75,6 +77,22 @@
     "explainOnly": {
       "label": "Explain-only mode",
       "hint": "Show how well a candidate matches in words and evidence, and hide the numeric scores. Candidates are still listed in the suggested review order."
+    },
+    "candidateStatus": {
+      "label": "What candidates see of their applications",
+      "hint": "When you share a candidate's status with them. Nobody ever sees client feedback, reasons for rejection or scores.",
+      "off": "Do not share status",
+      "basic": "The position and a general step",
+      "detailed": "Also the client, the number of interviews and the date of the last change"
+    },
+    "emailTransport": {
+      "label": "How email is sent",
+      "hint": "Test modes keep the message in the outbox and send nothing. SMTP sends through the mail service your platform operator set up. A connected mailbox sends from each recruiter’s own Gmail or Microsoft 365 account and can see replies.",
+      "dev-capture": "Test mode: keep in the outbox, send nothing",
+      "log-only": "Test mode with a log line",
+      "smtp": "SMTP (the platform’s mail service)",
+      "mailbox": "Each recruiter’s connected mailbox",
+      "unavailable": "SMTP is not set up on this server. Ask your platform operator, or choose another option."
     }
   },
   "usage": {
@@ -277,5 +295,60 @@
         "paid": "Paid"
       }
     }
+  },
+  "templates": {
+    "title": "Message templates",
+    "intro": "Templates are the starting point of an outreach draft. The AI keeps their structure and wording and fills in the facts about the person and the role; you still edit and approve every message. Keep {first} and {recruiter} where they belong.",
+    "none": "No templates yet.",
+    "new": "New template",
+    "edit": "Edit template",
+    "name": "Name",
+    "channel": "Channel",
+    "body": "Message",
+    "bodyHint": "Up to {max} characters.",
+    "client": "Only for client",
+    "anyClient": "Every client",
+    "shared": "Share with the whole agency",
+    "sharedHint": "Everyone in the agency can use it. Only leads and admins can change it.",
+    "save": "Save template",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleteTemplate": "Delete {name}",
+    "editTemplate": "Edit {name}",
+    "scopeShared": "Agency",
+    "scopeMine": "Mine",
+    "forClient": "For {client}",
+    "saved": "Template saved.",
+    "deleted": "Template deleted.",
+    "error": "Could not save the template. Check the name and the message.",
+    "channels": {
+      "linkedin": "LinkedIn message",
+      "email": "Email",
+      "text": "Text message",
+      "phone": "Phone call script"
+    }
+  },
+  "mailbox": {
+    "title": "My mailbox",
+    "intro": "Connect your Gmail or Microsoft 365 mailbox so outreach email goes out from your own address and replies to it are noticed. You sign in at Google or Microsoft; we never see your password and can only send and read the conversations we started.",
+    "notUsed": "Your agency sends email {mode}. A connected mailbox is used when the agency chooses \"Each recruiter’s connected mailbox\" in Settings, Defaults.",
+    "connected": "Connected: {address} ({provider})",
+    "providers": {
+      "google": "Gmail",
+      "microsoft": "Microsoft 365"
+    },
+    "needsReconnect": "The sign-in stopped working. Connect again to keep sending and to see replies.",
+    "lastSync": "Replies were last checked {date}.",
+    "neverSync": "Replies have not been checked yet.",
+    "connectGoogle": "Connect Gmail",
+    "connectMicrosoft": "Connect Microsoft 365",
+    "reconnect": "Connect again",
+    "disconnect": "Disconnect",
+    "disconnected": "Mailbox disconnected.",
+    "linking": "Finishing the connection…",
+    "linked": "Mailbox connected.",
+    "error": "The mailbox could not be connected. Try again.",
+    "notYours": "That sign-in does not belong to you.",
+    "replies": "When someone replies to an email you sent from here, the rest of that candidate’s sequence stops and you get a task to read the reply and say what it means. Nothing is changed for you."
   }
 }

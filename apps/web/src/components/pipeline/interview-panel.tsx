@@ -13,6 +13,7 @@ import {
   type FeedbackCriterion,
 } from '@easemuse/core';
 import { Button } from '@/components/ui/button';
+import { FeedbackFromEmail } from './feedback-from-email';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
@@ -80,7 +81,7 @@ export function InterviewPanel({
               </p>
             ) : null}
             <RoundStatus url={url} round={r} onSaved={refresh} />
-            <Feedback url={url} round={r} onSaved={refresh} />
+            <Feedback agencyId={agencyId} url={url} round={r} onSaved={refresh} />
           </li>
         ))}
       </ul>
@@ -123,10 +124,12 @@ function RoundStatus({
 }
 
 function Feedback({
+  agencyId,
   url,
   round,
   onSaved,
 }: {
+  agencyId: string;
   url: string;
   round: InterviewView;
   onSaved: () => void | Promise<void>;
@@ -237,6 +240,7 @@ function Feedback({
           </Button>
         </div>
       </fieldset>
+      <FeedbackFromEmail agencyId={agencyId} url={url} roundId={round.id} onRecorded={onSaved} />
     </div>
   );
 }

@@ -251,6 +251,44 @@ describe('the list and the shares', () => {
     expect((await screen.findAllByText(/comments were sent/)).length).toBeGreaterThan(0);
   });
 
+  it('a candidate sees where their applications stand, only as much as the level allows', async () => {
+    const status = (level: 'basic' | 'detailed') => ({
+      id: 's4',
+      kind: 'status',
+      updatedOn: null,
+      snapshot: {
+        kind: 'status',
+        level,
+        applications: [
+          {
+            positionTitle: 'Head of HR',
+            clientName: level === 'detailed' ? 'Acme' : null,
+            step: 'interviewing',
+            since: level === 'detailed' ? '2026-10-01' : null,
+            interviews: level === 'detailed' ? 2 : null,
+          },
+        ],
+        publishedAt: '2026-10-07T00:00:00Z',
+      },
+    });
+    vi.stubGlobal('fetch', stubApi({ [`GET ${api}/shares/s4`]: () => json(status('basic')) }).impl);
+    const basic = renderApp(<ShareView slug="acme" prefix="c" shareId="s4" />);
+    expect(await screen.findByText('Interviewing')).toBeTruthy();
+    expect(screen.getByText('Head of HR')).toBeTruthy();
+    expect(screen.queryByText('Employer')).toBeNull();
+    await expectNoA11yViolations(basic.container);
+    basic.unmount();
+
+    vi.stubGlobal(
+      'fetch',
+      stubApi({ [`GET ${api}/shares/s4`]: () => json(status('detailed')) }).impl,
+    );
+    const detailed = renderApp(<ShareView slug="acme" prefix="c" shareId="s4" />);
+    expect(await screen.findByText('Acme')).toBeTruthy();
+    expect(screen.getByText('Employer')).toBeTruthy();
+    await expectNoA11yViolations(detailed.container);
+  });
+
   it('a withdrawn share shows a calm error with a way back', async () => {
     vi.stubGlobal(
       'fetch',

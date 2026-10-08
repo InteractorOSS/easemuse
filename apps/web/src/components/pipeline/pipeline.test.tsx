@@ -487,6 +487,49 @@ describe('ReviewBoard', () => {
     expect(stub.calls.find((c) => c.method === 'POST')!.body).toEqual({ entryIds: ['e1', 'e3'] });
   });
 
+  it('analyzes every out-of-date candidate again with one click, or just one (T-3-12)', async () => {
+    const stub = serve(
+      [
+        row(1, { analysis: analysed({ stale: true }) }),
+        row(2, { analysis: analysed({ stale: false }) }),
+        row(3, { analysis: analysed({ stale: true }) }),
+      ],
+      false,
+      {
+        [`POST ${pos}/analyses`]: () => json({ data: { jobRunId: 'j1', total: 2 } }, 202),
+        [`GET ${api}/jobs/j1`]: () =>
+          json({
+            data: {
+              id: 'j1',
+              status: 'running',
+              progress: { total: 2, completed: 0, failed: 0, skipped: 0, entries: {} },
+              error: null,
+            },
+          }),
+      },
+    );
+    const user = userEvent.setup();
+    board();
+    await user.click(await screen.findByRole('button', { name: 'Analyze out-of-date again (2)' }));
+    await waitFor(() =>
+      expect(stub.calls.find((c) => c.method === 'POST')!.body).toEqual({ entryIds: ['e1', 'e3'] }),
+    );
+    await user.click(await screen.findByRole('button', { name: 'Analyze Person 3 again' }));
+    await waitFor(() =>
+      expect(stub.calls.filter((c) => c.method === 'POST').at(-1)!.body).toEqual({
+        entryIds: ['e3'],
+      }),
+    );
+  });
+
+  it('offers no re-analysis to a recruiter who does not own the position', async () => {
+    serve([row(1, { analysis: analysed({ stale: true }) })]);
+    board('recruiter', 'someone-else');
+    await screen.findByText('Out of date');
+    expect(screen.queryByRole('button', { name: /Analyze out-of-date again/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /again$/ })).toBeNull();
+  });
+
   it('says why an analysis could not start', async () => {
     serve([row(1)], false, {
       [`POST ${pos}/analyses`]: () => json({ error: { code: 'forbidden', message: 'x' } }, 403),

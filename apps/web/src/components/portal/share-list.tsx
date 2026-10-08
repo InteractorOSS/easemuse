@@ -46,7 +46,9 @@ export function ShareList({
                 <Badge>{t(`kinds.${s.kind}`)}</Badge>
                 <span className="font-medium">{s.title}</span>
               </span>
-              <span className="text-sm text-muted">{s.subtitle}</span>
+              <span className="text-sm text-muted">
+                {s.count === null ? s.subtitle : t('statusCount', { count: s.count })}
+              </span>
               <span className="text-xs text-muted">
                 {t('published', {
                   date: format.dateTime(new Date(s.publishedAt), { dateStyle: 'medium' }),

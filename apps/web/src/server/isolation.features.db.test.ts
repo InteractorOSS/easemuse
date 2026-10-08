@@ -30,6 +30,8 @@ import {
 import { getClientHistory } from '@/server/knowledge/history';
 import { getPatterns } from '@/server/knowledge/patterns';
 import { getPatternSummaryArtifact, planPatternSummary } from '@/server/knowledge/summary';
+import { addNote, listNotes, setTags } from '@/server/candidates/notes';
+import { getFeedbackDraft, planFeedbackDraft } from '@/server/interviews/feedback-draft';
 import { getOffer, recordOutcome, saveOffer } from '@/server/offers/service';
 import {
   getOutreach,
@@ -273,6 +275,20 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
       'portal: candidate update',
       () => asA((tx) => resolveCandidateUpdate(tx, actorA, candidate(), updateB, true)),
     ],
+    ['interviews: feedback draft', () => asA((tx) => getFeedbackDraft(tx, actorA, entry(), guid))],
+    [
+      'interviews: structure feedback',
+      () =>
+        asA((tx) =>
+          planFeedbackDraft(tx, actorA, entry(), guid, {
+            fromRole: 'hm',
+            email: 'Strong on leadership, weak on industry.',
+          }),
+        ),
+    ],
+    ['notes: list', () => asA((tx) => listNotes(tx, actorA, candidate()))],
+    ['notes: add', () => asA((tx) => addNote(tx, actorA, candidate(), { body: 'planted' }))],
+    ['tags: set', () => asA((tx) => setTags(tx, actorA, candidate(), { tags: ['planted'] }))],
     ['offer: read', () => asA((tx) => getOffer(tx, actorA, entry()))],
     [
       'offer: save',

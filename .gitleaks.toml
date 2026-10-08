@@ -5,5 +5,7 @@ title = "EaseMuse gitleaks config"
 useDefault = true
 
 [allowlist]
-description = "Example env values and dev-only role passwords"
+description = "Example env values, dev-only role passwords and unit-test fixtures"
 paths = ['''\.env\.example$''', '''scripts/db/setup-dev\.sh$''']
+# A made-up signing key in a unit test.
+regexes = ['''test-secret-with-enough-length-0123456789''']

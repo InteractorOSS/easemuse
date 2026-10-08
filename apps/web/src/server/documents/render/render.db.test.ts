@@ -166,7 +166,7 @@ describe.skipIf(!dbAvailable())('PDF render pipeline (T-1-11)', () => {
     const other = await run((tx) =>
       createArtifact(tx, {
         agencyId,
-        kind: 'benchmark_report',
+        kind: 'improved_jd',
         subject: { type: 'position', id: positionId },
       }),
     );

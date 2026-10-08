@@ -11,6 +11,8 @@ import { qualificationContentSchema } from './qualification';
 import { tailoredResumeContentSchema } from './tailored-resume';
 import { submissionReportContentSchema } from './submission-report';
 import { screeningDraftContentSchema } from './screening-draft';
+import { benchmarkContentSchema } from './benchmark';
+import { portfolioFitContentSchema, similarCandidatesContentSchema } from './pool-intelligence';
 import { searchCriteriaSchema } from './search-criteria';
 import { structuredJdContentSchema } from './structured-jd';
 import { successProfileContentSchema } from './success-profile';
@@ -96,7 +98,9 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
   success_profile: spec('success_profile', 'position', {
     schema: successProfileContentSchema as z.ZodType<Record<string, unknown>>,
   }),
-  benchmark_report: spec('benchmark_report', 'position'),
+  benchmark_report: spec('benchmark_report', 'position', {
+    schema: benchmarkContentSchema as z.ZodType<Record<string, unknown>>,
+  }),
   search_criteria: spec('search_criteria', 'position', {
     schema: searchCriteriaSchema as z.ZodType<Record<string, unknown>>,
   }),
@@ -136,8 +140,12 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
     schema: interviewFeedbackContentSchema as unknown as z.ZodType<Record<string, unknown>>,
   }),
   pattern_summary: spec('pattern_summary', 'position'),
-  similar_candidates: spec('similar_candidates', 'position'),
-  portfolio_fit: spec('portfolio_fit', 'candidate'),
+  similar_candidates: spec('similar_candidates', 'position', {
+    schema: similarCandidatesContentSchema as z.ZodType<Record<string, unknown>>,
+  }),
+  portfolio_fit: spec('portfolio_fit', 'candidate', {
+    schema: portfolioFitContentSchema as z.ZodType<Record<string, unknown>>,
+  }),
 };
 
 export function isArtifactKind(value: unknown): value is ArtifactKind {

@@ -361,14 +361,14 @@ Broken down 2026-10-07. Sessions C (reuse and history, the brief's section 14) a
 
 | ID | Task | Est | Status | Refs |
 |----|------|-----|--------|------|
-| T-2-16 | Voyage client in the AI gateway, `ProfileEmbedding` indexing job on profile approval, cost metering | 6 | | ADR-008 |
-| T-2-17 | "Find in my pool": up to 25 candidates for a success profile, with one-line reasons; nothing added until the recruiter adds | 7 | | US-205 |
-| T-2-18 | "Check open positions" for a candidate: Strong, Moderate or Low fit per open position with reasons | 6 | | US-206 |
-| T-1-15 | Benchmark: web search step and own-data step (two-step), items with source URL and date, "Our data" separate from "Web", no paid sources | 10 | | US-108, ADR-005 |
-| T-1-16 | Benchmark report UI: accept suggested JD changes one by one | 6 | | US-108 |
+| T-2-16 | Voyage client in the AI gateway, `ProfileEmbedding` indexing job on profile approval, cost metering | 6 | Done (2026-10-07). Live path needs the Voyage key; tested against a fake embedder and a real pgvector | ADR-008 |
+| T-2-17 | "Find in my pool": up to 25 candidates for a success profile, with one-line reasons; nothing added until the recruiter adds | 7 | Done (2026-10-07). Semantic search with a keyword fallback; reasons by A8 | US-205 |
+| T-2-18 | "Check open positions" for a candidate: Strong, Moderate or Low fit per open position with reasons | 6 | Done (2026-10-07). Panel on the candidate page; A9 | US-206 |
+| T-1-15 | Benchmark: web search step and own-data step (two-step), items with source URL and date, "Our data" separate from "Web", no paid sources | 10 | Done (2026-10-07). The web step stays off until `WEB_SEARCH=on` and the Anthropic account allows it; tested against a fake search | US-108, ADR-005 |
+| T-1-16 | Benchmark report UI: accept suggested JD changes one by one | 6 | Done (2026-10-07). Suggestions are decided on the approved report and land in a draft of the structured JD | US-108 |
 
 ### Could items (not planned)
 
 SMS, calendar integration, call transcripts (Q-20, FR-QUA-04, FR-IVW-05), Korean UI and region (ADR-015), mobile app (ADR-017).
 
-**Release 2 and 3 estimate:** 236 ideal hours for the tasks not marked Done (a Partial task is counted at its full size), and 48 hours already done.
+**Release 2 and 3 estimate:** 201 ideal hours for the tasks not marked Done (a Partial task is counted at its full size), and 83 hours already done.

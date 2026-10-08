@@ -15,6 +15,7 @@ import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { CandidateView } from '@/server/candidates/service';
 import { CandidateProfileEditor } from './candidate-profile-editor';
 import { CandidateNotes, TagsEditor } from './tags-and-notes';
+import { PortfolioPanel } from './portfolio-panel';
 
 /** The candidate page (T-2-12, brief 4.2): profile, files, positions, do-not-contact and the timeline. */
 export function CandidateDetail({
@@ -148,6 +149,10 @@ export function CandidateDetail({
           <p className="text-sm text-muted">{t('noProfile')}</p>
         )}
       </section>
+
+      {c.status === 'active' && c.profileArtifactId ? (
+        <PortfolioPanel agencyId={agencyId} agencySlug={agencySlug} candidateId={c.id} />
+      ) : null}
 
       <section aria-labelledby="docs-heading" className="flex flex-col gap-2">
         <h2 id="docs-heading" className="text-lg font-semibold">

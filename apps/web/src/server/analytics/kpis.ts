@@ -4,7 +4,7 @@
 /**
  * The KPI calculations of brief §13 (T-11-01, T-11-02), as pure functions over plain rows so the
  * formulas can be tested on a seeded history. Formulas follow planning-handoff §6; the choices the
- * brief left open are in implementation-notes.md (#13 to #16).
+ * brief left open are in implementation-notes.md (#21 to #24).
  *
  * Rate KPIs use one cohort: the pipeline entries ADDED to a position in the selected range. "Reached
  * a stage" means the entry has a transition into that stage or into a later one, so a skipped step

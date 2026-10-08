@@ -47,7 +47,13 @@ const envSchema = z.object({
   ANTHROPIC_API_KEY: optionalString,
   /** Optional: key material for secrets stored in the database. Defaults to AUTH_SECRET. */
   SECRETS_ENCRYPTION_KEY: optionalString,
+  /** Fallback only: an owner can enter the Voyage key in the admin area, and that wins (server/platform/secrets.ts). */
   VOYAGE_API_KEY: optionalString,
+  /**
+   * The benchmark's web search step (ADR-005). `off` by default: the Anthropic account must have web
+   * search switched on first (Claude Console, Privacy settings), and each search is billed.
+   */
+  WEB_SEARCH: z.enum(['on', 'off']).default('off'),
 
   // Object storage for generated files (ADR-011).
   S3_ENDPOINT: z.url().optional(),
@@ -77,7 +83,6 @@ const REQUIRED_IN_PRODUCTION = [
   'INTERACTOR_AUTH_CLIENT_ID',
   'INTERACTOR_AUTH_CLIENT_SECRET',
   'AUTH_SECRET',
-  'VOYAGE_API_KEY',
   'S3_BUCKET',
   'S3_REGION',
   'S3_ACCESS_KEY_ID',

@@ -168,6 +168,60 @@ export async function listPositions(
   return { items: await toViews(tx, page.items), nextCursor: page.nextCursor };
 }
 
+export interface PositionBrief {
+  id: string;
+  title: string;
+  location: string;
+  department: string | null;
+  workArrangement: string | null;
+  status: PositionStatus;
+  compMin: number | null;
+  compMax: number | null;
+  compCurrency: string;
+  requiredExperience: string | null;
+  requiredSkills: string[];
+  clientId: string;
+  createdAt: Date;
+}
+
+/**
+ * Positions the actor may see (the agency's visibility rule applies), newest first, for features
+ * that read across positions: the benchmark's own data and "Check open positions".
+ */
+export async function findVisiblePositions(
+  tx: ScopedTx,
+  actor: AgencyActor,
+  where: Prisma.PositionWhereInput,
+  take: number,
+): Promise<PositionBrief[]> {
+  const rows = await tx.position.findMany({
+    where: { AND: [await visibilityFilter(tx, actor), where] },
+    orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+    take,
+    select: {
+      id: true,
+      title: true,
+      location: true,
+      department: true,
+      workArrangement: true,
+      status: true,
+      compMin: true,
+      compMax: true,
+      compCurrency: true,
+      requiredExperience: true,
+      requiredSkills: true,
+      clientId: true,
+      createdAt: true,
+    },
+  });
+  return rows.map((r) => ({
+    ...r,
+    status: r.status as PositionStatus,
+    compMin: r.compMin === null ? null : Number(r.compMin),
+    compMax: r.compMax === null ? null : Number(r.compMax),
+  }));
+}
+
 /** Loads a position the actor may see; one they may not see is a 404, like one that does not exist. */
 async function load(tx: ScopedTx, actor: AgencyActor, positionId: string): Promise<Row> {
   const row = await tx.position.findFirst({

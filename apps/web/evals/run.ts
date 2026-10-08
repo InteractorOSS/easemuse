@@ -13,6 +13,8 @@ import { SUITES, type SuiteResult } from './suites';
  *
  *   pnpm eval -- --suite profile-structure --limit 10 --max-cost 2
  *   pnpm eval -- --suite bias --runs 3
+ *   pnpm eval -- --suite pool-similar --limit 3
+ *   pnpm eval -- --suite benchmark --limit 3     # real web search; not part of `all`
  *   pnpm eval -- --suite all
  */
 function arg(name: string, fallback: string): string {
@@ -27,7 +29,9 @@ async function main(): Promise<void> {
     process.exit(2);
   }
   const wanted = arg('suite', 'all');
-  const names = wanted === 'all' ? Object.keys(SUITES) : wanted.split(',');
+  // The benchmark searches the web (billed per search, and the Anthropic account must allow it): only on request.
+  const names =
+    wanted === 'all' ? Object.keys(SUITES).filter((n) => n !== 'benchmark') : wanted.split(',');
   for (const name of names) {
     if (!SUITES[name]) {
       console.error(`Unknown suite "${name}". Choose from: ${Object.keys(SUITES).join(', ')}, all`);

@@ -8,11 +8,13 @@ import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
 import type { z } from 'zod';
 import { resolveAnthropicKey } from '@/server/platform/secrets';
 import {
+  AiCallError,
   AiCancelledError,
   AiInvalidOutputError,
   AiProviderError,
   AiRefusalError,
   AiTruncatedError,
+  AiWebSearchUnavailableError,
 } from './errors';
 import type { TokenUsage } from './pricing';
 import type { Effort } from './purposes';
@@ -36,14 +38,52 @@ export interface ModelResponse<T> {
   latencyMs: number;
 }
 
+/** A web search step (ADR-005): the model searches and writes a cited summary. No structured output here: citations and `output_config.format` cannot be combined. */
+export interface SearchRequest {
+  model: string;
+  effort: Effort;
+  system: string;
+  user: string;
+  maxTokens: number;
+  /** Cap on searches in this step (the tool's `max_uses`). */
+  maxUses: number;
+  /** Domains the search must not use (paid sources). */
+  blockedDomains: string[];
+  signal?: AbortSignal;
+}
+
+/** A page the summary cites. `id` is the label ("S1") the text carries. */
+export interface SearchSource {
+  id: string;
+  url: string;
+  title: string;
+  /** The page's own date as the search reports it, if any. */
+  pageAge: string | null;
+  /** Short passages of the page the summary relies on. */
+  citedTexts: string[];
+}
+
+export interface SearchResponse {
+  /** The summary with a "[S1]" label after each cited passage. */
+  findings: string;
+  /** Only pages that are cited in `findings`. */
+  sources: SearchSource[];
+  searches: number;
+  usage: TokenUsage;
+  latencyMs: number;
+}
+
 /** What the gateway needs from a model provider; the Anthropic client below is the real one. */
 export interface ModelClient {
   complete<T>(request: ModelRequest<T>): Promise<ModelResponse<T>>;
+  /** Present on clients that can run the web search step. */
+  search?(request: SearchRequest): Promise<SearchResponse>;
 }
 
 /** The slice of the SDK used here, so tests can inject a fake. */
 export interface AnthropicLike {
   messages: {
+    create?(params: never, options?: { signal?: AbortSignal }): Promise<unknown>;
     parse(params: never, options?: { signal?: AbortSignal }): Promise<unknown>;
     stream(
       params: never,
@@ -147,10 +187,135 @@ export function createAnthropicClient(
         latencyMs: Math.round(now() - started),
       };
     },
+
+    async search(request: SearchRequest): Promise<SearchResponse> {
+      const sdk = await sdkFor();
+      if (!sdk.messages.create) throw new Error('This client cannot run a web search');
+      const started = now();
+      const messages: unknown[] = [{ role: 'user', content: request.user }];
+      const usage: TokenUsage = {
+        inputTokens: 0,
+        outputTokens: 0,
+        cachedTokens: 0,
+        webSearchRequests: 0,
+      };
+      const results = new Map<string, { title: string; pageAge: string | null }>();
+      const cited = new Map<string, SearchSource>();
+      let findings = '';
+
+      // A long search turn can pause; resume it a few times at most.
+      for (let turn = 0; turn < 4; turn++) {
+        const params = {
+          model: request.model,
+          max_tokens: request.maxTokens,
+          system: [{ type: 'text', text: request.system, cache_control: { type: 'ephemeral' } }],
+          messages,
+          output_config: { effort: request.effort },
+          tools: [
+            {
+              type: 'web_search_20260209',
+              name: 'web_search',
+              max_uses: request.maxUses,
+              ...(request.blockedDomains.length ? { blocked_domains: request.blockedDomains } : {}),
+            },
+          ],
+        } as never;
+        let message: SearchMessageLike;
+        try {
+          message = (await sdk.messages.create(params, {
+            signal: request.signal,
+          })) as SearchMessageLike;
+        } catch (error) {
+          if (error instanceof Anthropic.BadRequestError && /web.?search/i.test(error.message))
+            throw new AiWebSearchUnavailableError('web search is not enabled');
+          throw mapProviderError(error, request.signal);
+        }
+        usage.inputTokens += message.usage.input_tokens;
+        usage.outputTokens += message.usage.output_tokens;
+        usage.cachedTokens += message.usage.cache_read_input_tokens ?? 0;
+        usage.webSearchRequests! += message.usage.server_tool_use?.web_search_requests ?? 0;
+        if (message.stop_reason === 'refusal') throw new AiRefusalError('refusal', usage);
+        if (message.stop_reason === 'max_tokens') throw new AiTruncatedError('max_tokens', usage);
+
+        for (const block of message.content) {
+          if (block.type === 'web_search_tool_result') {
+            if (Array.isArray(block.content)) {
+              for (const r of block.content)
+                if (r.url)
+                  results.set(r.url, { title: r.title ?? '', pageAge: r.page_age ?? null });
+            } else if (block.content?.error_code === 'unavailable') {
+              throw new AiWebSearchUnavailableError('web search is unavailable');
+            }
+          } else if (block.type === 'text') {
+            const labels: string[] = [];
+            for (const c of block.citations ?? []) {
+              if (!c.url) continue;
+              let source = cited.get(c.url);
+              if (!source) {
+                const found = results.get(c.url);
+                source = {
+                  id: `S${cited.size + 1}`,
+                  url: c.url,
+                  title: c.title ?? found?.title ?? '',
+                  pageAge: found?.pageAge ?? null,
+                  citedTexts: [],
+                };
+                cited.set(c.url, source);
+              }
+              if (
+                c.cited_text &&
+                !source.citedTexts.includes(c.cited_text) &&
+                source.citedTexts.length < 3
+              )
+                source.citedTexts.push(c.cited_text);
+              if (!labels.includes(source.id)) labels.push(source.id);
+            }
+            findings += block.text + labels.map((l) => ` [${l}]`).join('');
+          }
+        }
+        if (message.stop_reason !== 'pause_turn') break;
+        messages.push({ role: 'assistant', content: message.content });
+      }
+      if (!(findings.trim().length > 0) && usage.webSearchRequests === 0 && cited.size === 0) {
+        // The model answered without searching: there is nothing to cite, and the caller says so.
+        return {
+          findings: '',
+          sources: [],
+          searches: 0,
+          usage,
+          latencyMs: Math.round(now() - started),
+        };
+      }
+      return {
+        findings: findings.trim(),
+        sources: [...cited.values()],
+        searches: usage.webSearchRequests ?? 0,
+        usage,
+        latencyMs: Math.round(now() - started),
+      };
+    },
+  };
+}
+
+interface SearchMessageLike {
+  stop_reason: string | null;
+  content: {
+    type: string;
+    text?: string;
+    citations?: { url?: string; title?: string; cited_text?: string }[] | null;
+    content?:
+      { url?: string; title?: string; page_age?: string | null }[] | { error_code?: string } | null;
+  }[];
+  usage: {
+    input_tokens: number;
+    output_tokens: number;
+    cache_read_input_tokens?: number | null;
+    server_tool_use?: { web_search_requests?: number } | null;
   };
 }
 
 function mapProviderError(error: unknown, signal?: AbortSignal): Error {
+  if (error instanceof AiCallError) return error;
   if (signal?.aborted || error instanceof Anthropic.APIUserAbortError)
     return new AiCancelledError('cancelled');
   if (error instanceof Anthropic.APIError) {

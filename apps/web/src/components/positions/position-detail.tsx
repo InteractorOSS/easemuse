@@ -146,6 +146,16 @@ export function PositionDetail({
           {d('searchLink')}
         </Link>
       ) : null}
+      {canEdit ? (
+        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/pool`}>
+          {d('poolLink')}
+        </Link>
+      ) : null}
+      {canEdit ? (
+        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/benchmark`}>
+          {d('benchmarkLink')}
+        </Link>
+      ) : null}
       <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/candidates`}>
         {d('boardLink')}
       </Link>

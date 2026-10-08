@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { LEVEL_BANDS, MATCH_WEIGHT_KEYS, type MatchLevel } from '@easemuse/core';
-import type { ModelClient, ModelRequest } from '@/server/ai/anthropic';
+import type { ModelClient, ModelRequest, SearchResponse } from '@/server/ai/anthropic';
 import { EVAL_DATA_DIR, allResumeIds, loadResume, type ResumeKey } from './lib/dataset';
 import { CRITERION_MAP } from './lib/graders';
 import { CostMeter } from './lib/runner';
@@ -29,7 +29,46 @@ function keyedModel(): ModelClient {
   return {
     async complete<T>(request: ModelRequest<T>) {
       let parsed: unknown;
-      if (request.user.includes('Structure the profile')) {
+      if (request.user.includes('Write one entry for each of the')) {
+        // A8: a short, grounded, gender-neutral line for every card.
+        parsed = {
+          items: [...request.user.matchAll(/<candidate ref="(C\d+)">/g)].map((m) => ({
+            ref: m[1],
+            reason: 'Has led HR work in a similar role.',
+            caveat: null,
+          })),
+        };
+      } else if (request.user.includes('Return the web findings and the suggestions.')) {
+        // A3 step 2: two findings that carry labels of cited pages, one that carries none.
+        parsed = {
+          web: [
+            {
+              ref: 'W1',
+              category: 'title',
+              text: 'Director of HR is the usual title.',
+              sourceIds: ['S1'],
+            },
+            {
+              ref: 'W2',
+              category: 'compensation',
+              text: 'Pay of 120k is typical.',
+              sourceIds: ['S1', 'S2'],
+            },
+            { ref: 'W3', category: 'skill', text: 'Everyone wants Python.', sourceIds: [] },
+          ],
+          suggestions: [
+            {
+              kind: 'update_section',
+              section: 'compensation',
+              text: '120k',
+              category: null,
+              requirementId: null,
+              rationale: 'Typical pay',
+              basedOn: ['W2'],
+            },
+          ],
+        };
+      } else if (request.user.includes('Structure the profile')) {
         const email = /[\w.+-]+@[\w.-]+/.exec(request.user)![0].toLowerCase();
         current = byEmail.get(email)!;
         const f = current.facts;
@@ -89,6 +128,30 @@ function keyedModel(): ModelClient {
       }
       return { parsed: request.schema.parse(parsed), usage, stopReason: 'end_turn', latencyMs: 1 };
     },
+    async search(): Promise<SearchResponse> {
+      return {
+        findings: 'Director of HR is the usual title. [S1] Pay of 120k is typical. [S2]',
+        sources: [
+          {
+            id: 'S1',
+            url: 'https://jobs.example.com/hr',
+            title: 'HR job',
+            pageAge: null,
+            citedTexts: ['Director of HR'],
+          },
+          {
+            id: 'S2',
+            url: 'https://careers.example.org/hr',
+            title: 'Another',
+            pageAge: 'May 2026',
+            citedTexts: ['120k'],
+          },
+        ],
+        searches: 3,
+        usage: { inputTokens: 2_000, outputTokens: 500, cachedTokens: 0, webSearchRequests: 3 },
+        latencyMs: 1,
+      };
+    },
   };
 }
 
@@ -133,6 +196,35 @@ describe.skipIf(!haveData)('eval suites against a model that knows the answers',
   it('stability: repeated runs of a steady model do not move', async () => {
     const result = await SUITES.stability!(ctx({ limit: 2, runs: 3 }));
     expect(result.metrics).toMatchObject({ withinTolerance: 1, maxSpread: 0 });
+  });
+
+  it('pool-similar: a model that follows the prompt answers every card with a clean line', async () => {
+    const result = await SUITES['pool-similar']!(ctx({ limit: 2 }));
+    expect(result.failures).toEqual([]);
+    expect(result.metrics).toMatchObject({
+      answeredOnce: 1,
+      reasonPass: 1,
+      noIdentity: 1,
+      noGenderedWords: 1,
+      noInventedNumbers: 1,
+    });
+    expect(result.cases).toBeGreaterThan(2);
+  });
+
+  it('benchmark: keeps the cited findings, drops the one without a page, and counts the search fee', async () => {
+    const result = await SUITES.benchmark!(ctx({ limit: 2 }));
+    expect(result.cases).toBe(2);
+    expect(result.failures).toEqual([]);
+    expect(result.metrics).toMatchObject({
+      allLinked: 1,
+      paidSourceRate: 0,
+      numbersSupported: 1,
+      itemsKept: 2,
+    });
+    // Two thirds of the model's findings named a cited page.
+    expect(result.metrics.rawCitedRate).toBeCloseTo(2 / 3, 5);
+    // The 3 searches cost $0.03 on top of the tokens, per case.
+    expect(result.costUsd).toBeGreaterThanOrEqual(0.06);
   });
 
   it('stops when the cost limit is reached', async () => {

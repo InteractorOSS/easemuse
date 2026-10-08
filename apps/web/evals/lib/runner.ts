@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { PURPOSES, type PurposeId } from '@/server/ai/purposes';
 import { costUsd, type TokenUsage } from '@/server/ai/pricing';
-import type { ModelClient } from '@/server/ai/anthropic';
+import type { ModelClient, SearchResponse } from '@/server/ai/anthropic';
 import type { PromptModule } from '@/server/ai/prompts';
 
 export interface Run<O> {
@@ -50,4 +50,52 @@ export class CostMeter {
       );
     }
   }
+}
+
+export interface ResearchedRun<O> extends Run<O> {
+  /** The web search step, when the prompt has one and it ran. */
+  research: SearchResponse | null;
+}
+
+/**
+ * Like `runPrompt` for a prompt with a web search step (A3): searches first, hands the result to the
+ * structuring step, and counts both calls (and the per-search fee) in the cost.
+ */
+export async function runResearchedPrompt<I, O>(
+  model: ModelClient,
+  module: PromptModule<I, O>,
+  input: I,
+): Promise<ResearchedRun<O>> {
+  const spec = PURPOSES[module.purpose as PurposeId];
+  const request = module.research?.buildRequest(input) ?? null;
+  let research: SearchResponse | null = null;
+  if (request) {
+    if (!model.search) throw new Error('This model client cannot run a web search');
+    research = await model.search({
+      model: spec.model,
+      effort: spec.effort,
+      system: request.system,
+      user: request.user,
+      maxTokens: spec.maxTokens,
+      maxUses: request.maxUses,
+      blockedDomains: request.blockedDomains,
+    });
+  }
+  const { system, user } = module.buildPrompt(input, research);
+  const response = await model.complete({
+    model: spec.model,
+    effort: spec.effort,
+    system,
+    user,
+    schema: module.schema,
+    maxTokens: spec.maxTokens,
+  });
+  const searchCost = research ? costUsd(spec.model, research.usage) : 0;
+  return {
+    output: response.parsed,
+    usage: response.usage,
+    costUsd: costUsd(spec.model, response.usage) + searchCost,
+    latencyMs: response.latencyMs + (research?.latencyMs ?? 0),
+    research,
+  };
 }

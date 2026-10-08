@@ -50,3 +50,6 @@ export * from './schemas/analytics';
 export * from './artifacts/interview-feedback';
 export * from './schemas/candidate-notes';
 export * from './candidates/csv-import';
+export * from './artifacts/pool-intelligence';
+export * from './artifacts/benchmark';
+export * from './candidates/embedding-text';

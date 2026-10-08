@@ -341,10 +341,50 @@ vi.mock('@/server/platform/secrets', () => ({
     updatedAt: null,
     unreadable: false,
   }),
+  getVoyageKeyStatus: async () => ({
+    configured: false,
+    source: 'none',
+    last4: null,
+    updatedAt: null,
+    unreadable: false,
+  }),
+  setVoyageKey: async () => ({
+    configured: true,
+    source: 'admin',
+    last4: 'abcd',
+    updatedAt: null,
+    unreadable: false,
+  }),
+  clearVoyageKey: async () => ({
+    configured: false,
+    source: 'none',
+    last4: null,
+    updatedAt: null,
+    unreadable: false,
+  }),
   resolveAnthropicKey: async () => undefined,
 }));
 vi.mock('@/server/ai/key-check', () => ({
   checkAnthropicKey: async () => ({ ok: true, message: 'ok' }),
+}));
+vi.mock('@/server/ai/voyage', () => ({
+  createVoyageClient: () => ({}),
+  checkVoyageKey: async () => ({ ok: true, message: 'ok' }),
+}));
+vi.mock('@/server/pool/similar', () => ({
+  findInPool: async () => ({ result: null, basis: 'semantic', found: 0 }),
+  getPoolMatches: async () => ({ artifactId: null, items: [] }),
+}));
+vi.mock('@/server/pool/portfolio', () => ({
+  planPortfolioCheck: async () => ({ input: {}, inputRefs: {} }),
+  runPortfolioCheck: async () => ({}),
+  getPortfolio: async () => ({ artifactId: null, items: [], notAssessed: [] }),
+}));
+vi.mock('@/server/benchmark/service', () => ({
+  planBenchmark: async () => ({ input: {}, inputRefs: {} }),
+  runBenchmark: async () => ({}),
+  getBenchmark: async () => ({ artifactId: null, content: null }),
+  decideSuggestion: async () => ({ decision: 'rejected', appliedVersionId: null }),
 }));
 vi.mock('@/server/portal/publish', () => ({
   publishShare: async () => ({ id: 'sh1' }),
@@ -370,7 +410,10 @@ vi.mock('@/server/tasks/service', () => ({
   completeTask: async () => undefined,
   snoozeTask: async () => undefined,
 }));
-vi.mock('@/server/ai', () => ({ getGateway: () => ({ run: async () => ({}) }) }));
+vi.mock('@/server/ai', () => ({
+  getGateway: () => ({ run: async () => ({}) }),
+  toApiError: (error: unknown) => error,
+}));
 vi.mock('@/server/ai/provenance', () => ({ getProvenance: async () => ({ id: 'g1' }) }));
 
 import { GET as agenciesGet, POST as agenciesPost } from './admin/v1/agencies/route';
@@ -556,6 +599,25 @@ import {
 } from './admin/v1/settings/anthropic/route';
 import { POST as anthropicTestPost } from './admin/v1/settings/anthropic/test/route';
 import {
+  DELETE as voyageDelete,
+  GET as voyageGet,
+  PUT as voyagePut,
+} from './admin/v1/settings/voyage/route';
+import { POST as voyageTestPost } from './admin/v1/settings/voyage/test/route';
+import {
+  GET as poolMatchesGet,
+  POST as poolMatchesPost,
+} from './v1/agencies/[agencyId]/positions/[positionId]/pool-matches/route';
+import {
+  GET as portfolioGet,
+  POST as portfolioPost,
+} from './v1/agencies/[agencyId]/candidates/[candidateId]/portfolio/route';
+import {
+  GET as benchmarkGet,
+  POST as benchmarkPost,
+} from './v1/agencies/[agencyId]/positions/[positionId]/benchmark/route';
+import { POST as suggestionPost } from './v1/agencies/[agencyId]/positions/[positionId]/benchmark/suggestions/[suggestionId]/route';
+import {
   GET as portalSharesGet,
   POST as portalSharePost,
 } from './v1/agencies/[agencyId]/portal-shares/route';
@@ -607,6 +669,7 @@ const agencyParams = {
     requestId: 'pr1',
     portalUserId: 'pu1',
     shareId: 'sh1',
+    suggestionId: 'G1',
     proposalId: '11111111-1111-4111-8111-111111111111',
     analysisId: 'an1',
     n: '1',
@@ -1916,6 +1979,95 @@ const endpoints: Endpoint[] = [
     audience: 'admin',
     allowed: ['owner', 'admin'],
     call: () => anthropicTestPost(new Request('http://x.test/', { method: 'POST' })),
+  },
+  {
+    name: 'GET voyage key status',
+    file: 'admin/v1/settings/voyage/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => voyageGet(),
+  },
+  {
+    name: 'PUT voyage key',
+    file: 'admin/v1/settings/voyage/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () =>
+      voyagePut(
+        new Request('http://x.test/', {
+          ...json({ apiKey: 'pa-abcdefghijklmnopqrstuvwxyz' }),
+          method: 'PUT',
+        }),
+      ),
+  },
+  {
+    name: 'DELETE voyage key',
+    file: 'admin/v1/settings/voyage/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () => voyageDelete(),
+  },
+  {
+    name: 'POST voyage key test',
+    file: 'admin/v1/settings/voyage/test/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () => voyageTestPost(new Request('http://x.test/', { method: 'POST' })),
+  },
+  {
+    name: 'GET pool matches',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/pool-matches/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => poolMatchesGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST pool matches (Find in my pool)',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/pool-matches/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => poolMatchesPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET candidate portfolio',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/portfolio/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => portfolioGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST candidate portfolio (Check open positions)',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/portfolio/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => portfolioPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET position benchmark',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/benchmark/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => benchmarkGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST position benchmark',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/benchmark/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => benchmarkPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'POST benchmark suggestion decision',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/benchmark/suggestions/[suggestionId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      suggestionPost(
+        new Request('http://x.test/', {
+          ...json({ versionId: '11111111-1111-4111-8111-111111111111', decision: 'rejected' }),
+        }),
+        agencyParams,
+      ),
   },
   {
     name: 'GET usage',

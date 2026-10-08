@@ -90,6 +90,8 @@
     "questionsLink": "Write intake questions",
     "profileLink": "Write the success profile",
     "searchLink": "Write search criteria",
+    "poolLink": "Find in my pool",
+    "benchmarkLink": "Market benchmark",
     "boardLink": "Candidates in this position"
   },
   "errors": {

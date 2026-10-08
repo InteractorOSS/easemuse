@@ -3,6 +3,9 @@
 import { listActiveAgencyIds, withAgency } from '@/lib/db';
 import { enqueue } from '@/lib/queue';
 import { getGateway } from '@/server/ai';
+import { createVoyageClient } from '@/server/ai/voyage';
+import { embedJob, runEmbeddingCatchUp } from '@/server/embeddings/indexing';
+import { queueEmbedding } from '@/server/embeddings/trigger';
 import { extractCandidateDocument } from '@/server/candidates/extract';
 import { structureCandidateJob } from '@/server/candidates/structure';
 import { runBatchJob } from '@/server/matching/batch';
@@ -64,6 +67,17 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
       agencyIds: listActiveAgencyIds,
       withAgency,
       log: (message, data) => console.warn(JSON.stringify({ message, ...data })),
+    });
+    await ctx.progress({ ...summary });
+  });
+  // Indexing after an approval (ADR-008): the one job that runs without a person asking.
+  registry.register('indexing', 'embed', (ctx) => embedJob(ctx, createVoyageClient()));
+  // Nightly: profiles approved while Voyage, the key or the budget was unavailable.
+  registry.register('maintenance', 'embeddings.catch_up', async (ctx) => {
+    const summary = await runEmbeddingCatchUp({
+      agencyIds: listActiveAgencyIds,
+      withAgency,
+      schedule: queueEmbedding,
     });
     await ctx.progress({ ...summary });
   });

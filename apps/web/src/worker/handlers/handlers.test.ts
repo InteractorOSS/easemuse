@@ -16,6 +16,8 @@ describe('registered job handlers', () => {
     ['documents', 'render'],
     ['ai', 'profile.structure'],
     ['ai', 'match.batch'],
+    ['indexing', 'embed'],
+    ['maintenance', 'embeddings.catch_up'],
   ] as const)('handles %s:%s', (queue, name) => {
     expect(registry.get(queue, name)).toBeTypeOf('function');
   });

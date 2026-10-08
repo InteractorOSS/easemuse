@@ -1,0 +1,14 @@
+---
+name: "EaseMuse"
+description: "고객사의 채용 의뢰부터 후보자 발굴, 분석, 매칭, Outreach, 후보자 검증 및 추천, 인터뷰 관리, 최종 채용까지 Recruiter가 수행하는 Recruiting Process 전체를 체계적으로 관리하고, 각 단계에서 Recruiter의 업무를 지원하는 것을 목적으로 한다."
+goal: "본 시스템은 고객사의 채용 의뢰부터 후보자 발굴, 분석, 매칭, Outreach, 후보자 검증 및 추천, 인터뷰 관리, 최종 채용까지 Recruiter가 수행하는 Recruiting Process 전체를 체계적으로 관리하고, 각 단계에서 Recruiter의 업무를 지원하는 것을 목적으로 한다.
+본 시스템은 AI가 후보자를 찾아주는 시스템이 아니다. Recruiter가 일하는 것을 지원하는 시스템이다.
+후보자를 발굴하고, 선별하고, 접촉하고, 고객사에 추천하는 주체는 Recruiter이다. AI는 Recruiter가 하는 일 중 읽기, 정리, 비교, 문서 작성, 진행 관리에 드는 시간을 줄여 주는 보조 도구로 사용한다.
+또한 단순한 ATS(Applicant Tracking System)나 Candidate Database를 구축하는 것이 아니라,
+Job Requirement 분석 → Candidate Sourcing → Matching 분석 → Recruiter Assessment → Candidate Engagement → Client Submission → Interview → Hiring
+으로 이어지는 End-to-End Recruiting Process를 하나의 시스템에서 관리하는 것을 목표로 한다.
+이를 통해 Recruiter 개인의 기억과 수작업에 의존하던 업무를 데이터화하고, 후보자 분석과 문서 작성에 소요되는 시간을 줄여, Recruiter가 후보자와의 대화, 평가, 고객 대응 등 판단이 필요한 업무에 더 많은 시간을 쓸 수 있도록 한다."
+status: active
+start_date: null
+target_date: null
+---

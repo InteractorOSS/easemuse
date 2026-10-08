@@ -12,5 +12,16 @@
   "unsubscribe": {
     "line": "If you do not want to hear from us again",
     "action": "Unsubscribe"
+  },
+  "portal": {
+    "subject": "{agency}: your secure link",
+    "heading": "Your secure link to {agency}",
+    "introInvite": "{agency} has invited you to a private page where you can review and respond. No account or password is needed.",
+    "introRelogin": "You asked for a new link to your private page at {agency}.",
+    "action": "Open my page",
+    "linkHint": "If the button does not work, copy this link into your browser:",
+    "expiryInvite": "This link works once and expires in {days} days.",
+    "expiryRelogin": "This link works once and expires in {minutes} minutes.",
+    "ignore": "If you did not expect this email, you can ignore it. Nobody can open the page without this link."
   }
 }

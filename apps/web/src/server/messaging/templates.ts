@@ -90,3 +90,42 @@ export async function renderUnsubscribeFooter(input: {
     html: `<hr><p style="color:#6b7280;font-size:12px">${escapeHtml(line)}: <a href="${escapeHtml(input.url)}">${escapeHtml(email('unsubscribe.action'))}</a></p>`,
   };
 }
+
+/** The email that carries a portal link (invite or re-login); copy from the localized catalogs (ADR-015). */
+export async function renderPortalLinkEmail(input: {
+  locale: Locale;
+  agencyName: string;
+  url: string;
+  kind: 'invite' | 'relogin';
+  days: number;
+  minutes: number;
+}): Promise<RenderedEmail> {
+  const messages = await loadMessages(input.locale);
+  const email = createTranslator({
+    locale: input.locale,
+    messages,
+    namespace: 'email.portal',
+  } as never) as unknown as Translate;
+  const values = { agency: input.agencyName, days: input.days, minutes: input.minutes };
+  const intro = email(input.kind === 'invite' ? 'introInvite' : 'introRelogin', values);
+  const expiry = email(input.kind === 'invite' ? 'expiryInvite' : 'expiryRelogin', values);
+  const subject = email('subject', values);
+  const text = [
+    email('heading', values),
+    '',
+    intro,
+    '',
+    `${email('action')}: ${input.url}`,
+    '',
+    expiry,
+    email('ignore'),
+  ].join('\n');
+  const html = `<!doctype html><html lang="${input.locale}"><body style="font-family:system-ui,sans-serif;color:#111827">
+<h1 style="font-size:20px">${escapeHtml(email('heading', values))}</h1>
+<p>${escapeHtml(intro)}</p>
+<p><a href="${escapeHtml(input.url)}" style="display:inline-block;background:#1d4ed8;color:#ffffff;padding:10px 16px;border-radius:6px;text-decoration:none">${escapeHtml(email('action'))}</a></p>
+<p style="color:#4b5563;font-size:13px">${escapeHtml(email('linkHint'))}<br>${escapeHtml(input.url)}</p>
+<p style="color:#4b5563;font-size:13px">${escapeHtml(expiry)} ${escapeHtml(email('ignore'))}</p>
+</body></html>`;
+  return { subject, text, html };
+}

@@ -287,6 +287,19 @@ vi.mock('@/server/screening/prefill', () => ({
   generateScreeningPrefill: async () => ({}),
   getScreeningPrefill: async () => null,
 }));
+vi.mock('@/server/portal/identity', () => ({
+  invitePortalUser: async () => ({
+    portalUserId: 'pu1',
+    audience: 'candidate',
+    email: 'a@b.test',
+    token: 't',
+    expiresAt: new Date(),
+  }),
+  disablePortalUser: async () => undefined,
+}));
+vi.mock('@/server/portal/links', () => ({
+  emailPortalLink: async () => ({ outboxMessageId: 'ob1' }),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -451,6 +464,8 @@ import {
   GET as prefillGet,
   POST as prefillPost,
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/screening/prefill/route';
+import { POST as portalInvitePost } from './v1/agencies/[agencyId]/portal-users/route';
+import { POST as portalDisablePost } from './v1/agencies/[agencyId]/portal-users/[portalUserId]/disable/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -492,6 +507,7 @@ const agencyParams = {
     entryId: 'e1',
     interviewId: 'iv1',
     requestId: 'pr1',
+    portalUserId: 'pu1',
     analysisId: 'an1',
     n: '1',
     jobRunId: 'job1',
@@ -1404,6 +1420,27 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => prefillPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'POST portal invite',
+    file: 'v1/agencies/[agencyId]/portal-users/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      portalInvitePost(
+        new Request(
+          'http://x.test/',
+          json({ audience: 'candidate', candidateId: '11111111-1111-4111-8111-111111111111' }),
+        ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST portal disable',
+    file: 'v1/agencies/[agencyId]/portal-users/[portalUserId]/disable/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => portalDisablePost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
   },
   {
     name: 'GET screening',

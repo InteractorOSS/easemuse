@@ -1,0 +1,143 @@
+{
+  "id": "rs-083",
+  "target_jd": "jd-25",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Content and SEO writing; no product launches, GTM strategy, positioning ownership or field enablement."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 5 years total, all in content roles; not 6+ years in enterprise platform PMM."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "B2B SaaS including a security software company, but in content marketing."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Mid-level content IC; below a Senior PMM level; four employers in about five years."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Austin, TX; JD location is United States."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; B.A. Journalism."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "6+ years of enterprise platform software experience focused on a highly technical product area that includes governance, interoperability, security, and integration",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Expertise in defining and executing go-to-market strategies and in the core craft of product marketing (messaging and positioning, GTM enablement, presentations, product launches, event content)",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Curiosity about AI and a record of learning and adapting quickly, including experimenting with AI tools to improve how you research, create, and launch",
+      "status": "met",
+      "evidence": "uses generative AI tools daily to research and draft faster"
+    },
+    {
+      "requirement": "Proven ability to influence and align stakeholders, including without direct authority, and to bring a data-informed perspective to decision-making",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Ability to tell clear, compelling, value-based stories that communicate complex information persuasively",
+      "status": "met",
+      "evidence": "writes clearly about technical topics"
+    },
+    {
+      "requirement": "Comfort moving quickly and adapting to change",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Reasons for short tenures"
+  ],
+  "facts": {
+    "full_name": "Hannah Goldberg",
+    "email": "hannah.goldberg@example.com",
+    "location": "Austin, TX",
+    "current_title": "Content Marketing Manager",
+    "current_employer": "Brightvale CRM",
+    "positions": [
+      {
+        "title": "Content Marketing Manager",
+        "employer": "Brightvale CRM",
+        "start": "2025-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Senior Content Writer",
+        "employer": "Northpeak Security Software",
+        "start": "2024-01",
+        "end": "2025-01",
+        "team_size": null
+      },
+      {
+        "title": "Content Specialist",
+        "employer": "Tidewater Analytics",
+        "start": "2022-09",
+        "end": "2023-12",
+        "team_size": null
+      },
+      {
+        "title": "Marketing Coordinator",
+        "employer": "Fernway Events",
+        "start": "2021-06",
+        "end": "2022-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Journalism",
+        "school": "The University of Texas at Austin",
+        "year": 2021
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "WordPress",
+      "HubSpot",
+      "SEMrush",
+      "Canva",
+      "ChatGPT-style assistants",
+      "content strategy",
+      "SEO"
+    ],
+    "numbers": [
+      "organic traffic up 35% in 2025",
+      "roughly in half",
+      "50+ blog posts and 6 e-books",
+      "two freelance writers"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 5
+  },
+  "format_traits": [
+    "chronological",
+    "job_hopping",
+    "adjacent_profession",
+    "too_junior"
+  ],
+  "notes": "Weak: adjacent content marketer with AI-tool enthusiasm and security-topic writing, but no PMM/GTM ownership and under 6 years; job hopping."
+}

@@ -1,0 +1,135 @@
+{
+  "id": "rs-003",
+  "target_jd": "jd-01",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Solid HRBP fundamentals (calibration, ER) but no enterprise strategy, M&A or workforce planning evidence."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "No experience leading a PBP team, M&A diligence/integration, or enterprise workforce planning."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Current employer is a software company, but scope is a single sales client group."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "8 years of HR experience and an individual-contributor title; JD requires 15+ years and prior VP/Head of People."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "San Francisco-based; compatible with hybrid SF office."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "BS Business Administration and SHRM-CP."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "15+ years of progressive HR leadership experience, including prior experience operating at the VP or Head of People level",
+      "status": "not_met",
+      "evidence": "8 yrs HR"
+    },
+    {
+      "requirement": "Partnering with C-suite and board-level stakeholders",
+      "status": "not_met",
+      "evidence": "Partner to 3 sales directors."
+    },
+    {
+      "requirement": "Demonstrated ownership of HR-side M&A diligence and integration",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Demonstrated ownership of strategic, skills-based workforce planning at an enterprise level, in close partnership with Finance",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Proven success leading and coaching a team of high-performing people business partners",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "In-office hybrid schedule in San Francisco, 3 days per week (essential function)",
+      "status": "met",
+      "evidence": "San Francisco, CA"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Priya Raman",
+    "email": "priya.raman@example.com",
+    "location": "San Francisco, CA",
+    "current_title": "Senior HR Business Partner",
+    "current_employer": "Quillmark Software",
+    "positions": [
+      {
+        "title": "Senior HR Business Partner",
+        "employer": "Quillmark Software",
+        "start": "2022-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "HR Business Partner",
+        "employer": "Quillmark Software",
+        "start": "2020-02",
+        "end": "2021-12",
+        "team_size": null
+      },
+      {
+        "title": "HR Generalist",
+        "employer": "Fenwick Dental Group",
+        "start": "2018-06",
+        "end": "2020-01",
+        "team_size": null
+      },
+      {
+        "title": "HR Coordinator",
+        "employer": "Fenwick Dental Group",
+        "start": "2018-01",
+        "end": "2018-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "BS",
+        "field": "Business Administration",
+        "school": "San Francisco State University",
+        "year": 2017
+      }
+    ],
+    "certifications": [
+      "SHRM-CP"
+    ],
+    "skills": [],
+    "numbers": [
+      "8 yrs HR",
+      "650 employees",
+      "3 sales directors",
+      "voluntary attrition down 4 pts",
+      "(300 employees)"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "very_terse",
+    "all_caps_headings",
+    "too_junior"
+  ],
+  "notes": "Weak: credible HRBP but far too junior for a VP role with team, M&A and enterprise planning must-haves. Location is fine, which should not rescue the score."
+}

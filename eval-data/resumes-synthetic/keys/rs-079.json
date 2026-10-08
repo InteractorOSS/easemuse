@@ -1,0 +1,149 @@
+{
+  "id": "rs-079",
+  "target_jd": "jd-24",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong value-selling and closing skills, but buyers are HR/finance, not development or DevOps teams."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "7 years of progressive SaaS sales with consistent quota attainment."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "HR/payroll SaaS; no developer tools or Git/ALM experience (preferred)."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Mid-market AE at 200–2,500 employee companies, close to GitLab's segment."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Currently in Atlanta (Eastern Time); relocation to Austin (Central) stated for 2026-12 — to confirm timing."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; B.A. Communications."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "$140,000 base is within $91,600—$154,200; $280,000 OTE consistent with incentive up to 100% of base."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Located in Central, Mountain, or Pacific Timezones",
+      "status": "unknown",
+      "evidence": "Atlanta, GA (relocating to Austin, TX in 2026-12)"
+    },
+    {
+      "requirement": "Demonstrated progressive experience with SaaS sales through pitching on value to development team (preferably devops)",
+      "status": "not_met",
+      "evidence": "Sell payroll and HR SaaS to HR and finance leaders"
+    },
+    {
+      "requirement": "Ability to leverage established relationships and proven sales techniques for success",
+      "status": "met",
+      "evidence": "Lead negotiations with procurement and legal"
+    },
+    {
+      "requirement": "Excellent negotiation, presentation and closing skills",
+      "status": "met",
+      "evidence": "109% of $950K quota in 2025"
+    },
+    {
+      "requirement": "Meet or exceed quota (quota-carrying track record)",
+      "status": "met",
+      "evidence": "109% of $950K quota in 2025; 101% in 2024."
+    },
+    {
+      "requirement": "Interest in GitLab, and open source software",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "The ability to travel for events such as trainings, team off sites, customer meetings, etc.",
+      "status": "met",
+      "evidence": "Comfortable with regular travel for customer meetings and events."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Relocation date to Austin and whether hire can wait until then",
+    "Ability to sell to technical/developer buyers",
+    "Interest in DevOps/open source"
+  ],
+  "facts": {
+    "full_name": "Brianna Coleman",
+    "email": "brianna.coleman@example.com",
+    "location": "Atlanta, GA",
+    "current_title": "Account Executive, Mid-Market",
+    "current_employer": "Payfield HR",
+    "positions": [
+      {
+        "title": "Account Executive, Mid-Market",
+        "employer": "Payfield HR",
+        "start": "2022-05",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Account Executive, SMB",
+        "employer": "Payfield HR",
+        "start": "2020-09",
+        "end": "2022-04",
+        "team_size": null
+      },
+      {
+        "title": "Sales Development Representative",
+        "employer": "Clearbook Accounting Software",
+        "start": "2019-07",
+        "end": "2020-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Communications",
+        "school": "Georgia State University",
+        "year": 2019
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "MEDDIC",
+      "Salesforce",
+      "Outreach",
+      "Gong",
+      "negotiation",
+      "executive presentations"
+    ],
+    "numbers": [
+      "$140,000 base / $280,000 OTE",
+      "7 years in B2B software sales",
+      "the last 4 as a mid-market closer",
+      "200–2,500 employee companies",
+      "109% of $950K quota in 2025",
+      "101% in 2024",
+      "from $38K to $61K ARR",
+      "average sales cycle 74 days",
+      "Closed 90 new logos in 2021",
+      "within 5% of commit for the last four quarters"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "$140,000 base / $280,000 OTE",
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "chronological",
+    "relocation_stated",
+    "location_mismatch",
+    "compensation_stated",
+    "compensation_within_range"
+  ],
+  "notes": "Partial: proven SaaS closer, but sells to HR not developers and is currently in Eastern Time with a stated future relocation to Central."
+}

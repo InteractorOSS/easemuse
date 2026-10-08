@@ -1,0 +1,141 @@
+{
+  "id": "rs-085",
+  "target_jd": "jd-26",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Budgets, forecasts and capital-project variance tracking, but mostly corporate FP&A rather than program financial management."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "About 8.7 years of finance experience, short of 10 years in program/project financial management."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Semiconductor manufacturing; hardware-adjacent, no automotive OEM."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "Manager level, but below the 10-year bar for a senior controller."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Sacramento, CA; states willingness to relocate to the Bay Area."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Economics is a related field."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "BS in Finance, Accounting, Business Administration or related field",
+      "status": "met",
+      "evidence": "B.S., Economics, University of California, Davis, 2017"
+    },
+    {
+      "requirement": "At least 10 years in Program/Project Financial Management",
+      "status": "not_met",
+      "evidence": "FP&A manager with 8 years in corporate and capital-project finance"
+    },
+    {
+      "requirement": "Strong analytical and quantitative skills",
+      "status": "met",
+      "evidence": "Built a three-statement model used in the board's capacity-expansion decision."
+    },
+    {
+      "requirement": "Excellent communication and collaboration abilities",
+      "status": "met",
+      "evidence": "comfortable presenting to executives"
+    },
+    {
+      "requirement": "Proficiency in Google Sheets and Financial Modeling Methodologies",
+      "status": "unknown",
+      "evidence": "Excel (advanced)"
+    },
+    {
+      "requirement": "(inferred from responsibilities) Hands-on program budgeting, forecasting, cost baselines and variance analysis",
+      "status": "met",
+      "evidence": "Track capital projects (fab expansion, $210M) against budget and report variances monthly."
+    },
+    {
+      "requirement": "(inferred) Able to work from Foster City, CA (posting location; work arrangement not stated)",
+      "status": "met",
+      "evidence": "Willing to relocate to the Bay Area."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Google Sheets proficiency",
+    "Depth of program-level (vs. corporate) financial management",
+    "Relocation timeline"
+  ],
+  "facts": {
+    "full_name": "Thomas Brennan",
+    "email": "thomas.brennan@example.com",
+    "location": "Sacramento, CA",
+    "current_title": "FP&A Manager",
+    "current_employer": "Silvergate Semiconductor",
+    "positions": [
+      {
+        "title": "FP&A Manager",
+        "employer": "Silvergate Semiconductor",
+        "start": "2022-01",
+        "end": "present",
+        "team_size": 3
+      },
+      {
+        "title": "Senior Financial Analyst",
+        "employer": "Silvergate Semiconductor",
+        "start": "2018-06",
+        "end": "2021-12",
+        "team_size": null
+      },
+      {
+        "title": "Financial Analyst",
+        "employer": "Delta Valley Utilities",
+        "start": "2018-01",
+        "end": "2018-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Economics",
+        "school": "University of California, Davis",
+        "year": 2017
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Excel (advanced)",
+      "Oracle Hyperion",
+      "Power BI",
+      "SQL",
+      "financial modeling"
+    ],
+    "numbers": [
+      "8 years",
+      "$1.2B manufacturing division",
+      "$210M",
+      "14 departments",
+      "team of 3 analysts"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "all_caps_headings",
+    "relocation_stated",
+    "short_stint"
+  ],
+  "notes": "Partial: right toolkit and capital-project variance work but short of 10 years of program finance; Google Sheets not evidenced; relocation stated. jd-26 is very short: the degree/years/skills items are stated; budget/variance and location must-haves are inferred and labelled as such."
+}

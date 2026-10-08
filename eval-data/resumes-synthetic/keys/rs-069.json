@@ -1,0 +1,144 @@
+{
+  "id": "rs-069",
+  "target_jd": "jd-21",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Outbound multi-channel prospecting (calls, personalized email, social selling) and AE partnership on territory plans, matching the JD responsibilities."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "1.5 years as a BDR plus ~2.5 years customer-facing retail; exceeds the desired 1+ year customer-facing experience."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "SaaS sales development for a communications/messaging platform, closely aligned with Twilio's space."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Entry-level SDR role; candidate is early-career with directly relevant BDR tenure, not over-levelled."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Phoenix, AZ is remote and not on the JD's excluded-state list."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "JD lists no degree requirement; B.A. in Communication is a plus."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated; U.S. citizen so no work-authorization concern."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Growth-oriented and ready to build toward future leadership or customer-facing roles",
+      "status": "met",
+      "evidence": "building toward a closing role"
+    },
+    {
+      "requirement": "Goal-oriented and biased toward action (our quota is the floor, not the ceiling!)",
+      "status": "met",
+      "evidence": "Achieved 128% of quota across 5 quarters; ranked #2 of 14 BDRs in FY2025."
+    },
+    {
+      "requirement": "Excited to go above and beyond to delight prospects through creative, strategic, highly personalized outreach",
+      "status": "met",
+      "evidence": "Wrote a vertical-specific email sequence that lifted reply rates from 4% to 9%"
+    },
+    {
+      "requirement": "Comfortable with change and energized by a fast-moving environment",
+      "status": "met",
+      "evidence": "Volunteered for the pilot of a new intent-data workflow during a mid-year reorg of the BDR team."
+    },
+    {
+      "requirement": "Have a demonstrated ability to navigate challenges with resilience",
+      "status": "met",
+      "evidence": "handled escalations and returns"
+    },
+    {
+      "requirement": "Embrace responsibility and enjoy partnering with Account Executives as part of a team",
+      "status": "met",
+      "evidence": "Co-built territory plans with AEs for 60 named healthcare and retail accounts"
+    },
+    {
+      "requirement": "Located in a state where the role can be hired (not CA, CT, IL, MA, MD, NJ, NY, OR, PA, RI, TX, VA, WA, or Washington DC)",
+      "status": "met",
+      "evidence": "Phoenix, AZ"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Commission/OTE expectations",
+    "Interest in staying in a pipeline-generation role vs. promotion timeline to AE"
+  ],
+  "facts": {
+    "full_name": "Diego Alvarado",
+    "email": "diego.alvarado@example.com",
+    "location": "Phoenix, AZ",
+    "current_title": "Business Development Representative",
+    "current_employer": "Cactusline Software",
+    "positions": [
+      {
+        "title": "Business Development Representative",
+        "employer": "Cactusline Software",
+        "start": "2025-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Customer Service Lead",
+        "employer": "Saguaro Outfitters",
+        "start": "2022-06",
+        "end": "2025-01",
+        "team_size": 6
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Communication",
+        "school": "Arizona State University",
+        "year": 2022
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Salesforce",
+      "Outreach",
+      "LinkedIn Sales Navigator",
+      "Gong",
+      "ZoomInfo",
+      "Google Workspace",
+      "cold calling",
+      "email sequencing",
+      "social selling"
+    ],
+    "numbers": [
+      "128% of quota across 5 quarters",
+      "ranked #2 of 14 BDRs in FY2025",
+      "Booked 74 qualified meetings in FY2025",
+      "sourced $1.9M in pipeline",
+      "60 named healthcare and retail accounts",
+      "lifted reply rates from 4% to 9%",
+      "team of 6 associates",
+      "about 900 transactions per week",
+      "loyalty sign-up rate by 22%",
+      "about 60 dials per day",
+      "1.5 years of outbound SaaS prospecting"
+    ],
+    "work_authorization": "U.S. citizen",
+    "compensation_expectation": null,
+    "years_experience_total": 4
+  },
+  "format_traits": [
+    "chronological",
+    "steady_progression",
+    "achievements_with_numbers",
+    "work_authorization_stated"
+  ],
+  "notes": "Clean strong SDR fit: directly relevant BDR tools and quota evidence, eligible remote state."
+}

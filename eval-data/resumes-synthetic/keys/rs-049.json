@@ -1,0 +1,161 @@
+{
+  "id": "rs-049",
+  "target_jd": "jd-15",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Hands-on former Staff Engineer leading a 24-person picking/fulfillment org; roadmap ownership, hiring, production standards."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Directly analogous: shopper picking app and fulfillment services for grocery retailers."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Grocery/retail fulfillment, the same domain as Core Picking."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "14 years engineering, 7 years managing, currently 24 people including 3 managers (exceeds 15+)."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Denver, CO, remote; JD is United States - Remote."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Computer Science; no certification required."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "$245,000 base sits inside the CO band ($243,000—$256,500); U.S. citizen."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Proven track record as a hands-on technical leader, preferably at a Staff+ level in a similar industry",
+      "status": "met",
+      "evidence": "Former Staff Engineer who still reviews designs and writes code in Go and Kotlin."
+    },
+    {
+      "requirement": "10+ years of professional software engineering experience",
+      "status": "met",
+      "evidence": "14 years in software engineering"
+    },
+    {
+      "requirement": "4+ years managing engineers, with a track record leading teams of 15+ and delivering complex consumer or enterprise facing products",
+      "status": "met",
+      "evidence": "Lead a 24-person organization of 3 engineering managers and 21 engineers"
+    },
+    {
+      "requirement": "Ability to craft and execute strategic engineering roadmaps that align with business objectives",
+      "status": "met",
+      "evidence": "Own the 18-month technical roadmap, agreed each quarter with product and business leadership"
+    },
+    {
+      "requirement": "Experience in staffing, mentoring, and leading engineering teams to success",
+      "status": "met",
+      "evidence": "Grew the organization from 6 to 24 engineers in three years; designed the interview loop and closed 30+ hires."
+    },
+    {
+      "requirement": "Effective cross-functional leadership with product managers, EM peers, and senior ICs",
+      "status": "met",
+      "evidence": "Work weekly with product managers, design, EM peers and retailer engineering leads at 4 national grocery chains."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Equity expectations alongside the stated $245,000 base"
+  ],
+  "facts": {
+    "full_name": "Marcus Okafor",
+    "email": "marcus.okafor@example.com",
+    "location": "Denver, CO",
+    "current_title": "Senior Engineering Manager, Fulfillment Platform",
+    "current_employer": "Cartwell Commerce",
+    "positions": [
+      {
+        "title": "Senior Engineering Manager, Fulfillment Platform",
+        "employer": "Cartwell Commerce",
+        "start": "2021-04",
+        "end": "present",
+        "team_size": 24
+      },
+      {
+        "title": "Engineering Manager, Shopper App",
+        "employer": "Cartwell Commerce",
+        "start": "2019-06",
+        "end": "2021-03",
+        "team_size": 9
+      },
+      {
+        "title": "Staff Software Engineer",
+        "employer": "Pantrylane Logistics",
+        "start": "2015-08",
+        "end": "2019-05",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineer",
+        "employer": "Brightfield Systems",
+        "start": "2012-07",
+        "end": "2015-07",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "school": "University of Colorado Boulder",
+        "year": 2012
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Go",
+      "Ruby on Rails",
+      "Kotlin",
+      "Swift",
+      "PostgreSQL",
+      "Kafka",
+      "AWS",
+      "roadmap planning",
+      "hiring and team building",
+      "incident management"
+    ],
+    "numbers": [
+      "14 years",
+      "7 years managing engineers",
+      "24-person organization",
+      "3 engineering managers and 21 engineers",
+      "from 6 to 24 engineers",
+      "30+ hires",
+      "18-month",
+      "reduced crash rate by 62%",
+      "order defects by 18%",
+      "1.2 million orders per week",
+      "99.95% availability",
+      "4 national grocery chains",
+      "Managed 9 engineers",
+      "cutting wrong-item picks by 27%",
+      "3 engineers promoted",
+      "3-team migration",
+      "Mentored 6 engineers",
+      "$245,000"
+    ],
+    "work_authorization": "U.S. citizen",
+    "compensation_expectation": "Seeking a base salary of $245,000 plus equity",
+    "years_experience_total": 14
+  },
+  "format_traits": [
+    "chronological",
+    "steady_progression",
+    "achievements_with_numbers",
+    "team_size_stated",
+    "compensation_stated"
+  ],
+  "notes": "Clean strong fit; comp inside the state band, so the matcher should not flag comp. Tests reading team size (24 incl. 3 managers) against the 15+ requirement."
+}

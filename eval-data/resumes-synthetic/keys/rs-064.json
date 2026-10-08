@@ -1,0 +1,144 @@
+{
+  "id": "rs-064",
+  "target_jd": "jd-20",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Go/Python/Java data services, Kafka/Spark/Airflow, access control, lineage, catalog and quality monitoring all evidenced."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Built a data access layer, lineage service and SDK: near-identical to the JD's responsibilities."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Regulated financial services data platform, close to Coinbase."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "8 years backend/data engineering; Senior title."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Remote in Minnesota and can travel quarterly (matches 'surges')."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Computer Science."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "$210,000 inside $186,065—$218,900; U.S. citizen."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of experience in backend software engineering, with hands-on experience building and operating data systems or data pipelines in production",
+      "status": "met",
+      "evidence": "Senior backend engineer with 8 years building data platforms"
+    },
+    {
+      "requirement": "Proficiency in Python, Go, or Java for backend development, building services that process and serve data at scale",
+      "status": "met",
+      "evidence": "a Go service that enforces column- and row-level policies across Snowflake"
+    },
+    {
+      "requirement": "Experience with data infrastructure patterns including scale-out architectures, caching layers, key/value stores, and columnar storage systems",
+      "status": "met",
+      "evidence": "Rebuilt the real-time balance aggregation store on Kafka Streams and Redis"
+    },
+    {
+      "requirement": "Hands-on experience with SQL, Airflow, Spark, Kafka, or similar data processing and orchestration frameworks in production",
+      "status": "met",
+      "evidence": "Built Spark batch pipelines processing 2 TB of claims data nightly; moved orchestration from cron to Airflow."
+    },
+    {
+      "requirement": "Experience with data security, access control, or data observability systems, including cataloging, lineage, or quality monitoring",
+      "status": "met",
+      "evidence": "Built the lineage and catalog service (OpenLineage events from Airflow and Spark jobs into a graph store)"
+    },
+    {
+      "requirement": "Utilizes generative AI responsibly, maintaining human oversight",
+      "status": "met",
+      "evidence": "every AI-generated change gets human review and no production data in prompts"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Rachel Goldberg",
+    "email": "rachel.goldberg@example.com",
+    "location": "Minneapolis, MN",
+    "current_title": "Senior Software Engineer, Data Platform",
+    "current_employer": "Northvane Financial",
+    "positions": [
+      {
+        "title": "Senior Software Engineer, Data Platform",
+        "employer": "Northvane Financial",
+        "start": "2021-09",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineer, Data Engineering",
+        "employer": "Prairiegate Insurance",
+        "start": "2018-07",
+        "end": "2021-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "school": "University of Minnesota",
+        "year": 2018
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Go",
+      "Python",
+      "Java",
+      "SQL",
+      "Kafka",
+      "Kafka Streams",
+      "Spark",
+      "Airflow",
+      "Trino",
+      "Snowflake",
+      "Apache Iceberg",
+      "Parquet",
+      "Redis",
+      "PostgreSQL",
+      "Terraform",
+      "AWS",
+      "OpenLineage"
+    ],
+    "numbers": [
+      "8 years",
+      "4,000 datasets",
+      "1,100 users",
+      "from 3 weeks to 2 days",
+      "35 product teams",
+      "25,000 reads per second",
+      "p99 of 12 ms",
+      "fell 60%",
+      "2 TB of claims data",
+      "30+ third-party data feeds",
+      "cutting warehouse cost by 28%",
+      "$210,000"
+    ],
+    "work_authorization": "U.S. citizen.",
+    "compensation_expectation": "Base salary expectation: $210,000.",
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "achievements_with_numbers",
+    "compensation_stated"
+  ],
+  "notes": "Strong on every must-have including the less common data security/lineage item and responsible GenAI use; comp inside range."
+}

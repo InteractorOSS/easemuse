@@ -1,0 +1,143 @@
+{
+  "id": "rs-070",
+  "target_jd": "jd-21",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Shows organization and initiative (case competition, lead enrichment) but no outbound prospecting, quota or personalized sales outreach yet."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Internship plus part-time tutoring; under the desired 1+ year of full-time customer-facing experience."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "B2B analytics internship touched sales support, but no SaaS sales development experience."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Entry-level role that explicitly welcomes early-career candidates; level fits."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Columbus, OH is not on the excluded-state list."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree required; recent B.S. Business Administration is a plus."
+    },
+    "compensation_other": {
+      "level": "partial",
+      "why": "Target $30–$34/hr; JD lists ranges only for certain states (not Ohio), so fit is to confirm. Work authorization not stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Growth-oriented and ready to build toward future leadership or customer-facing roles",
+      "status": "met",
+      "evidence": "looking for a first full-time role in tech sales"
+    },
+    {
+      "requirement": "Goal-oriented and biased toward action (our quota is the floor, not the ceiling!)",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Excited to go above and beyond to delight prospects through creative, strategic, highly personalized outreach",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Comfortable with change and energized by a fast-moving environment",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Have a demonstrated ability to navigate challenges with resilience",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Embrace responsibility and enjoy partnering with Account Executives as part of a team",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Located in a state where the role can be hired (not CA, CT, IL, MA, MD, NJ, NY, OR, PA, RI, TX, VA, WA, or Washington DC)",
+      "status": "met",
+      "evidence": "Columbus, OH"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Work authorization (not stated)",
+    "Pay expectation $30–$34/hr vs. Twilio range for Ohio",
+    "Evidence of goal attainment / comfort with cold outreach"
+  ],
+  "facts": {
+    "full_name": "Priya Venkataraman",
+    "email": "priya.venkataraman@example.com",
+    "location": "Columbus, OH",
+    "current_title": "Peer Tutor (part-time)",
+    "current_employer": "Brightfield Tutoring",
+    "positions": [
+      {
+        "title": "Marketing Intern",
+        "employer": "Lakeshore Analytics Group",
+        "start": "2025-06",
+        "end": "2025-08",
+        "team_size": null
+      },
+      {
+        "title": "Peer Tutor (part-time)",
+        "employer": "Brightfield Tutoring",
+        "start": "2023-09",
+        "end": "2026-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business Administration (Marketing)",
+        "school": "The Ohio State University",
+        "year": 2026
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "HubSpot",
+      "Canva",
+      "Excel",
+      "Google Slides",
+      "public speaking",
+      "Spanish (conversational)"
+    ],
+    "numbers": [
+      "GPA 3.6/4.0",
+      "Dean's List 5 semesters",
+      "3 enterprise pitches",
+      "1,200 lead records",
+      "follower count grew 15%",
+      "40+ students",
+      "about 10 hours per week",
+      "team of 4",
+      "three-touch email sequence",
+      "18 teams, 4 corporate judges",
+      "$30–$34/hr plus commission"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "$30–$34/hr plus commission",
+    "years_experience_total": 1
+  },
+  "format_traits": [
+    "all_caps_headings",
+    "new_graduate",
+    "compensation_stated",
+    "work_authorization_missing",
+    "education_first"
+  ],
+  "notes": "Early-career candidate: eligible location and right level, but traits like quota orientation are unevidenced and work authorization is missing. Most required items are soft traits that a resume cannot show, hence many unknowns."
+}

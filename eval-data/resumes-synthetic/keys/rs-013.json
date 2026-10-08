@@ -1,0 +1,145 @@
+{
+  "id": "rs-013",
+  "target_jd": "jd-05",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Global program design, cost modeling, compliance and AI tool use all evidenced."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Owns global benefits for 9,000 employees in 22 countries plus M&A diligence/integration."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Data/analytics company; global multi-entity benefits."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "13 years in benefits; Senior Manager title but Director-level scope (under-titled)."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Chicago-based and in the office daily; matches 5-day onsite in Chicago."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Economics and CEBS."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated; Chicago is Zone 2 ($198,000–$233,000)."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of experience in benefits, with a track record of designing and implementing global programs",
+      "status": "met",
+      "evidence": "Designed and launched a global benefits framework (health, life/disability, retirement, leave minimums) across 22 countries"
+    },
+    {
+      "requirement": "Deep expertise across health, welfare, retirement, and leave, both US and international",
+      "status": "met",
+      "evidence": "Benefits experience | 13 years (US and international)"
+    },
+    {
+      "requirement": "Strong analytical skills and comfort modeling program costs, utilization, and ROI",
+      "status": "met",
+      "evidence": "Built cost and utilization models for the US self-funded medical plan"
+    },
+    {
+      "requirement": "M&A experience including benefits due diligence and integration",
+      "status": "met",
+      "evidence": "Ran benefits diligence and integration for 3 acquisitions (US, UK, Germany)"
+    },
+    {
+      "requirement": "Solid understanding of regulatory and compliance requirements across global jurisdictions",
+      "status": "met",
+      "evidence": "Monitor statutory changes with Legal and Finance in each jurisdiction"
+    },
+    {
+      "requirement": "Build, develop, and lead a high-performing benefits team",
+      "status": "met",
+      "evidence": "Lead a team of 5 benefits partners and analysts; promoted 2 to manager."
+    },
+    {
+      "requirement": "Strong fluency with AI tools",
+      "status": "met",
+      "evidence": "Built an AI assistant for benefits FAQs on the company's internal LLM platform"
+    },
+    {
+      "requirement": "In-person 5 days per week in Chicago, IL, Menlo Park, CA, or New York, NY",
+      "status": "met",
+      "evidence": "Based in Chicago and in the office daily."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Jennifer Holloway",
+    "email": "jennifer.holloway@example.com",
+    "location": "Chicago, IL",
+    "current_title": "Senior Manager, Global Benefits",
+    "current_employer": "Lakeshore Analytics Group",
+    "positions": [
+      {
+        "title": "Senior Manager, Global Benefits",
+        "employer": "Lakeshore Analytics Group",
+        "start": "2021-01",
+        "end": "present",
+        "team_size": 5
+      },
+      {
+        "title": "Benefits Manager",
+        "employer": "Corridor Freight Systems",
+        "start": "2016-04",
+        "end": "2020-12",
+        "team_size": null
+      },
+      {
+        "title": "Benefits Analyst",
+        "employer": "Lakeview Mutual",
+        "start": "2013-02",
+        "end": "2016-03",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Economics",
+        "school": "Loyola University Chicago",
+        "year": 2012
+      }
+    ],
+    "certifications": [
+      "Certified Employee Benefit Specialist (CEBS)"
+    ],
+    "skills": [],
+    "numbers": [
+      "13 years",
+      "9,000 employees in 22 countries",
+      "5 direct reports",
+      "3 acquisitions",
+      "replacing 22 country-by-country policies",
+      "a team of 5",
+      "promoted 2 to manager",
+      "saved $6.2M",
+      "20 weeks",
+      "ticket volume down 35%",
+      "4,000 US employees",
+      "600 employees"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 13
+  },
+  "format_traits": [
+    "tables",
+    "under_titled_strong_scope",
+    "specific_numbers"
+  ],
+  "notes": "Strong: tables and an 'At a Glance' grid test extraction from non-prose layouts; Senior Manager title should not hide Director-level scope."
+}

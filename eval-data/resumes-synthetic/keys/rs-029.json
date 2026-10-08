@@ -1,0 +1,147 @@
+{
+  "id": "rs-029",
+  "target_jd": "jd-09",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Owns close, accruals, reconciliations and flux for G&A areas that map directly to the G&A Senior Accountant scope; Power Query and AI automation evidenced."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "8 years, including 6+ years in SaaS corporate accounting with full close ownership."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "High-growth SaaS plus Big-4-style public accounting; SOX in a public company (both preferred items)."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "8 years progressive (audit -> accountant -> senior accountant) exceeds 5+."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Denver, CO, open to remote; JD allows remote in the United States; authorized to work in the U.S."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Accounting and CPA (CPA is a preferred plus)."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "Target base $150,000 is inside $115,000-$167,000."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of progressive accounting with hands-on ownership of the month-end close process",
+      "status": "met",
+      "evidence": "Own month-end and quarter-end close for cash, corporate card, T&E, payroll and benefits, and intercompany across 6 entities"
+    },
+    {
+      "requirement": "Strong knowledge of US GAAP and accrual accounting",
+      "status": "met",
+      "evidence": "I own month-end and quarter-end close for G&A areas under US GAAP"
+    },
+    {
+      "requirement": "Proficiency with NetSuite or equivalent ERP systems, leveraging automation and AI tools to streamline accounting workflows",
+      "status": "met",
+      "evidence": "Built a Power Query model that pulls NetSuite trial balances and Ramp card data, cutting reconciliation time from 3 days to 1 day."
+    },
+    {
+      "requirement": "Demonstrated ability to build cross-functional partnerships and communicate effectively with stakeholders across all levels",
+      "status": "met",
+      "evidence": "Partner with People, Legal and IT budget owners on monthly accruals"
+    },
+    {
+      "requirement": "Advanced Excel skills, including Power Query and complex formulas, to produce audit-ready reporting and analysis",
+      "status": "met",
+      "evidence": "Excel (Power Query, XLOOKUP, dynamic arrays)"
+    },
+    {
+      "requirement": "Based in the United States (US hub or remote in the United States)",
+      "status": "met",
+      "evidence": "Denver, CO | ... Authorized to work in the U.S. | Open to remote"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Kavya Subramanian",
+    "email": "kavya.subramanian@example.com",
+    "location": "Denver, CO",
+    "current_title": "Senior Accountant",
+    "current_employer": "Lattice Peak Software",
+    "positions": [
+      {
+        "title": "Senior Accountant",
+        "employer": "Lattice Peak Software",
+        "start": "2022-04",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Accountant",
+        "employer": "Lattice Peak Software",
+        "start": "2020-08",
+        "end": "2022-03",
+        "team_size": null
+      },
+      {
+        "title": "Senior Audit Associate",
+        "employer": "Brightwater & Cole LLP",
+        "start": "2018-09",
+        "end": "2020-07",
+        "team_size": 3
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Accounting",
+        "school": "University of Colorado Boulder",
+        "year": 2018
+      }
+    ],
+    "certifications": [
+      "Certified Public Accountant (CPA), Colorado"
+    ],
+    "skills": [
+      "NetSuite",
+      "Numeric",
+      "Ramp",
+      "Navan",
+      "Excel",
+      "Power Query",
+      "Claude",
+      "ChatGPT",
+      "US GAAP",
+      "ASC 842",
+      "SOX controls",
+      "flux analysis"
+    ],
+    "numbers": [
+      "8 years",
+      "6 entities",
+      "from 3 days to 1 day",
+      "14 close procedures",
+      "by 40%",
+      "9 office leases",
+      "from $20M to $400M",
+      "3 associates",
+      "$150,000"
+    ],
+    "work_authorization": "Authorized to work in the U.S.",
+    "compensation_expectation": "Target base salary: $150,000",
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "steady_progression",
+    "comp_stated_in_range",
+    "work_auth_stated",
+    "quantified_achievements"
+  ],
+  "notes": "Clean strong fit: every must-have evidenced, preferred items (SaaS, SOX, CPA, Numeric/Ramp/Navan) present, comp inside range."
+}

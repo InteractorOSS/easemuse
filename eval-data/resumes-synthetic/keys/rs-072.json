@@ -1,0 +1,155 @@
+{
+  "id": "rs-072",
+  "target_jd": "jd-22",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Leads CSMs, sets operating rhythms (account plans, health reviews, renewal forecasting, QBRs) exactly as the JD describes."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "14+ years customer-facing (AM then CS) with 7+ years of people management, including hiring 7 CSMs."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "High-growth payments and billing software company; matches the payments/billing nice-to-have."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Senior Manager level managing 9 CSMs including team leads; meets the 12+ years and 3-5+ years of management."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Based in Chicago, IL, the posting location."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement stated; B.S. Marketing."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated and JD lists no range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "12+ years of customer-facing experience in customer success, account management, or sales with 3-5 years of people management experience",
+      "status": "met",
+      "evidence": "Fourteen years with customers"
+    },
+    {
+      "requirement": "Experience leading sales or account management in a high-growth technology environment",
+      "status": "met",
+      "evidence": "grew from 300 to 1,100 employees during my tenure"
+    },
+    {
+      "requirement": "Ability to hire, train, and coach a high-performing user-facing team",
+      "status": "met",
+      "evidence": "Hired 7 of the 9 CSMs; built the onboarding curriculum and a quarterly coaching framework"
+    },
+    {
+      "requirement": "Ability to support the Customer Success Managers' efforts through strategic advice on account strategies, and serving as executive sponsor with key relationships",
+      "status": "met",
+      "evidence": "Act as executive sponsor for our 10 largest relationships"
+    },
+    {
+      "requirement": "Ability to operate in a high-growth environment and work through ambiguity to solve complex customer and business problems",
+      "status": "met",
+      "evidence": "Took over a team mid-reorg after a leadership departure and stabilized attrition"
+    },
+    {
+      "requirement": "Based in or able to work from Chicago (posting location)",
+      "status": "met",
+      "evidence": "Chicago, IL"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Compensation expectations (JD lists no range)"
+  ],
+  "facts": {
+    "full_name": "Adaeze Okonkwo",
+    "email": "adaeze.okonkwo@example.com",
+    "location": "Chicago, IL",
+    "current_title": "Senior Manager, Customer Success",
+    "current_employer": "Ledgerly",
+    "positions": [
+      {
+        "title": "Senior Manager, Customer Success",
+        "employer": "Ledgerly",
+        "start": "2021-04",
+        "end": "present",
+        "team_size": 9
+      },
+      {
+        "title": "Manager, Customer Success",
+        "employer": "Ledgerly",
+        "start": "2019-01",
+        "end": "2021-03",
+        "team_size": 5
+      },
+      {
+        "title": "Senior Account Manager",
+        "employer": "Brightpath Commerce",
+        "start": "2014-06",
+        "end": "2018-12",
+        "team_size": null
+      },
+      {
+        "title": "Account Manager",
+        "employer": "Tellwave Media",
+        "start": "2012-03",
+        "end": "2014-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Marketing",
+        "school": "University of Illinois Urbana-Champaign",
+        "year": 2012
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Salesforce",
+      "Gainsight",
+      "Looker",
+      "Gong",
+      "account planning",
+      "renewal forecasting",
+      "executive business reviews"
+    ],
+    "numbers": [
+      "grew from 300 to 1,100 employees",
+      "team of 9 Customer Success Managers (including 2 team leads)",
+      "38 strategic accounts representing $62M ARR",
+      "Hired 7 of the 9 CSMs",
+      "10 largest relationships",
+      "within 3% of actuals for six quarters",
+      "Gross revenue retention of 97%",
+      "net revenue retention of 118% in FY2025",
+      "no regretted losses in 18 months",
+      "team of 5 CSMs",
+      "moved 140 customers",
+      "$9M book",
+      "avg. 121% of plan",
+      "renewed 92% of accounts in 2013",
+      "Fourteen years with customers"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 14
+  },
+  "format_traits": [
+    "odd_headings",
+    "chronological",
+    "steady_progression",
+    "team_size_stated",
+    "achievements_with_numbers"
+  ],
+  "notes": "Textbook strong fit: CS leader at a high-growth payments company in Chicago with explicit team sizes and retention metrics."
+}

@@ -1,0 +1,162 @@
+{
+  "id": "rs-001",
+  "target_jd": "jd-01",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Org design, executive coaching, M&A integration and workforce planning all evidenced with outcomes."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Leads a 16-person global PBP org and owned HR diligence/integration for 5 cross-border acquisitions."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Marketplace and mobility tech companies, including a public-company IPO; exactly the preferred profile."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "18 years of progressive HR leadership; VP since 2021-03 and Head of People before that."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Oakland, CA; explicitly comfortable with 3-day in-office hybrid in San Francisco."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "MBA from Berkeley plus SHRM-SCP; no degree requirement in JD."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "Target base $320K sits inside the $300-$325K range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "15+ years of progressive HR leadership experience, including prior experience operating at the VP or Head of People level",
+      "status": "met",
+      "evidence": "18 years of progressive HR leadership, including 9 years as a VP- or Head-level People leader"
+    },
+    {
+      "requirement": "Partnering with C-suite and board-level stakeholders",
+      "status": "met",
+      "evidence": "partner to the 9-member executive team and present quarterly to the board's People & Compensation Committee"
+    },
+    {
+      "requirement": "Demonstrated ownership of HR-side M&A diligence and integration",
+      "status": "met",
+      "evidence": "Owned HR diligence and integration for 5 acquisitions in the U.S., Germany, the Netherlands and Brazil"
+    },
+    {
+      "requirement": "Demonstrated ownership of strategic, skills-based workforce planning at an enterprise level, in close partnership with Finance",
+      "status": "met",
+      "evidence": "Built skills-based, multi-year workforce planning with FP&A covering 6,200 employees"
+    },
+    {
+      "requirement": "Proven success leading and coaching a team of high-performing people business partners",
+      "status": "met",
+      "evidence": "Lead a global People Business Partner organization of 16"
+    },
+    {
+      "requirement": "In-office hybrid schedule in San Francisco, 3 days per week (essential function)",
+      "status": "met",
+      "evidence": "Comfortable with a 3-day in-office hybrid schedule in San Francisco."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Adaeze Okafor",
+    "email": "adaeze.okafor@example.com",
+    "location": "Oakland, CA",
+    "current_title": "Vice President, People Business Partners",
+    "current_employer": "Tidewater Mobility",
+    "positions": [
+      {
+        "title": "Vice President, People Business Partners",
+        "employer": "Tidewater Mobility",
+        "start": "2021-03",
+        "end": "present",
+        "team_size": 16
+      },
+      {
+        "title": "Head of People, Marketplace",
+        "employer": "Brightloop Commerce",
+        "start": "2017-06",
+        "end": "2021-02",
+        "team_size": 7
+      },
+      {
+        "title": "Senior Director, HR Business Partners",
+        "employer": "Calder Systems",
+        "start": "2013-01",
+        "end": "2017-05",
+        "team_size": 5
+      },
+      {
+        "title": "Senior HR Business Partner",
+        "employer": "Northgate Financial Services",
+        "start": "2008-04",
+        "end": "2012-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "MBA",
+        "field": null,
+        "school": "Haas School of Business, University of California, Berkeley",
+        "year": 2012
+      },
+      {
+        "degree": "BA",
+        "field": "Sociology",
+        "school": "University of California, Los Angeles",
+        "year": 2006
+      }
+    ],
+    "certifications": [
+      "SHRM-SCP"
+    ],
+    "skills": [
+      "Executive coaching",
+      "Org design",
+      "M&A integration",
+      "Workforce planning",
+      "Works councils",
+      "People analytics",
+      "Workday"
+    ],
+    "numbers": [
+      "18 years of progressive HR leadership",
+      "9 years as a VP- or Head-level People leader",
+      "5 acquisitions across 4 countries",
+      "Target base salary: $320K",
+      "3-day in-office hybrid",
+      "organization of 16",
+      "9-member executive team",
+      "5 acquisitions",
+      "retained 94% of identified critical talent 12 months post-close",
+      "covering 6,200 employees",
+      "$48M reallocation of headcount budget in 2024",
+      "from 6 weeks to 10 days",
+      "1,800 employees",
+      "a team of 7 HR business partners",
+      "affecting 400 roles",
+      "Led 5 HRBPs",
+      "(3,000 employees)"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "Target base salary: $320K",
+    "years_experience_total": 18
+  },
+  "format_traits": [
+    "chronological",
+    "steady_progression",
+    "comp_stated_within_range",
+    "specific_numbers"
+  ],
+  "notes": "Clean strong fit for an executive HR role; tests that every must-have is matched with direct quotes and that a stated in-range comp is not flagged."
+}

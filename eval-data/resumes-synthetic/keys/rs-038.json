@@ -1,0 +1,155 @@
+{
+  "id": "rs-038",
+  "target_jd": "jd-12",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Daily cash position, wire settlement, direct 13-week forecast, TMS implementation, bank account management, SOX: nearly the full JD duty list."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "About 7 years of corporate treasury (2019-06 onward) plus 2 years bank cash management."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Publicly traded broker-dealer and public payments company (preferred: public global financial services)."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "9 years total; senior analyst level matches."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Chicago, IL, already in office 4 days a week."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Finance plus CTP (preferred)."
+    },
+    "compensation_other": {
+      "level": "partial",
+      "why": "Expectation $110,000-$118,000 is above the Chicago (Zone 2) range of $99,000-$106,000; within Zone 1."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of experience in Corporate Treasury",
+      "status": "met",
+      "evidence": "Corporate treasury professional with 9 years in cash management and treasury operations"
+    },
+    {
+      "requirement": "Experience in implementing automation using AI tools",
+      "status": "met",
+      "evidence": "Built an AI-assisted bank transaction classification workflow (LLM plus rules) with analyst approval steps"
+    },
+    {
+      "requirement": "Experience in managing a Direct Cash Flow Forecast",
+      "status": "met",
+      "evidence": "Own the 13-week direct cash flow forecast"
+    },
+    {
+      "requirement": "Significant experience in Treasury Operations with a strong understanding of key management controls and processes",
+      "status": "met",
+      "evidence": "Execute 11 SOX key controls"
+    },
+    {
+      "requirement": "Strong analytical skills with proficiency in Excel, Google Sheets, and Superset",
+      "status": "met",
+      "evidence": "Excel, Google Sheets, Superset"
+    },
+    {
+      "requirement": "Bachelor's degree in Finance, Economics, Computer Science, Financial Engineering or a related field",
+      "status": "met",
+      "evidence": "B.S. Finance, University of Illinois Urbana-Champaign, 2017"
+    },
+    {
+      "requirement": "Based in Menlo Park, CA; New York, NY; or Chicago, IL with in-person attendance at least 3 days per week",
+      "status": "met",
+      "evidence": "Chicago, IL ... in office 4 days a week"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Salary expectation $110,000-$118,000 vs. Chicago Zone 2 range $99,000-$106,000"
+  ],
+  "facts": {
+    "full_name": "Daniela Fuentes",
+    "email": "daniela.fuentes@example.com",
+    "location": "Chicago, IL",
+    "current_title": "Senior Treasury Analyst",
+    "current_employer": "Meridian Clearing Corp.",
+    "positions": [
+      {
+        "title": "Senior Treasury Analyst",
+        "employer": "Meridian Clearing Corp.",
+        "start": "2022-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Treasury Analyst",
+        "employer": "Lakeshore Payments Group",
+        "start": "2019-06",
+        "end": "2021-12",
+        "team_size": null
+      },
+      {
+        "title": "Cash Management Analyst",
+        "employer": "First Prairie Bank",
+        "start": "2017-07",
+        "end": "2019-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Finance",
+        "school": "University of Illinois Urbana-Champaign",
+        "year": 2017
+      }
+    ],
+    "certifications": [
+      "Certified Treasury Professional (CTP), Association for Financial Professionals, 2021"
+    ],
+    "skills": [
+      "Excel",
+      "Google Sheets",
+      "Superset",
+      "SQL",
+      "Python",
+      "pandas",
+      "Kyriba",
+      "SWIFT",
+      "bank portals",
+      "SOX controls",
+      "cash forecasting"
+    ],
+    "numbers": [
+      "$110,000–$118,000",
+      "9 years",
+      "4 days a week",
+      "22 legal entities",
+      "13-week direct cash flow forecast",
+      "under 3%",
+      "85% of transactions",
+      "about 20 hours a month",
+      "40+ bank accounts",
+      "11 SOX key controls",
+      "120 accounts"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "Base salary expectation: $110,000–$118,000",
+    "years_experience_total": 9
+  },
+  "format_traits": [
+    "chronological",
+    "steady_progression",
+    "comp_above_range",
+    "quantified_achievements",
+    "work_auth_missing"
+  ],
+  "notes": "Strong on every must-have; tests that comp above the location-specific zone is flagged without sinking the fit."
+}

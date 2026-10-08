@@ -1,0 +1,144 @@
+{
+  "id": "rs-018",
+  "target_jd": "jd-06",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong Workday and data skills; no compliance, service delivery or leadership competencies."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "Individual contributor HRIS work; no people operations leadership or global scaling."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Health tech employer; Workday/Greenhouse match preferred tech stack."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "6 years total and no team leadership vs 10+ with 5+ leading global teams."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Minneapolis, MN; US-remote role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Information Systems and Workday Pro."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of HR/People Operations experience, including 5+ years experience leading global teams",
+      "status": "not_met",
+      "evidence": "Workday HRIS analyst, 6 years."
+    },
+    {
+      "requirement": "Proven track record building and scaling people operations functions in complex, multi-regional global organizations",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Working knowledge of global employment compliance, including direct experience with works councils or employee representative bodies",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Ability to move between executive-level roadmap and detailed process debugging",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience leveraging AI and automation to improve and streamline operations",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Strong attention to detail with a focus on data accuracy",
+      "status": "met",
+      "evidence": "Supported Workday go-live for 3,000 employees; data conversion and validation."
+    },
+    {
+      "requirement": "Located in the United States or Canada (remote)",
+      "status": "met",
+      "evidence": "Minneapolis, MN"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Nadia Haddad",
+    "email": "nadia.haddad@example.com",
+    "location": "Minneapolis, MN",
+    "current_title": "Senior Workday HRIS Analyst",
+    "current_employer": "Tamarack Health Tech",
+    "positions": [
+      {
+        "title": "Senior Workday HRIS Analyst",
+        "employer": "Tamarack Health Tech",
+        "start": "2025-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Workday HCM Analyst",
+        "employer": "Polaris Freightworks",
+        "start": "2023-04",
+        "end": "2024-12",
+        "team_size": null
+      },
+      {
+        "title": "HRIS Analyst",
+        "employer": "Northstar Retail Group",
+        "start": "2021-10",
+        "end": "2023-03",
+        "team_size": null
+      },
+      {
+        "title": "HR Systems Specialist",
+        "employer": "Gopher State Credit Union",
+        "start": "2020-06",
+        "end": "2021-09",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Information Systems",
+        "school": "University of Minnesota",
+        "year": 2020
+      }
+    ],
+    "certifications": [
+      "Workday Pro HCM"
+    ],
+    "skills": [
+      "Business process configuration",
+      "EIB loads",
+      "calculated fields",
+      "ATS integrations"
+    ],
+    "numbers": [
+      "6 years",
+      "45 custom reports",
+      "3,000 employees"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 6
+  },
+  "format_traits": [
+    "chronological",
+    "job_hopping",
+    "adjacent_profession",
+    "too_junior"
+  ],
+  "notes": "Weak: adjacent HRIS specialist who matches the preferred tools (Workday, Greenhouse) but none of the leadership/compliance must-haves. Tests that preferred-only matches do not inflate fit."
+}

@@ -1,0 +1,133 @@
+{
+  "id": "rs-086",
+  "target_jd": "jd-26",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "General ledger accounting and close; no program budgeting, cost baselines, forecasting or business-case modeling."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 6 years in accounting (with a one-year break); no program/project financial management, far below 10 years."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Real estate and building supply; no automotive or engineering programs."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Senior accountant level; too junior for a senior program controller."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Phoenix, AZ with no relocation stated; role is in Foster City, CA."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Accounting meets the degree requirement."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "BS in Finance, Accounting, Business Administration or related field",
+      "status": "met",
+      "evidence": "B.S., Accounting, Northern Arizona University, 2019"
+    },
+    {
+      "requirement": "At least 10 years in Program/Project Financial Management",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Strong analytical and quantitative skills",
+      "status": "unknown",
+      "evidence": "Reduced close from 9 days to 6 days."
+    },
+    {
+      "requirement": "Excellent communication and collaboration abilities",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Proficiency in Google Sheets and Financial Modeling Methodologies",
+      "status": "unknown",
+      "evidence": "Google Sheets"
+    },
+    {
+      "requirement": "(inferred from responsibilities) Hands-on program budgeting, forecasting, cost baselines and variance analysis",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "(inferred) Able to work from Foster City, CA (posting location; work arrangement not stated)",
+      "status": "not_met",
+      "evidence": "Phoenix, AZ"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Willingness to relocate"
+  ],
+  "facts": {
+    "full_name": "Jasmine Carter",
+    "email": "jasmine.carter@example.com",
+    "location": "Phoenix, AZ",
+    "current_title": "Senior Accountant",
+    "current_employer": "Desert Ridge Property Group",
+    "positions": [
+      {
+        "title": "Senior Accountant",
+        "employer": "Desert Ridge Property Group",
+        "start": "2024-04",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Staff Accountant",
+        "employer": "Mesquite Builders Supply",
+        "start": "2019-08",
+        "end": "2023-03",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Accounting",
+        "school": "Northern Arizona University",
+        "year": 2019
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "NetSuite",
+      "Excel",
+      "Google Sheets",
+      "GAAP",
+      "reconciliations"
+    ],
+    "numbers": [
+      "12 property entities",
+      "from 9 days to 6 days",
+      "zero adjusting entries in 2022",
+      "two sections passed"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 6
+  },
+  "format_traits": [
+    "chronological",
+    "employment_gap_explained",
+    "too_junior",
+    "location_mismatch",
+    "no_summary"
+  ],
+  "notes": "Weak: accountant with an explained career break; degree fits but far short on program finance and years, and in Phoenix. jd-26 is very short: the degree/years/skills items are stated; budget/variance and location must-haves are inferred and labelled as such."
+}

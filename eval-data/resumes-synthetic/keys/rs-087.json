@@ -1,0 +1,187 @@
+{
+  "id": "rs-087",
+  "target_jd": "jd-27",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Hand-built Studio/Core Connector/EIB/PECI/PICOF/RaaS/WWS integrations plus a Workday MCP server with per-user OAuth and human-in-the-loop gates."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "12 years in enterprise integration with 10+ years of hands-on Workday integration development."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Global HR/payroll integration portfolio; multi-country payroll, benefits, identity and compliance vendors."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Principal-level technical owner who sets standards and mentors 4 engineers; equivalent to Staff."
+    },
+    "location_work_arrangement": {
+      "level": "unknown",
+      "why": "Remote from North Carolina; whether NC is an eligible Airbnb-entity state needs confirmation."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Computer Engineering; Workday Pro Integrations and Extend certifications (preferred)."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated; U.S. citizen."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Bachelor's degree in Computer Science, Information Technology, Engineering, or a related field (or equivalent experience)",
+      "status": "met",
+      "evidence": "B.S., Computer Engineering, North Carolina State University, 2014"
+    },
+    {
+      "requirement": "9+ years of experience in enterprise technology, software development, or systems integration, with at least 5–6 years of hands-on Workday integration development covering the full lifecycle",
+      "status": "met",
+      "evidence": "12 years in enterprise systems integration, more than 10 of them writing Workday integrations by hand"
+    },
+    {
+      "requirement": "Personally written Workday integrations: Workday Studio, Core Connectors and EIBs, payroll interfaces (PECI and PICOF), RaaS, and Workday Web Services (WWS)",
+      "status": "met",
+      "evidence": "Built Studio integrations with custom Java steps and XSLT transformations; RaaS reports with calculated fields; WWS SOAP and REST calls."
+    },
+    {
+      "requirement": "Expert proficiency in XSLT, XML, and JSON; comfortable with Java sufficient for Workday Studio custom steps",
+      "status": "met",
+      "evidence": "XSLT, XML, JSON, Java"
+    },
+    {
+      "requirement": "REST API design and OAuth 2.0 (incl. user-context flows) and experience building or integrating LLM-based tools, AI agents, or MCP servers with enterprise business systems",
+      "status": "met",
+      "evidence": "Designed and built the company's Workday MCP server: per-user OAuth 2.0 authorization-code flow"
+    },
+    {
+      "requirement": "Experience integrating Workday with middleware or iPaaS platforms (MuleSoft, Boomi, Workato); Git-based version control",
+      "status": "met",
+      "evidence": "Built MuleSoft and Workato flows"
+    },
+    {
+      "requirement": "Strong knowledge of HR data security (OAuth 2.0, SAML, PGP, SFTP, PII) and proven experience managing integrations across Workday's semi-annual release cycle",
+      "status": "met",
+      "evidence": "Lead sandbox regression testing for each Workday semi-annual release"
+    },
+    {
+      "requirement": "Demonstrated record as a technical leader who has shaped architecture decisions and raised engineering quality across a team",
+      "status": "met",
+      "evidence": "Wrote the integration architecture standards (error handling, retry, reconciliation, alerting) adopted by a team of 4 integration engineers"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "State eligibility for remote work (North Carolina)",
+    "Compensation expectations"
+  ],
+  "facts": {
+    "full_name": "Farah Siddiqui",
+    "email": "farah.siddiqui@example.com",
+    "location": "Raleigh, NC",
+    "current_title": "Principal Workday Integration Engineer",
+    "current_employer": "Tidemark Hospitality Group",
+    "positions": [
+      {
+        "title": "Principal Workday Integration Engineer",
+        "employer": "Tidemark Hospitality Group",
+        "start": "2022-06",
+        "end": "present",
+        "team_size": 4
+      },
+      {
+        "title": "Independent Workday Integration Consultant",
+        "employer": "Siddiqui Integration Services LLC",
+        "start": "2019-01",
+        "end": "2022-05",
+        "team_size": null
+      },
+      {
+        "title": "Workday Integration Developer",
+        "employer": "Corbel Partners",
+        "start": "2016-03",
+        "end": "2018-12",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineer",
+        "employer": "Hollis Benefits Administration",
+        "start": "2014-07",
+        "end": "2016-02",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Engineering",
+        "school": "North Carolina State University",
+        "year": 2014
+      }
+    ],
+    "certifications": [
+      "Workday Pro Integrations",
+      "Workday Pro Extend"
+    ],
+    "skills": [
+      "Workday Studio",
+      "Core Connectors",
+      "EIB",
+      "Document Transform",
+      "PECI",
+      "PICOF",
+      "RaaS",
+      "WWS",
+      "Workday Extend",
+      "Orchestrate",
+      "XSLT",
+      "XML",
+      "JSON",
+      "Java",
+      "Python",
+      "TypeScript/Node",
+      "REST",
+      "OAuth 2.0",
+      "SAML",
+      "PGP",
+      "SFTP",
+      "MuleSoft",
+      "Workato",
+      "Git",
+      "SQL",
+      "Agile/Scrum"
+    ],
+    "numbers": [
+      "12 years in enterprise systems integration",
+      "more than 10 of them",
+      "38,000 employees",
+      "portfolio of 180 production integrations",
+      "9 countries",
+      "Shipped 14 tools",
+      "6,500 managers",
+      "team of 4 integration engineers",
+      "fell 63% year over year",
+      "zero Sev-1 incidents across the last 5 releases",
+      "7 clients",
+      "12,000-employee client",
+      "two benefits open-enrollment cycles"
+    ],
+    "work_authorization": "U.S. citizen",
+    "compensation_expectation": null,
+    "years_experience_total": 12
+  },
+  "format_traits": [
+    "wordy",
+    "chronological",
+    "contractor_consultant_history",
+    "achievements_with_numbers",
+    "team_size_stated",
+    "long_resume"
+  ],
+  "notes": "Strong: covers every required Workday tool plus MCP/agentic work; tests long-JD matching across many must-haves. State eligibility is the only open item."
+}

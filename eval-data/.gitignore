@@ -1,0 +1,7 @@
+*
+!.gitignore
+!README.md
+!*/
+!*/README.md
+!*/manifest.csv
+!resumes-synthetic/**

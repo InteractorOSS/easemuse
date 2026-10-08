@@ -1,0 +1,154 @@
+{
+  "id": "rs-071",
+  "target_jd": "jd-21",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong sales skills, but the role is pipeline generation, not closing; outbound SDR work was a decade ago."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Had one year as an SDR in 2015; current work is senior enterprise closing, not SDR prospecting."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "B2B software sales background."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "11+ years and senior enterprise AE; heavily overqualified for an entry-level SDR seat."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Lives in Brooklyn, NY; New York is on the JD's list of states where the role cannot be hired."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree required; B.A. Economics."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "Seeks $165,000 base / $330,000 OTE, far above the SDR hourly ranges ($25.75–$35.77/hr)."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Growth-oriented and ready to build toward future leadership or customer-facing roles",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Goal-oriented and biased toward action (our quota is the floor, not the ceiling!)",
+      "status": "met",
+      "evidence": "Finished at 118% of plan in 2024 and 104% in 2025"
+    },
+    {
+      "requirement": "Excited to go above and beyond to delight prospects through creative, strategic, highly personalized outreach",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Comfortable with change and energized by a fast-moving environment",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Have a demonstrated ability to navigate challenges with resilience",
+      "status": "met",
+      "evidence": "Closed the company's largest-ever new-logo deal ($1.1M ACV) in 2023 after an 11-month cycle."
+    },
+    {
+      "requirement": "Embrace responsibility and enjoy partnering with Account Executives as part of a team",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Located in a state where the role can be hired (not CA, CT, IL, MA, MD, NJ, NY, OR, PA, RI, TX, VA, WA, or Washington DC)",
+      "status": "not_met",
+      "evidence": "Brooklyn, NY"
+    }
+  ],
+  "disqualifiers_present": [
+    "Located in New York, a state where the role is not eligible to be hired",
+    "Compensation expectation far above the role's range"
+  ],
+  "to_confirm": [
+    "Whether a move to an eligible state is planned",
+    "Why an entry-level SDR role is of interest"
+  ],
+  "facts": {
+    "full_name": "Jonathan Feldman",
+    "email": "jonathan.feldman@example.com",
+    "location": "Brooklyn, NY",
+    "current_title": "Senior Enterprise Account Executive",
+    "current_employer": "Northgate Data Systems",
+    "positions": [
+      {
+        "title": "Senior Enterprise Account Executive",
+        "employer": "Northgate Data Systems",
+        "start": "2019-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Account Executive",
+        "employer": "Corvane Analytics",
+        "start": "2016-01",
+        "end": "2019-02",
+        "team_size": null
+      },
+      {
+        "title": "Sales Development Representative",
+        "employer": "Corvane Analytics",
+        "start": "2015-01",
+        "end": "2015-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Economics",
+        "school": "Binghamton University",
+        "year": 2014
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Enterprise negotiation",
+      "MEDDICC",
+      "Salesforce",
+      "Clari",
+      "forecasting",
+      "executive presentations"
+    ],
+    "numbers": [
+      "$2.4M annual quota",
+      "largest-ever new-logo deal ($1.1M ACV)",
+      "11-month cycle",
+      "118% of plan in 2024",
+      "104% in 2025",
+      "President's Club twice",
+      "Mentor two newer AEs",
+      "45 mid-market accounts",
+      "net revenue retention to 112%",
+      "30+ meetings per quarter",
+      "more than eleven years of experience",
+      "base salary of $165,000 with OTE of $330,000"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "base salary of $165,000 with OTE of $330,000",
+    "years_experience_total": 11
+  },
+  "format_traits": [
+    "chronological",
+    "wordy",
+    "overqualified",
+    "location_ineligible",
+    "compensation_stated",
+    "compensation_above_range"
+  ],
+  "notes": "Overqualified enterprise AE in an excluded state (NY) with comp far above range. Tests the state-exclusion disqualifier and level mismatch."
+}

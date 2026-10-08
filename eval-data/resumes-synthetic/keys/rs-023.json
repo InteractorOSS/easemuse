@@ -1,0 +1,131 @@
+{
+  "id": "rs-023",
+  "target_jd": "jd-08",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Manager coaching on performance and ER plus process improvement evidenced; data analysis and policy breadth thin."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "4 years of ER work plus business-facing operations management; narrower than a full People Consultant scope."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Freight and distribution, not a high-growth tech company (preferred only)."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "4 years in HR meets the 4–8 floor; overlapping dates 2022-09 to 2023-02 make the timeline unclear."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Milwaukee-based, willing to commute to Chicago; frequency and relocation to be confirmed."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Business Management and SHRM-CP."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated; JD lists no range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "4–8 years of HR experience, including at least 3 years in a client-facing HR role, or equivalent business-facing experience",
+      "status": "met",
+      "evidence": "Four years in employee relations; six years leading frontline teams before that."
+    },
+    {
+      "requirement": "Independently advising and coaching managers on performance management, employee relations, and team culture",
+      "status": "met",
+      "evidence": "coach supervisors and managers on documentation, performance improvement plans and attendance issues"
+    },
+    {
+      "requirement": "Working knowledge of US employment legislation, including working with legal counsel on complex employee matters",
+      "status": "unknown",
+      "evidence": "Escalate complex cases to the legal team and prepare case files."
+    },
+    {
+      "requirement": "Strong ability to diagnose problems using data and develop viable solutions",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Continuous improvement: improve processes and drive changes",
+      "status": "met",
+      "evidence": "Created an ER case tracker that standardized intake and reduced average case closure from 30 to 18 days."
+    },
+    {
+      "requirement": "Excellent written and verbal communication skills in English",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Chicago-based role",
+      "status": "unknown",
+      "evidence": "Milwaukee, WI ... Willing to commute to Chicago"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Overlap between Operations Manager (to 2023-02) and ER Specialist (from 2022-09)",
+    "Commute or relocation plan for a Chicago-based role",
+    "Depth of work with legal counsel and use of data"
+  ],
+  "facts": {
+    "full_name": "Gabriel Moreau",
+    "email": "gabriel.moreau@example.com",
+    "location": "Milwaukee, WI",
+    "current_title": "Employee Relations Specialist",
+    "current_employer": "Badger Freight Lines",
+    "positions": [
+      {
+        "title": "Employee Relations Specialist",
+        "employer": "Badger Freight Lines",
+        "start": "2022-09",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Operations Manager",
+        "employer": "Kettle Moraine Distribution",
+        "start": "2017-01",
+        "end": "2023-02",
+        "team_size": 6
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business Management",
+        "school": "University of Wisconsin-Milwaukee",
+        "year": 2016
+      }
+    ],
+    "certifications": [
+      "SHRM-CP (2024)"
+    ],
+    "skills": [],
+    "numbers": [
+      "70+ ER cases a year across 5 terminals",
+      "from 30 to 18 days",
+      "coached 6 shift supervisors",
+      "Four years in employee relations",
+      "six years leading frontline teams"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 9
+  },
+  "format_traits": [
+    "chronological",
+    "career_changer",
+    "overlapping_dates",
+    "location_commute"
+  ],
+  "notes": "Partial with a 'to confirm': overlapping dates (Operations Manager ends 2023-02 but ER role starts 2022-09). Career changer whose business-facing years count as equivalent experience."
+}

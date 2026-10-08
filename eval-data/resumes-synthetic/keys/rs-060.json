@@ -1,0 +1,154 @@
+{
+  "id": "rs-060",
+  "target_jd": "jd-18",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong model training and evaluation, LLM fine-tuning and RAG familiarity; not a platform or distributed systems engineer."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "Uses ML infrastructure rather than building or operating it; deployment done by a platform team."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Healthcare AI; ML is relevant but not payments or platform infrastructure."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 6 years industry (plus PhD research); under 10+ years professional software development; no technical-lead record across teams."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Boston, MA, remote only and not relocating; role is San Francisco or Seattle."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "Ph.D. Computer Science."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp or work authorization stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of professional software development experience with a solid background in service-oriented architecture and large-scale distributed systems",
+      "status": "not_met",
+      "evidence": "Applied machine learning scientist (6 years)"
+    },
+    {
+      "requirement": "Track record as a technical lead: technical direction, multi-team initiatives, mentoring",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience building and operating production ML platform (model training, model serving, orchestration, or ML data systems) with performance, reliability, scalability and cost requirements",
+      "status": "not_met",
+      "evidence": "I hand models to a platform team for deployment."
+    },
+    {
+      "requirement": "Strong product instincts and deep understanding of the business context",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Strong communication skills with technical and non-technical stakeholders",
+      "status": "met",
+      "evidence": "Wrote evaluation harnesses with clinicians to measure factual errors in generated summaries."
+    },
+    {
+      "requirement": "Cross-functional collaboration with ML engineers, data scientists, software engineers, product managers and business stakeholders",
+      "status": "met",
+      "evidence": "Wrote evaluation harnesses with clinicians"
+    },
+    {
+      "requirement": "Hands-on experience using AI tools to accelerate how you work",
+      "status": "met",
+      "evidence": "GitHub Copilot"
+    }
+  ],
+  "disqualifiers_present": [
+    "Not willing to relocate to San Francisco or Seattle",
+    "Under 10 years of professional software development and no platform/distributed systems ownership"
+  ],
+  "to_confirm": [
+    "Work authorization"
+  ],
+  "facts": {
+    "full_name": "Leila Haddad",
+    "email": "leila.haddad@example.com",
+    "location": "Boston, MA",
+    "current_title": "Senior Applied Scientist",
+    "current_employer": "Brindle Health AI",
+    "positions": [
+      {
+        "title": "Senior Applied Scientist",
+        "employer": "Brindle Health AI",
+        "start": "2023-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Applied Scientist",
+        "employer": "Brindle Health AI",
+        "start": "2020-09",
+        "end": "2022-12",
+        "team_size": null
+      },
+      {
+        "title": "Graduate Research Assistant",
+        "employer": "Northeastern University",
+        "start": "2015-09",
+        "end": "2020-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "Ph.D.",
+        "field": "Computer Science",
+        "school": "Northeastern University",
+        "year": 2020
+      },
+      {
+        "degree": "B.Sc.",
+        "field": "Computer Engineering",
+        "school": "American University of Sharjah",
+        "year": 2015
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Python",
+      "PyTorch",
+      "Hugging Face Transformers",
+      "scikit-learn",
+      "Weights & Biases",
+      "SQL",
+      "Docker",
+      "basic Kubernetes",
+      "GitHub Copilot"
+    ],
+    "numbers": [
+      "6 years",
+      "ROUGE-L by 11 points",
+      "200+ training experiments",
+      "3 peer-reviewed papers",
+      "AUC 0.94",
+      "12 hospital sites"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 6
+  },
+  "format_traits": [
+    "odd_headings",
+    "location_mismatch",
+    "no_relocation",
+    "work_authorization_missing"
+  ],
+  "notes": "Adjacent profession (applied scientist, a platform customer) for a Staff platform engineering role; also location mismatch with no relocation. PhD should not compensate for missing platform experience."
+}

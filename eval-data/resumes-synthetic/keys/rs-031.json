@@ -1,0 +1,147 @@
+{
+  "id": "rs-031",
+  "target_jd": "jd-09",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Bookkeeping and AP; close is handed off to an external CPA firm, so no close ownership."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 4.5 years in accounting support roles; none at senior accountant level."
+    },
+    "industry_functional": {
+      "level": "gap",
+      "why": "Small businesses and a supply distributor; no SaaS, public accounting or SOX."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Junior level for a Senior Accountant role; retail management years are not accounting."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Based in Canada; JD is US hubs or remote in the United States; requires visa sponsorship."
+    },
+    "education_certification": {
+      "level": "partial",
+      "why": "Accounting diploma; CPA Canada PREP in progress (not a US CPA candidate)."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated; available in 4 weeks."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of progressive accounting with hands-on ownership of the month-end close process",
+      "status": "not_met",
+      "evidence": "Month-end handoff to external CPA firm, which books adjustments and prepares statements"
+    },
+    {
+      "requirement": "Strong knowledge of US GAAP and accrual accounting",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Proficiency with NetSuite or equivalent ERP systems, leveraging automation and AI tools to streamline accounting workflows",
+      "status": "not_met",
+      "evidence": "QuickBooks Online, Xero"
+    },
+    {
+      "requirement": "Demonstrated ability to build cross-functional partnerships and communicate effectively with stakeholders across all levels",
+      "status": "unknown",
+      "evidence": "Answered vendor inquiries"
+    },
+    {
+      "requirement": "Advanced Excel skills, including Power Query and complex formulas, to produce audit-ready reporting and analysis",
+      "status": "not_met",
+      "evidence": "Excel (basic formulas, filters)"
+    },
+    {
+      "requirement": "Based in the United States (US hub or remote in the United States)",
+      "status": "not_met",
+      "evidence": "Vancouver, BC, Canada ... Will require U.S. work visa sponsorship."
+    }
+  ],
+  "disqualifiers_present": [
+    "Located outside the United States; role must be held from a US hub or remotely within the United States",
+    "Requires U.S. work visa sponsorship"
+  ],
+  "to_confirm": [
+    "Whether a move to the U.S. is planned"
+  ],
+  "facts": {
+    "full_name": "Mei-Ling Chua",
+    "email": "mei-ling.chua@example.com",
+    "location": "Vancouver, BC, Canada",
+    "current_title": "Bookkeeper",
+    "current_employer": "Tidewater Home Services",
+    "positions": [
+      {
+        "title": "Bookkeeper",
+        "employer": "Tidewater Home Services",
+        "start": "2024-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Accounts Payable Clerk",
+        "employer": "Granville Supply Co.",
+        "start": "2022-05",
+        "end": "2024-02",
+        "team_size": null
+      },
+      {
+        "title": "Store Manager",
+        "employer": "Harbourfront Outfitters",
+        "start": "2015-06",
+        "end": "2022-04",
+        "team_size": 14
+      }
+    ],
+    "education": [
+      {
+        "degree": "Diploma",
+        "field": "Accounting",
+        "school": "British Columbia Institute of Technology",
+        "year": 2022
+      },
+      {
+        "degree": "B.A.",
+        "field": "English",
+        "school": "University of British Columbia",
+        "year": 2014
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "QuickBooks Online",
+      "Xero",
+      "Excel",
+      "accounts payable",
+      "bank reconciliations",
+      "sales tax",
+      "customer service"
+    ],
+    "numbers": [
+      "3 small-business clients",
+      "about 600 invoices per month",
+      "14 staff",
+      "$3.2M annual sales",
+      "in 4 weeks"
+    ],
+    "work_authorization": "Will require U.S. work visa sponsorship.",
+    "compensation_expectation": null,
+    "years_experience_total": 11
+  },
+  "format_traits": [
+    "very_terse",
+    "all_caps_headings",
+    "career_changer",
+    "location_mismatch",
+    "sponsorship_required"
+  ],
+  "notes": "Weak: adjacent junior bookkeeping profile, no close ownership, outside the US and needs sponsorship."
+}

@@ -1,0 +1,148 @@
+{
+  "id": "rs-078",
+  "target_jd": "jd-24",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Value-based selling of DevOps tooling to engineering teams; MEDDPICC and Command of the Message match the JD's methodology."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Over 4 years as a mid-market AE in DevSecOps plus SMB AE in observability; progressive SaaS sales."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Developer tools / DevSecOps SaaS, directly analogous to GitLab."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Mid-market AE covering 300–3,000 employee companies, matching GitLab's 250–3,999 band."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Salt Lake City, UT is Mountain Time; travel stated."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; B.S. Information Systems."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Located in Central, Mountain, or Pacific Timezones",
+      "status": "met",
+      "evidence": "Salt Lake City, UT"
+    },
+    {
+      "requirement": "Demonstrated progressive experience with SaaS sales through pitching on value to development team (preferably devops)",
+      "status": "met",
+      "evidence": "Sell to VPs of Engineering, platform teams and security leaders"
+    },
+    {
+      "requirement": "Ability to leverage established relationships and proven sales techniques for success",
+      "status": "met",
+      "evidence": "co-sold with cloud marketplace partners on 9 deals"
+    },
+    {
+      "requirement": "Excellent negotiation, presentation and closing skills",
+      "status": "met",
+      "evidence": "comfortable running a full cycle from first call to signature"
+    },
+    {
+      "requirement": "Meet or exceed quota (quota-carrying track record)",
+      "status": "met",
+      "evidence": "FY2025 | $1.3M | 112%"
+    },
+    {
+      "requirement": "Interest in GitLab, and open source software",
+      "status": "met",
+      "evidence": "Open source: maintain a small Git-hooks utility on a public repository (300+ stars)."
+    },
+    {
+      "requirement": "The ability to travel for events such as trainings, team off sites, customer meetings, etc.",
+      "status": "met",
+      "evidence": "Travel monthly to regional DevOps meetups and customer sites."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Base/OTE expectations"
+  ],
+  "facts": {
+    "full_name": "Nikhil Sharma",
+    "email": "nikhil.sharma@example.com",
+    "location": "Salt Lake City, UT",
+    "current_title": "Mid-Market Account Executive",
+    "current_employer": "Forgeway",
+    "positions": [
+      {
+        "title": "Mid-Market Account Executive",
+        "employer": "Forgeway",
+        "start": "2022-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Account Executive, SMB",
+        "employer": "Logpine",
+        "start": "2019-06",
+        "end": "2021-12",
+        "team_size": null
+      },
+      {
+        "title": "Sales Development Representative",
+        "employer": "Logpine",
+        "start": "2018-03",
+        "end": "2019-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Information Systems",
+        "school": "University of Utah",
+        "year": 2017
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "MEDDPICC",
+      "Command of the Message",
+      "Salesforce",
+      "Clari",
+      "Gong",
+      "Git basics",
+      "CI/CD concepts",
+      "Jira"
+    ],
+    "numbers": [
+      "8 years in sales",
+      "180 accounts with 300–3,000 employees",
+      "Expanded 14 existing customers",
+      "9 deals",
+      "4 playbook pages",
+      "$1.1M | 106%",
+      "$1.2M | 119%",
+      "$1.3M | 112%",
+      "70+ new logos per year",
+      "300+ stars"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "table",
+    "achievements_with_numbers",
+    "steady_progression"
+  ],
+  "notes": "Strong: DevOps SaaS AE in Mountain Time with a quota table; tests reading numbers from a Markdown table."
+}

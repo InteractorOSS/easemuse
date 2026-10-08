@@ -1,0 +1,134 @@
+{
+  "id": "rs-043",
+  "target_jd": "jd-13",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Treasury operations analyst; no project leadership or change management; only UAT participation."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 3 years full-time, none in change management or consulting."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Capital markets and FX operations knowledge is relevant domain context (preferred items)."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Junior analyst vs. 6+ years required."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "New York, NY."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Finance from NYU Stern."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated; JD has no range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "A minimum of 6 years of experience in Change Management, gained in management consulting or change management within high-growth tech companies",
+      "status": "not_met",
+      "evidence": "Treasury Analyst, Ironbridge Capital Markets, New York, NY | 2023-07 – present"
+    },
+    {
+      "requirement": "Demonstrated ability to lead complex, cross-functional projects involving multiple stakeholders across various functional areas",
+      "status": "not_met",
+      "evidence": "Helped test the new bank connectivity module (UAT, 40 test scripts)"
+    },
+    {
+      "requirement": "Strong problem-solving skills with a keen eye for detail, and the ability to understand complex technical products and articulate their value to non-technical audiences",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Hands-on, adaptable approach with comfort operating in ambiguous environments and collaborating effectively with senior management",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Curiosity-driven mindset to effectively lead technical teams and subject matter experts",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Able to work from New York City (role location: NYC)",
+      "status": "met",
+      "evidence": "New York, NY"
+    }
+  ],
+  "disqualifiers_present": [
+    "Far short of the 6-year change management minimum; no consulting or project leadership"
+  ],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Chloe Bernstein",
+    "email": "chloe.bernstein@example.com",
+    "location": "New York, NY",
+    "current_title": "Treasury Analyst",
+    "current_employer": "Ironbridge Capital Markets",
+    "positions": [
+      {
+        "title": "Treasury Analyst",
+        "employer": "Ironbridge Capital Markets",
+        "start": "2023-07",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Summer Analyst",
+        "employer": "Ironbridge Capital Markets",
+        "start": "2022-06",
+        "end": "2022-08",
+        "team_size": null
+      },
+      {
+        "title": "Peer Tutor",
+        "employer": "NYU Stern Office of Academic Advising",
+        "start": "2020-09",
+        "end": "2023-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business, Finance concentration",
+        "school": "New York University Stern School of Business",
+        "year": 2023
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Excel",
+      "Tableau",
+      "Bloomberg Terminal",
+      "SQL",
+      "FX settlement",
+      "capital markets basics"
+    ],
+    "numbers": [
+      "30 operating accounts",
+      "40 test scripts",
+      "20+ students per semester"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 3
+  },
+  "format_traits": [
+    "very_terse",
+    "all_caps_headings",
+    "too_junior",
+    "domain_adjacent"
+  ],
+  "notes": "Weak: right domain (treasury/FX) but a junior analyst with no change-management or PM experience; tests that domain keywords don't outweigh the 6-year PM must-have."
+}

@@ -1,0 +1,145 @@
+{
+  "id": "rs-042",
+  "target_jd": "jd-13",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Leads cross-functional regulatory and operational change programs and reports to executives."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "9+ years of project and change management, but at a regional bank rather than management consulting or a high-growth tech company as the must-have specifies."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Banking and real-time payments exposure; no capital markets, FX or hedging; no SQL/Python or AI."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "About 12 years total, 9+ in project management."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Philadelphia, PA; states willingness to relocate to NYC (timing to confirm)."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Business Administration, PMP and Prosci certification."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated (JD has no range)."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "A minimum of 6 years of experience in Change Management, gained in management consulting or change management within high-growth tech companies",
+      "status": "not_met",
+      "evidence": "Senior Project Manager, Enterprise PMO — Keystone Federal Savings Bank"
+    },
+    {
+      "requirement": "Demonstrated ability to lead complex, cross-functional projects involving multiple stakeholders across various functional areas",
+      "status": "met",
+      "evidence": "Coordinate Finance, Legal, Compliance, Operations and IT teams on programs with budgets up to $6M."
+    },
+    {
+      "requirement": "Strong problem-solving skills with a keen eye for detail, and the ability to understand complex technical products and articulate their value to non-technical audiences",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Hands-on, adaptable approach with comfort operating in ambiguous environments and collaborating effectively with senior management",
+      "status": "met",
+      "evidence": "Prepare quarterly program updates for the bank's executive committee and board risk committee."
+    },
+    {
+      "requirement": "Curiosity-driven mindset to effectively lead technical teams and subject matter experts",
+      "status": "unknown",
+      "evidence": "coordinating 4 vendors and the core banking team"
+    },
+    {
+      "requirement": "Able to work from New York City (role location: NYC)",
+      "status": "unknown",
+      "evidence": "Philadelphia, PA | ... Willing to relocate to New York City."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Whether a regional bank PMO background satisfies 'management consulting or high-growth tech' change management",
+    "Relocation timing to NYC",
+    "Comfort with technical products and data (SQL/Python not listed)",
+    "Compensation expectations"
+  ],
+  "facts": {
+    "full_name": "Owen Prescott",
+    "email": "owen.prescott@example.com",
+    "location": "Philadelphia, PA",
+    "current_title": "Senior Project Manager, Enterprise PMO",
+    "current_employer": "Keystone Federal Savings Bank",
+    "positions": [
+      {
+        "title": "Senior Project Manager, Enterprise PMO",
+        "employer": "Keystone Federal Savings Bank",
+        "start": "2019-04",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Project Manager",
+        "employer": "Keystone Federal Savings Bank",
+        "start": "2017-05",
+        "end": "2019-03",
+        "team_size": null
+      },
+      {
+        "title": "Operations Analyst",
+        "employer": "Liberty Square Mortgage",
+        "start": "2014-06",
+        "end": "2017-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business Administration",
+        "school": "Temple University",
+        "year": 2014
+      }
+    ],
+    "certifications": [
+      "Project Management Professional (PMP), 2018",
+      "Prosci Certified Change Practitioner, 2020"
+    ],
+    "skills": [
+      "Smartsheet",
+      "MS Project",
+      "Excel",
+      "Visio",
+      "Jira",
+      "change management",
+      "regulatory programs",
+      "executive communication"
+    ],
+    "numbers": [
+      "7 regulatory programs",
+      "budgets up to $6M",
+      "$18B in assets",
+      "4 vendors",
+      "by 30%"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 12
+  },
+  "format_traits": [
+    "functional_skills_first",
+    "steady_progression",
+    "relocation_stated",
+    "comp_missing",
+    "work_auth_missing"
+  ],
+  "notes": "Partial: solid change/program leader but the experience setting (regional bank) misses the JD's consulting/high-growth-tech qualifier; relocation and technical depth to confirm."
+}

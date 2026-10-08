@@ -1,0 +1,147 @@
+{
+  "id": "rs-014",
+  "target_jd": "jd-05",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong US program design, cost modeling and M&A integration; no international or global compliance; AI fluency not mentioned."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Director of Benefits for 12,000 employees, but US-only programs."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Healthcare and retail employers; no global or tech footprint."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "13 years in benefits, Director title, leads a team of 4."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Austin-based; relocation to Chicago or New York stated only for 2027, so timing must be confirmed for 5-day onsite."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.B.A. Finance and CEBS."
+    },
+    "compensation_other": {
+      "level": "partial",
+      "why": "Target $240,000 is above the Chicago band ($198,000–$233,000) but within New York ($225,000–$265,000)."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of experience in benefits, with a track record of designing and implementing global programs",
+      "status": "not_met",
+      "evidence": "13 years in US health and welfare, retirement and leave programs"
+    },
+    {
+      "requirement": "Deep expertise across health, welfare, retirement, and leave, both US and international",
+      "status": "not_met",
+      "evidence": "Own medical, dental, vision, life, disability, 401(k) and leave programs for 12,000 employees in 9 states."
+    },
+    {
+      "requirement": "Strong analytical skills and comfort modeling program costs, utilization, and ROI",
+      "status": "met",
+      "evidence": "Modeled a move to a self-funded medical plan with stop-loss; first-year savings of $4.1M."
+    },
+    {
+      "requirement": "M&A experience including benefits due diligence and integration",
+      "status": "met",
+      "evidence": "Led benefits diligence and integration for 2 acquired physician groups"
+    },
+    {
+      "requirement": "Solid understanding of regulatory and compliance requirements across global jurisdictions",
+      "status": "not_met",
+      "evidence": "led the ACA compliance program"
+    },
+    {
+      "requirement": "Build, develop, and lead a high-performing benefits team",
+      "status": "met",
+      "evidence": "Manage a team of 4"
+    },
+    {
+      "requirement": "Strong fluency with AI tools",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "In-person 5 days per week in Chicago, IL, Menlo Park, CA, or New York, NY",
+      "status": "unknown",
+      "evidence": "Open to relocating to Chicago or New York in 2027"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Relocation timing: could they start onsite before 2027?",
+    "Which office (Chicago vs New York) given $240,000 target",
+    "International benefits exposure",
+    "AI tool fluency"
+  ],
+  "facts": {
+    "full_name": "Carlos Mendoza",
+    "email": "carlos.mendoza@example.com",
+    "location": "Austin, TX",
+    "current_title": "Director, Benefits",
+    "current_employer": "Sunbelt Health Partners",
+    "positions": [
+      {
+        "title": "Director, Benefits",
+        "employer": "Sunbelt Health Partners",
+        "start": "2020-06",
+        "end": "present",
+        "team_size": 4
+      },
+      {
+        "title": "Benefits Manager",
+        "employer": "Lonestar Grocers",
+        "start": "2015-05",
+        "end": "2020-05",
+        "team_size": null
+      },
+      {
+        "title": "Benefits Consultant",
+        "employer": "Bluebonnet Benefits Consulting",
+        "start": "2013-08",
+        "end": "2015-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.B.A.",
+        "field": "Finance",
+        "school": "The University of Texas at Austin",
+        "year": 2013
+      }
+    ],
+    "certifications": [
+      "Certified Employee Benefit Specialist (CEBS)"
+    ],
+    "skills": [],
+    "numbers": [
+      "Target base: $240,000",
+      "13 years",
+      "a team of 4",
+      "12,000 employees in 9 states",
+      "2 acquired physician groups (1,500 employees combined)",
+      "within 6 months",
+      "first-year savings of $4.1M",
+      "7,000 employees"
+    ],
+    "work_authorization": "U.S. Citizen",
+    "compensation_expectation": "Target base: $240,000",
+    "years_experience_total": 13
+  },
+  "format_traits": [
+    "chronological",
+    "relocation_stated",
+    "comp_stated_zone_dependent",
+    "location_mismatch"
+  ],
+  "notes": "Partial: experienced US benefits director lacking international/global scope; relocation timing and zone-dependent comp are confirm items."
+}

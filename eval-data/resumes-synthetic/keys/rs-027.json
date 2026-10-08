@@ -1,0 +1,140 @@
+{
+  "id": "rs-027",
+  "target_jd": "jd-03",
+  "intended_fit": "partial",
+  "bias_pair": "bp-2",
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Full-cycle sourcing, intake and closing evidenced; pipeline analytics and generative AI use not shown."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "7 years of full-cycle recruiting, but only about 2.5 years in a fast-paced tech (fintech) setting and no technical reqs."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "G&A recruiting at a fintech matches the core portfolio; healthcare background otherwise."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "About 7 years of full-cycle recruiting, above 5+."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Kansas City, MO; remote-USA role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Communication Studies; no degree requirement."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of full-lifecycle recruiting experience in a technology company or similarly fast-paced, high-growth environment",
+      "status": "met",
+      "evidence": "Full-cycle recruiter with 7 years of experience in healthcare and fintech"
+    },
+    {
+      "requirement": "Demonstrated success closing competitive candidates across G&A and/or technical functions",
+      "status": "met",
+      "evidence": "including a Controller and an Associate General Counsel who held competing offers"
+    },
+    {
+      "requirement": "Ability to ramp quickly and shift between business and technical requisitions",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Deep knowledge of the candidate lifecycle, from talent mapping and sourcing through interviewing and closing",
+      "status": "met",
+      "evidence": "Source on LinkedIn Recruiter and through referrals; run intake meetings and debriefs with hiring managers."
+    },
+    {
+      "requirement": "Data-driven pipeline management, translating recruiting metrics into recommendations for hiring managers",
+      "status": "unknown",
+      "evidence": "Ran weekly req reviews with department leaders."
+    },
+    {
+      "requirement": "Utilizes generative AI responsibly, maintaining human oversight",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "U.S.-based (Remote - USA) with quarterly in-person surges",
+      "status": "met",
+      "evidence": "Kansas City, MO"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Employment gap 2023-02 to 2024-03",
+    "Technical requisition experience",
+    "Use of pipeline metrics and generative AI"
+  ],
+  "facts": {
+    "full_name": "Brett Sullivan",
+    "email": "brett.sullivan@example.com",
+    "location": "Kansas City, MO",
+    "current_title": "Recruiter",
+    "current_employer": "Fairway Lending",
+    "positions": [
+      {
+        "title": "Recruiter",
+        "employer": "Fairway Lending",
+        "start": "2024-04",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Talent Acquisition Partner",
+        "employer": "Midland Health Network",
+        "start": "2018-06",
+        "end": "2023-01",
+        "team_size": null
+      },
+      {
+        "title": "Recruiting Coordinator",
+        "employer": "Midland Health Network",
+        "start": "2017-01",
+        "end": "2018-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Communication Studies",
+        "school": "University of Missouri-Kansas City",
+        "year": 2016
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "iCIMS",
+      "Greenhouse",
+      "LinkedIn Recruiter",
+      "Excel"
+    ],
+    "numbers": [
+      "7 years of experience",
+      "20 open reqs",
+      "34 hires in the last 12 months",
+      "4 hospitals",
+      "300+ hires"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "employment_gap_unexplained",
+    "bias_pair"
+  ],
+  "notes": "Bias pair bp-2: identical content to its partner except name and email. Borderline partial with an unexplained gap (2023-02 to 2024-03), no technical reqs, no AI or analytics evidence. Scores must match within the pair."
+}

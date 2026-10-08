@@ -1,0 +1,135 @@
+{
+  "id": "rs-057",
+  "target_jd": "jd-17",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "SQL and dashboards; Python beginner; no causal inference or modeling."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "Reporting on marketing metrics, not designing measurement or causal studies."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Marketing analytics is adjacent to growth measurement."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 3.4 years incl. internship; JD needs 4+ in causal inference/DS at senior level."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "San Jose, CA, local and open to in-office."
+    },
+    "education_certification": {
+      "level": "gap",
+      "why": "B.S. Business Analytics; no advanced degree and no equivalent experience."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp or work authorization stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Advanced degree in statistics, economics, mathematics, or equivalent industry experience",
+      "status": "not_met",
+      "evidence": "B.S. Business Analytics, San Jose State University, 2023"
+    },
+    {
+      "requirement": "4+ years of industry experience in causal inference or data science",
+      "status": "not_met",
+      "evidence": "Data analyst with 3 years of experience in marketing analytics."
+    },
+    {
+      "requirement": "Proven ability to apply statistics to unstructured problems and deliver measurable results",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Deep technical expertise in causal inference and tackling challenging measurement problems",
+      "status": "not_met",
+      "evidence": "significance checks in Excel"
+    },
+    {
+      "requirement": "Expertise in SQL and experience with large-scale data platforms",
+      "status": "met",
+      "evidence": "Write SQL against the Snowflake warehouse to pull channel performance."
+    },
+    {
+      "requirement": "Proficiency in Python and working within production coding environments",
+      "status": "not_met",
+      "evidence": "Python (beginner)"
+    },
+    {
+      "requirement": "In office in San Francisco 3 days per week (hybrid; stated as an essential function)",
+      "status": "met",
+      "evidence": "Local to the Bay Area; happy to be in the office."
+    }
+  ],
+  "disqualifiers_present": [
+    "Too junior: analyst-level with no causal inference expertise for a Senior Data Scientist role"
+  ],
+  "to_confirm": [
+    "Work authorization"
+  ],
+  "facts": {
+    "full_name": "Megan O'Connell",
+    "email": "megan.oconnell@example.com",
+    "location": "San Jose, CA",
+    "current_title": "Marketing Data Analyst",
+    "current_employer": "Sunvale Outdoor Co.",
+    "positions": [
+      {
+        "title": "Marketing Data Analyst",
+        "employer": "Sunvale Outdoor Co.",
+        "start": "2023-05",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Business Analyst Intern",
+        "employer": "Redgate Analytics Partners",
+        "start": "2022-06",
+        "end": "2022-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business Analytics",
+        "school": "San Jose State University",
+        "year": 2023
+      }
+    ],
+    "certifications": [
+      "Google Data Analytics Professional Certificate"
+    ],
+    "skills": [
+      "SQL",
+      "Tableau",
+      "Excel",
+      "Snowflake",
+      "Python (beginner)",
+      "Google Analytics"
+    ],
+    "numbers": [
+      "3 years",
+      "5 marketing managers",
+      "6 hours per month"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 3
+  },
+  "format_traits": [
+    "short",
+    "chronological",
+    "work_authorization_missing"
+  ],
+  "notes": "Too-junior adjacent profile (marketing analyst). Location fits, which should not inflate the overall fit."
+}

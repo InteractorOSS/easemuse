@@ -1,0 +1,143 @@
+{
+  "id": "rs-011",
+  "target_jd": "jd-04",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong Excel, equity payroll and SOX audit evidence; no Workday Payroll."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Deep US multi-state payroll; international limited to coordinating Canada via a provider."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "6 years at a NASDAQ-listed software company."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "About 8.5 years of payroll experience, above 5–7+."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Omaha, NE; US-remote role."
+    },
+    "education_certification": {
+      "level": "partial",
+      "why": "Associate degree plus CPP; JD accepts equivalent practical experience."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5–7+ years of progressive payroll operations experience in a high-growth, publicly traded tech company with a global footprint",
+      "status": "met",
+      "evidence": "6 years at a NASDAQ-listed software company"
+    },
+    {
+      "requirement": "Direct hands-on experience managing both US and international payroll operations",
+      "status": "not_met",
+      "evidence": "coordinated Canada payroll through an outsourced provider"
+    },
+    {
+      "requirement": "Bachelor's degree or equivalent practical experience in payroll, accounting, finance, HR or related field",
+      "status": "met",
+      "evidence": "A.A.S., Accounting, Metropolitan Community College, 2016 ... Certified Payroll Professional (CPP)"
+    },
+    {
+      "requirement": "Advanced proficiency with Workday Payroll (reporting, configuration, integrations) and global payroll platforms",
+      "status": "not_met",
+      "evidence": "ADP Workforce Now, ADP GlobalView, Excel"
+    },
+    {
+      "requirement": "Advanced proficiency in Excel/Google Sheets for reconciliation and audit modeling",
+      "status": "met",
+      "evidence": "Built Excel reconciliation workbooks (pivot tables, XLOOKUP)"
+    },
+    {
+      "requirement": "Understanding of global equity taxation, statutory compliance, US and international labor laws, multi-currency payroll",
+      "status": "unknown",
+      "evidence": "Processed RSU vests and imputed income; reconciled equity withholding with Stock Administration."
+    },
+    {
+      "requirement": "U.S.-based (Remote - United States)",
+      "status": "met",
+      "evidence": "Omaha, NE"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Depth of hands-on international payroll beyond Canada coordination",
+    "Workday Payroll exposure",
+    "Global equity taxation knowledge"
+  ],
+  "facts": {
+    "full_name": "Robert Fairchild",
+    "email": "robert.fairchild@example.com",
+    "location": "Omaha, NE",
+    "current_title": "Payroll Specialist",
+    "current_employer": "Prairie Gate Manufacturing",
+    "positions": [
+      {
+        "title": "Payroll Specialist",
+        "employer": "Prairie Gate Manufacturing",
+        "start": "2025-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Payroll Supervisor",
+        "employer": "Corvane Software",
+        "start": "2018-04",
+        "end": "2024-02",
+        "team_size": 3
+      },
+      {
+        "title": "Payroll Clerk",
+        "employer": "Plainsview Cooperative",
+        "start": "2016-09",
+        "end": "2018-03",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "A.A.S.",
+        "field": "Accounting",
+        "school": "Metropolitan Community College",
+        "year": 2016
+      }
+    ],
+    "certifications": [
+      "Certified Payroll Professional (CPP)"
+    ],
+    "skills": [
+      "ADP Workforce Now",
+      "ADP GlobalView",
+      "Excel"
+    ],
+    "numbers": [
+      "8 years of multi-state US payroll",
+      "6 years at a NASDAQ-listed software company",
+      "700 hourly and salaried employees in 4 states",
+      "a team of 3",
+      "2,300 employees in 31 states",
+      "cut quarter-end close by 2 days",
+      "2 SOX audits"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 9
+  },
+  "format_traits": [
+    "chronological",
+    "employment_gap_explained",
+    "step_down_role"
+  ],
+  "notes": "Partial: strong US payroll at a public tech company but no Workday and only light international exposure. Explained caregiving gap should not be penalized."
+}

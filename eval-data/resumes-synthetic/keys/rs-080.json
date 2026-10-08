@@ -1,0 +1,134 @@
+{
+  "id": "rs-080",
+  "target_jd": "jd-24",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Deep DevOps product knowledge, but no selling, negotiation or closing experience."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "No SaaS sales or quota-carrying experience; support and help desk only."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Works at a CI/CD SaaS vendor and knows Git; matches the preferred technical background."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Would be a first sales role; too junior for a named-account AE."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Sacramento, CA is Pacific Time."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; A.S. Computer Information Systems."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Located in Central, Mountain, or Pacific Timezones",
+      "status": "met",
+      "evidence": "Sacramento, CA"
+    },
+    {
+      "requirement": "Demonstrated progressive experience with SaaS sales through pitching on value to development team (preferably devops)",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Ability to leverage established relationships and proven sales techniques for success",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Excellent negotiation, presentation and closing skills",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Meet or exceed quota (quota-carrying track record)",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Interest in GitLab, and open source software",
+      "status": "met",
+      "evidence": "Contributor to two open source CLI tools."
+    },
+    {
+      "requirement": "The ability to travel for events such as trainings, team off sites, customer meetings, etc.",
+      "status": "met",
+      "evidence": "Available for travel."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Interest in an SDR or sales-engineering path instead"
+  ],
+  "facts": {
+    "full_name": "Daniel Okafor",
+    "email": "daniel.okafor@example.com",
+    "location": "Sacramento, CA",
+    "current_title": "Technical Support Engineer",
+    "current_employer": "Pipewright",
+    "positions": [
+      {
+        "title": "Technical Support Engineer",
+        "employer": "Pipewright",
+        "start": "2023-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Help Desk Technician",
+        "employer": "Rivergate Community College",
+        "start": "2021-06",
+        "end": "2022-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "A.S.",
+        "field": "Computer Information Systems",
+        "school": "Los Rios Community College District",
+        "year": 2021
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Git",
+      "GitLab CI",
+      "Docker",
+      "Linux",
+      "Zendesk",
+      "Jira"
+    ],
+    "numbers": [
+      "4.8/5 CSAT across 1,900 tickets",
+      "12 customer calls",
+      "600 staff",
+      "two open source CLI tools",
+      "30 knowledge-base articles"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 5
+  },
+  "format_traits": [
+    "terse",
+    "missing_section_headings",
+    "adjacent_profession",
+    "career_changer"
+  ],
+  "notes": "Weak: right time zone and strong DevOps knowledge but no sales/quota experience at all. Tests that keyword overlap (Git, GitLab CI) doesn't inflate fit."
+}

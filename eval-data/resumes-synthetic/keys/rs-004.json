@@ -1,0 +1,154 @@
+{
+  "id": "rs-004",
+  "target_jd": "jd-02",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Talent lifecycle, change management, analytics and employment-law skills each evidenced."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Currently HRBP to Marketing & Communications leaders, including CMO and VP level."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "SaaS high-growth tech; matches the preferred Marketing/Comms client group."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "5 years HRBP and about 10 years total HR experience, meeting 3–5 HRBP and 7+ overall."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Denver, CO, open to remote; US-based remote role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Human Resource Management plus SHRM-CP."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated; Colorado band is $136,000–$143,500."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3–5 years of HRBP experience in a high-growth technology company, with 7+ years of overall HR or related experience",
+      "status": "met",
+      "evidence": "5 years as an HRBP in venture-backed and public SaaS companies"
+    },
+    {
+      "requirement": "Independently lead all aspects of the talent management lifecycle (performance management, org design, calibration, engagement, leadership development)",
+      "status": "met",
+      "evidence": "Own performance reviews, calibration, org design, engagement action planning and leadership development for a 340-person Marketing & Communications organization with minimal oversight"
+    },
+    {
+      "requirement": "Track record of coaching and influencing Director and VP+ level leaders",
+      "status": "met",
+      "evidence": "current advisor to a CMO, a VP of Communications and 6 Sr. Directors"
+    },
+    {
+      "requirement": "Exceptional written and verbal communication, including change management plans",
+      "status": "met",
+      "evidence": "Wrote the change plan and leader talking points for a brand-team restructuring of 45 roles"
+    },
+    {
+      "requirement": "Analytical mindset using data and financial metrics to drive strategic planning",
+      "status": "met",
+      "evidence": "Built a quarterly org-health dashboard (attrition, span of control, cost per head) used in Marketing budget planning"
+    },
+    {
+      "requirement": "Working knowledge of employment law",
+      "status": "met",
+      "evidence": "Partner with employment counsel on investigations, accommodations and multi-state leave"
+    },
+    {
+      "requirement": "BA/BS degree in a relevant field",
+      "status": "met",
+      "evidence": "B.S., Human Resource Management, Colorado State University, 2016"
+    },
+    {
+      "requirement": "Based in the United States (US-remote role)",
+      "status": "met",
+      "evidence": "Denver, CO"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Luis Ortega",
+    "email": "luis.ortega@example.com",
+    "location": "Denver, CO",
+    "current_title": "Senior HR Business Partner, Marketing & Communications",
+    "current_employer": "Bluefinch Software",
+    "positions": [
+      {
+        "title": "Senior HR Business Partner, Marketing & Communications",
+        "employer": "Bluefinch Software",
+        "start": "2023-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "HR Business Partner, Go-to-Market",
+        "employer": "Bluefinch Software",
+        "start": "2021-06",
+        "end": "2023-01",
+        "team_size": null
+      },
+      {
+        "title": "HR Generalist",
+        "employer": "Marlow Health Partners",
+        "start": "2018-03",
+        "end": "2021-05",
+        "team_size": null
+      },
+      {
+        "title": "HR Coordinator",
+        "employer": "Marlow Health Partners",
+        "start": "2016-07",
+        "end": "2018-02",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Human Resource Management",
+        "school": "Colorado State University",
+        "year": 2016
+      }
+    ],
+    "certifications": [
+      "SHRM-CP",
+      "Prosci Change Management Practitioner"
+    ],
+    "skills": [
+      "Strategic HR Business Partnering",
+      "Talent Management Lifecycle",
+      "Change Management & Communication",
+      "People Analytics",
+      "Employment Law"
+    ],
+    "numbers": [
+      "5 years as an HRBP",
+      "6 Sr. Directors",
+      "340-person Marketing & Communications organization",
+      "restructuring of 45 roles",
+      "0 regretted departures in the following 6 months",
+      "from 14% to 8%",
+      "trained 60 managers"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 10
+  },
+  "format_traits": [
+    "functional_skills_first",
+    "dates_only_in_short_list",
+    "specific_numbers"
+  ],
+  "notes": "Strong: functional format puts evidence in a skills section rather than under jobs; tests that the matcher attributes skills correctly and recognizes the preferred Marketing/Comms experience."
+}

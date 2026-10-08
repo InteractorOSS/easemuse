@@ -1,0 +1,135 @@
+{
+  "id": "rs-040",
+  "target_jd": "jd-12",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Credit union liquidity reporting and wires; no direct cash flow forecast, TMS, AI automation or Superset."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 2.5 years in treasury; prior years are retail banking."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Financial services, but a credit union rather than corporate treasury at a public company."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Junior (Analyst I) for a senior role requiring 5+ years."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Gainesville, FL and wants fully remote; role requires 3 days a week in Menlo Park, New York or Chicago."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Economics."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of experience in Corporate Treasury",
+      "status": "not_met",
+      "evidence": "two and a half years in credit union treasury"
+    },
+    {
+      "requirement": "Experience in implementing automation using AI tools",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience in managing a Direct Cash Flow Forecast",
+      "status": "not_met",
+      "evidence": "Prepare the daily liquidity report for the CFO"
+    },
+    {
+      "requirement": "Significant experience in Treasury Operations with a strong understanding of key management controls and processes",
+      "status": "unknown",
+      "evidence": "Reconcile 14 settlement and correspondent bank accounts daily."
+    },
+    {
+      "requirement": "Strong analytical skills with proficiency in Excel, Google Sheets, and Superset",
+      "status": "not_met",
+      "evidence": "Excel (pivot tables, VLOOKUP)"
+    },
+    {
+      "requirement": "Bachelor's degree in Finance, Economics, Computer Science, Financial Engineering or a related field",
+      "status": "met",
+      "evidence": "B.S. Economics, University of Florida, 2021"
+    },
+    {
+      "requirement": "Based in Menlo Park, CA; New York, NY; or Chicago, IL with in-person attendance at least 3 days per week",
+      "status": "not_met",
+      "evidence": "Seeking a fully remote treasury role."
+    }
+  ],
+  "disqualifiers_present": [
+    "Wants fully remote; role requires in-person attendance at least 3 days per week in Menlo Park, New York or Chicago",
+    "Well short of 5+ years of corporate treasury"
+  ],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Kwame Mensah",
+    "email": "kwame.mensah@example.com",
+    "location": "Gainesville, FL",
+    "current_title": "Treasury Analyst I",
+    "current_employer": "Sunbelt Regional Credit Union",
+    "positions": [
+      {
+        "title": "Treasury Analyst I",
+        "employer": "Sunbelt Regional Credit Union",
+        "start": "2024-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Universal Banker",
+        "employer": "Gulfside Community Bank",
+        "start": "2021-07",
+        "end": "2024-02",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Economics",
+        "school": "University of Florida",
+        "year": 2021
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Excel",
+      "pivot tables",
+      "VLOOKUP",
+      "Fiserv core banking",
+      "FedLine",
+      "Microsoft Teams"
+    ],
+    "numbers": [
+      "14 settlement and correspondent bank accounts",
+      "top 10% of the region",
+      "3 new tellers",
+      "two and a half years"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 5
+  },
+  "format_traits": [
+    "plain_text_no_markdown",
+    "extra_sections",
+    "too_junior",
+    "location_mismatch",
+    "remote_only"
+  ],
+  "notes": "Weak: too junior, no direct forecast/AI/Superset, and wants fully remote for an in-office role. Gainesville is a Zone 3 city but not an office for this role (tests careful location reading)."
+}

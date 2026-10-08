@@ -1,0 +1,158 @@
+{
+  "id": "rs-019",
+  "target_jd": "jd-07",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Talent strategy, KPI scorecards, AI enablement, university and executive recruiting all evidenced."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Runs end-to-end TA for an autonomous-vehicle company, including exec search and university."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Autonomous systems, ML and hardware hiring, matching the JD's technical environment exactly."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "18 years in recruiting leadership; Senior Director since 2021-02 (5+ years) leading 62 through 6 managers."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "San Jose, CA; commutable to Foster City."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Business Administration."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "15+ years of TA leadership experience",
+      "status": "met",
+      "evidence": "spent 18 years building recruiting organizations"
+    },
+    {
+      "requirement": "3+ years at the Senior Director level leading organizations of 50+",
+      "status": "met",
+      "evidence": "Senior Director, Talent Acquisition · Driftline Autonomy ... 2021-02 – present ... Lead a 62-person organization"
+    },
+    {
+      "requirement": "Leader-of-leaders model, managing 5+ direct report managers",
+      "status": "met",
+      "evidence": "through 6 manager direct reports"
+    },
+    {
+      "requirement": "Recruiting in a complex, high-growth technical environment (Autonomous Systems, AI/ML, Hardware)",
+      "status": "met",
+      "evidence": "including perception, motion-planning and ML engineers, hardware and vehicle-integration teams"
+    },
+    {
+      "requirement": "Data-driven: designing and implementing talent ecosystems (KPIs, scorecards, metrics)",
+      "status": "met",
+      "evidence": "Built the TA scorecard (time-to-fill, offer-accept rate, quality-of-hire, cost-per-hire, diversity of slates)"
+    },
+    {
+      "requirement": "Executive presence and ability to influence and present to C-level executives",
+      "status": "met",
+      "evidence": "reviewed monthly with the CEO and CFO ... Presented quarterly workforce and hiring plans to the board of directors since 2022."
+    },
+    {
+      "requirement": "Bachelor's degree in Human Resources, Business Administration, Organizational Development, or related field",
+      "status": "met",
+      "evidence": "B.S., Business Administration, San José State University, 2005"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Hiroshi Nakamura",
+    "email": "hiroshi.nakamura@example.com",
+    "location": "San Jose, CA",
+    "current_title": "Senior Director, Talent Acquisition",
+    "current_employer": "Driftline Autonomy",
+    "positions": [
+      {
+        "title": "Senior Director, Talent Acquisition",
+        "employer": "Driftline Autonomy",
+        "start": "2021-02",
+        "end": "present",
+        "team_size": 62
+      },
+      {
+        "title": "Director, Technical Recruiting",
+        "employer": "Vantor Semiconductor",
+        "start": "2015-07",
+        "end": "2021-01",
+        "team_size": 28
+      },
+      {
+        "title": "Senior Manager, Recruiting",
+        "employer": "Bayline Networks",
+        "start": "2011-03",
+        "end": "2015-06",
+        "team_size": null
+      },
+      {
+        "title": "Recruiting Manager",
+        "employer": "Bayline Networks",
+        "start": "2008-09",
+        "end": "2011-02",
+        "team_size": null
+      },
+      {
+        "title": "Technical Recruiter",
+        "employer": "Ardent Staffing",
+        "start": "2006-01",
+        "end": "2008-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business Administration",
+        "school": "San José State University",
+        "year": 2005
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Workday",
+      "Lever",
+      "VNDLY",
+      "Gem",
+      "Tableau"
+    ],
+    "numbers": [
+      "18 years",
+      "62-person organization",
+      "6 manager direct reports",
+      "1,100 people in 4 years",
+      "14 VP-and-above executives",
+      "from 71% to 86%",
+      "roughly 25% of recruiter capacity",
+      "90 interns a year",
+      "28 recruiters and 3 managers",
+      "from 900 to 2,600 employees",
+      "since 2022"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 20
+  },
+  "format_traits": [
+    "odd_headings",
+    "all_caps_headings",
+    "steady_progression",
+    "specific_numbers"
+  ],
+  "notes": "Strong: unusual section headings ('WHERE I'VE LED', 'PROOF POINTS', 'SCHOOLING'); tests section detection and leader-of-leaders evidence."
+}

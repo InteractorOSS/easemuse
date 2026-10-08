@@ -1,0 +1,159 @@
+{
+  "id": "rs-056",
+  "target_jd": "jd-17",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong A/B testing, Python and SQL; causal work beyond experiments is limited (one DiD, one PSM) and no MMM."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Product experimentation with some marketing measurement; not a marketing-science lead."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Insurance and subscription e-commerce, not marketplace growth."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "About 6 years in data science incl. analyst start; Senior title now."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Lives in Austin, TX; states plan to relocate to the Bay Area and openness to hybrid."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "M.S. Statistics."
+    },
+    "compensation_other": {
+      "level": "partial",
+      "why": "Asks $190,000 base, above the $148,000 - $185,000 range; U.S. citizen."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Advanced degree in statistics, economics, mathematics, or equivalent industry experience",
+      "status": "met",
+      "evidence": "M.S. Statistics, Texas A&M University, 2018"
+    },
+    {
+      "requirement": "4+ years of industry experience in causal inference or data science",
+      "status": "met",
+      "evidence": "Data scientist with 6 years in experimentation and product analytics."
+    },
+    {
+      "requirement": "Proven ability to apply statistics to unstructured problems and deliver measurable results",
+      "status": "met",
+      "evidence": "one test raised annual revenue by $2.3M"
+    },
+    {
+      "requirement": "Deep technical expertise in causal inference and tackling challenging measurement problems",
+      "status": "unknown",
+      "evidence": "Used difference-in-differences to measure a regional TV campaign, the company's first non-experimental marketing readout."
+    },
+    {
+      "requirement": "Expertise in SQL and experience with large-scale data platforms",
+      "status": "met",
+      "evidence": "Built churn and retention models in Python on BigQuery (5 billion event rows)."
+    },
+    {
+      "requirement": "Proficiency in Python and working within production coding environments",
+      "status": "met",
+      "evidence": "Maintain Python experiment-analysis package used in production by 3 product teams."
+    },
+    {
+      "requirement": "In office in San Francisco 3 days per week (hybrid; stated as an essential function)",
+      "status": "unknown",
+      "evidence": "planning to relocate to the San Francisco Bay Area and open to a hybrid schedule"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Relocation timeline and commitment to 3 in-office days in SF",
+    "Depth of causal inference beyond A/B tests; no MMM",
+    "Comp expectation $190,000 above the $185,000 top of range"
+  ],
+  "facts": {
+    "full_name": "Rohan Mehta",
+    "email": "rohan.mehta@example.com",
+    "location": "Austin, TX",
+    "current_title": "Senior Data Scientist",
+    "current_employer": "Halyard Insurance",
+    "positions": [
+      {
+        "title": "Senior Data Scientist",
+        "employer": "Halyard Insurance",
+        "start": "2025-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Data Scientist II",
+        "employer": "Larkspur Subscription Co.",
+        "start": "2020-09",
+        "end": "2024-02",
+        "team_size": null
+      },
+      {
+        "title": "Data Analyst",
+        "employer": "Larkspur Subscription Co.",
+        "start": "2019-01",
+        "end": "2020-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "M.S.",
+        "field": "Statistics",
+        "school": "Texas A&M University",
+        "year": 2018
+      },
+      {
+        "degree": "B.S.",
+        "field": "Mathematics",
+        "school": "University of Houston",
+        "year": 2016
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Python",
+      "pandas",
+      "statsmodels",
+      "scipy",
+      "SQL",
+      "BigQuery",
+      "Snowflake",
+      "Airflow",
+      "A/B testing",
+      "difference-in-differences",
+      "propensity scores",
+      "Looker"
+    ],
+    "numbers": [
+      "6 years",
+      "25 A/B tests in 18 months",
+      "lifting bind rate by 6%",
+      "3 product teams",
+      "5 billion event rows",
+      "4 subscription tiers",
+      "$2.3M",
+      "$190,000"
+    ],
+    "work_authorization": "U.S. citizen.",
+    "compensation_expectation": "targeting $190,000 base.",
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "chronological",
+    "employment_gap_explained",
+    "relocation_stated",
+    "compensation_stated",
+    "compensation_above_range"
+  ],
+  "notes": "Partial: meets degree/years/Python/SQL but causal-inference depth and MMM are thin, needs relocation for a hybrid SF role, comp slightly above range. The explained caregiving gap must not be penalized."
+}

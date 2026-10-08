@@ -1,0 +1,156 @@
+{
+  "id": "rs-088",
+  "target_jd": "jd-27",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Solid core Workday integration toolset, but no LLM/AI agent/MCP work, no OAuth user-context flows, and PECI/PICOF not stated."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "About 10 years in enterprise technology with ~7 years of hands-on Workday integration."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Retail and healthcare HR integrations."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "Senior IC mentoring 2; architecture-setting technical leadership at Staff level is not evidenced."
+    },
+    "location_work_arrangement": {
+      "level": "unknown",
+      "why": "Remote from Minnesota; state eligibility to confirm."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Information Technology."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "Asks $240,000 base, above the $180,000–$225,000 range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Bachelor's degree in Computer Science, Information Technology, Engineering, or a related field (or equivalent experience)",
+      "status": "met",
+      "evidence": "B.S., Information Technology, University of Minnesota, 2016"
+    },
+    {
+      "requirement": "9+ years of experience in enterprise technology, software development, or systems integration, with at least 5–6 years of hands-on Workday integration development covering the full lifecycle",
+      "status": "met",
+      "evidence": "Build and maintain 70+ Workday integrations"
+    },
+    {
+      "requirement": "Personally written Workday integrations: Workday Studio, Core Connectors and EIBs, payroll interfaces (PECI and PICOF), RaaS, and Workday Web Services (WWS)",
+      "status": "unknown",
+      "evidence": "Build and maintain 70+ Workday integrations using Studio, Core Connectors, EIBs and RaaS."
+    },
+    {
+      "requirement": "Expert proficiency in XSLT, XML, and JSON; comfortable with Java sufficient for Workday Studio custom steps",
+      "status": "met",
+      "evidence": "XSLT, XML, JSON, Java (basic)"
+    },
+    {
+      "requirement": "REST API design and OAuth 2.0 (incl. user-context flows) and experience building or integrating LLM-based tools, AI agents, or MCP servers with enterprise business systems",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience integrating Workday with middleware or iPaaS platforms (MuleSoft, Boomi, Workato); Git-based version control",
+      "status": "met",
+      "evidence": "Migrated 25 point-to-point feeds onto Boomi"
+    },
+    {
+      "requirement": "Strong knowledge of HR data security (OAuth 2.0, SAML, PGP, SFTP, PII) and proven experience managing integrations across Workday's semi-annual release cycle",
+      "status": "met",
+      "evidence": "Coordinate testing for Workday's semi-annual releases with the HRIS team."
+    },
+    {
+      "requirement": "Demonstrated record as a technical leader who has shaped architecture decisions and raised engineering quality across a team",
+      "status": "unknown",
+      "evidence": "Mentor 2 junior developers."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Whether payroll interfaces used PECI/PICOF",
+    "Any AI/LLM/MCP or OAuth 2.0 user-context experience",
+    "Salary expectation above range",
+    "State eligibility"
+  ],
+  "facts": {
+    "full_name": "Brandon Kowalski",
+    "email": "brandon.kowalski@example.com",
+    "location": "Minneapolis, MN",
+    "current_title": "Senior Workday Integration Engineer",
+    "current_employer": "Northlake Retail Group",
+    "positions": [
+      {
+        "title": "Senior Workday Integration Engineer",
+        "employer": "Northlake Retail Group",
+        "start": "2021-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Workday Integration Analyst",
+        "employer": "Pinecrest Health System",
+        "start": "2019-10",
+        "end": "2021-01",
+        "team_size": null
+      },
+      {
+        "title": "ETL Developer",
+        "employer": "Pinecrest Health System",
+        "start": "2016-06",
+        "end": "2019-09",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Information Technology",
+        "school": "University of Minnesota",
+        "year": 2016
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Workday Studio",
+      "Core Connectors",
+      "EIB",
+      "RaaS",
+      "WWS",
+      "XSLT",
+      "XML",
+      "JSON",
+      "Java (basic)",
+      "Boomi",
+      "SFTP/PGP",
+      "Git",
+      "SQL",
+      "Scrum"
+    ],
+    "numbers": [
+      "$240,000 base",
+      "70+ Workday integrations",
+      "25 point-to-point feeds",
+      "cut failed-run tickets by 40%",
+      "Mentor 2 junior developers"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "$240,000 base",
+    "years_experience_total": 10
+  },
+  "format_traits": [
+    "chronological",
+    "compensation_stated",
+    "compensation_above_range"
+  ],
+  "notes": "Partial: capable Workday integration engineer missing the AI/MCP and OAuth requirements; PECI/PICOF unstated; comp above range."
+}

@@ -1,0 +1,132 @@
+{
+  "id": "rs-074",
+  "target_jd": "jd-22",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Contact-center support operations; no account strategy, renewals, expansion or executive-sponsor work."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "13 years customer-facing and long people-management tenure, but in support/call center, not CS, account management or sales."
+    },
+    "industry_functional": {
+      "level": "gap",
+      "why": "Healthcare provider and utility; no high-growth technology environment."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "Seniority in years and management is sufficient, but level of account ownership is not comparable."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Atlanta, GA with no relocation stated; role is in Chicago."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; A.A.S. Business Management."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "12+ years of customer-facing experience in customer success, account management, or sales with 3-5 years of people management experience",
+      "status": "not_met",
+      "evidence": "13 years supervising and managing contact-center teams"
+    },
+    {
+      "requirement": "Experience leading sales or account management in a high-growth technology environment",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Ability to hire, train, and coach a high-performing user-facing team",
+      "status": "met",
+      "evidence": "currently 22 support agents across two shifts"
+    },
+    {
+      "requirement": "Ability to support the Customer Success Managers' efforts through strategic advice on account strategies, and serving as executive sponsor with key relationships",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Ability to operate in a high-growth environment and work through ambiguity to solve complex customer and business problems",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Based in or able to work from Chicago (posting location)",
+      "status": "not_met",
+      "evidence": "Atlanta, GA"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Willingness to relocate to Chicago"
+  ],
+  "facts": {
+    "full_name": "Gloria Mendoza",
+    "email": "gloria.mendoza@example.com",
+    "location": "Atlanta, GA",
+    "current_title": "Customer Support Operations Manager",
+    "current_employer": "Peachtree Health Partners",
+    "positions": [
+      {
+        "title": "Customer Support Operations Manager",
+        "employer": "Peachtree Health Partners",
+        "start": "2018-07",
+        "end": "present",
+        "team_size": 22
+      },
+      {
+        "title": "Call Center Supervisor",
+        "employer": "Magnolia Energy Cooperative",
+        "start": "2013-03",
+        "end": "2018-06",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "A.A.S.",
+        "field": "Business Management",
+        "school": "Georgia Piedmont Technical College",
+        "year": 2012
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Genesys",
+      "Zendesk",
+      "Epic (patient scheduling)",
+      "Excel",
+      "QA scorecards",
+      "staffing models",
+      "CSAT programs"
+    ],
+    "numbers": [
+      "13 years supervising and managing contact-center teams",
+      "22 support agents across two shifts",
+      "cut average handle time 18%",
+      "raised CSAT from 81% to 90%",
+      "ramp from 6 weeks to 4 weeks",
+      "developed 3 agents into supervisors",
+      "three hospital sites"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 13
+  },
+  "format_traits": [
+    "functional_skills_first",
+    "adjacent_profession",
+    "location_mismatch",
+    "team_size_stated"
+  ],
+  "notes": "Adjacent profession: experienced support-operations manager, but not CS/AM/sales in tech, and located outside Chicago."
+}

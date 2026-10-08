@@ -1,0 +1,129 @@
+{
+  "id": "rs-015",
+  "target_jd": "jd-05",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Benefits administration only; no program design, strategy or cost modeling."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "No global programs, M&A or team leadership."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "US media company; benefits function but administrative."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 5.5 years in benefits roles vs 10+; specialist level."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Brooklyn, NY; can commute to the New York office."
+    },
+    "education_certification": {
+      "level": "partial",
+      "why": "B.A. Sociology; no benefits certification."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of experience in benefits, with a track record of designing and implementing global programs",
+      "status": "not_met",
+      "evidence": "Benefits Specialist | Hudson Line Media | 2021-04 – present"
+    },
+    {
+      "requirement": "Deep expertise across health, welfare, retirement, and leave, both US and international",
+      "status": "not_met",
+      "evidence": "Process leave of absence requests (FMLA, NY Paid Family Leave)"
+    },
+    {
+      "requirement": "Strong analytical skills and comfort modeling program costs, utilization, and ROI",
+      "status": "not_met",
+      "evidence": "Reconcile monthly carrier invoices."
+    },
+    {
+      "requirement": "M&A experience including benefits due diligence and integration",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Solid understanding of regulatory and compliance requirements across global jurisdictions",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Build, develop, and lead a high-performing benefits team",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Strong fluency with AI tools",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "In-person 5 days per week in Chicago, IL, Menlo Park, CA, or New York, NY",
+      "status": "met",
+      "evidence": "Brooklyn, NY"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Mei Tanaka",
+    "email": "mei.tanaka@example.com",
+    "location": "Brooklyn, NY",
+    "current_title": "Benefits Specialist",
+    "current_employer": "Hudson Line Media",
+    "positions": [
+      {
+        "title": "Benefits Specialist",
+        "employer": "Hudson Line Media",
+        "start": "2021-04",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "HR Assistant",
+        "employer": "Greenpoint Property Management",
+        "start": "2019-09",
+        "end": "2021-03",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Sociology",
+        "school": "Hunter College",
+        "year": 2019
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Workday Benefits",
+      "Excel",
+      "leave administration"
+    ],
+    "numbers": [
+      "850 employees"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "very_terse",
+    "no_summary",
+    "too_junior"
+  ],
+  "notes": "Weak: right function, far too junior for a Director role. Local to NY, which should not lift the score."
+}

@@ -1,0 +1,143 @@
+{
+  "id": "rs-037",
+  "target_jd": "jd-11",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong commercial negotiation of cloud and SaaS deals and pricing, but not as an attorney; escalates legal terms to counsel."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "10+ years of contracts work, but not in a legal environment as a lawyer."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Healthcare payer and logistics procurement, not a technology company legal team."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Senior in procurement, but a contracts manager is not a counsel-level role."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Seattle, WA; role is remote anywhere in the US."
+    },
+    "education_certification": {
+      "level": "gap",
+      "why": "No JD; the JD degree is an explicit requirement."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "JD degree",
+      "status": "not_met",
+      "evidence": "B.A. Business Administration, University of Washington, 2015"
+    },
+    {
+      "requirement": "Minimum 8 years of experience in a legal environment",
+      "status": "not_met",
+      "evidence": "working alongside in-house counsel who approve the final legal terms"
+    },
+    {
+      "requirement": "Significant experience negotiating complex SaaS, cloud services, technology infrastructure and commercial transactions",
+      "status": "met",
+      "evidence": "Lead negotiator for cloud, SaaS and IT services contracts"
+    },
+    {
+      "requirement": "Comfort advising on data privacy, data security, AI and general commercial risk in technology supplier agreements",
+      "status": "not_met",
+      "evidence": "escalate liability, indemnity and data terms to counsel"
+    },
+    {
+      "requirement": "Strong understanding of cloud computing business models, contracting structures and pricing frameworks, including consumption-based models and committed spend arrangements",
+      "status": "met",
+      "evidence": "Negotiated pricing, volume tiers and committed-spend discounts for the company's primary cloud contract"
+    },
+    {
+      "requirement": "Experience partnering with Engineering, Infrastructure, Security, Finance and Procurement stakeholders on high-value technology deals",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience translating negotiated contract terms into scalable internal processes and operational guidance",
+      "status": "met",
+      "evidence": "Track renewals for 600+ IT vendors in Coupa"
+    },
+    {
+      "requirement": "US-based (remote anywhere in the US; US based applicants only)",
+      "status": "met",
+      "evidence": "Seattle, WA"
+    }
+  ],
+  "disqualifiers_present": [
+    "No JD degree (role requires a JD); not a practicing attorney"
+  ],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Fatima Al-Sayed",
+    "email": "fatima.al-sayed@example.com",
+    "location": "Seattle, WA",
+    "current_title": "Senior Contracts Manager, IT Procurement",
+    "current_employer": "Evergreen Mutual Health",
+    "positions": [
+      {
+        "title": "Senior Contracts Manager, IT Procurement",
+        "employer": "Evergreen Mutual Health",
+        "start": "2019-04",
+        "end": "present",
+        "team_size": 4
+      },
+      {
+        "title": "Contracts Specialist",
+        "employer": "Sound Harbor Logistics",
+        "start": "2016-01",
+        "end": "2019-03",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Business Administration",
+        "school": "University of Washington",
+        "year": 2015
+      }
+    ],
+    "certifications": [
+      "Certified Commercial Contracts Manager (CCCM), NCMA, 2020"
+    ],
+    "skills": [
+      "Coupa",
+      "Icertis",
+      "DocuSign CLM",
+      "Excel",
+      "cloud pricing models",
+      "vendor management",
+      "contract negotiation"
+    ],
+    "numbers": [
+      "Ten years",
+      "about $310M in annual IT spend",
+      "$11M over 3 years",
+      "600+ IT vendors",
+      "a team of 4 contract specialists"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 10
+  },
+  "format_traits": [
+    "odd_headings",
+    "adjacent_profession",
+    "missing_required_credential",
+    "comp_missing",
+    "work_auth_missing"
+  ],
+  "notes": "Weak: strong cloud-deal negotiator who lacks the JD the role requires (adjacent profession). Tests that pricing/cloud keyword overlap does not outweigh a hard requirement."
+}

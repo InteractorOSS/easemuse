@@ -1,0 +1,160 @@
+{
+  "id": "rs-058",
+  "target_jd": "jd-18",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Feature store, model serving, training orchestration, registry: core ML platform areas plus distributed systems depth."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Six years leading ML platform for payments risk; previous distributed storage work."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Payments/fraud ML at a payments company, matching Stripe's domain."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "14 years; Staff level; technical lead across 3 teams."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Seattle, WA, one of the two posted locations."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "M.S. Computer Science."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp stated (JD lists none); U.S. citizen."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of professional software development experience with a solid background in service-oriented architecture and large-scale distributed systems",
+      "status": "met",
+      "evidence": "Staff software engineer with 14 years of experience in distributed systems"
+    },
+    {
+      "requirement": "Track record as a technical lead: technical direction, multi-team initiatives, mentoring",
+      "status": "met",
+      "evidence": "Technical lead for the ML Platform group (3 teams, 22 engineers)"
+    },
+    {
+      "requirement": "Experience building and operating production ML platform (model training, model serving, orchestration, or ML data systems) with performance, reliability, scalability and cost requirements",
+      "status": "met",
+      "evidence": "Designed the online feature store (Kafka, Flink, Redis, DynamoDB) serving 900 features at p99 under 8 ms"
+    },
+    {
+      "requirement": "Strong product instincts and deep understanding of the business context",
+      "status": "met",
+      "evidence": "Partner with fraud, credit and product leaders to rank platform investments by business value"
+    },
+    {
+      "requirement": "Strong communication skills with technical and non-technical stakeholders",
+      "status": "met",
+      "evidence": "presented quarterly to the executive risk committee"
+    },
+    {
+      "requirement": "Cross-functional collaboration with ML engineers, data scientists, software engineers, product managers and business stakeholders",
+      "status": "met",
+      "evidence": "Built training orchestration on Ray and Airflow used by 70 data scientists and ML engineers"
+    },
+    {
+      "requirement": "Hands-on experience using AI tools to accelerate how you work",
+      "status": "met",
+      "evidence": "Use Claude Code and Cursor daily for design exploration, migration scripts and test generation"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Compensation expectations (no range posted)"
+  ],
+  "facts": {
+    "full_name": "Wei Zhang",
+    "email": "wei.zhang@example.com",
+    "location": "Seattle, WA",
+    "current_title": "Staff Software Engineer, ML Platform",
+    "current_employer": "Ledgerwise Payments",
+    "positions": [
+      {
+        "title": "Staff Software Engineer, ML Platform",
+        "employer": "Ledgerwise Payments",
+        "start": "2020-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Senior Software Engineer",
+        "employer": "Cascadia Cloud Services",
+        "start": "2016-01",
+        "end": "2020-02",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineer",
+        "employer": "Orbitline Games",
+        "start": "2012-07",
+        "end": "2015-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "M.S.",
+        "field": "Computer Science",
+        "school": "University of Washington",
+        "year": 2012
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Java",
+      "Go",
+      "Python",
+      "Scala",
+      "Kafka",
+      "Flink",
+      "Spark",
+      "Ray",
+      "Kubernetes",
+      "AWS (SageMaker, EKS)",
+      "Redis",
+      "DynamoDB",
+      "gRPC",
+      "feature stores",
+      "model serving",
+      "LLM fine-tuning pipelines"
+    ],
+    "numbers": [
+      "14 years",
+      "the last 6",
+      "3 teams, 22 engineers",
+      "3-year architecture strategy",
+      "900 features",
+      "p99 under 8 ms",
+      "40,000 requests per second",
+      "reduced inference cost by 38%",
+      "from 2 weeks to 1 day",
+      "70 data scientists and ML engineers",
+      "Mentor 8 senior engineers",
+      "3 promoted to staff",
+      "2 million operations per second",
+      "99.99% durability",
+      "5 million monthly players"
+    ],
+    "work_authorization": "U.S. citizen.",
+    "compensation_expectation": null,
+    "years_experience_total": 14
+  },
+  "format_traits": [
+    "chronological",
+    "steady_progression",
+    "achievements_with_numbers"
+  ],
+  "notes": "Clear strong fit for a Staff ML Platform role. Team of 22 is the group he tech-leads, not manages."
+}

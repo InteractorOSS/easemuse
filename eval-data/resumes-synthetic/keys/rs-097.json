@@ -1,0 +1,141 @@
+{
+  "id": "rs-097",
+  "target_jd": "jd-30",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Hands-on distributed, event-driven systems and incident leadership; people-management duties (hiring, coaching) not shown."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "9+ years in software engineering; whether 'Engineering Lead' since 2023-01 is engineering management is unclear."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Event-driven ad-tech at scale satisfies the 'or' clause, but no financial systems or transaction correctness work."
+    },
+    "career_level_years": {
+      "level": "unknown",
+      "why": "Title 'Engineering Lead' over 6 engineers could be a tech-lead IC or a manager; to confirm."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Austin, TX; JD is Remote - USA."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; B.S. Computer Science."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "Expects $270,000 base, above the $218,025—$256,500 range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "7+ years in software engineering with at least 2 years of engineering management experience, including hiring, coaching, and developing engineers",
+      "status": "unknown",
+      "evidence": "Lead a group of 6 engineers on the real-time bidding pipeline; run sprint planning and design reviews."
+    },
+    {
+      "requirement": "Proven track record delivering and operating distributed systems at scale in production, with hands-on ability to review code, lead incidents, and triage issues",
+      "status": "met",
+      "evidence": "Event-driven architecture on Kafka handling 2M events per second at p99 latency under 50 ms."
+    },
+    {
+      "requirement": "Demonstrated success translating ambiguous, long-horizon technical problems into concrete execution plans with measurable milestones",
+      "status": "met",
+      "evidence": "Defined a 4-quarter plan to migrate the bidder to a new auction model; 3 of 4 milestones delivered so far."
+    },
+    {
+      "requirement": "Experience with financial systems, event-driven architectures, or high-precision transaction processing where correctness and reliability are critical",
+      "status": "met",
+      "evidence": "Event-driven architecture on Kafka"
+    },
+    {
+      "requirement": "Comfort leading teams with diverse scope (backend services, streaming pipelines, and full-stack tooling)",
+      "status": "met",
+      "evidence": "Built streaming aggregation jobs in Flink and the campaign-reporting UI in TypeScript."
+    },
+    {
+      "requirement": "Utilizes generative AI responsibly, maintaining human oversight to deliver business-ready outputs",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Whether 'Engineering Lead' is a people-manager role (direct reports, hiring, performance reviews)",
+    "Use of generative AI",
+    "Base salary expectation above range"
+  ],
+  "facts": {
+    "full_name": "Owen Fitzgerald",
+    "email": "owen.fitzgerald@example.com",
+    "location": "Austin, TX",
+    "current_title": "Engineering Lead",
+    "current_employer": "Bidwell Media",
+    "positions": [
+      {
+        "title": "Engineering Lead",
+        "employer": "Bidwell Media",
+        "start": "2023-01",
+        "end": "present",
+        "team_size": 6
+      },
+      {
+        "title": "Senior Software Engineer",
+        "employer": "Bidwell Media",
+        "start": "2019-05",
+        "end": "2022-12",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineer",
+        "employer": "Quillstone Analytics",
+        "start": "2017-03",
+        "end": "2019-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "school": "Texas A&M University",
+        "year": 2017
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Go",
+      "Java",
+      "Kafka",
+      "Flink",
+      "TypeScript",
+      "Kubernetes",
+      "Terraform"
+    ],
+    "numbers": [
+      "$270,000",
+      "group of 6 engineers",
+      "2M events per second",
+      "p99 latency under 50 ms",
+      "4-quarter plan",
+      "3 of 4 milestones"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "$270,000",
+    "years_experience_total": 9
+  },
+  "format_traits": [
+    "all_caps_headings",
+    "unclear_title",
+    "compensation_stated",
+    "compensation_above_range",
+    "to_confirm_ambiguity"
+  ],
+  "notes": "Partial: tests an ambiguous 'Engineering Lead' title against a 2+ years EM requirement; comp above range; financial domain absent but 'or' clause met."
+}

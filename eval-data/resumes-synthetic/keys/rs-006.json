@@ -1,0 +1,131 @@
+{
+  "id": "rs-006",
+  "target_jd": "jd-02",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Administrative generalist tasks; does not independently lead the talent lifecycle."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "No HRBP experience and no coaching of Director/VP leaders."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "E-commerce scale-up is high-growth tech-adjacent."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "4 years total HR vs 7+ required; no HRBP years."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Based in Toronto and requires U.S. sponsorship for a US-remote role."
+    },
+    "education_certification": {
+      "level": "gap",
+      "why": "Diploma rather than BA/BS; CHRP in progress."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3–5 years of HRBP experience in a high-growth technology company, with 7+ years of overall HR or related experience",
+      "status": "not_met",
+      "evidence": "4 years of HR experience"
+    },
+    {
+      "requirement": "Independently lead all aspects of the talent management lifecycle (performance management, org design, calibration, engagement, leadership development)",
+      "status": "not_met",
+      "evidence": "administer the performance review tool and run engagement survey logistics"
+    },
+    {
+      "requirement": "Track record of coaching and influencing Director and VP+ level leaders",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Exceptional written and verbal communication, including change management plans",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Analytical mindset using data and financial metrics to drive strategic planning",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Working knowledge of employment law",
+      "status": "not_met",
+      "evidence": "First point of contact for manager questions on Ontario Employment Standards Act policies."
+    },
+    {
+      "requirement": "BA/BS degree in a relevant field",
+      "status": "not_met",
+      "evidence": "Diploma, Human Resources Management, Seneca Polytechnic, 2021"
+    },
+    {
+      "requirement": "Based in the United States (US-remote role)",
+      "status": "not_met",
+      "evidence": "Toronto, ON, Canada ... would require U.S. work visa sponsorship"
+    }
+  ],
+  "disqualifiers_present": [
+    "Located outside the U.S. and requires U.S. work visa sponsorship for a US-remote role"
+  ],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Wei-Ling Chen",
+    "email": "wei-ling.chen@example.com",
+    "location": "Toronto, ON, Canada",
+    "current_title": "People Generalist",
+    "current_employer": "Maplecart Commerce",
+    "positions": [
+      {
+        "title": "People Generalist",
+        "employer": "Maplecart Commerce",
+        "start": "2023-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "People Coordinator",
+        "employer": "Maplecart Commerce",
+        "start": "2022-01",
+        "end": "2023-02",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "Diploma",
+        "field": "Human Resources Management",
+        "school": "Seneca Polytechnic",
+        "year": 2021
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "BambooHR"
+    ],
+    "numbers": [
+      "4 years of HR experience",
+      "180 employees"
+    ],
+    "work_authorization": "Canadian citizen; would require U.S. work visa sponsorship",
+    "compensation_expectation": null,
+    "years_experience_total": 4
+  },
+  "format_traits": [
+    "chronological",
+    "work_authorization_sponsorship",
+    "location_outside_country",
+    "too_junior"
+  ],
+  "notes": "Weak: too junior, no degree, and located in Canada needing U.S. sponsorship for a US-remote role. Tests that work authorization is read as a disqualifier."
+}

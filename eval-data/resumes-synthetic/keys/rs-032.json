@@ -1,0 +1,144 @@
+{
+  "id": "rs-032",
+  "target_jd": "jd-10",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Owns legal holds, collections, DISCO e-discovery, intake/trackers and outside counsel coordination: the full list of JD duties."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "10 years litigation paralegal, 6+ in-house at a tech platform supporting employment and IP litigation."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "In-house at a consumer social platform, very close to Reddit's context."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Senior/lead level; 10 years exceeds 5+."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Oakland, CA; already in SF office twice a week."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. plus paralegal certificate; no specific requirement in JD."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of paralegal experience supporting litigation teams",
+      "status": "met",
+      "evidence": "I am a litigation paralegal with ten years of experience, the last six of them in-house"
+    },
+    {
+      "requirement": "Strong command of litigation operations, including intake and tracking, calendaring, document management, outside counsel coordination, document preservation, and e-discovery",
+      "status": "met",
+      "evidence": "I own the legal hold program end to end ... I built our matter intake form and Airtable matter tracker"
+    },
+    {
+      "requirement": "Demonstrated familiarity with various e-discovery tools and systems (strong preference for Google Suite, Slack, and DISCO)",
+      "status": "met",
+      "evidence": "DISCO, Relativity, Google Workspace and Google Vault, Slack Enterprise Grid"
+    },
+    {
+      "requirement": "Excellent judgment, attention to detail, organizational skills, and ability to manage multiple priorities across a diverse and active docket",
+      "status": "met",
+      "evidence": "support the employment, IP and general litigation attorneys across a docket of roughly 60 active matters"
+    },
+    {
+      "requirement": "Technological adaptability and interest in testing and implementing AI tools to improve efficiencies and automate routine tasks",
+      "status": "met",
+      "evidence": "I piloted DISCO's AI-assisted review on 3 matters; it reduced first-pass review hours by 35%"
+    },
+    {
+      "requirement": "Able to work from the San Francisco office approximately once a week (hybrid)",
+      "status": "met",
+      "evidence": "I live in Oakland and am in our San Francisco office twice a week today"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Gabriela Montes",
+    "email": "gabriela.montes@example.com",
+    "location": "Oakland, CA",
+    "current_title": "Senior Litigation Paralegal",
+    "current_employer": "Corvid Social, Inc.",
+    "positions": [
+      {
+        "title": "Senior Litigation Paralegal",
+        "employer": "Corvid Social, Inc.",
+        "start": "2020-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Litigation Paralegal",
+        "employer": "Haverford Kline LLP",
+        "start": "2016-06",
+        "end": "2020-02",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Political Science",
+        "school": "University of California, Davis",
+        "year": 2015
+      },
+      {
+        "degree": "Paralegal Certificate",
+        "field": "Paralegal Studies",
+        "school": "UC Berkeley Extension",
+        "year": 2016
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "DISCO",
+      "Relativity",
+      "Google Workspace",
+      "Google Vault",
+      "Slack Enterprise Grid",
+      "Airtable",
+      "Looker Studio",
+      "Ironclad",
+      "ChatGPT Enterprise",
+      "Zapier",
+      "legal holds",
+      "e-discovery"
+    ],
+    "numbers": [
+      "roughly 60 active matters",
+      "210 legal holds",
+      "on 3 matters",
+      "by 35%",
+      "12 outside counsel firms",
+      "roughly $9M a year",
+      "a team of 5 attorneys",
+      "4 jury trials"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 10
+  },
+  "format_traits": [
+    "wordy",
+    "first_person",
+    "steady_progression",
+    "quantified_achievements",
+    "comp_missing",
+    "work_auth_missing"
+  ],
+  "notes": "Strong: in-house tech litigation paralegal with DISCO/Google/Slack, legal hold ownership, AI pilot, local to SF. Years written in words ('ten years') to test extraction."
+}

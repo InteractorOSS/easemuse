@@ -1,0 +1,149 @@
+{
+  "id": "rs-020",
+  "target_jd": "jd-07",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Data-driven TA, executive influence and technical hiring evidenced."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Leads TA end to end but for an organization of 35, below the 50+ scale."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Robotics and AI/ML hiring match the technical environment."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "13 years leading TA teams vs 15+; 'Head of Talent' level unclear relative to Senior Director; 4 manager reports vs 5+."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Pittsburgh-based; states relocation to the Bay Area in 2026-12."
+    },
+    "education_certification": {
+      "level": "partial",
+      "why": "B.A. Psychology; arguably a related field but not HR/Business/OD."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "Base expectation $340,000, within USD 291,000–369,000."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "15+ years of TA leadership experience",
+      "status": "not_met",
+      "evidence": "the last 13 leading teams"
+    },
+    {
+      "requirement": "3+ years at the Senior Director level leading organizations of 50+",
+      "status": "not_met",
+      "evidence": "organization of 35 across recruiting, sourcing, coordination and university programs"
+    },
+    {
+      "requirement": "Leader-of-leaders model, managing 5+ direct report managers",
+      "status": "not_met",
+      "evidence": "with 4 managers reporting to me"
+    },
+    {
+      "requirement": "Recruiting in a complex, high-growth technical environment (Autonomous Systems, AI/ML, Hardware)",
+      "status": "met",
+      "evidence": "hire robotics, AI/ML and embedded engineers"
+    },
+    {
+      "requirement": "Data-driven: designing and implementing talent ecosystems (KPIs, scorecards, metrics)",
+      "status": "met",
+      "evidence": "Built hiring dashboards and recruiter scorecards in Looker; cut median time-to-fill for ML roles from 74 to 51 days."
+    },
+    {
+      "requirement": "Executive presence and ability to influence and present to C-level executives",
+      "status": "met",
+      "evidence": "Present the annual hiring plan to the CEO and CTO."
+    },
+    {
+      "requirement": "Bachelor's degree in Human Resources, Business Administration, Organizational Development, or related field",
+      "status": "unknown",
+      "evidence": "B.A., Psychology, University of Pittsburgh, 2010"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Level of 'Head of Talent' (Director vs Senior Director equivalent)",
+    "Relocation date vs start date",
+    "Whether Psychology counts as a related degree"
+  ],
+  "facts": {
+    "full_name": "Olivia Brandt",
+    "email": "olivia.brandt@example.com",
+    "location": "Pittsburgh, PA",
+    "current_title": "Head of Talent",
+    "current_employer": "Steelvane Robotics",
+    "positions": [
+      {
+        "title": "Head of Talent",
+        "employer": "Steelvane Robotics",
+        "start": "2022-03",
+        "end": "present",
+        "team_size": 35
+      },
+      {
+        "title": "Director, Recruiting",
+        "employer": "Three Rivers AI Lab",
+        "start": "2018-01",
+        "end": "2022-02",
+        "team_size": 18
+      },
+      {
+        "title": "Senior Recruiting Manager",
+        "employer": "Keystone Mobile",
+        "start": "2013-05",
+        "end": "2017-12",
+        "team_size": null
+      },
+      {
+        "title": "Recruiter",
+        "employer": "Monongahela Staffing",
+        "start": "2010-06",
+        "end": "2013-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Psychology",
+        "school": "University of Pittsburgh",
+        "year": 2010
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Looker"
+    ],
+    "numbers": [
+      "Base salary expectation: $340,000",
+      "16 years",
+      "the last 13",
+      "1,400-person robotics company",
+      "organization of 35",
+      "4 managers",
+      "from 74 to 51 days",
+      "from 3 to 18 people",
+      "420 researchers and engineers"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "Base salary expectation: $340,000",
+    "years_experience_total": 16
+  },
+  "format_traits": [
+    "chronological",
+    "relocation_stated",
+    "comp_stated_within_range",
+    "unclear_title"
+  ],
+  "notes": "Partial with a 'to confirm' on the 'Head of Talent' title level; right industry but below the 50+ org, 5+ managers and 15-year bars."
+}

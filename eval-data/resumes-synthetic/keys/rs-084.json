@@ -1,0 +1,142 @@
+{
+  "id": "rs-084",
+  "target_jd": "jd-26",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Program budgets, forecasts, cost baselines, variance analysis and business cases match the JD responsibilities one-for-one."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "13 years of program/project financial management for vehicle and aerospace programs."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "EV OEM program finance; matches the automotive OEM bonus item."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Senior manager level with 10+ years."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "San Jose, CA is within commuting distance of Foster City."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Accounting plus MBA (bonus)."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated; range is $170,000–$204,000."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "BS in Finance, Accounting, Business Administration or related field",
+      "status": "met",
+      "evidence": "B.S., Accounting, San José State University, 2013"
+    },
+    {
+      "requirement": "At least 10 years in Program/Project Financial Management",
+      "status": "met",
+      "evidence": "13 years in program and project financial management"
+    },
+    {
+      "requirement": "Strong analytical and quantitative skills",
+      "status": "met",
+      "evidence": "forecast accuracy improved from ±12% to ±4%"
+    },
+    {
+      "requirement": "Excellent communication and collaboration abilities",
+      "status": "met",
+      "evidence": "present root causes to the VP of Vehicle Engineering"
+    },
+    {
+      "requirement": "Proficiency in Google Sheets and Financial Modeling Methodologies",
+      "status": "met",
+      "evidence": "Built a Google Sheets and Anaplan driver-based model"
+    },
+    {
+      "requirement": "(inferred from responsibilities) Hands-on program budgeting, forecasting, cost baselines and variance analysis",
+      "status": "met",
+      "evidence": "Set cost baselines at program gate reviews; track monthly variances"
+    },
+    {
+      "requirement": "(inferred) Able to work from Foster City, CA (posting location; work arrangement not stated)",
+      "status": "met",
+      "evidence": "San Jose, CA"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Compensation expectation"
+  ],
+  "facts": {
+    "full_name": "Anita Raghunathan",
+    "email": "anita.raghunathan@example.com",
+    "location": "San Jose, CA",
+    "current_title": "Senior Program Finance Manager",
+    "current_employer": "Voltreach Motors",
+    "positions": [
+      {
+        "title": "Senior Program Finance Manager",
+        "employer": "Voltreach Motors",
+        "start": "2019-05",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Program Financial Analyst / Senior Analyst",
+        "employer": "Aerolyte Systems",
+        "start": "2013-07",
+        "end": "2019-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "MBA",
+        "field": null,
+        "school": "Santa Clara University",
+        "year": 2018
+      },
+      {
+        "degree": "B.S.",
+        "field": "Accounting",
+        "school": "San José State University",
+        "year": 2013
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Google Sheets",
+      "Excel",
+      "SAP S/4HANA",
+      "Anaplan",
+      "Looker",
+      "financial modeling"
+    ],
+    "numbers": [
+      "13 years",
+      "two vehicle programs",
+      "$450M development budget",
+      "from ±12% to ±4%",
+      "3 new initiatives",
+      "$60M battery-pack tooling investment",
+      "$7.5M in FY2024",
+      "6 defense and commercial programs"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 13
+  },
+  "format_traits": [
+    "chronological",
+    "achievements_with_numbers",
+    "steady_progression"
+  ],
+  "notes": "Strong: program finance at an EV OEM with every bonus item (MBA, SAP S/4HANA, Anaplan, automotive). jd-26 is very short: the degree/years/skills items are stated; budget/variance and location must-haves are inferred and labelled as such."
+}

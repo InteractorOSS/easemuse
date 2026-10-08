@@ -1,0 +1,131 @@
+{
+  "id": "rs-046",
+  "target_jd": "jd-14",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Intern-level intake logging and repository work; no evidence of analysis tooling or process ownership."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 7 months of legal ops internship plus part-time admin; under 3 years of operational experience."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Media company legal team and legal aid exposure."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Entry level vs. 3+ years required."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Bronx, NY; can work in office five days a week."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Legal Studies."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3+ years of operational experience, preferably in a fast-paced or dynamic legal team environment",
+      "status": "not_met",
+      "evidence": "Legal Operations Intern — Fernhill Media Group, New York, NY — 2025-06 to 2025-12"
+    },
+    {
+      "requirement": "Experience with technical tooling and data analysis project management software",
+      "status": "not_met",
+      "evidence": "Comfortable with Microsoft Office and Google Workspace."
+    },
+    {
+      "requirement": "Meticulous attention to detail, including maintaining accurate records and diligently tracking key project metrics",
+      "status": "unknown",
+      "evidence": "Uploaded executed contracts to the contract repository and entered key dates."
+    },
+    {
+      "requirement": "Manage and triage incoming requests for the Legal team as first point of contact, ensuring items are prioritized, routed, tracked and resolved",
+      "status": "met",
+      "evidence": "Logged incoming NDA and vendor contract requests in a shared tracker and sent them to the right attorney."
+    },
+    {
+      "requirement": "Demonstrated experience identifying and acting upon opportunities to improve processes and tools",
+      "status": "unknown",
+      "evidence": "Helped draft a one-page guide on how to submit a legal request."
+    },
+    {
+      "requirement": "Able to work from the New York, NY office (in-office with possible hybrid)",
+      "status": "met",
+      "evidence": "able to work in the office five days a week"
+    }
+  ],
+  "disqualifiers_present": [
+    "Well short of 3+ years of operational experience"
+  ],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Aaliyah Brooks",
+    "email": "aaliyah.brooks@example.com",
+    "location": "Bronx, NY",
+    "current_title": "Administrative Assistant (Part-Time)",
+    "current_employer": "Bronx Community Legal Aid",
+    "positions": [
+      {
+        "title": "Administrative Assistant (Part-Time)",
+        "employer": "Bronx Community Legal Aid",
+        "start": "2026-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Legal Operations Intern",
+        "employer": "Fernhill Media Group",
+        "start": "2025-06",
+        "end": "2025-12",
+        "team_size": null
+      },
+      {
+        "title": "Shift Supervisor",
+        "employer": "Grand Concourse Coffee",
+        "start": "2021-09",
+        "end": "2025-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Legal Studies",
+        "school": "John Jay College of Criminal Justice (CUNY)",
+        "year": 2025
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Microsoft Office",
+      "Google Workspace"
+    ],
+    "numbers": [
+      "6 semesters",
+      "12 New York nonprofits",
+      "3 staff attorneys",
+      "five days a week"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 1
+  },
+  "format_traits": [
+    "education_first",
+    "missing_skills_section",
+    "too_junior",
+    "recent_graduate"
+  ],
+  "notes": "Weak: recent graduate with a legal ops internship; misses the 3+ years and tooling must-haves. years_experience_total counts only post-graduation professional work."
+}

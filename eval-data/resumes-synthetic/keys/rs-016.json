@@ -1,0 +1,151 @@
+{
+  "id": "rs-016",
+  "target_jd": "jd-06",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Roadmap ownership, automation/AI, data accuracy and compliance all evidenced."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Leads a 22-person global team across 4 regions and scaled people ops to 27 countries, including new-entity setup via PEO/EOR."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Global SaaS company; Workday, ServiceNow case management and Greenhouse match preferred tech."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "14 years HR/People Ops; leading global teams since 2019-03 (7+ years)."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Vancouver, Canada and remote; Canada is an eligible location."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.Comm in HR Management and CPHR."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated; JD's posted range applies to US residents only, so Canadian pay must be confirmed."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of HR/People Operations experience, including 5+ years experience leading global teams",
+      "status": "met",
+      "evidence": "I lead a team of 22 people operations specialists, analysts and managers located in Vancouver, Dublin, Kraków and Singapore"
+    },
+    {
+      "requirement": "Proven track record building and scaling people operations functions in complex, multi-regional global organizations",
+      "status": "met",
+      "evidence": "supporting 3,200 employees in 27 countries ... led people operations setup for 9 new countries"
+    },
+    {
+      "requirement": "Working knowledge of global employment compliance, including direct experience with works councils or employee representative bodies",
+      "status": "met",
+      "evidence": "two restructurings that required consultation with works councils in Germany and France"
+    },
+    {
+      "requirement": "Ability to move between executive-level roadmap and detailed process debugging",
+      "status": "met",
+      "evidence": "one week I am presenting a three-year operations roadmap to our executive team, the next I am sitting with an analyst tracing why a termination record did not flow"
+    },
+    {
+      "requirement": "Experience leveraging AI and automation to improve and streamline operations",
+      "status": "met",
+      "evidence": "introduced an AI assistant that now deflects 38% of incoming employee questions"
+    },
+    {
+      "requirement": "Strong attention to detail with a focus on data accuracy",
+      "status": "met",
+      "evidence": "critical-field error rates from 4.1% to 0.3%"
+    },
+    {
+      "requirement": "Located in the United States or Canada (remote)",
+      "status": "met",
+      "evidence": "Vancouver, BC, Canada · … Canadian citizen · Remote"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Canadian compensation band (posted range is US-only)"
+  ],
+  "facts": {
+    "full_name": "Siobhan Gallagher",
+    "email": "siobhan.gallagher@example.com",
+    "location": "Vancouver, BC, Canada",
+    "current_title": "Senior Director, Global People Operations",
+    "current_employer": "Northlight Data",
+    "positions": [
+      {
+        "title": "Senior Director, Global People Operations",
+        "employer": "Northlight Data",
+        "start": "2021-09",
+        "end": "present",
+        "team_size": 22
+      },
+      {
+        "title": "Director, People Operations",
+        "employer": "Northlight Data",
+        "start": "2019-03",
+        "end": "2021-08",
+        "team_size": 9
+      },
+      {
+        "title": "Manager, HR Operations",
+        "employer": "Cascadia Outfitters",
+        "start": "2015-01",
+        "end": "2019-02",
+        "team_size": null
+      },
+      {
+        "title": "HR Generalist",
+        "employer": "Cascadia Outfitters",
+        "start": "2012-06",
+        "end": "2014-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "Bachelor of Commerce",
+        "field": "Human Resources Management",
+        "school": "University of British Columbia",
+        "year": 2012
+      }
+    ],
+    "certifications": [
+      "Chartered Professional in Human Resources (CPHR)"
+    ],
+    "skills": [
+      "Workday",
+      "ServiceNow HR",
+      "Greenhouse",
+      "Google Workspace",
+      "Python (basic)"
+    ],
+    "numbers": [
+      "a team of 22",
+      "3,200 employees in 27 countries",
+      "deflects 38% of incoming employee questions",
+      "9 new countries",
+      "from 4.1% to 0.3%",
+      "from 4 to 9 people",
+      "2,000 retail employees"
+    ],
+    "work_authorization": "Canadian citizen",
+    "compensation_expectation": null,
+    "years_experience_total": 14
+  },
+  "format_traits": [
+    "wordy",
+    "first_person_narrative",
+    "steady_progression",
+    "non_us_eligible_location"
+  ],
+  "notes": "Strong: narrative format with numbers in prose; Canadian location is eligible per JD and must not be flagged as a disqualifier."
+}

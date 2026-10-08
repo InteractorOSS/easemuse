@@ -1,0 +1,130 @@
+{
+  "id": "rs-094",
+  "target_jd": "jd-29",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Linux administration, cloud and scripting fit; monitoring is Datadog rather than Prometheus."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "About 7 years of Linux systems work, over the 4+ required."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Prior DoD program on a closed network, then commercial SaaS."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Mid-level engineer; appropriate for SRE."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Baltimore, MD is commutable to Washington, D.C."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Physics is listed as a preferred engineering background."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "Secret clearance held 2019–2023 and no longer active; whether it can be reinstated is to confirm. No comp stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Active security clearance",
+      "status": "not_met",
+      "evidence": "Secret, held 2019–2023 (no longer active)"
+    },
+    {
+      "requirement": "4+ years of experience with Linux system administration (RHEL or equivalent preferred)",
+      "status": "met",
+      "evidence": "Administered CentOS and RHEL 7 servers"
+    },
+    {
+      "requirement": "Experience with cloud-based hosting platforms like AWS, Azure, or GCP and/or experience with hardware-based environments",
+      "status": "met",
+      "evidence": "Run Ubuntu and Amazon Linux hosts and EKS clusters"
+    },
+    {
+      "requirement": "Familiarity with monitoring systems using tools like Prometheus and writing health checks",
+      "status": "unknown",
+      "evidence": "Monitoring and alerting in Datadog; wrote synthetic checks for 40 public endpoints."
+    },
+    {
+      "requirement": "Proficiency with at least one programming language, such as Java, Go, Python, JavaScript, Bash, or similar languages",
+      "status": "met",
+      "evidence": "Terraform and Python automation"
+    },
+    {
+      "requirement": "Strong engineering background, preferred in fields such as Computer Science, Mathematics, Software Engineering, Physics, and Data Science",
+      "status": "met",
+      "evidence": "B.S., Physics, University of Maryland, Baltimore County, 2019"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Whether the former Secret clearance can be reinstated or a new investigation would be required",
+    "Familiarity with Prometheus specifically",
+    "U.S. citizenship (not stated)"
+  ],
+  "facts": {
+    "full_name": "Gabriel Sousa",
+    "email": "gabriel.sousa@example.com",
+    "location": "Baltimore, MD",
+    "current_title": "DevOps Engineer",
+    "current_employer": "Harborview Logistics Tech",
+    "positions": [
+      {
+        "title": "DevOps Engineer",
+        "employer": "Harborview Logistics Tech",
+        "start": "2023-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Systems Administrator",
+        "employer": "Chesapeake Mission Systems",
+        "start": "2019-07",
+        "end": "2023-01",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Physics",
+        "school": "University of Maryland, Baltimore County",
+        "year": 2019
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Linux (RHEL, CentOS, Ubuntu)",
+      "AWS",
+      "EKS",
+      "Terraform",
+      "Datadog",
+      "Nagios",
+      "Python",
+      "Bash",
+      "STIG hardening"
+    ],
+    "numbers": [
+      "40 public endpoints",
+      "250 hosts"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "chronological",
+    "clearance_expired",
+    "to_confirm_ambiguity"
+  ],
+  "notes": "Partial: strong Linux/cloud background but clearance lapsed (2023) and Prometheus not shown. The lapsed clearance is the key item to confirm."
+}

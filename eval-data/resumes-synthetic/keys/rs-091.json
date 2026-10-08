@@ -1,0 +1,128 @@
+{
+  "id": "rs-091",
+  "target_jd": "jd-28",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Personnel security processing, NISPOM self-inspections and DCSA assessments; DD254 work was assisting, not owning."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "6 years as a personnel security specialist at a cleared contractor."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Cleared defense contractor, but current role is non-cleared healthcare security."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Specialist level moving to Deputy FSO is a reasonable step."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Huntsville, AL; JD considers other locations and the candidate will relocate to D.C."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; B.A. Political Science."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "Secret clearance inactive since 2025-03 — reinstatement eligibility to confirm. No comp stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "An active U.S. government security clearance (Secret minimum, Top Secret preferred)",
+      "status": "unknown",
+      "evidence": "Secret (inactive since 2025-03; last investigation 2021)"
+    },
+    {
+      "requirement": "Eligibility for SCI",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "5+ years in industrial or personnel security at a cleared contractor, government security office, or in the military",
+      "status": "met",
+      "evidence": "Personnel Security Specialist — Cottonwood Systems Engineering, Huntsville, AL — 2019-02 to 2025-03"
+    },
+    {
+      "requirement": "Hands-on NISPOM, DCSA, and DD254 experience",
+      "status": "met",
+      "evidence": "Prepared self-inspections under NISPOM; supported 3 DCSA assessments."
+    },
+    {
+      "requirement": "Working experience with DISS-JVS, NISS, SWFT, and NBIS eApp",
+      "status": "unknown",
+      "evidence": "Processed 250+ clearance actions per year in DISS and maintained records in NISS."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Whether the Secret clearance can be reinstated (inactive since 2025-03) and is still within the reinstatement window",
+    "SCI eligibility",
+    "Experience with SWFT and NBIS eApp",
+    "Depth of hands-on DD254 ownership",
+    "Relocation timing"
+  ],
+  "facts": {
+    "full_name": "Stephanie Lambert",
+    "email": "stephanie.lambert@example.com",
+    "location": "Huntsville, AL",
+    "current_title": "Security Coordinator",
+    "current_employer": "Valleyview Medical Center",
+    "positions": [
+      {
+        "title": "Security Coordinator",
+        "employer": "Valleyview Medical Center",
+        "start": "2025-05",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Personnel Security Specialist",
+        "employer": "Cottonwood Systems Engineering",
+        "start": "2019-02",
+        "end": "2025-03",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Political Science",
+        "school": "Auburn University",
+        "year": 2018
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "DISS",
+      "NISS",
+      "NISPOM",
+      "insider threat programs",
+      "Excel",
+      "Lenel OnGuard"
+    ],
+    "numbers": [
+      "2,000 staff",
+      "250+ clearance actions per year",
+      "3 DCSA assessments",
+      "900 cleared employees",
+      "within 60 days of an offer"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "minimal_headings",
+    "clearance_inactive",
+    "relocation_stated",
+    "to_confirm_ambiguity"
+  ],
+  "notes": "Partial: right industrial-security background but clearance is inactive (to confirm), SCI eligibility and SWFT/NBIS unknown, and not in D.C."
+}

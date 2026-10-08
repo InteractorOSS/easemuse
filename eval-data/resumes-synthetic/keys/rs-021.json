@@ -1,0 +1,132 @@
+{
+  "id": "rs-021",
+  "target_jd": "jd-07",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Solid high-volume recruiting operations and metrics; no technical talent strategy."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "Leads a team of 8; no organization of 50+ or leader-of-leaders model."
+    },
+    "industry_functional": {
+      "level": "gap",
+      "why": "Retail and banking hourly hiring; no autonomous, AI/ML or hardware recruiting."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 10.5 years in TA management roles; no Senior Director tenure."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Charlotte, NC; no relocation to Foster City mentioned."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Business Administration."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "15+ years of TA leadership experience",
+      "status": "not_met",
+      "evidence": "12 years in retail and financial services recruiting"
+    },
+    {
+      "requirement": "3+ years at the Senior Director level leading organizations of 50+",
+      "status": "not_met",
+      "evidence": "Lead a team of 8 recruiters and coordinators"
+    },
+    {
+      "requirement": "Leader-of-leaders model, managing 5+ direct report managers",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Recruiting in a complex, high-growth technical environment (Autonomous Systems, AI/ML, Hardware)",
+      "status": "not_met",
+      "evidence": "hiring 1,200 store, warehouse and corporate employees a year"
+    },
+    {
+      "requirement": "Data-driven: designing and implementing talent ecosystems (KPIs, scorecards, metrics)",
+      "status": "met",
+      "evidence": "Reduced cost-per-hire by 22% ... Report monthly hiring metrics to the CHRO."
+    },
+    {
+      "requirement": "Executive presence and ability to influence and present to C-level executives",
+      "status": "unknown",
+      "evidence": "Report monthly hiring metrics to the CHRO."
+    },
+    {
+      "requirement": "Bachelor's degree in Human Resources, Business Administration, Organizational Development, or related field",
+      "status": "met",
+      "evidence": "B.S., Business Administration, University of North Carolina at Charlotte, 2013"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Terrence Washington",
+    "email": "terrence.washington@example.com",
+    "location": "Charlotte, NC",
+    "current_title": "HEAD OF TALENT ACQUISITION",
+    "current_employer": "QUEEN CITY HOME FURNISHINGS",
+    "positions": [
+      {
+        "title": "HEAD OF TALENT ACQUISITION",
+        "employer": "QUEEN CITY HOME FURNISHINGS",
+        "start": "2020-08",
+        "end": "present",
+        "team_size": 8
+      },
+      {
+        "title": "TALENT ACQUISITION MANAGER",
+        "employer": "PIEDMONT REGIONAL BANK",
+        "start": "2016-02",
+        "end": "2020-07",
+        "team_size": 4
+      },
+      {
+        "title": "CORPORATE RECRUITER",
+        "employer": "PIEDMONT REGIONAL BANK",
+        "start": "2014-01",
+        "end": "2016-01",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business Administration",
+        "school": "University of North Carolina at Charlotte",
+        "year": 2013
+      }
+    ],
+    "certifications": [],
+    "skills": [],
+    "numbers": [
+      "12 years",
+      "a team of 8",
+      "1,200 store, warehouse and corporate employees a year",
+      "Reduced cost-per-hire by 22%",
+      "Managed 4 recruiters"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 12
+  },
+  "format_traits": [
+    "all_caps_headings",
+    "chronological",
+    "industry_mismatch",
+    "location_mismatch"
+  ],
+  "notes": "Weak: same title ('Head of Talent Acquisition') but non-technical, small team and not local. Tests that title matching alone does not drive the score."
+}

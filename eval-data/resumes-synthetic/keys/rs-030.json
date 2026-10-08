@@ -1,0 +1,146 @@
+{
+  "id": "rs-030",
+  "target_jd": "jd-09",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Owns close, accruals and reconciliations, but no Power Query and no automation/AI tooling shown."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Close ownership since 2023-06; earlier roles are staff/AP level, so progressive close ownership is roughly 5 years only if the staff role counts."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Healthcare services and a small analytics company; no SaaS, public accounting or SOX environment (preferred items)."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "About 7 years total, but only ~5 years at GL/close level; 'Accounting Lead' scope unclear."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Austin, TX; remote in the US is allowed. Work authorization not stated (unknown)."
+    },
+    "education_certification": {
+      "level": "partial",
+      "why": "B.B.A. Accounting; no CPA (preferred only)."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of progressive accounting with hands-on ownership of the month-end close process",
+      "status": "met",
+      "evidence": "Run the monthly close for a 140-person analytics company"
+    },
+    {
+      "requirement": "Strong knowledge of US GAAP and accrual accounting",
+      "status": "met",
+      "evidence": "US GAAP, accrual accounting, revenue cut-off, fixed asset depreciation"
+    },
+    {
+      "requirement": "Proficiency with NetSuite or equivalent ERP systems, leveraging automation and AI tools to streamline accounting workflows",
+      "status": "unknown",
+      "evidence": "Sage Intacct, QuickBooks Online, Bill.com, Expensify"
+    },
+    {
+      "requirement": "Demonstrated ability to build cross-functional partnerships and communicate effectively with stakeholders across all levels",
+      "status": "met",
+      "evidence": "Work with department heads on monthly accruals and budget questions"
+    },
+    {
+      "requirement": "Advanced Excel skills, including Power Query and complex formulas, to produce audit-ready reporting and analysis",
+      "status": "not_met",
+      "evidence": "Excel: pivot tables, VLOOKUP, SUMIFS"
+    },
+    {
+      "requirement": "Based in the United States (US hub or remote in the United States)",
+      "status": "met",
+      "evidence": "Austin, TX"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "What 'Accounting Lead' means: does Tomás manage anyone, and who reviews his close?",
+    "Any use of automation or AI tools in the close process",
+    "Power Query / advanced Excel proficiency",
+    "U.S. work authorization (not stated)"
+  ],
+  "facts": {
+    "full_name": "Tomás Herrera",
+    "email": "tomas.herrera@example.com",
+    "location": "Austin, TX",
+    "current_title": "Accounting Lead",
+    "current_employer": "Verdant Loop Analytics",
+    "positions": [
+      {
+        "title": "Accounting Lead",
+        "employer": "Verdant Loop Analytics",
+        "start": "2023-06",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Staff Accountant",
+        "employer": "Pinecrest Dental Partners",
+        "start": "2021-01",
+        "end": "2023-05",
+        "team_size": null
+      },
+      {
+        "title": "Accounts Payable Specialist",
+        "employer": "Pinecrest Dental Partners",
+        "start": "2019-08",
+        "end": "2020-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.B.A.",
+        "field": "Accounting",
+        "school": "Texas State University",
+        "year": 2019
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Sage Intacct",
+      "QuickBooks Online",
+      "Bill.com",
+      "Expensify",
+      "Excel",
+      "pivot tables",
+      "VLOOKUP",
+      "SUMIFS",
+      "US GAAP",
+      "ASC 842",
+      "account reconciliations"
+    ],
+    "numbers": [
+      "5 clinic leases",
+      "140-person",
+      "in 8 business days, down from 12",
+      "22 dental clinics",
+      "1,800 records"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "functional_skills_first",
+    "steady_progression",
+    "unclear_title",
+    "to_confirm_ambiguity",
+    "work_auth_missing",
+    "comp_missing"
+  ],
+  "notes": "Partial: meets years/GAAP/close but lacks Power Query and any AI/automation (explicit must-have wording); 'Accounting Lead' with no team size is a to-confirm ambiguity."
+}

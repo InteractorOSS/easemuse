@@ -1,0 +1,135 @@
+{
+  "id": "rs-012",
+  "target_jd": "jd-04",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong Excel and reconciliation skills; no payroll processing, Workday or equity tax."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "Payroll exposure limited to booking journal entries."
+    },
+    "industry_functional": {
+      "level": "gap",
+      "why": "Logistics company, not a public tech company with global payroll."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 4 years in accounting and none in payroll operations vs 5–7+."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Newark, NJ; requires H-1B transfer, which is not addressed by the JD."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "M.S. Accounting from Rutgers."
+    },
+    "compensation_other": {
+      "level": "partial",
+      "why": "Asks $175,000, within the $143,600–$201,000 range but high for an entry-level payroll move."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5–7+ years of progressive payroll operations experience in a high-growth, publicly traded tech company with a global footprint",
+      "status": "not_met",
+      "evidence": "Staff accountant seeking to move into global payroll."
+    },
+    {
+      "requirement": "Direct hands-on experience managing both US and international payroll operations",
+      "status": "not_met",
+      "evidence": "Book payroll journal entries from the ADP register"
+    },
+    {
+      "requirement": "Bachelor's degree or equivalent practical experience in payroll, accounting, finance, HR or related field",
+      "status": "met",
+      "evidence": "M.S., Accounting, Rutgers University, 2022"
+    },
+    {
+      "requirement": "Advanced proficiency with Workday Payroll (reporting, configuration, integrations) and global payroll platforms",
+      "status": "not_met",
+      "evidence": "NetSuite, Excel, ADP reports, GAAP"
+    },
+    {
+      "requirement": "Advanced proficiency in Excel/Google Sheets for reconciliation and audit modeling",
+      "status": "met",
+      "evidence": "Built Excel models (pivot tables, index/match)"
+    },
+    {
+      "requirement": "Understanding of global equity taxation, statutory compliance, US and international labor laws, multi-currency payroll",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "U.S.-based (Remote - United States)",
+      "status": "met",
+      "evidence": "Newark, NJ"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Employer willingness to support H-1B transfer"
+  ],
+  "facts": {
+    "full_name": "Kwame Asante",
+    "email": "kwame.asante@example.com",
+    "location": "Newark, NJ",
+    "current_title": "Staff Accountant",
+    "current_employer": "Ironbridge Logistics",
+    "positions": [
+      {
+        "title": "Staff Accountant",
+        "employer": "Ironbridge Logistics",
+        "start": "2022-08",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Accounting Intern",
+        "employer": "Halvorsen & Pike CPAs",
+        "start": "2021-06",
+        "end": "2021-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "M.S.",
+        "field": "Accounting",
+        "school": "Rutgers University",
+        "year": 2022
+      },
+      {
+        "degree": "B.Com.",
+        "field": "Accounting",
+        "school": "University of Ghana",
+        "year": 2020
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "NetSuite",
+      "Excel",
+      "ADP reports",
+      "GAAP"
+    ],
+    "numbers": [
+      "Salary expectation: $175,000",
+      "40+ account reconciliations monthly"
+    ],
+    "work_authorization": "Currently on H-1B; will require H-1B transfer",
+    "compensation_expectation": "Salary expectation: $175,000",
+    "years_experience_total": 4
+  },
+  "format_traits": [
+    "chronological",
+    "adjacent_profession",
+    "work_authorization_sponsorship",
+    "comp_stated_within_range"
+  ],
+  "notes": "Weak: adjacent accounting profile with no payroll operations. Tests that H-1B transfer is surfaced as a confirm item (not auto-reject) and comp is judged against the range."
+}

@@ -1,0 +1,143 @@
+{
+  "id": "rs-082",
+  "target_jd": "jd-25",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Solid core PMM craft (positioning, launches, enablement), but on end-user features rather than governance, security, interoperability or integration."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "About 7 years of B2B SaaS PMM, but not in a highly technical platform area."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Sales engagement SaaS, Outreach's own category."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Mid/senior PMM level appropriate for a Senior PMM role."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Denver, CO; JD location is United States."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; B.S. Business Administration."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "Seeks $165,000 base, above the $135,000–$150,000 range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "6+ years of enterprise platform software experience focused on a highly technical product area that includes governance, interoperability, security, and integration",
+      "status": "not_met",
+      "evidence": "Lead launches for end-user features: email cadences, call recording, and rep analytics dashboards."
+    },
+    {
+      "requirement": "Expertise in defining and executing go-to-market strategies and in the core craft of product marketing (messaging and positioning, GTM enablement, presentations, product launches, event content)",
+      "status": "met",
+      "evidence": "Built the messaging house for the 2025 \"Rep Productivity\" release"
+    },
+    {
+      "requirement": "Curiosity about AI and a record of learning and adapting quickly, including experimenting with AI tools to improve how you research, create, and launch",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Proven ability to influence and align stakeholders, including without direct authority, and to bring a data-informed perspective to decision-making",
+      "status": "met",
+      "evidence": "12 battlecards refreshed quarterly with win/loss data"
+    },
+    {
+      "requirement": "Ability to tell clear, compelling, value-based stories that communicate complex information persuasively",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Comfort moving quickly and adapting to change",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Overlapping dates: contract role (2022-01 – 2023-06) overlaps Cadencia start (2023-03) — concurrent or a date error?",
+    "Use of AI tools in PMM work",
+    "Exposure to security/governance/integration products",
+    "Salary expectation above range"
+  ],
+  "facts": {
+    "full_name": "Rafael Moreno",
+    "email": "rafael.moreno@example.com",
+    "location": "Denver, CO",
+    "current_title": "Product Marketing Manager",
+    "current_employer": "Cadencia",
+    "positions": [
+      {
+        "title": "Product Marketing Manager",
+        "employer": "Cadencia",
+        "start": "2023-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Product Marketing Consultant (contract)",
+        "employer": "Brightwire Consulting",
+        "start": "2022-01",
+        "end": "2023-06",
+        "team_size": null
+      },
+      {
+        "title": "Product Marketing Manager",
+        "employer": "Leadspring",
+        "start": "2019-04",
+        "end": "2021-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business Administration",
+        "school": "Colorado State University",
+        "year": 2019
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Positioning",
+      "launch planning",
+      "competitive intelligence",
+      "Salesforce",
+      "Gong",
+      "Highspot",
+      "Figma"
+    ],
+    "numbers": [
+      "$165,000 base salary",
+      "2,300 webinar registrations",
+      "12 battlecards refreshed quarterly",
+      "three B2B SaaS clients",
+      "launched 2 major versions",
+      "80 SDRs"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "$165,000 base salary",
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "chronological",
+    "overlapping_dates",
+    "contractor_history",
+    "compensation_stated",
+    "compensation_above_range",
+    "to_confirm_ambiguity"
+  ],
+  "notes": "Partial: right category and PMM craft, but wrong product area (end-user vs. platform/security), AI use unstated, comp above range, and overlapping dates to confirm."
+}

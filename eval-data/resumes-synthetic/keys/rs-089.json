@@ -1,0 +1,154 @@
+{
+  "id": "rs-089",
+  "target_jd": "jd-27",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Functional configuration and reporting; no Studio, coding, XSLT/Java, OAuth or AI integration work."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "Nearly 10 years HR/HRIS but no hands-on Workday integration development."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Strong Workday HCM functional fluency, which the JD values but does not treat as the core skill."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Consultant IC; no engineering leadership."
+    },
+    "location_work_arrangement": {
+      "level": "unknown",
+      "why": "Dallas, TX; state eligibility to confirm."
+    },
+    "education_certification": {
+      "level": "partial",
+      "why": "MBA HR and B.Com.; not a CS/IT/Engineering degree, though 'equivalent experience' is allowed. Functional (not integration) Workday certification."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated. Requires H-1B transfer; JD does not state sponsorship policy."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Bachelor's degree in Computer Science, Information Technology, Engineering, or a related field (or equivalent experience)",
+      "status": "not_met",
+      "evidence": "MBA, Human Resources"
+    },
+    {
+      "requirement": "9+ years of experience in enterprise technology, software development, or systems integration, with at least 5–6 years of hands-on Workday integration development covering the full lifecycle",
+      "status": "not_met",
+      "evidence": "Workday HCM functional consultant with 6 years configuring Workday"
+    },
+    {
+      "requirement": "Personally written Workday integrations: Workday Studio, Core Connectors and EIBs, payroll interfaces (PECI and PICOF), RaaS, and Workday Web Services (WWS)",
+      "status": "not_met",
+      "evidence": "Workday Studio | None"
+    },
+    {
+      "requirement": "Expert proficiency in XSLT, XML, and JSON; comfortable with Java sufficient for Workday Studio custom steps",
+      "status": "not_met",
+      "evidence": "XSLT / Java | None"
+    },
+    {
+      "requirement": "REST API design and OAuth 2.0 (incl. user-context flows) and experience building or integrating LLM-based tools, AI agents, or MCP servers with enterprise business systems",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience integrating Workday with middleware or iPaaS platforms (MuleSoft, Boomi, Workato); Git-based version control",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Strong knowledge of HR data security (OAuth 2.0, SAML, PGP, SFTP, PII) and proven experience managing integrations across Workday's semi-annual release cycle",
+      "status": "unknown",
+      "evidence": "Domain and role-based security groups"
+    },
+    {
+      "requirement": "Demonstrated record as a technical leader who has shaped architecture decisions and raised engineering quality across a team",
+      "status": "not_met",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "H-1B transfer sponsorship",
+    "State eligibility"
+  ],
+  "facts": {
+    "full_name": "Deepa Krishnan",
+    "email": "deepa.krishnan@example.com",
+    "location": "Dallas, TX",
+    "current_title": "Workday HCM Functional Consultant",
+    "current_employer": "Ascendra Consulting",
+    "positions": [
+      {
+        "title": "Workday HCM Functional Consultant",
+        "employer": "Ascendra Consulting",
+        "start": "2021-04",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "HRIS Analyst",
+        "employer": "Lonestar Logistics Co.",
+        "start": "2018-07",
+        "end": "2021-03",
+        "team_size": null
+      },
+      {
+        "title": "HR Generalist",
+        "employer": "Lonestar Logistics Co.",
+        "start": "2017-01",
+        "end": "2018-06",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "MBA",
+        "field": "Human Resources",
+        "school": "The University of Texas at Dallas",
+        "year": 2016
+      },
+      {
+        "degree": "B.Com.",
+        "field": null,
+        "school": "University of Mumbai",
+        "year": 2013
+      }
+    ],
+    "certifications": [
+      "Workday Certified HCM Core Consultant"
+    ],
+    "skills": [
+      "Business process configuration",
+      "Workday security",
+      "EIB",
+      "Custom reports / calculated fields",
+      "Absence"
+    ],
+    "numbers": [
+      "6 years",
+      "nearly 10 years in HR overall",
+      "150+ reports built",
+      "9 client go-lives",
+      "4,000 employees"
+    ],
+    "work_authorization": "H-1B (transfer required)",
+    "compensation_expectation": null,
+    "years_experience_total": 9
+  },
+  "format_traits": [
+    "table",
+    "skills_matrix",
+    "adjacent_profession",
+    "work_authorization_sponsorship"
+  ],
+  "notes": "Weak: Workday functional consultant (keyword overlap) without integration engineering; needs H-1B transfer. The skills table explicitly says 'None' for Studio and XSLT/Java."
+}

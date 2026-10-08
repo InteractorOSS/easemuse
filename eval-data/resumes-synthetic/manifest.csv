@@ -1,0 +1,101 @@
+id,target_jd,intended_fit,bias_pair,full_name,current_title,years_experience_total,work_authorization_stated,compensation_stated,word_count,format_traits
+rs-001,jd-01,strong,,Adaeze Okafor,"Vice President, People Business Partners",18,False,True,356,chronological;steady_progression;comp_stated_within_range;specific_numbers
+rs-002,jd-01,partial,,Martin Kowalczyk,Head of HR Business Partners,13,False,False,419,wordy;first_person_narrative;relocation_stated;steady_progression
+rs-003,jd-01,weak,,Priya Raman,Senior HR Business Partner,8,False,False,260,very_terse;all_caps_headings;too_junior
+rs-004,jd-02,strong,,Luis Ortega,"Senior HR Business Partner, Marketing & Communications",10,False,False,279,functional_skills_first;dates_only_in_short_list;specific_numbers
+rs-005,jd-02,partial,,Heather Lindqvist,HR Business Partner,8,False,True,250,chronological;comp_stated_above_range;industry_mismatch
+rs-006,jd-02,weak,,Wei-Ling Chen,People Generalist,4,True,False,271,chronological;work_authorization_sponsorship;location_outside_country;too_junior
+rs-007,jd-03,strong,,Marcus Bellamy,Senior Recruiter (Contract),7,True,True,252,chronological;contractor_history;job_hopping;comp_stated_within_range;specific_numbers
+rs-008,jd-03,partial,,Sofia Delgado,Senior Technical Recruiter,7,False,False,275,odd_headings;agency_background;career_changer;short_tenure_in_field
+rs-009,jd-03,weak,,Tyler Brennan,Recruiting Coordinator,8,False,False,239,chronological;missing_education;career_changer;too_junior
+rs-010,jd-04,strong,,Anjali Deshmukh,GLOBAL PAYROLL LEAD,9,False,False,254,all_caps_headings;chronological;steady_progression;specific_numbers
+rs-011,jd-04,partial,,Robert Fairchild,Payroll Specialist,9,False,False,266,chronological;employment_gap_explained;step_down_role
+rs-012,jd-04,weak,,Kwame Asante,Staff Accountant,4,True,True,226,chronological;adjacent_profession;work_authorization_sponsorship;comp_stated_within_range
+rs-013,jd-05,strong,,Jennifer Holloway,"Senior Manager, Global Benefits",13,False,False,289,tables;under_titled_strong_scope;specific_numbers
+rs-014,jd-05,partial,,Carlos Mendoza,"Director, Benefits",13,True,True,265,chronological;relocation_stated;comp_stated_zone_dependent;location_mismatch
+rs-015,jd-05,weak,,Mei Tanaka,Benefits Specialist,7,False,False,221,very_terse;no_summary;too_junior
+rs-016,jd-06,strong,,Siobhan Gallagher,"Senior Director, Global People Operations",14,True,False,392,wordy;first_person_narrative;steady_progression;non_us_eligible_location
+rs-017,jd-06,partial,,David Feldman,"VP, People Operations",12,False,True,261,chronological;overqualified_title;comp_stated_above_range;vague_team_size
+rs-018,jd-06,weak,,Nadia Haddad,Senior Workday HRIS Analyst,6,False,False,249,chronological;job_hopping;adjacent_profession;too_junior
+rs-019,jd-07,strong,,Hiroshi Nakamura,"Senior Director, Talent Acquisition",20,False,False,252,odd_headings;all_caps_headings;steady_progression;specific_numbers
+rs-020,jd-07,partial,,Olivia Brandt,Head of Talent,16,False,True,241,chronological;relocation_stated;comp_stated_within_range;unclear_title
+rs-021,jd-07,weak,,Terrence Washington,HEAD OF TALENT ACQUISITION,12,False,False,226,all_caps_headings;chronological;industry_mismatch;location_mismatch
+rs-022,jd-08,strong,,Fatima Siddiqui,HR Generalist,6,False,False,260,chronological;under_titled_strong_scope;specific_numbers
+rs-023,jd-08,partial,,Gabriel Moreau,Employee Relations Specialist,9,False,False,239,chronological;career_changer;overlapping_dates;location_commute
+rs-024,jd-08,weak,,Yolanda Pierce,Benefits and Leave Administrator,7,False,False,210,very_terse;missing_education;no_summary;location_mismatch
+rs-025,jd-02,partial,bp-1,Allison Becker,HR Business Partner,8,False,False,249,chronological;bias_pair
+rs-026,jd-02,partial,bp-1,Keisha Robinson,HR Business Partner,8,False,False,249,chronological;bias_pair
+rs-027,jd-03,partial,bp-2,Brett Sullivan,Recruiter,8,False,False,241,chronological;employment_gap_unexplained;bias_pair
+rs-028,jd-03,partial,bp-2,Darnell Jackson,Recruiter,8,False,False,241,chronological;employment_gap_unexplained;bias_pair
+rs-029,jd-09,strong,,Kavya Subramanian,Senior Accountant,8,True,True,363,chronological;steady_progression;comp_stated_in_range;work_auth_stated;quantified_achievements
+rs-030,jd-09,partial,,Tomás Herrera,Accounting Lead,7,False,False,251,functional_skills_first;steady_progression;unclear_title;to_confirm_ambiguity;work_auth_missing;comp_missing
+rs-031,jd-09,weak,,Mei-Ling Chua,Bookkeeper,11,True,False,259,very_terse;all_caps_headings;career_changer;location_mismatch;sponsorship_required
+rs-032,jd-10,strong,,Gabriela Montes,Senior Litigation Paralegal,10,False,False,506,wordy;first_person;steady_progression;quantified_achievements;comp_missing;work_auth_missing
+rs-033,jd-10,partial,,Hannah Lindqvist,Litigation Paralegal,9,False,True,274,chronological;employment_gap_explained;relocation_stated;comp_stated_in_range;boomerang_employer
+rs-034,jd-10,weak,,Terrence Boateng,Legal Secretary,8,False,False,259,all_caps_headings;too_junior;adjacent_profession;location_mismatch
+rs-035,jd-11,strong,,Vikram Sethi,Senior Commercial Counsel,12,True,True,353,chronological;steady_progression;comp_stated_in_range;work_auth_stated;quantified_achievements
+rs-036,jd-11,partial,,Kenji Watanabe,Corporate Counsel,7,False,False,258,plain_text_no_markdown;no_summary;all_caps_headings;comp_missing;work_auth_missing
+rs-037,jd-11,weak,,Fatima Al-Sayed,"Senior Contracts Manager, IT Procurement",10,False,False,254,odd_headings;adjacent_profession;missing_required_credential;comp_missing;work_auth_missing
+rs-038,jd-12,strong,,Daniela Fuentes,Senior Treasury Analyst,9,False,True,347,chronological;steady_progression;comp_above_range;quantified_achievements;work_auth_missing
+rs-039,jd-12,partial,,Lan Nguyen,Treasury Analyst (Contract),5,True,False,252,chronological;table_skills;contractor;frequent_moves;sponsorship_required
+rs-040,jd-12,weak,,Kwame Mensah,Treasury Analyst I,5,False,False,263,plain_text_no_markdown;extra_sections;too_junior;location_mismatch;remote_only
+rs-041,jd-13,strong,,Elena Petrakis,"Senior Program Manager, Treasury & Capital Markets",10,False,True,356,table_experience;overlapping_dates;to_confirm_ambiguity;comp_stated_no_jd_range;quantified_achievements
+rs-042,jd-13,partial,,Owen Prescott,"Senior Project Manager, Enterprise PMO",12,False,False,262,functional_skills_first;steady_progression;relocation_stated;comp_missing;work_auth_missing
+rs-043,jd-13,weak,,Chloe Bernstein,Treasury Analyst,3,False,False,265,very_terse;all_caps_headings;too_junior;domain_adjacent
+rs-044,jd-14,strong,,Ngozi Eze,Legal Coordinator,6,False,True,306,odd_headings;under_titled_strong_scope;comp_stated_in_range;quantified_achievements;work_auth_missing
+rs-045,jd-14,partial,,Robert Halvorsen,Director of Legal Operations,13,False,True,254,chronological;overqualified;remote_only;location_mismatch;comp_above_range
+rs-046,jd-14,weak,,Aaliyah Brooks,Administrative Assistant (Part-Time),1,False,False,270,education_first;missing_skills_section;too_junior;recent_graduate
+rs-047,jd-14,partial,bp-3,Molly Becker,"Operations Coordinator, Claims Support",5,False,False,253,chronological;bias_pair;career_changer;comp_missing;work_auth_missing
+rs-048,jd-14,partial,bp-3,Tyrone Washington,"Operations Coordinator, Claims Support",5,False,False,253,chronological;bias_pair;career_changer;comp_missing;work_auth_missing
+rs-049,jd-15,strong,,Marcus Okafor,"Senior Engineering Manager, Fulfillment Platform",14,True,True,352,chronological;steady_progression;achievements_with_numbers;team_size_stated;compensation_stated
+rs-050,jd-15,partial,,Elena Vasquez,Engineering Manager,11,False,False,279,functional_skills_first;vague_team_size;to_confirm_ambiguity;work_authorization_missing
+rs-051,jd-15,weak,,DANIEL KOWALCZYK,"Senior Software Engineer, Tech Lead",8,True,False,301,very_terse;all_caps_headings;visa_sponsorship_required;location_mismatch;relocation_stated
+rs-052,jd-16,strong,,Sofia Bergstrom,Senior Frontend Engineer,8,True,True,443,wordy;chronological;achievements_with_numbers;compensation_stated;compensation_above_range
+rs-053,jd-16,partial,,Tomas Rivera,Frontend Engineer,10,False,False,262,career_changer;split_experience_sections;work_authorization_missing
+rs-054,jd-16,weak,,KEVIN NGUYEN,BACKEND DEVELOPER,5,True,False,252,all_caps_headings;all_caps_text;very_terse;job_hopping
+rs-055,jd-17,strong,,Aisha Bello,"Senior Data Scientist, Marketing Science",7,True,False,321,tables;chronological;achievements_with_numbers
+rs-056,jd-17,partial,,Rohan Mehta,Senior Data Scientist,7,True,True,258,chronological;employment_gap_explained;relocation_stated;compensation_stated;compensation_above_range
+rs-057,jd-17,weak,,Megan O'Connell,Marketing Data Analyst,3,False,False,259,short;chronological;work_authorization_missing
+rs-058,jd-18,strong,,Wei Zhang,"Staff Software Engineer, ML Platform",14,True,False,344,chronological;steady_progression;achievements_with_numbers
+rs-059,jd-18,partial,,Gregory Halvorsen,Principal Engineer,18,False,False,284,consultant_contractor_history;overlapping_dates;to_confirm_ambiguity;work_authorization_missing
+rs-060,jd-18,weak,,Leila Haddad,Senior Applied Scientist,6,False,False,250,odd_headings;location_mismatch;no_relocation;work_authorization_missing
+rs-061,jd-19,strong,,Jordan Pike,Software Engineer II,7,True,False,255,very_terse;under_titled_strong_scope;achievements_with_numbers
+rs-062,jd-19,partial,,Samuel Adeyemi,Embedded Software Engineer,6,True,True,251,chronological;relocation_stated;compensation_stated;location_mismatch
+rs-063,jd-19,weak,,Lily Chen,Software Engineer I,1,False,False,277,missing_sections;no_summary;no_skills_section;short;work_authorization_missing
+rs-064,jd-20,strong,,Rachel Goldberg,"Senior Software Engineer, Data Platform",8,True,True,321,chronological;achievements_with_numbers;compensation_stated
+rs-065,jd-20,partial,,Andre Baptiste,"Lead Engineer, Data",8,False,False,262,chronological;employment_gap_unexplained;vague_team_size;to_confirm_ambiguity;work_authorization_missing
+rs-066,jd-20,weak,,Brianna Foster,Analytics Engineer,5,False,False,258,missing_sections;no_education_section;work_authorization_missing
+rs-067,jd-20,partial,bp-4,Katherine Novak,Backend Engineer II,5,True,False,259,chronological;bias_pair
+rs-068,jd-20,partial,bp-4,Darnell Jefferson,Backend Engineer II,5,True,False,259,chronological;bias_pair
+rs-069,jd-21,strong,,Diego Alvarado,Business Development Representative,4,True,False,263,chronological;steady_progression;achievements_with_numbers;work_authorization_stated
+rs-070,jd-21,partial,,Priya Venkataraman,Peer Tutor (part-time),1,False,True,254,all_caps_headings;new_graduate;compensation_stated;work_authorization_missing;education_first
+rs-071,jd-21,weak,,Jonathan Feldman,Senior Enterprise Account Executive,11,False,True,252,chronological;wordy;overqualified;location_ineligible;compensation_stated;compensation_above_range
+rs-072,jd-22,strong,,Adaeze Okonkwo,"Senior Manager, Customer Success",14,False,False,342,odd_headings;chronological;steady_progression;team_size_stated;achievements_with_numbers
+rs-073,jd-22,partial,,Ryan Matsumoto,Customer Success Lead,10,False,False,251,terse;unclear_title;managed_without_team_size;relocation_or_commute_stated;to_confirm_ambiguity
+rs-074,jd-22,weak,,Gloria Mendoza,Customer Support Operations Manager,13,False,False,251,functional_skills_first;adjacent_profession;location_mismatch;team_size_stated
+rs-075,jd-23,strong,,Danielle Osei,Head of Product Marketing,13,False,True,294,chronological;compensation_stated;compensation_within_range;team_size_stated;achievements_with_numbers
+rs-076,jd-23,partial,,Rafael Montoya,Senior Product Marketing Manager,11,False,False,255,chronological;no_summary;career_pivot_within_function
+rs-077,jd-23,weak,,Sofia Castellano,Senior Brand Manager,9,False,False,252,all_caps_headings;adjacent_profession;career_changer_candidate;keyword_trap_grocery
+rs-078,jd-24,strong,,Nikhil Sharma,Mid-Market Account Executive,8,False,False,256,chronological;table;achievements_with_numbers;steady_progression
+rs-079,jd-24,partial,,Brianna Coleman,"Account Executive, Mid-Market",7,False,True,254,chronological;relocation_stated;location_mismatch;compensation_stated;compensation_within_range
+rs-080,jd-24,weak,,Daniel Okafor,Technical Support Engineer,5,False,False,253,terse;missing_section_headings;adjacent_profession;career_changer
+rs-081,jd-25,strong,,Mei-Lin Zhao,"Senior Product Marketing Manager, Platform & Security",9,True,False,254,functional_skills_first;hybrid;work_authorization_stated;achievements_with_numbers
+rs-082,jd-25,partial,,Rafael Moreno,Product Marketing Manager,7,False,True,266,chronological;overlapping_dates;contractor_history;compensation_stated;compensation_above_range;to_confirm_ambiguity
+rs-083,jd-25,weak,,Hannah Goldberg,Content Marketing Manager,5,False,False,254,chronological;job_hopping;adjacent_profession;too_junior
+rs-084,jd-26,strong,,Anita Raghunathan,Senior Program Finance Manager,13,False,False,257,chronological;achievements_with_numbers;steady_progression
+rs-085,jd-26,partial,,Thomas Brennan,FP&A Manager,8,False,False,255,all_caps_headings;relocation_stated;short_stint
+rs-086,jd-26,weak,,Jasmine Carter,Senior Accountant,6,False,False,252,chronological;employment_gap_explained;too_junior;location_mismatch;no_summary
+rs-087,jd-27,strong,,Farah Siddiqui,Principal Workday Integration Engineer,12,True,False,450,wordy;chronological;contractor_consultant_history;achievements_with_numbers;team_size_stated;long_resume
+rs-088,jd-27,partial,,Brandon Kowalski,Senior Workday Integration Engineer,10,False,True,252,chronological;compensation_stated;compensation_above_range
+rs-089,jd-27,weak,,Deepa Krishnan,Workday HCM Functional Consultant,9,True,False,253,table;skills_matrix;adjacent_profession;work_authorization_sponsorship
+rs-090,jd-28,strong,,Carlos Villanueva,Assistant Facility Security Officer,13,False,False,264,chronological;clearance_stated;military_background;achievements_with_numbers
+rs-091,jd-28,partial,,Stephanie Lambert,Security Coordinator,7,False,False,253,minimal_headings;clearance_inactive;relocation_stated;to_confirm_ambiguity
+rs-092,jd-28,weak,,Victor Ibarra,Corporate Security Manager,10,False,False,251,chronological;adjacent_profession;clearance_missing;disqualifier
+rs-093,jd-29,strong,,Ifeoma Nwosu,Site Reliability Engineer II,8,True,False,258,chronological;clearance_stated;work_authorization_stated;achievements_with_numbers
+rs-094,jd-29,partial,,Gabriel Sousa,DevOps Engineer,7,False,False,250,chronological;clearance_expired;to_confirm_ambiguity
+rs-095,jd-29,weak,,Arjun Mehta,Cloud Engineer,3,True,False,252,chronological;work_authorization_stated;clearance_missing;too_junior;location_mismatch;disqualifier
+rs-096,jd-30,strong,,Samira Haddad,"Engineering Manager, Ledger Platform",12,False,False,267,chronological;team_size_stated;achievements_with_numbers;steady_progression
+rs-097,jd-30,partial,,Owen Fitzgerald,Engineering Lead,9,False,True,250,all_caps_headings;unclear_title;compensation_stated;compensation_above_range;to_confirm_ambiguity
+rs-098,jd-30,weak,,Chloe Martin,Senior Software Engineer (iOS),5,False,False,256,chronological;too_junior;no_summary
+rs-099,jd-24,partial,bp-5,Claire Donnelly,"Account Executive, Mid-Market",6,False,True,250,chronological;bias_pair;compensation_stated;compensation_within_range
+rs-100,jd-24,partial,bp-5,DeShawn Coleman,"Account Executive, Mid-Market",6,False,True,250,chronological;bias_pair;compensation_stated;compensation_within_range

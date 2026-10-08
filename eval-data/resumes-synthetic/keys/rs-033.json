@@ -1,0 +1,149 @@
+{
+  "id": "rs-033",
+  "target_jd": "jd-10",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Calendaring, discovery, outside counsel coordination and holds are present; holds are drafted at attorney direction rather than owned; no DISCO, Google Suite or Slack."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "About 6.5 years as a paralegal (2018-09 to 2023-01 and 2024-05 to present) plus 2 years as legal assistant; includes in-house experience."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Insurance defense and insurance in-house; not tech, and no employment or IP litigation."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Meets 5+ years of paralegal experience; senior-level scope."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Based in Portland, OR; says relocating to the Bay Area but no timing given; needs to be in SF office about once a week."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "ABA-approved paralegal certificate and B.A."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "Seeking $145,000 base, inside $143,600-$234,500."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of paralegal experience supporting litigation teams",
+      "status": "met",
+      "evidence": "Litigation paralegal with more than six years supporting insurance defense and commercial litigation teams"
+    },
+    {
+      "requirement": "Strong command of litigation operations, including intake and tracking, calendaring, document management, outside counsel coordination, document preservation, and e-discovery",
+      "status": "met",
+      "evidence": "Maintain the case calendar and court deadlines in CompuLaw ... Opened new matters ... assigned panel counsel and tracked their budgets and invoices"
+    },
+    {
+      "requirement": "Demonstrated familiarity with various e-discovery tools and systems (strong preference for Google Suite, Slack, and DISCO)",
+      "status": "met",
+      "evidence": "Coordinated document collection from adjusters and the claims file system for productions in Relativity."
+    },
+    {
+      "requirement": "Excellent judgment, attention to detail, organizational skills, and ability to manage multiple priorities across a diverse and active docket",
+      "status": "met",
+      "evidence": "In-house paralegal for the claims litigation unit, supporting staff counsel on roughly 120 bodily injury and property cases a year."
+    },
+    {
+      "requirement": "Technological adaptability and interest in testing and implementing AI tools to improve efficiencies and automate routine tasks",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Able to work from the San Francisco office approximately once a week (hybrid)",
+      "status": "unknown",
+      "evidence": "Portland, OR (relocating to the San Francisco Bay Area)"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Relocation timing to the Bay Area and ability to be in the SF office weekly from the start",
+    "Experience with or appetite for AI tools and legal tech implementation",
+    "Familiarity with DISCO, Google Workspace and Slack",
+    "Employment gap 2023-02 to 2024-04 (explained as caregiving; no concern, just confirm availability)"
+  ],
+  "facts": {
+    "full_name": "Hannah Lindqvist",
+    "email": "hannah.lindqvist@example.com",
+    "location": "Portland, OR",
+    "current_title": "Litigation Paralegal",
+    "current_employer": "Ashgrove & Pratt LLP",
+    "positions": [
+      {
+        "title": "Litigation Paralegal",
+        "employer": "Ashgrove & Pratt LLP",
+        "start": "2024-05",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Paralegal, Claims Litigation",
+        "employer": "Ridgeline Mutual Insurance",
+        "start": "2018-09",
+        "end": "2023-01",
+        "team_size": null
+      },
+      {
+        "title": "Legal Assistant",
+        "employer": "Ashgrove & Pratt LLP",
+        "start": "2016-07",
+        "end": "2018-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "Paralegal Certificate",
+        "field": "Paralegal Studies",
+        "school": "Portland Community College",
+        "year": 2016
+      },
+      {
+        "degree": "B.A.",
+        "field": "Sociology",
+        "school": "Portland State University",
+        "year": 2015
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Everlaw",
+      "Relativity",
+      "CompuLaw",
+      "iManage",
+      "Microsoft 365",
+      "Adobe Acrobat Pro",
+      "e-filing",
+      "deposition and trial preparation"
+    ],
+    "numbers": [
+      "$145,000",
+      "more than six years",
+      "3 partners",
+      "about 35 open cases",
+      "roughly 120 bodily injury and property cases a year",
+      "for 4 years"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "Seeking $145,000 base.",
+    "years_experience_total": 9
+  },
+  "format_traits": [
+    "chronological",
+    "employment_gap_explained",
+    "relocation_stated",
+    "comp_stated_in_range",
+    "boomerang_employer"
+  ],
+  "notes": "Partial: years and core litigation ops met, but location depends on an untimed relocation, no AI/legal-tech adoption shown and no DISCO/Google/Slack."
+}

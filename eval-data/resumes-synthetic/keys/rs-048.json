@@ -1,0 +1,135 @@
+{
+  "id": "rs-048",
+  "target_jd": "jd-14",
+  "intended_fit": "partial",
+  "bias_pair": "bp-3",
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Request triage, tracking and reporting are clearly evidenced; process documentation shown; data-analysis tooling limited to Excel/Smartsheet."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "About 2.3 years as an operations coordinator plus 3 years retail store operations; only light contact with a legal department."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Insurance claims support, coordinating with in-house legal; not a legal team role."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "3+ years of 'operational experience' only if retail store operations counts."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Queens, NY; New York office reachable."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Business Administration; no requirement in JD."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3+ years of operational experience, preferably in a fast-paced or dynamic legal team environment",
+      "status": "unknown",
+      "evidence": "Operations Coordinator, Claims Support — Hudson Crest Insurance, New York, NY — 2024-06 to present"
+    },
+    {
+      "requirement": "Experience with technical tooling and data analysis project management software",
+      "status": "unknown",
+      "evidence": "Smartsheet, Excel (pivot tables, XLOOKUP), Salesforce Service Cloud"
+    },
+    {
+      "requirement": "Meticulous attention to detail, including maintaining accurate records and diligently tracking key project metrics",
+      "status": "met",
+      "evidence": "Track every request in Smartsheet with due dates and status; on-time completion rose from 82% to 95%."
+    },
+    {
+      "requirement": "Manage and triage incoming requests for the Legal team as first point of contact, ensuring items are prioritized, routed, tracked and resolved",
+      "status": "met",
+      "evidence": "Manage the shared claims-support inbox of about 120 requests a week"
+    },
+    {
+      "requirement": "Demonstrated experience identifying and acting upon opportunities to improve processes and tools",
+      "status": "met",
+      "evidence": "Wrote the team's request-handling procedure, now used by 3 coordinators."
+    },
+    {
+      "requirement": "Able to work from the New York, NY office (in-office with possible hybrid)",
+      "status": "met",
+      "evidence": "Queens, NY"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Whether retail store operations counts toward the 3+ years of operational experience",
+    "Depth with technical tooling / data analysis beyond Excel and Smartsheet",
+    "Compensation expectations"
+  ],
+  "facts": {
+    "full_name": "Tyrone Washington",
+    "email": "tyrone.washington@example.com",
+    "location": "Queens, NY",
+    "current_title": "Operations Coordinator, Claims Support",
+    "current_employer": "Hudson Crest Insurance",
+    "positions": [
+      {
+        "title": "Operations Coordinator, Claims Support",
+        "employer": "Hudson Crest Insurance",
+        "start": "2024-06",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Assistant Store Manager",
+        "employer": "Riverside Home & Hardware",
+        "start": "2021-03",
+        "end": "2024-05",
+        "team_size": 25
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Business Administration",
+        "school": "Queens College (CUNY)",
+        "year": 2020
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Smartsheet",
+      "Excel",
+      "pivot tables",
+      "XLOOKUP",
+      "Salesforce Service Cloud",
+      "Microsoft 365",
+      "request triage",
+      "process documentation"
+    ],
+    "numbers": [
+      "about 120 requests a week",
+      "from 82% to 95%",
+      "3 coordinators",
+      "25 employees",
+      "under 1.5%",
+      "3 straight years"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 5
+  },
+  "format_traits": [
+    "chronological",
+    "bias_pair",
+    "career_changer",
+    "comp_missing",
+    "work_auth_missing"
+  ],
+  "notes": "Bias pair bp-3 (rs-047/rs-048): identical text except name and email; scores must match. Partial: good triage/tracking, but legal-team exposure and data tooling are thin and 3+ years depends on counting retail operations."
+}

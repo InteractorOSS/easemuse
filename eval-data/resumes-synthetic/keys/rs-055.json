@@ -1,0 +1,160 @@
+{
+  "id": "rs-055",
+  "target_jd": "jd-17",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Owns a Bayesian MMM, geo/synthetic-control calibration, uplift models in production; Python and SQL at scale."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Growth marketing measurement and incentive targeting at a rideshare/delivery marketplace, matching the Growth team scope."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Two-sided mobility marketplace, closely matching Lyft Growth."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "7 years in industry data science; Senior title."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Oakland, CA, already hybrid in San Francisco three days a week."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "Ph.D. Economics."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp stated; U.S. citizen."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Advanced degree in statistics, economics, mathematics, or equivalent industry experience",
+      "status": "met",
+      "evidence": "Ph.D. Economics, University of California, Davis, 2019"
+    },
+    {
+      "requirement": "4+ years of industry experience in causal inference or data science",
+      "status": "met",
+      "evidence": "PhD economist with 7 years in industry"
+    },
+    {
+      "requirement": "Proven ability to apply statistics to unstructured problems and deliver measurable results",
+      "status": "met",
+      "evidence": "recommendations shifted 12% of budget and lowered blended rider cost per acquisition by 9%"
+    },
+    {
+      "requirement": "Deep technical expertise in causal inference and tackling challenging measurement problems",
+      "status": "met",
+      "evidence": "Designed geo-holdout and synthetic-control studies to calibrate the MMM"
+    },
+    {
+      "requirement": "Expertise in SQL and experience with large-scale data platforms",
+      "status": "met",
+      "evidence": "Rewrote SQL reporting on a 20 TB Redshift warehouse into tested dbt models."
+    },
+    {
+      "requirement": "Proficiency in Python and working within production coding environments",
+      "status": "met",
+      "evidence": "Shipped a driver-incentive uplift model to production (Python, Airflow, Snowflake)"
+    },
+    {
+      "requirement": "In office in San Francisco 3 days per week (hybrid; stated as an essential function)",
+      "status": "met",
+      "evidence": "currently hybrid in our San Francisco office three days a week"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Compensation expectations against $148,000 - $185,000"
+  ],
+  "facts": {
+    "full_name": "Aisha Bello",
+    "email": "aisha.bello@example.com",
+    "location": "Oakland, CA",
+    "current_title": "Senior Data Scientist, Marketing Science",
+    "current_employer": "Tallyroute Mobility",
+    "positions": [
+      {
+        "title": "Senior Data Scientist, Marketing Science",
+        "employer": "Tallyroute Mobility",
+        "start": "2021-08",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Data Scientist, Pricing",
+        "employer": "Fernway Retail Group",
+        "start": "2019-07",
+        "end": "2021-07",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "Ph.D.",
+        "field": "Economics",
+        "school": "University of California, Davis",
+        "year": 2019
+      },
+      {
+        "degree": "B.A.",
+        "field": "Mathematics and Economics",
+        "school": "Spelman College",
+        "year": 2013
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "MMM",
+      "geo experiments",
+      "synthetic control",
+      "diff-in-diff",
+      "IV",
+      "double ML",
+      "uplift modeling",
+      "Python",
+      "pandas",
+      "PyMC",
+      "statsmodels",
+      "scikit-learn",
+      "SQL",
+      "Spark",
+      "Snowflake",
+      "Redshift",
+      "Airflow",
+      "dbt",
+      "Databricks"
+    ],
+    "numbers": [
+      "7 years",
+      "14 paid channels",
+      "$210M in annual spend",
+      "shifted 12% of budget",
+      "lowered blended rider cost per acquisition by 9%",
+      "30+ incrementality tests",
+      "saved $4.1M a year",
+      "40 analysts and scientists",
+      "2-year measurement roadmap",
+      "8,000 SKUs",
+      "1.8 points of gross margin",
+      "20 TB Redshift warehouse",
+      "three days a week"
+    ],
+    "work_authorization": "U.S. citizen.",
+    "compensation_expectation": null,
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "tables",
+    "chronological",
+    "achievements_with_numbers"
+  ],
+  "notes": "Strong fit incl. the 'highly preferred' MMM and the hybrid SF requirement. Tests extraction of positions from a table rather than headings."
+}

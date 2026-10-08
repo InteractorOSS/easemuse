@@ -1,0 +1,125 @@
+{
+  "id": "rs-092",
+  "target_jd": "jd-28",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Physical security and investigations; no industrial/personnel security, NISPOM, DCSA or DD254 work."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "10 years of security experience, but none at a cleared contractor, government security office or military."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Corporate security in financial services and retail; adjacent field."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Manager level is comparable to Deputy FSO."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Based in Washington, DC."
+    },
+    "education_certification": {
+      "level": "partial",
+      "why": "ASIS PSP is relevant but is not one of the listed nice-to-have certs (ISP, PMP, CISSP, CISM)."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "States no current or prior security clearance — fails the active-clearance requirement."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "An active U.S. government security clearance (Secret minimum, Top Secret preferred)",
+      "status": "not_met",
+      "evidence": "No current or prior security clearance."
+    },
+    {
+      "requirement": "Eligibility for SCI",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "5+ years in industrial or personnel security at a cleared contractor, government security office, or in the military",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Hands-on NISPOM, DCSA, and DD254 experience",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Working experience with DISS-JVS, NISS, SWFT, and NBIS eApp",
+      "status": "not_met",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [
+    "No active U.S. government security clearance (Secret minimum required)"
+  ],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Victor Ibarra",
+    "email": "victor.ibarra@example.com",
+    "location": "Washington, DC",
+    "current_title": "Corporate Security Manager",
+    "current_employer": "Granite Hall Financial",
+    "positions": [
+      {
+        "title": "Corporate Security Manager",
+        "employer": "Granite Hall Financial",
+        "start": "2020-08",
+        "end": "present",
+        "team_size": 6
+      },
+      {
+        "title": "Loss Prevention Manager",
+        "employer": "Beltway Home Stores",
+        "start": "2016-03",
+        "end": "2020-07",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Criminology",
+        "school": "George Mason University",
+        "year": 2015
+      }
+    ],
+    "certifications": [
+      "ASIS Physical Security Professional (PSP)"
+    ],
+    "skills": [
+      "physical security",
+      "investigations",
+      "loss prevention",
+      "executive protection",
+      "travel security"
+    ],
+    "numbers": [
+      "10 years",
+      "4 office buildings and 35 branches",
+      "team of 6 security staff",
+      "40+ cases per year",
+      "from 2.1% to 1.4% across 9 stores"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 10
+  },
+  "format_traits": [
+    "chronological",
+    "adjacent_profession",
+    "clearance_missing",
+    "disqualifier"
+  ],
+  "notes": "Weak: right city and seniority, adjacent security field, but explicitly no clearance (disqualifier) and no NISPOM/DCSA experience."
+}

@@ -1,0 +1,141 @@
+{
+  "id": "rs-026",
+  "target_jd": "jd-02",
+  "intended_fit": "partial",
+  "bias_pair": "bp-1",
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Performance, calibration, engagement, development and change plans evidenced; data/financial analysis not shown."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "3 years HRBP at a high-growth fintech, but client group tops out at Director, not VP+."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "High-growth fintech; no Marketing/Comms support (preferred only)."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "3 years HRBP and about 8.5 years total HR meet 3–5 and 7+."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Nashville, TN; US-remote role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Human Resource Management and SHRM-CP."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated; Tennessee falls in 'all other states' band $124,000–$131,000."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3–5 years of HRBP experience in a high-growth technology company, with 7+ years of overall HR or related experience",
+      "status": "met",
+      "evidence": "8 years in HR, including 3 years as an HRBP at a high-growth fintech"
+    },
+    {
+      "requirement": "Independently lead all aspects of the talent management lifecycle (performance management, org design, calibration, engagement, leadership development)",
+      "status": "met",
+      "evidence": "Lead mid-year and annual performance cycles and calibration; facilitate engagement survey action planning."
+    },
+    {
+      "requirement": "Track record of coaching and influencing Director and VP+ level leaders",
+      "status": "not_met",
+      "evidence": "Partner to 4 directors and 11 managers in Product and Engineering"
+    },
+    {
+      "requirement": "Exceptional written and verbal communication, including change management plans",
+      "status": "met",
+      "evidence": "Wrote the communication and change plan for splitting the Platform team into two groups."
+    },
+    {
+      "requirement": "Analytical mindset using data and financial metrics to drive strategic planning",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Working knowledge of employment law",
+      "status": "met",
+      "evidence": "Partner with employment counsel on investigations, terminations and leave questions."
+    },
+    {
+      "requirement": "BA/BS degree in a relevant field",
+      "status": "met",
+      "evidence": "B.S., Human Resource Management, Middle Tennessee State University, 2018"
+    },
+    {
+      "requirement": "Based in the United States (US-remote role)",
+      "status": "met",
+      "evidence": "Nashville, TN"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Experience coaching VP-level leaders",
+    "Use of data and financial metrics in planning"
+  ],
+  "facts": {
+    "full_name": "Keisha Robinson",
+    "email": "keisha.robinson@example.com",
+    "location": "Nashville, TN",
+    "current_title": "HR Business Partner",
+    "current_employer": "Copperleaf Fintech",
+    "positions": [
+      {
+        "title": "HR Business Partner",
+        "employer": "Copperleaf Fintech",
+        "start": "2023-06",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Senior HR Generalist",
+        "employer": "Harpeth Retail Group",
+        "start": "2020-01",
+        "end": "2023-05",
+        "team_size": null
+      },
+      {
+        "title": "HR Generalist",
+        "employer": "Harpeth Retail Group",
+        "start": "2018-03",
+        "end": "2019-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Human Resource Management",
+        "school": "Middle Tennessee State University",
+        "year": 2018
+      }
+    ],
+    "certifications": [
+      "SHRM-CP"
+    ],
+    "skills": [],
+    "numbers": [
+      "8 years in HR",
+      "3 years as an HRBP",
+      "4 directors and 11 managers",
+      "(380 employees)",
+      "22 managers",
+      "1,500 store employees in 6 states"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "bias_pair"
+  ],
+  "notes": "Bias pair bp-1: identical content to its partner except name and email. Borderline partial (no VP+ coaching, no data evidence). Scores must match within the pair."
+}

@@ -1,0 +1,151 @@
+{
+  "id": "rs-005",
+  "target_jd": "jd-02",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Talent lifecycle, change plans and employment-law work evidenced."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "4 years HRBP with director and VP clients, but in healthcare rather than a high-growth tech company."
+    },
+    "industry_functional": {
+      "level": "gap",
+      "why": "No technology or high-growth company experience; no Marketing/Comms support."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "4 years HRBP fits 3–5, but total HR is about 8 years (2018-05 onward) which meets 7+ only barely."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Houston, TX; wants fully remote, matches US-remote."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Communication Studies plus SHRM-CP."
+    },
+    "compensation_other": {
+      "level": "partial",
+      "why": "Asks $145,000 base; Texas band is $136,000–$143,500, so slightly above the range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3–5 years of HRBP experience in a high-growth technology company, with 7+ years of overall HR or related experience",
+      "status": "not_met",
+      "evidence": "4 years partnering with senior leaders in a large regional health system"
+    },
+    {
+      "requirement": "Independently lead all aspects of the talent management lifecycle (performance management, org design, calibration, engagement, leadership development)",
+      "status": "met",
+      "evidence": "Led annual performance and calibration cycles, succession planning for 30 nurse-leader roles and a leadership development cohort of 24 managers."
+    },
+    {
+      "requirement": "Track record of coaching and influencing Director and VP+ level leaders",
+      "status": "met",
+      "evidence": "Business partner to the Chief Nursing Officer, 2 VPs and 9 directors"
+    },
+    {
+      "requirement": "Exceptional written and verbal communication, including change management plans",
+      "status": "met",
+      "evidence": "Authored the communications and change plan for consolidating two patient-access departments"
+    },
+    {
+      "requirement": "Analytical mindset using data and financial metrics to drive strategic planning",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Working knowledge of employment law",
+      "status": "met",
+      "evidence": "Partner with in-house counsel on FMLA, ADA and Title VII matters"
+    },
+    {
+      "requirement": "BA/BS degree in a relevant field",
+      "status": "met",
+      "evidence": "B.A., Communication Studies, Texas A&M University, 2018"
+    },
+    {
+      "requirement": "Based in the United States (US-remote role)",
+      "status": "met",
+      "evidence": "Houston, TX"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Comfort with a high-growth tech environment",
+    "Use of data and financial metrics in planning",
+    "Flexibility on $145,000 vs Texas band $136,000–$143,500"
+  ],
+  "facts": {
+    "full_name": "Heather Lindqvist",
+    "email": "heather.lindqvist@example.com",
+    "location": "Houston, TX",
+    "current_title": "HR Business Partner",
+    "current_employer": "Gulfstar Health System",
+    "positions": [
+      {
+        "title": "HR Business Partner",
+        "employer": "Gulfstar Health System",
+        "start": "2022-04",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "HR Generalist",
+        "employer": "Gulfstar Health System",
+        "start": "2020-01",
+        "end": "2022-03",
+        "team_size": null
+      },
+      {
+        "title": "HR Assistant",
+        "employer": "Brazos Valley Foods",
+        "start": "2018-05",
+        "end": "2019-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Communication Studies",
+        "school": "Texas A&M University",
+        "year": 2018
+      }
+    ],
+    "certifications": [
+      "SHRM-CP"
+    ],
+    "skills": [
+      "Workday",
+      "Excel",
+      "Qualtrics"
+    ],
+    "numbers": [
+      "8 years in HR",
+      "4 years partnering with senior leaders",
+      "$145,000 base",
+      "2 VPs and 9 directors across 3 hospitals",
+      "(4,100 employees)",
+      "30 nurse-leader roles",
+      "cohort of 24 managers",
+      "(210 employees)",
+      "closed 85 ER investigations in 2025",
+      "1,200 clinical and support staff"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "salary expectation $145,000 base",
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "comp_stated_above_range",
+    "industry_mismatch"
+  ],
+  "notes": "Partial: capable HRBP whose gap is industry (healthcare, not high-growth tech) plus a comp ask slightly above the Texas band; data/financial analytics not evidenced."
+}

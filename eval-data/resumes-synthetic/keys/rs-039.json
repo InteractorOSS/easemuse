@@ -1,0 +1,155 @@
+{
+  "id": "rs-039",
+  "target_jd": "jd-12",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Cash positioning, wires, KYC and AI automation present; only an indirect monthly forecast, not a direct cash flow forecast; no Superset."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "About 4 years in corporate treasury (2022-09 onward) vs. 5+ required; 1.5 years FP&A."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Insurance and fund administration; not a public global financial services company."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "5.5 years total, 4 in treasury; slightly short for a senior analyst."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Jersey City, NJ; happy to work from the New York office."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Economics and M.S. Finance."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated. F-1 STEM OPT through 2027-08; will need H-1B sponsorship (JD silent on sponsorship)."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of experience in Corporate Treasury",
+      "status": "not_met",
+      "evidence": "Treasury analyst with 4 years in corporate treasury after an FP&A start"
+    },
+    {
+      "requirement": "Experience in implementing automation using AI tools",
+      "status": "met",
+      "evidence": "Built a ChatGPT-assisted bank fee review ... for analyst approval"
+    },
+    {
+      "requirement": "Experience in managing a Direct Cash Flow Forecast",
+      "status": "not_met",
+      "evidence": "Prepared the monthly indirect cash flow forecast"
+    },
+    {
+      "requirement": "Significant experience in Treasury Operations with a strong understanding of key management controls and processes",
+      "status": "met",
+      "evidence": "Executed wires and intercompany transfers with dual approval; documented 15 treasury procedures for SOX"
+    },
+    {
+      "requirement": "Strong analytical skills with proficiency in Excel, Google Sheets, and Superset",
+      "status": "unknown",
+      "evidence": "Excel (advanced), Google Sheets, Power BI"
+    },
+    {
+      "requirement": "Bachelor's degree in Finance, Economics, Computer Science, Financial Engineering or a related field",
+      "status": "met",
+      "evidence": "B.A. Economics, Foreign Trade University, Hanoi, 2019"
+    },
+    {
+      "requirement": "Based in Menlo Park, CA; New York, NY; or Chicago, IL with in-person attendance at least 3 days per week",
+      "status": "met",
+      "evidence": "Jersey City, NJ ... Happy to work from a New York office."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Sponsorship: F-1 STEM OPT through 2027-08, H-1B needed afterward; confirm whether Robinhood sponsors for this role",
+    "Any direct cash flow forecast experience",
+    "Superset or similar BI tool experience",
+    "Compensation expectations (New York Zone 1 range applies)",
+    "Contract role status and reason for moves"
+  ],
+  "facts": {
+    "full_name": "Lan Nguyen",
+    "email": "lan.nguyen@example.com",
+    "location": "Jersey City, NJ",
+    "current_title": "Treasury Analyst (Contract)",
+    "current_employer": "Halcyon Fund Services",
+    "positions": [
+      {
+        "title": "Treasury Analyst (Contract)",
+        "employer": "Halcyon Fund Services",
+        "start": "2025-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Treasury Analyst",
+        "employer": "Brookvale Insurance Group",
+        "start": "2022-09",
+        "end": "2024-12",
+        "team_size": null
+      },
+      {
+        "title": "FP&A Analyst",
+        "employer": "Quantum Leaf Retail",
+        "start": "2021-02",
+        "end": "2022-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "M.S.",
+        "field": "Finance",
+        "school": "Baruch College (CUNY)",
+        "year": 2021
+      },
+      {
+        "degree": "B.A.",
+        "field": "Economics",
+        "school": "Foreign Trade University, Hanoi",
+        "year": 2019
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Excel",
+      "Google Sheets",
+      "Power BI",
+      "bank portals",
+      "SWIFT",
+      "wire approval workflows",
+      "ChatGPT",
+      "Power Automate"
+    ],
+    "numbers": [
+      "4 years",
+      "9 bank accounts",
+      "3 currencies",
+      "$140K in annual fee reductions",
+      "15 treasury procedures",
+      "4 business units"
+    ],
+    "work_authorization": "F-1 STEM OPT valid through 2027-08; will need H-1B sponsorship after that.",
+    "compensation_expectation": null,
+    "years_experience_total": 5
+  },
+  "format_traits": [
+    "chronological",
+    "table_skills",
+    "contractor",
+    "frequent_moves",
+    "sponsorship_required"
+  ],
+  "notes": "Partial: AI automation, ops controls, degree and location met; gaps on years, direct forecast and Superset; sponsorship is a to-confirm, not a stated disqualifier."
+}

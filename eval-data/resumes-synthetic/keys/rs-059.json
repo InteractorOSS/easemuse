@@ -1,0 +1,167 @@
+{
+  "id": "rs-059",
+  "target_jd": "jd-18",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Deep distributed systems and SOA; ML platform exposure limited to feature pipelines and a serving API for a client team."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Led multi-team architecture work, but not building or operating an ML platform end to end (training, orchestration, registry)."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Lending, banking payments and fintech, close to Stripe's domain."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "18 years; principal/architect level; multi-team lead."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Bellevue, WA; open to Seattle or San Francisco."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Computer Engineering."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp or work authorization stated; consultant moving to full-time."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of professional software development experience with a solid background in service-oriented architecture and large-scale distributed systems",
+      "status": "met",
+      "evidence": "18 years designing service-oriented, high-throughput distributed systems"
+    },
+    {
+      "requirement": "Track record as a technical lead: technical direction, multi-team initiatives, mentoring",
+      "status": "met",
+      "evidence": "Led 4 teams (about 30 engineers) through the move from a batch loan-decisioning monolith to event-driven services"
+    },
+    {
+      "requirement": "Experience building and operating production ML platform (model training, model serving, orchestration, or ML data systems) with performance, reliability, scalability and cost requirements",
+      "status": "unknown",
+      "evidence": "Built the real-time feature pipelines feeding the credit-risk team's models and worked with their data scientists on the model-serving API"
+    },
+    {
+      "requirement": "Strong product instincts and deep understanding of the business context",
+      "status": "met",
+      "evidence": "presented trade-offs to the CTO and the head of credit"
+    },
+    {
+      "requirement": "Strong communication skills with technical and non-technical stakeholders",
+      "status": "met",
+      "evidence": "Wrote architecture decision records and presented trade-offs to the CTO and the head of credit."
+    },
+    {
+      "requirement": "Cross-functional collaboration with ML engineers, data scientists, software engineers, product managers and business stakeholders",
+      "status": "met",
+      "evidence": "worked with their data scientists on the model-serving API"
+    },
+    {
+      "requirement": "Hands-on experience using AI tools to accelerate how you work",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Overlapping dates: Fjordline Telecom contract (2018-06 to 2019-09) overlaps the Quaywise Logistics engagement starting 2019-01",
+    "Depth of hands-on ML platform ownership (training, serving, orchestration) beyond feature pipelines",
+    "Use of AI tools in daily work",
+    "Work authorization and comp expectations",
+    "Motivation for moving from consulting to full-time"
+  ],
+  "facts": {
+    "full_name": "Gregory Halvorsen",
+    "email": "gregory.halvorsen@example.com",
+    "location": "Bellevue, WA",
+    "current_title": "Principal Engineer",
+    "current_employer": "Halvorsen Systems LLC",
+    "positions": [
+      {
+        "title": "contract Principal Engineer",
+        "employer": "Kestrel Lending",
+        "start": "2023-04",
+        "end": "2026-08",
+        "team_size": 30
+      },
+      {
+        "title": "contract Lead Architect",
+        "employer": "Quaywise Logistics",
+        "start": "2019-01",
+        "end": "2023-03",
+        "team_size": null
+      },
+      {
+        "title": "Senior Software Engineer (contract)",
+        "employer": "Fjordline Telecom",
+        "start": "2018-06",
+        "end": "2019-09",
+        "team_size": null
+      },
+      {
+        "title": "Principal Engineer",
+        "employer": "Stoneharbor Bank",
+        "start": "2012-02",
+        "end": "2018-05",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineer → Senior Software Engineer",
+        "employer": "Alderpoint Networks",
+        "start": "2008-06",
+        "end": "2012-01",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Engineering",
+        "school": "Oregon State University",
+        "year": 2008
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Java",
+      "Go",
+      "Python",
+      "Kafka",
+      "Kubernetes",
+      "AWS",
+      "Terraform",
+      "PostgreSQL",
+      "Cassandra",
+      "gRPC",
+      "event-driven architecture",
+      "system design"
+    ],
+    "numbers": [
+      "18 years",
+      "4 teams (about 30 engineers)",
+      "from 6 minutes to 900 ms",
+      "120 million events per day",
+      "5 senior engineers",
+      "throughput up 4x",
+      "$3B in daily transfers"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 18
+  },
+  "format_traits": [
+    "consultant_contractor_history",
+    "overlapping_dates",
+    "to_confirm_ambiguity",
+    "work_authorization_missing"
+  ],
+  "notes": "Senior distributed-systems consultant with only adjacent ML platform work. Current title/employer is ambiguous (independent LLC vs. client contract that ended 2026-08); key uses the LLC. Overlapping dates should surface as a to-confirm item, not a fabrication flag."
+}

@@ -1,0 +1,133 @@
+{
+  "id": "rs-022",
+  "target_jd": "jd-08",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Manager coaching, ER, data diagnosis and process improvement all evidenced with outcomes."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Four years as the client-facing HR partner coaching 45 managers and running ER with counsel."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Fast-growing fintech; also covers preferred Canada employment, facilitation and AI use."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "6.5 years HR (within 4–8) with 4+ years client-facing."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Chicago, IL."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Psychology and SHRM-CP."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated; JD lists no range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "4–8 years of HR experience, including at least 3 years in a client-facing HR role, or equivalent business-facing experience",
+      "status": "met",
+      "evidence": "6 years in HR, the last 4 as the sole HR partner"
+    },
+    {
+      "requirement": "Independently advising and coaching managers on performance management, employee relations, and team culture",
+      "status": "met",
+      "evidence": "coach 45 people managers on performance, career growth and difficult conversations"
+    },
+    {
+      "requirement": "Working knowledge of US employment legislation, including working with legal counsel on complex employee matters",
+      "status": "met",
+      "evidence": "partner with outside employment counsel on complex cases, including 2 accommodation disputes and a wage-and-hour claim"
+    },
+    {
+      "requirement": "Strong ability to diagnose problems using data and develop viable solutions",
+      "status": "met",
+      "evidence": "Analyzed exit and engagement data to find that 60% of first-year exits came from 3 teams"
+    },
+    {
+      "requirement": "Continuous improvement: improve processes and drive changes",
+      "status": "met",
+      "evidence": "redesigned onboarding with those managers and cut first-year attrition from 24% to 15%"
+    },
+    {
+      "requirement": "Excellent written and verbal communication skills in English",
+      "status": "unknown",
+      "evidence": "rebuilt the handbook"
+    },
+    {
+      "requirement": "Chicago-based role",
+      "status": "met",
+      "evidence": "Chicago, IL"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Fatima Siddiqui",
+    "email": "fatima.siddiqui@example.com",
+    "location": "Chicago, IL",
+    "current_title": "HR Generalist",
+    "current_employer": "Lakefront Payments",
+    "positions": [
+      {
+        "title": "HR Generalist",
+        "employer": "Lakefront Payments",
+        "start": "2022-05",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "HR Associate",
+        "employer": "Wabash Consulting Group",
+        "start": "2020-03",
+        "end": "2022-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Psychology",
+        "school": "DePaul University",
+        "year": 2019
+      }
+    ],
+    "certifications": [
+      "SHRM-CP"
+    ],
+    "skills": [
+      "ChatGPT Enterprise",
+      "Rippling"
+    ],
+    "numbers": [
+      "6 years in HR",
+      "the last 4",
+      "400 employees",
+      "45 people managers",
+      "2 accommodation disputes",
+      "60% of first-year exits came from 3 teams",
+      "from 24% to 15%",
+      "8 team effectiveness workshops",
+      "150 consultants"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 6
+  },
+  "format_traits": [
+    "chronological",
+    "under_titled_strong_scope",
+    "specific_numbers"
+  ],
+  "notes": "Strong: 'HR Generalist' title understates a business-partner scope; tests that scope beats title. Also hits all preferred items."
+}

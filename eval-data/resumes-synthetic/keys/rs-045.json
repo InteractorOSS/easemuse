@@ -1,0 +1,153 @@
+{
+  "id": "rs-045",
+  "target_jd": "jd-14",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Intake/triage design, CLM, metrics and process improvement are all well evidenced."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "13 years of legal operations in in-house legal departments."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "In-house legal teams at public life-sciences and insurance companies."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "Director-level with a team of 5; overqualified for a specialist role (retention/fit to confirm)."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Boston, MA and open to fully remote only; role is New York office-based with hybrid at most."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "MBA and B.A.; no requirement in JD."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "Target $165,000 is well above the $90,000-$110,000 range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3+ years of operational experience, preferably in a fast-paced or dynamic legal team environment",
+      "status": "met",
+      "evidence": "Legal operations leader with 13 years of experience"
+    },
+    {
+      "requirement": "Experience with technical tooling and data analysis project management software",
+      "status": "met",
+      "evidence": "Built Power BI dashboards on outside counsel spend and matter cycle times."
+    },
+    {
+      "requirement": "Meticulous attention to detail, including maintaining accurate records and diligently tracking key project metrics",
+      "status": "met",
+      "evidence": "Own the legal department budget of $42M and the annual legal metrics report to the board"
+    },
+    {
+      "requirement": "Manage and triage incoming requests for the Legal team as first point of contact, ensuring items are prioritized, routed, tracked and resolved",
+      "status": "met",
+      "evidence": "Designed the legal front door: intake portal, triage rules and SLAs handling 6,000 requests a year"
+    },
+    {
+      "requirement": "Demonstrated experience identifying and acting upon opportunities to improve processes and tools",
+      "status": "met",
+      "evidence": "Selected and implemented Ironclad and an e-billing platform; outside counsel spend down 18% in two years"
+    },
+    {
+      "requirement": "Able to work from the New York, NY office (in-office with possible hybrid)",
+      "status": "not_met",
+      "evidence": "Open to fully remote roles only."
+    }
+  ],
+  "disqualifiers_present": [
+    "Requires fully remote; role is office-based in New York",
+    "Compensation expectation far above posted range"
+  ],
+  "to_confirm": [
+    "Whether he would consider relocating or a hybrid NY arrangement",
+    "Motivation for moving from Director to Specialist level",
+    "Flexibility on $165,000 target vs. $90,000-$110,000 range"
+  ],
+  "facts": {
+    "full_name": "Robert Halvorsen",
+    "email": "robert.halvorsen@example.com",
+    "location": "Boston, MA",
+    "current_title": "Director of Legal Operations",
+    "current_employer": "Crestmark Biotherapeutics",
+    "positions": [
+      {
+        "title": "Director of Legal Operations",
+        "employer": "Crestmark Biotherapeutics",
+        "start": "2019-05",
+        "end": "present",
+        "team_size": 5
+      },
+      {
+        "title": "Legal Operations Manager",
+        "employer": "Northfield Medical Devices",
+        "start": "2015-03",
+        "end": "2019-04",
+        "team_size": null
+      },
+      {
+        "title": "Legal Operations Analyst",
+        "employer": "Beacon Hill Insurance Partners",
+        "start": "2013-01",
+        "end": "2015-02",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "MBA",
+        "field": "Business Administration",
+        "school": "Boston University Questrom School of Business",
+        "year": 2016
+      },
+      {
+        "degree": "B.A.",
+        "field": "Political Science",
+        "school": "University of Massachusetts Amherst",
+        "year": 2012
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Ironclad",
+      "Brightflag",
+      "Power BI",
+      "SQL",
+      "Jira",
+      "Smartsheet",
+      "process design",
+      "vendor selection",
+      "change management"
+    ],
+    "numbers": [
+      "$165,000",
+      "13 years",
+      "3,000-person",
+      "a team of 5",
+      "down 18% in two years",
+      "6,000 requests a year",
+      "$42M"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "Target compensation: $165,000 base.",
+    "years_experience_total": 13
+  },
+  "format_traits": [
+    "chronological",
+    "overqualified",
+    "remote_only",
+    "location_mismatch",
+    "comp_above_range"
+  ],
+  "notes": "Partial (could be argued weak): meets every skill must-have but is overqualified, Boston remote-only for an NY office role, and asks for ~50% above range. Tests that the matcher surfaces location and comp gaps rather than rewarding seniority."
+}

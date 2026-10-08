@@ -1,0 +1,138 @@
+{
+  "id": "rs-062",
+  "target_jd": "jd-19",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong concurrency, networking (CAN) and hardware-level debugging; production code is mostly C, C++ limited to C++11 tooling, so 'modern C++' is unproven."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Real-time embedded automotive software; not high-throughput data capture or storage."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Automotive electronics is adjacent to autonomous vehicles."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "About 5.7 years incl. co-op; meets 3+."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Detroit, MI; willing to relocate to the Bay Area."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Computer Engineering."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "$180,000 base is inside USD 175,000-250,000; authorized to work in the U.S."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Bachelor's degree in computer science, engineering, mathematics, or a related field",
+      "status": "met",
+      "evidence": "B.S. Computer Engineering, Michigan State University, 2020"
+    },
+    {
+      "requirement": "3+ years of professional software development experience",
+      "status": "met",
+      "evidence": "5 years in automotive electronics"
+    },
+    {
+      "requirement": "Strong proficiency in modern C++",
+      "status": "not_met",
+      "evidence": "Most of my production code is C on real-time operating systems, with C++ for diagnostic tools."
+    },
+    {
+      "requirement": "Experience with multithreading, concurrency, inter-process communication, or networking",
+      "status": "met",
+      "evidence": "Designed task priorities and message queues for a 14-task RTOS application"
+    },
+    {
+      "requirement": "Strong problem-solving skills and ability to investigate issues across multiple software and hardware layers",
+      "status": "met",
+      "evidence": "Root-caused intermittent faults with logic analyzers and JTAG debugging"
+    },
+    {
+      "requirement": "Ability to communicate technical ideas clearly and collaborate effectively across teams",
+      "status": "met",
+      "evidence": "working with electrical engineers and suppliers"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Depth of modern C++ (C++17/20) experience",
+    "Relocation timeline to Foster City"
+  ],
+  "facts": {
+    "full_name": "Samuel Adeyemi",
+    "email": "samuel.adeyemi@example.com",
+    "location": "Detroit, MI",
+    "current_title": "Embedded Software Engineer",
+    "current_employer": "Great Lakes Auto Electronics",
+    "positions": [
+      {
+        "title": "Embedded Software Engineer",
+        "employer": "Great Lakes Auto Electronics",
+        "start": "2021-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Engineering Co-op",
+        "employer": "Great Lakes Auto Electronics",
+        "start": "2019-05",
+        "end": "2019-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Engineering",
+        "school": "Michigan State University",
+        "year": 2020
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "C",
+      "C++11",
+      "Python",
+      "FreeRTOS",
+      "AUTOSAR",
+      "CAN/CAN FD",
+      "UDS",
+      "Linux (basic)",
+      "JTAG",
+      "logic analyzers",
+      "MISRA C",
+      "Git",
+      "Jenkins"
+    ],
+    "numbers": [
+      "5 years",
+      "14-task RTOS application",
+      "2% of field units",
+      "3 validation teams",
+      "reduced by 70%",
+      "$180,000"
+    ],
+    "work_authorization": "authorized to work in the U.S.",
+    "compensation_expectation": "$180,000 base.",
+    "years_experience_total": 6
+  },
+  "format_traits": [
+    "chronological",
+    "relocation_stated",
+    "compensation_stated",
+    "location_mismatch"
+  ],
+  "notes": "Partial: one clear gap (modern C++) plus relocation. Comp inside range."
+}

@@ -1,0 +1,153 @@
+{
+  "id": "rs-007",
+  "target_jd": "jd-03",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Sourcing, talent mapping, closing and pipeline analytics all evidenced with numbers."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Full-cycle ownership across G&A and engineering reqs at fintech/data companies."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Fintech and high-growth SaaS; G&A plus technical mix matches the portfolio."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "7+ years recruiting (2019-01 to present), above the 5+ requirement."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Atlanta, GA, U.S. authorized; remote-USA role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Psychology; no degree requirement in JD."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "Seeking $150K base, within $130,900–$154,000."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of full-lifecycle recruiting experience in a technology company or similarly fast-paced, high-growth environment",
+      "status": "met",
+      "evidence": "Full-cycle recruiter with 7+ years across fintech, data and SaaS companies"
+    },
+    {
+      "requirement": "Demonstrated success closing competitive candidates across G&A and/or technical functions",
+      "status": "met",
+      "evidence": "closed 3 of 3 candidates holding competing offers for senior data roles"
+    },
+    {
+      "requirement": "Ability to ramp quickly and shift between business and technical requisitions",
+      "status": "met",
+      "evidence": "splitting time between G&A (Finance, Legal, People) and engineering requisitions"
+    },
+    {
+      "requirement": "Deep knowledge of the candidate lifecycle, from talent mapping and sourcing through interviewing and closing",
+      "status": "met",
+      "evidence": "Built talent maps for Controller and staff software engineer searches; 62% of hires came from self-sourced pipeline."
+    },
+    {
+      "requirement": "Data-driven pipeline management, translating recruiting metrics into recommendations for hiring managers",
+      "status": "met",
+      "evidence": "flagged an onsite-to-offer bottleneck and reduced time-to-fill from 58 to 39 days"
+    },
+    {
+      "requirement": "Utilizes generative AI responsibly, maintaining human oversight",
+      "status": "met",
+      "evidence": "Piloted generative AI for intake summaries and outreach drafts with recruiter review of every message"
+    },
+    {
+      "requirement": "U.S.-based (Remote - USA) with quarterly in-person surges",
+      "status": "met",
+      "evidence": "Atlanta, GA | ... | Authorized to work in the U.S."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Interest in converting from contract to full-time employment"
+  ],
+  "facts": {
+    "full_name": "Marcus Bellamy",
+    "email": "marcus.bellamy@example.com",
+    "location": "Atlanta, GA",
+    "current_title": "Senior Recruiter (Contract)",
+    "current_employer": "Ridgeway Payments",
+    "positions": [
+      {
+        "title": "Senior Recruiter (Contract)",
+        "employer": "Ridgeway Payments",
+        "start": "2024-08",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Recruiter (Contract)",
+        "employer": "Kestrel Analytics",
+        "start": "2023-05",
+        "end": "2024-07",
+        "team_size": null
+      },
+      {
+        "title": "Senior Recruiter",
+        "employer": "Orchard Labs",
+        "start": "2021-09",
+        "end": "2023-04",
+        "team_size": null
+      },
+      {
+        "title": "Recruiter",
+        "employer": "Copperline Staffing",
+        "start": "2019-01",
+        "end": "2021-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Psychology",
+        "school": "Georgia State University",
+        "year": 2018
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Greenhouse",
+      "Gem",
+      "LinkedIn Recruiter",
+      "ChatGPT Enterprise",
+      "Google Sheets"
+    ],
+    "numbers": [
+      "Seeking $150K base",
+      "7+ years",
+      "25–30 req load",
+      "28 open reqs",
+      "41 hires in the first 12 months",
+      "62% of hires",
+      "from 58 to 39 days",
+      "response rate up 18%",
+      "3 of 3 candidates",
+      "from 300 to 750 employees"
+    ],
+    "work_authorization": "Authorized to work in the U.S.",
+    "compensation_expectation": "Seeking $150K base, full-time",
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "chronological",
+    "contractor_history",
+    "job_hopping",
+    "comp_stated_within_range",
+    "specific_numbers"
+  ],
+  "notes": "Strong despite short contract stints and a RIF; tests that contractor/job-hopping patterns are not over-penalized when evidence is strong."
+}

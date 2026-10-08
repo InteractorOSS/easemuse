@@ -1,0 +1,143 @@
+{
+  "id": "rs-076",
+  "target_jd": "jd-23",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Solid campaign and messaging skills, but product marketing ownership covers one product line, not multiple."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "11 years of B2B marketing, but only about 7.5 at a SaaS company (since 2019-02); PMM only since 2023-07."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "B2B SaaS (HR cloud) plus prior B2B insurance marketing."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "Senior IC PMM with past management of 2; below the director scope of four direct reports."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Nashville, TN; JD is U.S. remote."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; B.B.A. Marketing."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated; Tennessee falls in the 'All other states' band ($202,000—$213,000)."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of B2B marketing experience at a SaaS company, with demonstrated ownership of product marketing across multiple product lines",
+      "status": "not_met",
+      "evidence": "Own positioning, messaging and launches for the payroll module (one of the company's five products)."
+    },
+    {
+      "requirement": "People management experience, with a track record of growing and developing marketing teams",
+      "status": "met",
+      "evidence": "Managed 2 campaign specialists."
+    },
+    {
+      "requirement": "Proven ability to build and execute full-scale, multi-channel B2B campaigns that drive both awareness and qualified lead generation",
+      "status": "met",
+      "evidence": "generated 4,800 MQLs in 2022"
+    },
+    {
+      "requirement": "Strong written and verbal communication skills—able to distill complex technical topics into clear, compelling narratives for senior audiences including C-suite",
+      "status": "met",
+      "evidence": "Present roadmap narratives at the annual customer advisory board (CHROs and CFOs)."
+    },
+    {
+      "requirement": "Experience developing effective positioning, messaging frameworks, and thought leadership strategies that translate into sales enablement materials",
+      "status": "met",
+      "evidence": "built battlecards and a pitch deck now used in every payroll deal"
+    },
+    {
+      "requirement": "Ability to manage multiple high-stakes projects simultaneously, prioritize effectively, and influence cross-functional stakeholders without direct authority",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "High proficiency with Google Slides and comfort with basic marketing analytics",
+      "status": "unknown",
+      "evidence": "PowerPoint, Keynote"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Depth of people management (only 2 reports) vs. leading a team of four",
+    "Google Slides proficiency",
+    "Experience across multiple product lines"
+  ],
+  "facts": {
+    "full_name": "Rafael Montoya",
+    "email": "rafael.montoya@example.com",
+    "location": "Nashville, TN",
+    "current_title": "Senior Product Marketing Manager",
+    "current_employer": "Ridgepoint HR Cloud",
+    "positions": [
+      {
+        "title": "Senior Product Marketing Manager",
+        "employer": "Ridgepoint HR Cloud",
+        "start": "2023-07",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Demand Generation Manager",
+        "employer": "Ridgepoint HR Cloud",
+        "start": "2019-02",
+        "end": "2023-06",
+        "team_size": 2
+      },
+      {
+        "title": "Marketing Manager",
+        "employer": "Copperleaf Insurance Services",
+        "start": "2015-05",
+        "end": "2019-01",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.B.A.",
+        "field": "Marketing",
+        "school": "Belmont University",
+        "year": 2015
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Marketo",
+      "Salesforce",
+      "Google Analytics",
+      "PowerPoint",
+      "Keynote",
+      "Tableau",
+      "copywriting"
+    ],
+    "numbers": [
+      "one of the company's five products",
+      "Ran 3 major launches",
+      "Managed 2 campaign specialists",
+      "4,800 MQLs in 2022",
+      "from 11% to 17%"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 11
+  },
+  "format_traits": [
+    "chronological",
+    "no_summary",
+    "career_pivot_within_function"
+  ],
+  "notes": "Partial: meets campaign/messaging items, but PMM covers one product line, SaaS tenure under 10 years, small team managed, Google Slides unknown."
+}

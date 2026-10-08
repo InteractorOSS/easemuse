@@ -1,0 +1,160 @@
+{
+  "id": "rs-052",
+  "target_jd": "jd-16",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "TypeScript/React, testing (Playwright, Jest), observability (OpenTelemetry, Datadog RUM), code reviews, GenAI tools all evidenced."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Builds interactive video and brand ad formats, the exact work of Brand Ad Formats."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Four years in ad tech (preferred) plus high-traffic consumer sites."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Six years of web engineering; above the 3+ minimum."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Remote in Oregon; role is Remote - United States."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Interactive Media; no degree requirement in JD."
+    },
+    "compensation_other": {
+      "level": "partial",
+      "why": "Asks $235,000 base, above the $164,200—$229,900 range; authorized to work in the U.S."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3+ years of experience in Web Engineering",
+      "status": "met",
+      "evidence": "six years of experience building fast, data-heavy web applications"
+    },
+    {
+      "requirement": "Proficient in Typescript and Javascript",
+      "status": "met",
+      "evidence": "Migrated 70% of the legacy JavaScript codebase to TypeScript with strict mode enabled."
+    },
+    {
+      "requirement": "Willingness to build data-intensive, highly responsive, and fault-tolerant apps",
+      "status": "met",
+      "evidence": "virtualized tables that handle 200,000-row exports in the browser"
+    },
+    {
+      "requirement": "Experience with automated testing best practices, code quality / design patterns, observability",
+      "status": "met",
+      "evidence": "Introduced Playwright end-to-end tests and visual regression snapshots for every ad format"
+    },
+    {
+      "requirement": "Skilled at performing insightful code reviews, and receiving feedback",
+      "status": "met",
+      "evidence": "Review roughly 15 pull requests a week and wrote the team's code review guide"
+    },
+    {
+      "requirement": "Experience leveraging GenAI tools to increase software engineering productivity",
+      "status": "met",
+      "evidence": "Use Cursor and GitHub Copilot daily for scaffolding, test generation and refactors"
+    },
+    {
+      "requirement": "Excellent communication skills; able to collaborate in a fully remote environment",
+      "status": "met",
+      "evidence": "I have worked fully remote since 2020 with teammates spread across five time zones."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Base salary expectation of $235,000 exceeds the posted maximum of $229,900"
+  ],
+  "facts": {
+    "full_name": "Sofia Bergstrom",
+    "email": "sofia.bergstrom@example.com",
+    "location": "Portland, OR",
+    "current_title": "Senior Frontend Engineer",
+    "current_employer": "Brightpath Media",
+    "positions": [
+      {
+        "title": "Senior Frontend Engineer",
+        "employer": "Brightpath Media",
+        "start": "2022-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Frontend Engineer",
+        "employer": "Brightpath Media",
+        "start": "2020-06",
+        "end": "2021-12",
+        "team_size": null
+      },
+      {
+        "title": "Web Developer",
+        "employer": "Lumen & Field Agency",
+        "start": "2018-07",
+        "end": "2020-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Interactive Media",
+        "school": "Portland State University",
+        "year": 2018
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "TypeScript",
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS",
+      "Node.js",
+      "GraphQL",
+      "Jest",
+      "Playwright",
+      "OpenTelemetry",
+      "Datadog",
+      "Docker",
+      "Go",
+      "Cursor",
+      "GitHub Copilot"
+    ],
+    "numbers": [
+      "six years",
+      "four years",
+      "five time zones",
+      "40 brand advertisers",
+      "raised average view-through rate by 23%",
+      "cut creative-rejection tickets by 35%",
+      "from 41% to 86%",
+      "180 ms",
+      "roughly 15 pull requests a week",
+      "60 engineers",
+      "200,000-row exports",
+      "70% of the legacy JavaScript codebase",
+      "more than 1 million monthly visitors",
+      "$235,000"
+    ],
+    "work_authorization": "Authorized to work in the United States.",
+    "compensation_expectation": "Seeking a base salary of $235,000.",
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "wordy",
+    "chronological",
+    "achievements_with_numbers",
+    "compensation_stated",
+    "compensation_above_range"
+  ],
+  "notes": "Strong on every requirement; the only issue is a comp ask slightly above the posted range, which should be flagged but not downgrade fit. Text says 'six years' of frontend; dates span ~8 years including agency work."
+}

@@ -1,0 +1,148 @@
+{
+  "id": "rs-065",
+  "target_jd": "jd-20",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong pipelines (Airflow, Spark, Kafka, SQL) and some data-quality checks; little backend service development, caching or key/value work; no access control or lineage."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Pipeline/data engineering rather than platform services, SDKs and self-service tools."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Freight and retail analytics; no fintech or regulated-data exposure."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "6+ years in data engineering (plus a year as analyst); backend software engineering years are unclear."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Atlanta, GA; remote U.S. role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Information Systems."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp or work authorization stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of experience in backend software engineering, with hands-on experience building and operating data systems or data pipelines in production",
+      "status": "met",
+      "evidence": "Data engineer with 6+ years designing batch and streaming pipelines."
+    },
+    {
+      "requirement": "Proficiency in Python, Go, or Java for backend development, building services that process and serve data at scale",
+      "status": "met",
+      "evidence": "Wrote a small Python library for consistent DAG patterns, used across the data team."
+    },
+    {
+      "requirement": "Experience with data infrastructure patterns including scale-out architectures, caching layers, key/value stores, and columnar storage systems",
+      "status": "unknown",
+      "evidence": "Partitioned and compressed fact tables in Parquet; query times improved 3x."
+    },
+    {
+      "requirement": "Hands-on experience with SQL, Airflow, Spark, Kafka, or similar data processing and orchestration frameworks in production",
+      "status": "met",
+      "evidence": "Built Spark Structured Streaming jobs that read shipment events from Kafka and land them in Delta tables"
+    },
+    {
+      "requirement": "Experience with data security, access control, or data observability systems, including cataloging, lineage, or quality monitoring",
+      "status": "unknown",
+      "evidence": "Added Great Expectations data checks to critical tables."
+    },
+    {
+      "requirement": "Utilizes generative AI responsibly, maintaining human oversight",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Unexplained gap from 2023-06 to 2024-01",
+    "Team size and people-management scope behind 'Managed the pipelines team' and the 'Lead Engineer, Data' title",
+    "Backend service development beyond pipelines (APIs, caching, key/value stores)",
+    "Data security / access-control and lineage experience",
+    "Use of generative AI tools",
+    "Work authorization and comp"
+  ],
+  "facts": {
+    "full_name": "Andre Baptiste",
+    "email": "andre.baptiste@example.com",
+    "location": "Atlanta, GA",
+    "current_title": "Lead Engineer, Data",
+    "current_employer": "Peachtree Freight Analytics",
+    "positions": [
+      {
+        "title": "Lead Engineer, Data",
+        "employer": "Peachtree Freight Analytics",
+        "start": "2024-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Data Engineer",
+        "employer": "Riverbend Retail Group",
+        "start": "2019-03",
+        "end": "2023-05",
+        "team_size": null
+      },
+      {
+        "title": "Data Analyst",
+        "employer": "Riverbend Retail Group",
+        "start": "2018-01",
+        "end": "2019-02",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Information Systems",
+        "school": "Georgia State University",
+        "year": 2017
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Python",
+      "SQL",
+      "Airflow",
+      "Spark",
+      "Kafka",
+      "Delta Lake",
+      "Redshift",
+      "Parquet",
+      "Great Expectations",
+      "Docker",
+      "AWS (S3, EMR, Glue)"
+    ],
+    "numbers": [
+      "6+ years",
+      "150 Airflow DAGs",
+      "from 1 hour to 5 minutes",
+      "12 source systems",
+      "$180K per year",
+      "3x"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "employment_gap_unexplained",
+    "vague_team_size",
+    "to_confirm_ambiguity",
+    "work_authorization_missing"
+  ],
+  "notes": "Partial: solid pipeline engineer missing the security/observability and GenAI items, with an unexplained 8-month gap and a 'managed' claim with no team size."
+}

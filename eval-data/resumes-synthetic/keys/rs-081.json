@@ -1,0 +1,143 @@
+{
+  "id": "rs-081",
+  "target_jd": "jd-25",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Platform PMM for governance, SSO/SCIM, data residency and integrations, the exact technical area in the JD."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "9 years in enterprise platform software (PMM since 2019 plus solutions engineering); monthly and quarterly launch ownership."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Revenue intelligence SaaS, the same category as Outreach."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "Senior PMM level with 6+ years in the technical area."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Seattle, WA; JD location is United States."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "No degree requirement; B.S. Computer Science supports technical depth."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated. Permanent resident, so authorized to work."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "6+ years of enterprise platform software experience focused on a highly technical product area that includes governance, interoperability, security, and integration",
+      "status": "met",
+      "evidence": "Own GTM for the platform pillar: governance console, SSO/SCIM, data residency, and 40+ integrations."
+    },
+    {
+      "requirement": "Expertise in defining and executing go-to-market strategies and in the core craft of product marketing (messaging and positioning, GTM enablement, presentations, product launches, event content)",
+      "status": "met",
+      "evidence": "Ran 42 monthly releases and 8 quarterly launches"
+    },
+    {
+      "requirement": "Curiosity about AI and a record of learning and adapting quickly, including experimenting with AI tools to improve how you research, create, and launch",
+      "status": "met",
+      "evidence": "use LLM assistants to synthesize win/loss interviews and draft first-pass launch copy"
+    },
+    {
+      "requirement": "Proven ability to influence and align stakeholders, including without direct authority, and to bring a data-informed perspective to decision-making",
+      "status": "met",
+      "evidence": "align Product, Security, Legal, Sales and Partners on launch scope and claims"
+    },
+    {
+      "requirement": "Ability to tell clear, compelling, value-based stories that communicate complex information persuasively",
+      "status": "met",
+      "evidence": "value frameworks for CIO, CISO and RevOps buyers"
+    },
+    {
+      "requirement": "Comfort moving quickly and adapting to change",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Compensation expectations vs. $135,000–$150,000"
+  ],
+  "facts": {
+    "full_name": "Mei-Lin Zhao",
+    "email": "mei-lin.zhao@example.com",
+    "location": "Seattle, WA",
+    "current_title": "Senior Product Marketing Manager, Platform & Security",
+    "current_employer": "Quotaflow",
+    "positions": [
+      {
+        "title": "Senior Product Marketing Manager, Platform & Security",
+        "employer": "Quotaflow",
+        "start": "2022-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Product Marketing Manager, Integrations",
+        "employer": "Stackmint",
+        "start": "2019-08",
+        "end": "2022-02",
+        "team_size": null
+      },
+      {
+        "title": "Solutions Engineer",
+        "employer": "Stackmint",
+        "start": "2017-06",
+        "end": "2019-07",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "school": "University of Washington",
+        "year": 2017
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "SSO",
+      "SCIM",
+      "admin governance",
+      "audit logging",
+      "data residency",
+      "open APIs",
+      "CRM integrations",
+      "launch leadership",
+      "messaging and positioning",
+      "competitive battlecards",
+      "LLM assistants"
+    ],
+    "numbers": [
+      "7-person PMM team",
+      "40+ integrations",
+      "42 monthly releases and 8 quarterly launches",
+      "300 sellers and 25 partners",
+      "from 31% to 18% of late-stage opportunities",
+      "5 co-marketing launches",
+      "from 22% to 41%"
+    ],
+    "work_authorization": "U.S. permanent resident",
+    "compensation_expectation": null,
+    "years_experience_total": 9
+  },
+  "format_traits": [
+    "functional_skills_first",
+    "hybrid",
+    "work_authorization_stated",
+    "achievements_with_numbers"
+  ],
+  "notes": "Strong: platform/security PMM at a direct-category SaaS with explicit AI-tool usage."
+}

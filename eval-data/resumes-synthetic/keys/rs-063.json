@@ -1,0 +1,130 @@
+{
+  "id": "rs-063",
+  "target_jd": "jd-19",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Professional work is Python/Django; C++ and multithreading only from coursework and a club project."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "Web backend for analytics dashboards; no systems or on-vehicle data work."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Hobby robotics only."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 1.2 years professional experience (plus internship); requires 3+."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Lives in Foster City, CA."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Computer Science."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp or work authorization stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Bachelor's degree in computer science, engineering, mathematics, or a related field",
+      "status": "met",
+      "evidence": "B.S. Computer Science, University of California, Santa Cruz, 2025"
+    },
+    {
+      "requirement": "3+ years of professional software development experience",
+      "status": "not_met",
+      "evidence": "Tidepool Analytics | 2025-07 – Present"
+    },
+    {
+      "requirement": "Strong proficiency in modern C++",
+      "status": "not_met",
+      "evidence": "wrote C++ code for a line-following robot's motor control loop on a Raspberry Pi"
+    },
+    {
+      "requirement": "Experience with multithreading, concurrency, inter-process communication, or networking",
+      "status": "not_met",
+      "evidence": "implemented a multithreaded web server in C with a thread pool"
+    },
+    {
+      "requirement": "Strong problem-solving skills and ability to investigate issues across multiple software and hardware layers",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Ability to communicate technical ideas clearly and collaborate effectively across teams",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [
+    "Too junior: about one year of professional experience versus 3+ required"
+  ],
+  "to_confirm": [
+    "Work authorization"
+  ],
+  "facts": {
+    "full_name": "Lily Chen",
+    "email": "lily.chen@example.com",
+    "location": "Foster City, CA",
+    "current_title": "Software Engineer I",
+    "current_employer": "Tidepool Analytics",
+    "positions": [
+      {
+        "title": "Software Engineer I",
+        "employer": "Tidepool Analytics",
+        "start": "2025-07",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineering Intern",
+        "employer": "Tidepool Analytics",
+        "start": "2024-06",
+        "end": "2024-09",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "school": "University of California, Santa Cruz",
+        "year": 2025
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Python",
+      "Django",
+      "SQL",
+      "pytest",
+      "React",
+      "C++",
+      "C",
+      "UDP"
+    ],
+    "numbers": [
+      "from 9 seconds to 2 seconds"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 1
+  },
+  "format_traits": [
+    "missing_sections",
+    "no_summary",
+    "no_skills_section",
+    "short",
+    "work_authorization_missing"
+  ],
+  "notes": "Too-junior candidate whose only C++ is academic. No skills section, so skills in the key are inferred from bullet text. No summary or skills section by design."
+}

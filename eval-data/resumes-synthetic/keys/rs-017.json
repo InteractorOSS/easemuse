@@ -1,0 +1,142 @@
+{
+  "id": "rs-017",
+  "target_jd": "jd-06",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Automation, AI use and US compliance evidenced; global compliance and works councils absent."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Scaled US HR operations; global exposure limited to EOR contractors in 3 countries."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Tech/fintech startups, but not complex multi-regional organizations."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "12 years HR with VP/Director titles, but 5+ years leading global teams not evidenced and team size never stated."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Boston, MA; US-remote role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Political Science and SHRM-SCP."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "Asks $275,000 base, above the $152,800–$259,200 range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "10+ years of HR/People Operations experience, including 5+ years experience leading global teams",
+      "status": "unknown",
+      "evidence": "Managed People Operations, HR compliance and HRIS for a 220-person company."
+    },
+    {
+      "requirement": "Proven track record building and scaling people operations functions in complex, multi-regional global organizations",
+      "status": "not_met",
+      "evidence": "Hired contractors in Mexico, Portugal and India through an employer-of-record"
+    },
+    {
+      "requirement": "Working knowledge of global employment compliance, including direct experience with works councils or employee representative bodies",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Ability to move between executive-level roadmap and detailed process debugging",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience leveraging AI and automation to improve and streamline operations",
+      "status": "met",
+      "evidence": "Automated onboarding and document workflows with BambooHR and Zapier, cutting onboarding admin time by 50%."
+    },
+    {
+      "requirement": "Strong attention to detail with a focus on data accuracy",
+      "status": "unknown",
+      "evidence": "Owned I-9, EEO-1 and multi-state compliance audits."
+    },
+    {
+      "requirement": "Located in the United States or Canada (remote)",
+      "status": "met",
+      "evidence": "Boston, MA"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Size and location of the team managed at Fernhill Robotics",
+    "Any works council or employee representative body experience",
+    "Flexibility on $275,000 vs $259,200 top of range"
+  ],
+  "facts": {
+    "full_name": "David Feldman",
+    "email": "david.feldman@example.com",
+    "location": "Boston, MA",
+    "current_title": "VP, People Operations",
+    "current_employer": "Fernhill Robotics",
+    "positions": [
+      {
+        "title": "VP, People Operations",
+        "employer": "Fernhill Robotics",
+        "start": "2022-01",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Director, HR Operations",
+        "employer": "Atlas Ledger",
+        "start": "2017-05",
+        "end": "2021-12",
+        "team_size": null
+      },
+      {
+        "title": "HR Manager",
+        "employer": "Copley Street Partners",
+        "start": "2014-02",
+        "end": "2017-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Political Science",
+        "school": "Boston University",
+        "year": 2013
+      }
+    ],
+    "certifications": [
+      "SHRM-SCP"
+    ],
+    "skills": [
+      "BambooHR",
+      "Zapier",
+      "Zendesk"
+    ],
+    "numbers": [
+      "12 years",
+      "Compensation expectation: $275,000 base",
+      "a 220-person company",
+      "cutting onboarding admin time by 50%",
+      "from 150 to 900 employees"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "Compensation expectation: $275,000 base",
+    "years_experience_total": 12
+  },
+  "format_traits": [
+    "chronological",
+    "overqualified_title",
+    "comp_stated_above_range",
+    "vague_team_size"
+  ],
+  "notes": "Partial with a 'to confirm': 'Managed People Operations' with no team size and no evidence of leading global teams; title is senior to the role but scope is smaller. Comp above range."
+}

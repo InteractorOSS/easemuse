@@ -1,0 +1,148 @@
+{
+  "id": "rs-002",
+  "target_jd": "jd-01",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Strong business partnering, org design and executive coaching evidence."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Leads a PBP team of 9 and does workforce planning with FP&A, but M&A involvement was a supporting role on one small deal."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Career entirely in high-growth software companies."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "About 13.5 years of HR experience, short of 15+; Head of HR Business Partners is below VP/Head of People level."
+    },
+    "location_work_arrangement": {
+      "level": "partial",
+      "why": "Seattle-based; states willingness to relocate to the Bay Area, needs confirmation for 3-day SF in-office."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "BA in Psychology; no degree requirement in JD."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "15+ years of progressive HR leadership experience, including prior experience operating at the VP or Head of People level",
+      "status": "not_met",
+      "evidence": "spent the past thirteen years building HR business partner teams"
+    },
+    {
+      "requirement": "Partnering with C-suite and board-level stakeholders",
+      "status": "met",
+      "evidence": "act as the day-to-day thought partner to our Chief Operating Officer and Chief Technology Officer"
+    },
+    {
+      "requirement": "Demonstrated ownership of HR-side M&A diligence and integration",
+      "status": "not_met",
+      "evidence": "I supported the integration by running the cultural onboarding workstream ... while the deal diligence itself was led by our Corporate Development and Legal teams"
+    },
+    {
+      "requirement": "Demonstrated ownership of strategic, skills-based workforce planning at an enterprise level, in close partnership with Finance",
+      "status": "met",
+      "evidence": "I co-own the annual headcount plan with the FP&A team, translating business plans into hiring and skills priorities"
+    },
+    {
+      "requirement": "Proven success leading and coaching a team of high-performing people business partners",
+      "status": "met",
+      "evidence": "I lead a team of 9 HR business partners"
+    },
+    {
+      "requirement": "In-office hybrid schedule in San Francisco, 3 days per week (essential function)",
+      "status": "unknown",
+      "evidence": "would relocate to the San Francisco Bay Area for the right opportunity"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Relocation timing and willingness to be in the SF office Mon/Wed/Thu",
+    "Depth of any M&A diligence exposure beyond the 2024 integration",
+    "Compensation expectations vs $300-$325K"
+  ],
+  "facts": {
+    "full_name": "Martin Kowalczyk",
+    "email": "martin.kowalczyk@example.com",
+    "location": "Seattle, WA",
+    "current_title": "Head of HR Business Partners",
+    "current_employer": "Larkspur Cloud",
+    "positions": [
+      {
+        "title": "Head of HR Business Partners",
+        "employer": "Larkspur Cloud",
+        "start": "2022-05",
+        "end": "present",
+        "team_size": 9
+      },
+      {
+        "title": "Senior Manager, HR Business Partners",
+        "employer": "Larkspur Cloud",
+        "start": "2019-08",
+        "end": "2022-04",
+        "team_size": 4
+      },
+      {
+        "title": "Senior HR Business Partner",
+        "employer": "Pinecrest Software",
+        "start": "2015-02",
+        "end": "2019-07",
+        "team_size": null
+      },
+      {
+        "title": "HR Generalist",
+        "employer": "Pinecrest Software",
+        "start": "2013-03",
+        "end": "2015-01",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "Bachelor of Arts",
+        "field": "Psychology",
+        "school": "University of Washington",
+        "year": 2012
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Org design",
+      "executive coaching",
+      "calibration",
+      "headcount planning",
+      "change management",
+      "Workday",
+      "employee relations"
+    ],
+    "numbers": [
+      "a team of 9 HR business partners",
+      "roughly 2,400 employees",
+      "reduced unplanned mid-year requisitions by 30%",
+      "60 people in 2024",
+      "I managed 4 HR business partners",
+      "organization of 900 people",
+      "1,100 employees"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 13
+  },
+  "format_traits": [
+    "wordy",
+    "first_person_narrative",
+    "relocation_stated",
+    "steady_progression"
+  ],
+  "notes": "Partial: strong business partner leader but below the 15-year/VP bar and M&A ownership is missing (supported integration only). Relocation needs confirming."
+}

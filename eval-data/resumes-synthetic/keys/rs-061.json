@@ -1,0 +1,138 @@
+{
+  "id": "rs-061",
+  "target_jd": "jd-19",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Modern C++20, lock-free concurrency, shared-memory IPC, networking, profiling, storage write paths."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "Owns an on-board flight data recorder for autonomous drones: near-identical problem to on-vehicle data capture."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Robotics/autonomy (bonus qualification)."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "About 7 years; title Software Engineer II understates tech-lead scope."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "San Mateo, CA, commutable to Foster City; fine with on-site."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Electrical Engineering."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp stated; U.S. citizen."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Bachelor's degree in computer science, engineering, mathematics, or a related field",
+      "status": "met",
+      "evidence": "B.S. Electrical Engineering, University of California, San Diego, 2019"
+    },
+    {
+      "requirement": "3+ years of professional software development experience",
+      "status": "met",
+      "evidence": "7 yrs."
+    },
+    {
+      "requirement": "Strong proficiency in modern C++",
+      "status": "met",
+      "evidence": "Owner and tech lead of the on-board flight data recorder, redesigned in C++20."
+    },
+    {
+      "requirement": "Experience with multithreading, concurrency, inter-process communication, or networking",
+      "status": "met",
+      "evidence": "Lock-free ring buffers + shared-memory IPC between 6 processes on 2 compute modules."
+    },
+    {
+      "requirement": "Strong problem-solving skills and ability to investigate issues across multiple software and hardware layers",
+      "status": "met",
+      "evidence": "Debugged an SPI timing fault with oscilloscope + kernel traces alongside the hardware team."
+    },
+    {
+      "requirement": "Ability to communicate technical ideas clearly and collaborate effectively across teams",
+      "status": "met",
+      "evidence": "Ran design reviews with autonomy, fleet ops and hardware; wrote the data-format spec used by 4 teams."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Compensation expectations against USD 175,000-250,000"
+  ],
+  "facts": {
+    "full_name": "Jordan Pike",
+    "email": "jordan.pike@example.com",
+    "location": "San Mateo, CA",
+    "current_title": "Software Engineer II",
+    "current_employer": "Skyreach Robotics",
+    "positions": [
+      {
+        "title": "Software Engineer II",
+        "employer": "Skyreach Robotics",
+        "start": "2021-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineer",
+        "employer": "Velostat Instruments",
+        "start": "2019-07",
+        "end": "2021-02",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Electrical Engineering",
+        "school": "University of California, San Diego",
+        "year": 2019
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "C++17/20",
+      "Python",
+      "Linux",
+      "POSIX threads",
+      "shared memory",
+      "ZeroMQ",
+      "protobuf",
+      "CMake",
+      "Bazel",
+      "gdb",
+      "perf",
+      "Tracy",
+      "ext4/NVMe",
+      "ROS 2"
+    ],
+    "numbers": [
+      "7 yrs",
+      "6 processes on 2 compute modules",
+      "1.4 GB/s",
+      "18,000 flights",
+      "under 10 min",
+      "cut CPU use of the recorder by 45%",
+      "4 teams"
+    ],
+    "work_authorization": "U.S. citizen.",
+    "compensation_expectation": null,
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "very_terse",
+    "under_titled_strong_scope",
+    "achievements_with_numbers"
+  ],
+  "notes": "Strong fit with modest title (Software Engineer II) but owner/tech-lead scope; matcher should not downgrade for the title."
+}

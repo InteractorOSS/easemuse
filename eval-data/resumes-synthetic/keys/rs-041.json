@@ -1,0 +1,147 @@
+{
+  "id": "rs-041",
+  "target_jd": "jd-13",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Leads complex cross-functional treasury/FX/regulatory programs, writes requirements, presents to the CFO: matches all responsibilities."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "About 10 years of change management in consulting and a high-growth payments company."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Payments/fintech, capital markets and hedging, SQL, AI: all preferred items present."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "10 years exceeds the 6-year minimum."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Brooklyn, NY; role is in NYC."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Economics; no formal requirement in JD."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "Expects $215,000 base; JD gives no range, so fit cannot be judged."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "A minimum of 6 years of experience in Change Management, gained in management consulting or change management within high-growth tech companies",
+      "status": "met",
+      "evidence": "10 years in finance transformation: six in management consulting, then treasury and capital markets programs at a high-growth payments company"
+    },
+    {
+      "requirement": "Demonstrated ability to lead complex, cross-functional projects involving multiple stakeholders across various functional areas",
+      "status": "met",
+      "evidence": "coordinating Treasury, Accounting, Legal, Risk and 2 engineering teams (about 25 people)"
+    },
+    {
+      "requirement": "Strong problem-solving skills with a keen eye for detail, and the ability to understand complex technical products and articulate their value to non-technical audiences",
+      "status": "met",
+      "evidence": "translated warehouse-financing mechanics into a one-page decision memo for the executive team"
+    },
+    {
+      "requirement": "Hands-on, adaptable approach with comfort operating in ambiguous environments and collaborating effectively with senior management",
+      "status": "met",
+      "evidence": "Present monthly program reviews to the CFO and Treasurer"
+    },
+    {
+      "requirement": "Curiosity-driven mindset to effectively lead technical teams and subject matter experts",
+      "status": "met",
+      "evidence": "Wrote business and data requirements for the treasury data platform; use SQL daily"
+    },
+    {
+      "requirement": "Able to work from New York City (role location: NYC)",
+      "status": "met",
+      "evidence": "Brooklyn, NY"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Dates overlap: Hollis & Grey ends 2022-03 but Ferrovia Pay starts 2022-01; confirm notice period / transition",
+    "Compensation expectation $215,000 vs. internal band (no posted range)"
+  ],
+  "facts": {
+    "full_name": "Elena Petrakis",
+    "email": "elena.petrakis@example.com",
+    "location": "Brooklyn, NY",
+    "current_title": "Senior Program Manager, Treasury & Capital Markets",
+    "current_employer": "Ferrovia Pay",
+    "positions": [
+      {
+        "title": "Senior Program Manager, Treasury & Capital Markets",
+        "employer": "Ferrovia Pay",
+        "start": "2022-01",
+        "end": "present",
+        "team_size": 25
+      },
+      {
+        "title": "Manager, Finance Transformation",
+        "employer": "Hollis & Grey Consulting",
+        "start": "2019-01",
+        "end": "2022-03",
+        "team_size": 8
+      },
+      {
+        "title": "Senior Consultant",
+        "employer": "Hollis & Grey Consulting",
+        "start": "2016-08",
+        "end": "2018-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Economics",
+        "school": "Wesleyan University",
+        "year": 2016
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Change management",
+      "Prosci methodology",
+      "program governance",
+      "requirements writing",
+      "SQL",
+      "Python",
+      "Jira",
+      "Confluence",
+      "FX and hedging concepts",
+      "capital markets funding",
+      "regulatory change"
+    ],
+    "numbers": [
+      "$215,000",
+      "10 years",
+      "2,400 employees",
+      "14 countries",
+      "2 engineering teams (about 25 people)",
+      "6 jurisdictions",
+      "5 banks",
+      "up to 8",
+      "roughly in half"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "Compensation expectation: $215,000 base",
+    "years_experience_total": 10
+  },
+  "format_traits": [
+    "table_experience",
+    "overlapping_dates",
+    "to_confirm_ambiguity",
+    "comp_stated_no_jd_range",
+    "quantified_achievements"
+  ],
+  "notes": "Strong fit on every must-have and preferred item; overlapping dates (2022-01 vs 2022-03) are a deliberate to-confirm ambiguity; comp cannot be compared because JD has no range."
+}

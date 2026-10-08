@@ -1,0 +1,139 @@
+{
+  "id": "rs-095",
+  "target_jd": "jd-29",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Kubernetes, Prometheus and Python fit, but Linux administration depth is limited."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 2.5 years of professional experience; well under 4+ years of Linux administration."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Commercial cloud consulting; no government or air-gapped work."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Early-career engineer."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Seattle, WA; role is in Washington, D.C. with in-office emphasis; no relocation stated."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "M.S. Computer Science."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "No clearance; F-1 OPT and not a U.S. citizen, so not eligible to obtain a U.S. security clearance."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Active security clearance",
+      "status": "not_met",
+      "evidence": "not a U.S. citizen"
+    },
+    {
+      "requirement": "4+ years of experience with Linux system administration (RHEL or equivalent preferred)",
+      "status": "not_met",
+      "evidence": "2024-03 to present"
+    },
+    {
+      "requirement": "Experience with cloud-based hosting platforms like AWS, Azure, or GCP and/or experience with hardware-based environments",
+      "status": "met",
+      "evidence": "Maintain Kubernetes workloads on GCP"
+    },
+    {
+      "requirement": "Familiarity with monitoring systems using tools like Prometheus and writing health checks",
+      "status": "met",
+      "evidence": "Prometheus and Grafana dashboards"
+    },
+    {
+      "requirement": "Proficiency with at least one programming language, such as Java, Go, Python, JavaScript, Bash, or similar languages",
+      "status": "met",
+      "evidence": "Python scripts for cost reporting."
+    },
+    {
+      "requirement": "Strong engineering background, preferred in fields such as Computer Science, Mathematics, Software Engineering, Physics, and Data Science",
+      "status": "met",
+      "evidence": "M.S., Computer Science, Seattle University, 2024"
+    }
+  ],
+  "disqualifiers_present": [
+    "No active security clearance",
+    "Not a U.S. citizen (F-1 OPT), so not clearance-eligible"
+  ],
+  "to_confirm": [
+    "Relocation to D.C."
+  ],
+  "facts": {
+    "full_name": "Arjun Mehta",
+    "email": "arjun.mehta@example.com",
+    "location": "Seattle, WA",
+    "current_title": "Cloud Engineer",
+    "current_employer": "Rainier Cloudworks",
+    "positions": [
+      {
+        "title": "Cloud Engineer",
+        "employer": "Rainier Cloudworks",
+        "start": "2024-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineering Intern",
+        "employer": "Cascadia Retail Tech",
+        "start": "2023-06",
+        "end": "2023-09",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "M.S.",
+        "field": "Computer Science",
+        "school": "Seattle University",
+        "year": 2024
+      },
+      {
+        "degree": "B.Tech.",
+        "field": "Information Technology",
+        "school": "Vellore Institute of Technology",
+        "year": 2022
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "GCP",
+      "Kubernetes",
+      "Docker",
+      "Prometheus",
+      "Grafana",
+      "Terraform",
+      "Python",
+      "Linux (Ubuntu)"
+    ],
+    "numbers": [
+      "15 client environments",
+      "three-node Kubernetes cluster"
+    ],
+    "work_authorization": "F-1 OPT (STEM extension through 2027-08); not a U.S. citizen",
+    "compensation_expectation": null,
+    "years_experience_total": 3
+  },
+  "format_traits": [
+    "chronological",
+    "work_authorization_stated",
+    "clearance_missing",
+    "too_junior",
+    "location_mismatch",
+    "disqualifier"
+  ],
+  "notes": "Weak: tooling overlap (Prometheus, Kubernetes) but no clearance and not clearance-eligible, under 4 years, and remote from D.C."
+}

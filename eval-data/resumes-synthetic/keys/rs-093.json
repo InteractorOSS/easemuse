@@ -1,0 +1,140 @@
+{
+  "id": "rs-093",
+  "target_jd": "jd-29",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "RHEL fleet administration, Prometheus monitoring with health checks, OpenShift and automation in air-gapped environments."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "8 years of Linux system administration and SRE."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Government contractor operating air-gapped classified systems, matching the US Government SRE context."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "SRE II with 8 years; appropriate level."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Herndon, VA is in the D.C. area."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Computer Science; RHCE and Security+ match the preferred certifications."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "Active TS/SCI; U.S. citizen. No comp stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Active security clearance",
+      "status": "met",
+      "evidence": "Active TS/SCI with CI polygraph"
+    },
+    {
+      "requirement": "4+ years of experience with Linux system administration (RHEL or equivalent preferred)",
+      "status": "met",
+      "evidence": "Administered 600 RHEL and CentOS servers"
+    },
+    {
+      "requirement": "Experience with cloud-based hosting platforms like AWS, Azure, or GCP and/or experience with hardware-based environments",
+      "status": "met",
+      "evidence": "AWS GovCloud"
+    },
+    {
+      "requirement": "Familiarity with monitoring systems using tools like Prometheus and writing health checks",
+      "status": "met",
+      "evidence": "Built the Prometheus, Alertmanager and Grafana stack and wrote 200+ health checks"
+    },
+    {
+      "requirement": "Proficiency with at least one programming language, such as Java, Go, Python, JavaScript, Bash, or similar languages",
+      "status": "met",
+      "evidence": "Python and Go tooling"
+    },
+    {
+      "requirement": "Strong engineering background, preferred in fields such as Computer Science, Mathematics, Software Engineering, Physics, and Data Science",
+      "status": "met",
+      "evidence": "B.S., Computer Science, Virginia Tech, 2018"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Compensation expectations"
+  ],
+  "facts": {
+    "full_name": "Ifeoma Nwosu",
+    "email": "ifeoma.nwosu@example.com",
+    "location": "Herndon, VA",
+    "current_title": "Site Reliability Engineer II",
+    "current_employer": "Bastion Federal Systems",
+    "positions": [
+      {
+        "title": "Site Reliability Engineer II",
+        "employer": "Bastion Federal Systems",
+        "start": "2021-09",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Linux Systems Administrator",
+        "employer": "Corvid Data Services",
+        "start": "2018-06",
+        "end": "2021-08",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Computer Science",
+        "school": "Virginia Tech",
+        "year": 2018
+      }
+    ],
+    "certifications": [
+      "Red Hat Certified Engineer (RHCE)",
+      "CompTIA Security+"
+    ],
+    "skills": [
+      "RHEL",
+      "OpenShift",
+      "Kubernetes",
+      "Podman",
+      "Ansible",
+      "Puppet",
+      "Prometheus",
+      "Grafana",
+      "AWS GovCloud",
+      "Python",
+      "Go",
+      "Bash",
+      "HAProxy"
+    ],
+    "numbers": [
+      "1,400 RHEL 8/9 servers",
+      "120 mission applications",
+      "200+ health checks",
+      "cut mean time to recovery by 45%",
+      "30 hours a month",
+      "600 RHEL and CentOS servers"
+    ],
+    "work_authorization": "U.S. citizen",
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "clearance_stated",
+    "work_authorization_stated",
+    "achievements_with_numbers"
+  ],
+  "notes": "Strong: active TS/SCI, RHEL, Prometheus, air-gapped ops and preferred certifications."
+}

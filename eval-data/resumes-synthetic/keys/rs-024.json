@@ -1,0 +1,120 @@
+{
+  "id": "rs-024",
+  "target_jd": "jd-08",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Transactional benefits/leave administration; no manager coaching, ER or policy advising."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "No client-facing HR partner role."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Hospitality and staffing; HR function but administrative."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "About 7 years in HR operations, within 4–8, but none client-facing."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Dallas, TX; no relocation to Chicago stated."
+    },
+    "education_certification": {
+      "level": "unknown",
+      "why": "No education section."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated; JD lists no range."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "4–8 years of HR experience, including at least 3 years in a client-facing HR role, or equivalent business-facing experience",
+      "status": "not_met",
+      "evidence": "Benefits and Leave Administrator | Trinity Ridge Hospitality | 2021-02 – present"
+    },
+    {
+      "requirement": "Independently advising and coaching managers on performance management, employee relations, and team culture",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Working knowledge of US employment legislation, including working with legal counsel on complex employee matters",
+      "status": "unknown",
+      "evidence": "Process FMLA and short-term disability leaves"
+    },
+    {
+      "requirement": "Strong ability to diagnose problems using data and develop viable solutions",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Continuous improvement: improve processes and drive changes",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Excellent written and verbal communication skills in English",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Chicago-based role",
+      "status": "not_met",
+      "evidence": "Dallas, TX"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Yolanda Pierce",
+    "email": "yolanda.pierce@example.com",
+    "location": "Dallas, TX",
+    "current_title": "Benefits and Leave Administrator",
+    "current_employer": "Trinity Ridge Hospitality",
+    "positions": [
+      {
+        "title": "Benefits and Leave Administrator",
+        "employer": "Trinity Ridge Hospitality",
+        "start": "2021-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Payroll and Benefits Clerk",
+        "employer": "Lone Oak Staffing",
+        "start": "2019-07",
+        "end": "2021-01",
+        "team_size": null
+      }
+    ],
+    "education": [],
+    "certifications": [],
+    "skills": [
+      "ADP Workforce Now",
+      "UKG",
+      "FMLA administration",
+      "Excel"
+    ],
+    "numbers": [
+      "2,200 hotel employees",
+      "about 300 tickets a month"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "very_terse",
+    "missing_education",
+    "no_summary",
+    "location_mismatch"
+  ],
+  "notes": "Weak: HR-adjacent administrator in another city; no client-facing coaching. Missing education must stay 'unknown'."
+}

@@ -1,0 +1,139 @@
+{
+  "id": "rs-034",
+  "target_jd": "jd-10",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Transactional real estate support; no litigation, discovery, legal holds or e-discovery."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 3.5 years as a legal secretary; no paralegal title or litigation support."
+    },
+    "industry_functional": {
+      "level": "gap",
+      "why": "Small real estate firm; no litigation or tech in-house exposure."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "Entry level for a senior/lead paralegal role requiring 5+ years."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Austin, TX with no relocation stated; role needs weekly SF office attendance."
+    },
+    "education_certification": {
+      "level": "partial",
+      "why": "A.A.S. Paralegal Studies."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of paralegal experience supporting litigation teams",
+      "status": "not_met",
+      "evidence": "Legal Secretary, Calder & Voss Real Estate Law, Austin, TX\n2023-02 – present"
+    },
+    {
+      "requirement": "Strong command of litigation operations, including intake and tracking, calendaring, document management, outside counsel coordination, document preservation, and e-discovery",
+      "status": "not_met",
+      "evidence": "Prepare closing binders, track due diligence deadlines"
+    },
+    {
+      "requirement": "Demonstrated familiarity with various e-discovery tools and systems (strong preference for Google Suite, Slack, and DISCO)",
+      "status": "not_met",
+      "evidence": "NetDocuments, DocuSign"
+    },
+    {
+      "requirement": "Excellent judgment, attention to detail, organizational skills, and ability to manage multiple priorities across a diverse and active docket",
+      "status": "unknown",
+      "evidence": "maintain a closing checklist template used on about 90 deals a year"
+    },
+    {
+      "requirement": "Technological adaptability and interest in testing and implementing AI tools to improve efficiencies and automate routine tasks",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Able to work from the San Francisco office approximately once a week (hybrid)",
+      "status": "not_met",
+      "evidence": "Austin, TX"
+    }
+  ],
+  "disqualifiers_present": [
+    "No litigation paralegal experience; well short of 5+ years",
+    "Located in Austin, TX with no relocation stated; role needs SF office about once a week"
+  ],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Terrence Boateng",
+    "email": "terrence.boateng@example.com",
+    "location": "Austin, TX",
+    "current_title": "Legal Secretary",
+    "current_employer": "Calder & Voss Real Estate Law",
+    "positions": [
+      {
+        "title": "Legal Secretary",
+        "employer": "Calder & Voss Real Estate Law",
+        "start": "2023-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Front Office Coordinator",
+        "employer": "Lone Star Family Medicine",
+        "start": "2020-08",
+        "end": "2023-01",
+        "team_size": null
+      },
+      {
+        "title": "Sales Associate",
+        "employer": "Hill Country Outfitters",
+        "start": "2018-05",
+        "end": "2020-07",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "A.A.S.",
+        "field": "Paralegal Studies",
+        "school": "Austin Community College",
+        "year": 2022
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Microsoft Word",
+      "Outlook",
+      "Excel",
+      "NetDocuments",
+      "DocuSign",
+      "legal calendaring",
+      "English",
+      "Twi"
+    ],
+    "numbers": [
+      "2 real estate attorneys",
+      "about 90 deals a year",
+      "up to 80 patients a day",
+      "4 new front desk staff",
+      "75 WPM"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "all_caps_headings",
+    "too_junior",
+    "adjacent_profession",
+    "location_mismatch"
+  ],
+  "notes": "Weak: transactional legal secretary, not litigation; too junior and not near SF. Section headings and objective are ALL CAPS."
+}

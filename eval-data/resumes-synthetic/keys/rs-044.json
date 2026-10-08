@@ -1,0 +1,146 @@
+{
+  "id": "rs-044",
+  "target_jd": "jd-14",
+  "intended_fit": "strong",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Runs legal intake triage, signatures/approvals, CLM and metrics; process improvements with measured results."
+    },
+    "relevant_experience": {
+      "level": "strong",
+      "why": "About 4.5 years in legal environments (in-house and law firm) plus earlier operations."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "In-house legal team at a fast-paced fintech."
+    },
+    "career_level_years": {
+      "level": "strong",
+      "why": "About 6.5 years total; under-titled ('Legal Coordinator') but specialist-level scope."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "New York, NY."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. plus CLOC legal operations certificate; no degree requirement in JD."
+    },
+    "compensation_other": {
+      "level": "strong",
+      "why": "$105,000 base is inside $90,000-$110,000."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3+ years of operational experience, preferably in a fast-paced or dynamic legal team environment",
+      "status": "met",
+      "evidence": "Five years in operations, four of them inside a legal team"
+    },
+    {
+      "requirement": "Experience with technical tooling and data analysis project management software",
+      "status": "met",
+      "evidence": "Built the monthly legal metrics dashboard in Tableau ... using SQL pulls from the Ironclad and Jira data"
+    },
+    {
+      "requirement": "Meticulous attention to detail, including maintaining accurate records and diligently tracking key project metrics",
+      "status": "met",
+      "evidence": "Led the cleanup of 4,000 legacy contracts into Ironclad with metadata QA; error rate under 1% on audit"
+    },
+    {
+      "requirement": "Manage and triage incoming requests for the Legal team as first point of contact, ensuring items are prioritized, routed, tracked and resolved",
+      "status": "met",
+      "evidence": "First point of contact for the legal team's intake queue: about 250 requests a month"
+    },
+    {
+      "requirement": "Demonstrated experience identifying and acting upon opportunities to improve processes and tools",
+      "status": "met",
+      "evidence": "median time to first response fell from 3 days to 4 hours"
+    },
+    {
+      "requirement": "Able to work from the New York, NY office (in-office with possible hybrid)",
+      "status": "met",
+      "evidence": "New York, NY"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Ngozi Eze",
+    "email": "ngozi.eze@example.com",
+    "location": "New York, NY",
+    "current_title": "Legal Coordinator",
+    "current_employer": "Stratus Ledger",
+    "positions": [
+      {
+        "title": "Legal Coordinator",
+        "employer": "Stratus Ledger",
+        "start": "2022-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Operations Associate",
+        "employer": "Lindell & Park LLP",
+        "start": "2021-01",
+        "end": "2022-01",
+        "team_size": null
+      },
+      {
+        "title": "Operations Assistant",
+        "employer": "Sixth Avenue Events Co.",
+        "start": "2020-01",
+        "end": "2020-12",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Sociology",
+        "school": "Hunter College (CUNY)",
+        "year": 2019
+      }
+    ],
+    "certifications": [
+      "CLOC Legal Operations Fundamentals certificate, 2023"
+    ],
+    "skills": [
+      "Ironclad",
+      "Jira Service Management",
+      "Asana",
+      "Airtable",
+      "Tableau",
+      "SQL",
+      "Excel",
+      "DocuSign",
+      "Zapier",
+      "Google Workspace"
+    ],
+    "numbers": [
+      "$105,000",
+      "Five years",
+      "four of them",
+      "900 employees",
+      "about 250 requests a month",
+      "from 3 days to 4 hours",
+      "6 business units",
+      "4,000 legacy contracts",
+      "under 1%",
+      "45-lawyer firm"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": "Looking for: $105,000 base",
+    "years_experience_total": 6
+  },
+  "format_traits": [
+    "odd_headings",
+    "under_titled_strong_scope",
+    "comp_stated_in_range",
+    "quantified_achievements",
+    "work_auth_missing"
+  ],
+  "notes": "Strong: under-titled coordinator doing specialist-level legal ops; tests that the matcher reads scope, not just title. Summary says 'Five years' while dates give ~6.5 years total (operations since 2020-01)."
+}

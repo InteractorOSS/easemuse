@@ -1,0 +1,131 @@
+{
+  "id": "rs-066",
+  "target_jd": "jd-20",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "SQL/dbt modeling; no backend service development in Python, Go or Java; no Spark, Kafka or Airflow."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "Analytics engineering and BI, a consumer of data platforms rather than a builder."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Subscription software and healthcare BI; data-adjacent function."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 5 years in analytics/BI, zero in backend software engineering."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Phoenix, AZ; remote U.S. role."
+    },
+    "education_certification": {
+      "level": "unknown",
+      "why": "No education section; dbt certification only."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp or work authorization stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of experience in backend software engineering, with hands-on experience building and operating data systems or data pipelines in production",
+      "status": "not_met",
+      "evidence": "Analytics engineer with 4 years"
+    },
+    {
+      "requirement": "Proficiency in Python, Go, or Java for backend development, building services that process and serve data at scale",
+      "status": "not_met",
+      "evidence": "basic Python"
+    },
+    {
+      "requirement": "Experience with data infrastructure patterns including scale-out architectures, caching layers, key/value stores, and columnar storage systems",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Hands-on experience with SQL, Airflow, Spark, Kafka, or similar data processing and orchestration frameworks in production",
+      "status": "unknown",
+      "evidence": "Own 220 dbt models in Snowflake"
+    },
+    {
+      "requirement": "Experience with data security, access control, or data observability systems, including cataloging, lineage, or quality monitoring",
+      "status": "unknown",
+      "evidence": "Added dbt tests and source freshness checks"
+    },
+    {
+      "requirement": "Utilizes generative AI responsibly, maintaining human oversight",
+      "status": "met",
+      "evidence": "Use ChatGPT to draft SQL, then verify results against known reports before publishing."
+    }
+  ],
+  "disqualifiers_present": [
+    "No backend software engineering experience for a Senior Software Engineer role"
+  ],
+  "to_confirm": [
+    "Education",
+    "Work authorization"
+  ],
+  "facts": {
+    "full_name": "Brianna Foster",
+    "email": "brianna.foster@example.com",
+    "location": "Phoenix, AZ",
+    "current_title": "Analytics Engineer",
+    "current_employer": "Saguaro Subscription Software",
+    "positions": [
+      {
+        "title": "Analytics Engineer",
+        "employer": "Saguaro Subscription Software",
+        "start": "2023-03",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "BI Developer",
+        "employer": "Mesa Valley Health Network",
+        "start": "2021-06",
+        "end": "2023-02",
+        "team_size": null
+      }
+    ],
+    "education": [],
+    "certifications": [
+      "dbt Analytics Engineering Certification"
+    ],
+    "skills": [
+      "SQL",
+      "dbt",
+      "Snowflake",
+      "Looker",
+      "LookML",
+      "Power BI",
+      "SQL Server",
+      "basic Python",
+      "Fivetran",
+      "Git"
+    ],
+    "numbers": [
+      "4 years",
+      "220 dbt models",
+      "fell by half",
+      "9 business teams",
+      "300 employees",
+      "25 managers"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 5
+  },
+  "format_traits": [
+    "missing_sections",
+    "no_education_section",
+    "work_authorization_missing"
+  ],
+  "notes": "Adjacent profession (analytics engineer). Has some quality-check and permission work and responsible GenAI use, which should not lift the fit given no backend engineering. Resume says '4 years' though dates span ~5.3."
+}

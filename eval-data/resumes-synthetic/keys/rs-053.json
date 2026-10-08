@@ -1,0 +1,157 @@
+{
+  "id": "rs-053",
+  "target_jd": "jd-16",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "React/TypeScript and unit testing present; no evidence of observability, GenAI tools, or data-intensive/fault-tolerant apps."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Consumer telehealth screens and microsites; not ad platform engineering, though designed display ads."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Ad design background is adjacent to ad tech; telehealth consumer product."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 2.5 years of engineering (2024-04 plus a 6-month contract); JD requires 3+."
+    },
+    "location_work_arrangement": {
+      "level": "unknown",
+      "why": "Chicago, IL; remote role, work arrangement and authorization not stated."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.F.A. plus bootcamp certificate; JD sets no degree requirement."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp or work authorization stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3+ years of experience in Web Engineering",
+      "status": "not_met",
+      "evidence": "Two and a half years writing production React and TypeScript"
+    },
+    {
+      "requirement": "Proficient in Typescript and Javascript",
+      "status": "met",
+      "evidence": "Build patient-facing appointment and messaging screens in React, TypeScript and Tailwind"
+    },
+    {
+      "requirement": "Willingness to build data-intensive, highly responsive, and fault-tolerant apps",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience with automated testing best practices, code quality / design patterns, observability",
+      "status": "met",
+      "evidence": "Wrote unit tests with React Testing Library; added Storybook stories for 120 shared components."
+    },
+    {
+      "requirement": "Skilled at performing insightful code reviews, and receiving feedback",
+      "status": "met",
+      "evidence": "Took part in code review for a team of 6 frontend engineers."
+    },
+    {
+      "requirement": "Experience leveraging GenAI tools to increase software engineering productivity",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Excellent communication skills; able to collaborate in a fully remote environment",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Use of GenAI coding tools",
+    "Observability experience",
+    "Remote work experience and U.S. work authorization",
+    "Whether design years count toward web engineering"
+  ],
+  "facts": {
+    "full_name": "Tomas Rivera",
+    "email": "tomas.rivera@example.com",
+    "location": "Chicago, IL",
+    "current_title": "Frontend Engineer",
+    "current_employer": "Saltmarsh Health",
+    "positions": [
+      {
+        "title": "Frontend Engineer",
+        "employer": "Saltmarsh Health",
+        "start": "2024-04",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Junior Frontend Developer (contract)",
+        "employer": "Quarry Lane Creative",
+        "start": "2023-10",
+        "end": "2024-03",
+        "team_size": null
+      },
+      {
+        "title": "Senior Graphic Designer",
+        "employer": "Quarry Lane Creative",
+        "start": "2018-02",
+        "end": "2023-09",
+        "team_size": null
+      },
+      {
+        "title": "Graphic Designer",
+        "employer": "Northbeam Print & Digital",
+        "start": "2016-06",
+        "end": "2018-01",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.F.A.",
+        "field": "Graphic Design",
+        "school": "Columbia College Chicago",
+        "year": 2016
+      }
+    ],
+    "certifications": [
+      "Full-Stack Web Development Certificate, Fullstack Academy, 2023"
+    ],
+    "skills": [
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Tailwind",
+      "React Testing Library",
+      "Storybook",
+      "Figma",
+      "accessibility (WCAG)"
+    ],
+    "numbers": [
+      "Two and a half years",
+      "seven years",
+      "90,000 patients",
+      "120 shared components",
+      "team of 6 frontend engineers",
+      "two quarters"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 10
+  },
+  "format_traits": [
+    "career_changer",
+    "split_experience_sections",
+    "work_authorization_missing"
+  ],
+  "notes": "Career changer from design. Meets TS/JS, testing and code review but is under the 3-year bar and GenAI/observability are unknown. The design years should not be counted as web engineering."
+}

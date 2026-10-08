@@ -1,0 +1,122 @@
+{
+  "id": "rs-009",
+  "target_jd": "jd-03",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Coordination and scheduling only; no sourcing, screening or closing ownership."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "About 2 years as a coordinator; no full-cycle recruiting."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Currently at a software company, but in a support role."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "No full-cycle recruiting years vs 5+ required."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Columbus, OH; remote-USA role."
+    },
+    "education_certification": {
+      "level": "unknown",
+      "why": "No education details given; only a note that they are available on request."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of full-lifecycle recruiting experience in a technology company or similarly fast-paced, high-growth environment",
+      "status": "not_met",
+      "evidence": "Recruiting Coordinator | Lanternfly Software | 2024-06 – present"
+    },
+    {
+      "requirement": "Demonstrated success closing competitive candidates across G&A and/or technical functions",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Ability to ramp quickly and shift between business and technical requisitions",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Deep knowledge of the candidate lifecycle, from talent mapping and sourcing through interviewing and closing",
+      "status": "not_met",
+      "evidence": "Schedule 60–80 interviews per week"
+    },
+    {
+      "requirement": "Data-driven pipeline management, translating recruiting metrics into recommendations for hiring managers",
+      "status": "not_met",
+      "evidence": null
+    },
+    {
+      "requirement": "Utilizes generative AI responsibly, maintaining human oversight",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "U.S.-based (Remote - USA) with quarterly in-person surges",
+      "status": "met",
+      "evidence": "Columbus, OH"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [],
+  "facts": {
+    "full_name": "Tyler Brennan",
+    "email": "tyler.brennan@example.com",
+    "location": "Columbus, OH",
+    "current_title": "Recruiting Coordinator",
+    "current_employer": "Lanternfly Software",
+    "positions": [
+      {
+        "title": "Recruiting Coordinator",
+        "employer": "Lanternfly Software",
+        "start": "2024-06",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "High School Social Studies Teacher",
+        "employer": "Westbrook City Schools",
+        "start": "2018-08",
+        "end": "2024-05",
+        "team_size": null
+      }
+    ],
+    "education": [],
+    "certifications": [],
+    "skills": [
+      "Greenhouse",
+      "Google Workspace",
+      "Calendly",
+      "candidate communication"
+    ],
+    "numbers": [
+      "60–80 interviews per week",
+      "cut reschedules by 20%",
+      "5 sections",
+      "department lead for 2 years"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "chronological",
+    "missing_education",
+    "career_changer",
+    "too_junior"
+  ],
+  "notes": "Weak: career changer in a coordinator role; adjacent but no full-cycle recruiting. Missing education section should be 'unknown', not invented."
+}

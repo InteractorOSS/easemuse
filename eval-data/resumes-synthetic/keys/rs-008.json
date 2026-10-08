@@ -1,0 +1,131 @@
+{
+  "id": "rs-008",
+  "target_jd": "jd-03",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Strong sourcing and closing; pipeline data tracked but not shown driving recommendations; no AI use mentioned."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Agency recruiting with clients owning interview loops, so not full in-house lifecycle ownership."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Technical recruiting for venture-backed tech clients; no G&A experience."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "About 4 years of recruiting (2022-07 onward), short of 5+."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Phoenix, AZ; remote-USA role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.A. Communication; no degree requirement."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation expectation stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "5+ years of full-lifecycle recruiting experience in a technology company or similarly fast-paced, high-growth environment",
+      "status": "not_met",
+      "evidence": "Senior Technical Recruiter — Summit Talent Partners (recruiting agency) ... 2022-07 – present"
+    },
+    {
+      "requirement": "Demonstrated success closing competitive candidates across G&A and/or technical functions",
+      "status": "met",
+      "evidence": "57 placements to date"
+    },
+    {
+      "requirement": "Ability to ramp quickly and shift between business and technical requisitions",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Deep knowledge of the candidate lifecycle, from talent mapping and sourcing through interviewing and closing",
+      "status": "met",
+      "evidence": "Run sourcing, screening, client submittals and offer negotiation"
+    },
+    {
+      "requirement": "Data-driven pipeline management, translating recruiting metrics into recommendations for hiring managers",
+      "status": "unknown",
+      "evidence": "Track submittal-to-interview and interview-to-offer ratios for each client in a shared spreadsheet."
+    },
+    {
+      "requirement": "Utilizes generative AI responsibly, maintaining human oversight",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "U.S.-based (Remote - USA) with quarterly in-person surges",
+      "status": "met",
+      "evidence": "Phoenix, AZ"
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Experience with G&A or business requisitions",
+    "Use of generative AI tools in recruiting",
+    "How pipeline metrics were used with hiring managers"
+  ],
+  "facts": {
+    "full_name": "Sofia Delgado",
+    "email": "sofia.delgado@example.com",
+    "location": "Phoenix, AZ",
+    "current_title": "Senior Technical Recruiter",
+    "current_employer": "Summit Talent Partners",
+    "positions": [
+      {
+        "title": "Senior Technical Recruiter",
+        "employer": "Summit Talent Partners",
+        "start": "2022-07",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "Leasing Consultant",
+        "employer": "Desert Bloom Realty",
+        "start": "2019-03",
+        "end": "2022-06",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.A.",
+        "field": "Communication",
+        "school": "Arizona State University",
+        "year": 2018
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "LinkedIn Recruiter",
+      "Bullhorn",
+      "Google Sheets"
+    ],
+    "numbers": [
+      "12 venture-backed client companies",
+      "57 placements to date",
+      "140 signed leases"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 7
+  },
+  "format_traits": [
+    "odd_headings",
+    "agency_background",
+    "career_changer",
+    "short_tenure_in_field"
+  ],
+  "notes": "Partial: good technical sourcer/closer but under 5 years, agency-only, no G&A and no AI evidence. Tests that leasing years are not counted as recruiting."
+}

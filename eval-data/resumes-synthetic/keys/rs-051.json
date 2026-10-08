@@ -1,0 +1,144 @@
+{
+  "id": "rs-051",
+  "target_jd": "jd-15",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "partial",
+      "why": "Hands-on tech lead with relevant stack (Kotlin, Go, Swift, Rails) but no people management."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Grocery delivery driver app is adjacent to shopper picking, but at IC level."
+    },
+    "industry_functional": {
+      "level": "strong",
+      "why": "Grocery digital/delivery domain."
+    },
+    "career_level_years": {
+      "level": "gap",
+      "why": "~8 years total, under 10+; zero years managing engineers; no direct reports."
+    },
+    "location_work_arrangement": {
+      "level": "gap",
+      "why": "Based in Toronto, Canada; role is United States - Remote."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.Sc. Computer Science, University of Waterloo."
+    },
+    "compensation_other": {
+      "level": "gap",
+      "why": "Requires visa sponsorship to work in the U.S.; no comp stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Proven track record as a hands-on technical leader, preferably at a Staff+ level in a similar industry",
+      "status": "met",
+      "evidence": "Tech lead, delivery-driver Android app (Kotlin)."
+    },
+    {
+      "requirement": "10+ years of professional software engineering experience",
+      "status": "not_met",
+      "evidence": "Senior Software Engineer. 7 yrs."
+    },
+    {
+      "requirement": "4+ years managing engineers, with a track record leading teams of 15+ and delivering complex consumer or enterprise facing products",
+      "status": "not_met",
+      "evidence": "Tech lead, no direct reports."
+    },
+    {
+      "requirement": "Ability to craft and execute strategic engineering roadmaps that align with business objectives",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience in staffing, mentoring, and leading engineering teams to success",
+      "status": "not_met",
+      "evidence": "mentored 2 interns"
+    },
+    {
+      "requirement": "Effective cross-functional leadership with product managers, EM peers, and senior ICs",
+      "status": "unknown",
+      "evidence": "PM handles people."
+    }
+  ],
+  "disqualifiers_present": [
+    "No people-management experience for a Senior Engineering Manager role",
+    "Located outside the U.S. and requires visa sponsorship for a U.S.-remote role"
+  ],
+  "to_confirm": [
+    "Whether the company sponsors visas for this role"
+  ],
+  "facts": {
+    "full_name": "DANIEL KOWALCZYK",
+    "email": "daniel.kowalczyk@example.com",
+    "location": "Toronto, ON, Canada",
+    "current_title": "Senior Software Engineer, Tech Lead",
+    "current_employer": "Maplestone Grocers Digital",
+    "positions": [
+      {
+        "title": "Senior Software Engineer, Tech Lead",
+        "employer": "Maplestone Grocers Digital",
+        "start": "2022-02",
+        "end": "present",
+        "team_size": 4
+      },
+      {
+        "title": "Software Engineer",
+        "employer": "Northpoint Ticketing",
+        "start": "2019-06",
+        "end": "2022-01",
+        "team_size": null
+      },
+      {
+        "title": "Junior Developer",
+        "employer": "Pixelfern Studio",
+        "start": "2018-01",
+        "end": "2019-05",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.Sc.",
+        "field": "Computer Science",
+        "school": "University of Waterloo",
+        "year": 2017
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Kotlin",
+      "Go",
+      "Swift",
+      "Ruby on Rails",
+      "gRPC",
+      "PostgreSQL",
+      "GCP",
+      "Android Jetpack"
+    ],
+    "numbers": [
+      "7 yrs",
+      "4 engineers",
+      "Cut app start time 40%",
+      "3,000 drivers",
+      "2 interns",
+      "50k requests/sec",
+      "1 year"
+    ],
+    "work_authorization": "Canadian citizen. Will require visa sponsorship to work in the U.S.",
+    "compensation_expectation": null,
+    "years_experience_total": 8
+  },
+  "format_traits": [
+    "very_terse",
+    "all_caps_headings",
+    "visa_sponsorship_required",
+    "location_mismatch",
+    "relocation_stated"
+  ],
+  "notes": "Adjacent IC (tech lead in grocery delivery) applying to a senior people-manager role; also non-U.S. and needs sponsorship. Resume says '7 yrs' though dates span ~8.7 years; key uses 8."
+}

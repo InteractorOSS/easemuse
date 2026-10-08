@@ -1,0 +1,149 @@
+{
+  "id": "rs-050",
+  "target_jd": "jd-15",
+  "intended_fit": "partial",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "strong",
+      "why": "Hands-on EM with roadmap delivery, hiring and cross-functional work."
+    },
+    "relevant_experience": {
+      "level": "partial",
+      "why": "Consumer marketplace/payments products, not picking or fulfillment; largest stated team is 8."
+    },
+    "industry_functional": {
+      "level": "partial",
+      "why": "Consumer marketplace and payments; no grocery, retail or fulfillment experience."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "11 years total and 4.5+ years managing meets the year thresholds, but no evidence of leading 15+ (max stated 8; platform group size unstated)."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Austin, TX; remote U.S. role."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Software Engineering."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No compensation or work authorization stated; TX band is $243,000—$256,500."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "Proven track record as a hands-on technical leader, preferably at a Staff+ level in a similar industry",
+      "status": "met",
+      "evidence": "Hands-on in Java, Kotlin and Python; still on the design-review rota."
+    },
+    {
+      "requirement": "10+ years of professional software engineering experience",
+      "status": "met",
+      "evidence": "Eleven years building consumer marketplace and payments software"
+    },
+    {
+      "requirement": "4+ years managing engineers, with a track record leading teams of 15+ and delivering complex consumer or enterprise facing products",
+      "status": "not_met",
+      "evidence": "Managed engineering teams of up to 8 engineers"
+    },
+    {
+      "requirement": "Ability to craft and execute strategic engineering roadmaps that align with business objectives",
+      "status": "met",
+      "evidence": "Wrote and delivered the 2025 platform roadmap for checkout reliability"
+    },
+    {
+      "requirement": "Experience in staffing, mentoring, and leading engineering teams to success",
+      "status": "met",
+      "evidence": "ran hiring for 11 roles in 2024"
+    },
+    {
+      "requirement": "Effective cross-functional leadership with product managers, EM peers, and senior ICs",
+      "status": "met",
+      "evidence": "Weekly planning with 2 peer EMs and a principal engineer."
+    }
+  ],
+  "disqualifiers_present": [],
+  "to_confirm": [
+    "Size of the platform group managed since 2025-07 and whether combined span reaches 15+",
+    "Whether the 'Profile' four and a half years of management counts the platform group",
+    "Work authorization",
+    "Compensation expectations against TX band"
+  ],
+  "facts": {
+    "full_name": "Elena Vasquez",
+    "email": "elena.vasquez@example.com",
+    "location": "Austin, TX",
+    "current_title": "Engineering Manager",
+    "current_employer": "Tessaline Marketplace",
+    "positions": [
+      {
+        "title": "Engineering Manager",
+        "employer": "Tessaline Marketplace",
+        "start": "2022-03",
+        "end": "present",
+        "team_size": 8
+      },
+      {
+        "title": "Engineering Manager",
+        "employer": "Ridgecrest Pay",
+        "start": "2021-01",
+        "end": "2022-02",
+        "team_size": 5
+      },
+      {
+        "title": "Senior Software Engineer / Tech Lead",
+        "employer": "Ridgecrest Pay",
+        "start": "2017-05",
+        "end": "2020-12",
+        "team_size": null
+      },
+      {
+        "title": "Software Engineer",
+        "employer": "Copperleaf Apps",
+        "start": "2015-06",
+        "end": "2017-04",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "Software Engineering",
+        "school": "Texas State University",
+        "year": 2015
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "Java",
+      "Kotlin",
+      "Python",
+      "people leadership",
+      "technical strategy",
+      "hiring"
+    ],
+    "numbers": [
+      "up to 8 engineers",
+      "hiring for 11 roles in 2024",
+      "failed payments fell 21%",
+      "3 markets",
+      "2 peer EMs",
+      "8 engineers",
+      "5 engineers",
+      "mentored 4 engineers"
+    ],
+    "work_authorization": null,
+    "compensation_expectation": null,
+    "years_experience_total": 11
+  },
+  "format_traits": [
+    "functional_skills_first",
+    "vague_team_size",
+    "to_confirm_ambiguity",
+    "work_authorization_missing"
+  ],
+  "notes": "Meets years and management tenure but the 15+ team-size requirement is not evidenced; 'managed the platform group' has no size, which a recruiter should confirm."
+}

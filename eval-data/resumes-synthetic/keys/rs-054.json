@@ -1,0 +1,155 @@
+{
+  "id": "rs-054",
+  "target_jd": "jd-16",
+  "intended_fit": "weak",
+  "bias_pair": null,
+  "criteria": {
+    "core_competencies": {
+      "level": "gap",
+      "why": "Backend Java engineer; no TypeScript, only occasional jQuery; no React or modern web UI."
+    },
+    "relevant_experience": {
+      "level": "gap",
+      "why": "No product web frontend work; batch and API services."
+    },
+    "industry_functional": {
+      "level": "gap",
+      "why": "Insurance, freight and banking back-office; no ad tech or consumer sites."
+    },
+    "career_level_years": {
+      "level": "partial",
+      "why": "About 5 years total but not in web engineering."
+    },
+    "location_work_arrangement": {
+      "level": "strong",
+      "why": "Raleigh, NC; remote U.S. role; permanent resident."
+    },
+    "education_certification": {
+      "level": "strong",
+      "why": "B.S. Information Technology."
+    },
+    "compensation_other": {
+      "level": "unknown",
+      "why": "No comp stated."
+    }
+  },
+  "must_haves": [
+    {
+      "requirement": "3+ years of experience in Web Engineering",
+      "status": "not_met",
+      "evidence": "BACKEND JAVA DEVELOPER, 5 YEARS."
+    },
+    {
+      "requirement": "Proficient in Typescript and Javascript",
+      "status": "not_met",
+      "evidence": "SOME JAVASCRIPT/JQUERY"
+    },
+    {
+      "requirement": "Willingness to build data-intensive, highly responsive, and fault-tolerant apps",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience with automated testing best practices, code quality / design patterns, observability",
+      "status": "met",
+      "evidence": "Wrote JUnit and Mockito tests; kept coverage above 80%."
+    },
+    {
+      "requirement": "Skilled at performing insightful code reviews, and receiving feedback",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Experience leveraging GenAI tools to increase software engineering productivity",
+      "status": "unknown",
+      "evidence": null
+    },
+    {
+      "requirement": "Excellent communication skills; able to collaborate in a fully remote environment",
+      "status": "unknown",
+      "evidence": null
+    }
+  ],
+  "disqualifiers_present": [
+    "No TypeScript and minimal JavaScript for a frontend role"
+  ],
+  "to_confirm": [
+    "Reasons for four employers in about five years"
+  ],
+  "facts": {
+    "full_name": "KEVIN NGUYEN",
+    "email": "kevin.nguyen@example.com",
+    "location": "Raleigh, NC",
+    "current_title": "BACKEND DEVELOPER",
+    "current_employer": "CLEARWATER INSURANCE SYSTEMS",
+    "positions": [
+      {
+        "title": "BACKEND DEVELOPER",
+        "employer": "CLEARWATER INSURANCE SYSTEMS",
+        "start": "2025-02",
+        "end": "present",
+        "team_size": null
+      },
+      {
+        "title": "SOFTWARE ENGINEER",
+        "employer": "TIDEMARK FREIGHT",
+        "start": "2023-11",
+        "end": "2025-01",
+        "team_size": null
+      },
+      {
+        "title": "JAVA DEVELOPER",
+        "employer": "PINEHURST BANKING SOFTWARE",
+        "start": "2022-08",
+        "end": "2023-10",
+        "team_size": null
+      },
+      {
+        "title": "JUNIOR DEVELOPER",
+        "employer": "BLUE HERON IT SERVICES",
+        "start": "2021-06",
+        "end": "2022-07",
+        "team_size": null
+      }
+    ],
+    "education": [
+      {
+        "degree": "B.S.",
+        "field": "INFORMATION TECHNOLOGY",
+        "school": "NORTH CAROLINA STATE UNIVERSITY",
+        "year": 2021
+      }
+    ],
+    "certifications": [],
+    "skills": [
+      "JAVA",
+      "SPRING BOOT",
+      "SQL",
+      "ORACLE",
+      "POSTGRESQL",
+      "JUNIT",
+      "MOCKITO",
+      "MAVEN",
+      "DOCKER",
+      "JENKINS",
+      "SOME JAVASCRIPT/JQUERY"
+    ],
+    "numbers": [
+      "5 YEARS",
+      "12 REST endpoints",
+      "above 80%",
+      "from 3 hours to 50 minutes",
+      "4 client accounts"
+    ],
+    "work_authorization": "U.S. PERMANENT RESIDENT",
+    "compensation_expectation": null,
+    "years_experience_total": 5
+  },
+  "format_traits": [
+    "all_caps_headings",
+    "all_caps_text",
+    "very_terse",
+    "job_hopping"
+  ],
+  "notes": "Adjacent profession (backend Java) applying to a TypeScript frontend role; job hopping (4 employers in ~5 years). Name and titles are written in ALL CAPS; extraction may normalize casing."
+}

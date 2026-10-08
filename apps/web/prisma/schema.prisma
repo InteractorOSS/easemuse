@@ -1066,6 +1066,47 @@ model ActivityLog {
   @@index([agencyId, entityType, entityId, createdAt])
 }
 
+// A full export of one agency's data as a ZIP, built in the background for an agency admin (FR-TEN-06, ADR-016).
+model TenantExport {
+  id            String    @id @default(uuid()) @db.Uuid
+  agencyId      String    @db.Uuid
+  requestedById String    @db.Uuid
+  status        String    @default("queued") // queued | running | completed | failed
+  jobRunId      String?   @db.Uuid
+  fileId        String?   @db.Uuid
+  sizeBytes     Int?
+  tableCounts   Json? // rows per table, no content
+  error         String?
+  createdAt     DateTime  @default(now())
+  completedAt   DateTime?
+
+  @@index([agencyId, createdAt])
+}
+
+// Platform table: NOT under RLS and deliberately without an agencyId column. The record of a tenant
+// deletion has to outlive the tenant, so it holds the tenant's id, slug and name as plain values
+// (FR-ADM-08, ADR-016). Two different platform owners/admins are needed: one requests, another approves.
+model TenantDeletion {
+  id            String    @id @default(uuid()) @db.Uuid
+  tenantId      String    @db.Uuid
+  tenantSlug    String
+  tenantName    String
+  status        String    @default("requested") // requested | approved | running | completed | failed | cancelled
+  requestedById String    @db.Uuid
+  requestedAt   DateTime  @default(now())
+  approvedById  String?   @db.Uuid
+  approvedAt    DateTime?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  cancelledAt   DateTime?
+  jobRunId      String?   @db.Uuid
+  counts        Json? // rows removed per table, no content
+  error         String?
+  updatedAt     DateTime  @updatedAt
+
+  @@index([tenantId, status])
+}
+
 // Platform table: NOT under RLS (ids and status only, no candidate data).
 // agencyId is null for system jobs; access is checked in app code (queue layer, SSE job channel).
 model JobRun {

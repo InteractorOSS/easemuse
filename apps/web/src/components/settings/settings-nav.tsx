@@ -23,7 +23,12 @@ export function SettingsNav({
     ...(role === 'admin' ? [{ key: 'branding' as const }] : []),
     ...(role !== 'recruiter' ? [{ key: 'privacy' as const }] : []),
     ...(role === 'admin'
-      ? [{ key: 'usage' as const }, { key: 'outbox' as const }, { key: 'support' as const }]
+      ? [
+          { key: 'usage' as const },
+          { key: 'outbox' as const },
+          { key: 'support' as const },
+          { key: 'export' as const },
+        ]
       : []),
   ];
   return (

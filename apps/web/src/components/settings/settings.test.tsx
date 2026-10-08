@@ -37,6 +37,7 @@ describe('SettingsNav', () => {
       'AI usage',
       'Outbox',
       'Support access',
+      'Data export',
     ]);
   });
   it('hides usage from leads and members from recruiters', () => {

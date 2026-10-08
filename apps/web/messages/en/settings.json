@@ -8,6 +8,7 @@
     "usage": "AI usage",
     "outbox": "Outbox",
     "support": "Support access",
+    "export": "Data export",
     "privacy": "Privacy requests"
   },
   "defaults": {
@@ -221,6 +222,23 @@
       "when": "When",
       "who": "Who",
       "what": "Request"
+    }
+  },
+  "export": {
+    "title": "Data export",
+    "intro": "A ZIP of everything your agency holds in EaseMuse: every table as JSON lines and every stored file, with a README that explains the format. It can take a few minutes. The last two exports are kept.",
+    "start": "Create a new export",
+    "started": "The export is being prepared.",
+    "busy": "An export is already being prepared.",
+    "failed": "The export could not be made. Try again, or contact support.",
+    "tooLarge": "There is too much data for one export. Contact support and we will prepare it for you.",
+    "empty": "No exports yet.",
+    "download": "Download the ZIP",
+    "status": {
+      "queued": "Waiting",
+      "running": "Being prepared",
+      "completed": "Ready",
+      "failed": "Failed"
     }
   }
 }

@@ -102,6 +102,20 @@ vi.mock('@/server/support/access', () => ({
   findActiveGrant: async () => null,
   recordSupportView: async () => undefined,
 }));
+vi.mock('@/server/tenant/export', () => ({
+  listTenantExports: async () => [],
+  requestTenantExport: async () => ({ id: 'x1', status: 'queued' }),
+  getCompletedExportFile: async () => ({ fileId: 'f1' }),
+}));
+vi.mock('@/server/files/files', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/files/files')>()),
+  openFileForDownload: async () => ({
+    kind: 'bytes',
+    filename: 'x.zip',
+    contentType: 'application/zip',
+    bytes: Buffer.from('zip'),
+  }),
+}));
 vi.mock('@/server/tenancy/settings', () => ({
   readSettings: async () => ({}),
   updateSettings: async () => ({}),
@@ -557,6 +571,8 @@ import { POST as versionPost } from './v1/agencies/[agencyId]/artifacts/[artifac
 import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route';
 import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
 import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
+import { GET as exportsGet, POST as exportsPost } from './v1/agencies/[agencyId]/data-export/route';
+import { GET as exportDownloadGet } from './v1/agencies/[agencyId]/data-export/[exportId]/download/route';
 import {
   GET as supportListGet,
   POST as supportRequestPost,
@@ -1913,6 +1929,30 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', json({ decision: 'approve' })),
         agencyParams,
       ),
+  },
+  {
+    name: 'GET data exports',
+    file: 'v1/agencies/[agencyId]/data-export/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => exportsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST data export',
+    file: 'v1/agencies/[agencyId]/data-export/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => exportsPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET data export download',
+    file: 'v1/agencies/[agencyId]/data-export/[exportId]/download/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () =>
+      exportDownloadGet(new Request('http://x.test/'), {
+        params: Promise.resolve({ agencyId: 'acme', exportId: 'x1' }),
+      }),
   },
 ];
 

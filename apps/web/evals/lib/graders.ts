@@ -152,3 +152,103 @@ export function rankingAccuracy(
 export function spread(scores: number[]): number {
   return scores.length === 0 ? 0 : Math.max(...scores) - Math.min(...scores);
 }
+
+// ── Pool search reasons (A8, US-205) ──────────────────────────────────────────────────────────
+
+const GENDERED = /\b(he|she|him|her|his|hers|mr|mrs|ms|male|female|man|woman|husband|wife)\b/gi;
+const LEAK = /[^\s@]+@[^\s@]+\.[^\s@]+|https?:\/\/\S+|\+?\d[\d\s().-]{7,}\d/;
+
+export interface ReasonGrade {
+  words: number;
+  /** One short sentence, as the prompt asks (at most 30 words). */
+  withinLength: boolean;
+  /** An email, link, phone number or a word of the candidate's name appeared in the reason. */
+  leaksIdentity: boolean;
+  /** Gendered words: the prompt asks for "the candidate". */
+  gendered: string[];
+  /** Numbers the card and the success profile never state. */
+  invented: string[];
+  pass: boolean;
+}
+
+/** Grades one "why this person may fit" line against the card the model read and the profile it compared with. */
+export function gradeReason(
+  reason: string,
+  context: { source: string; names: readonly string[] },
+): ReasonGrade {
+  const words = reason.trim().split(/\s+/).filter(Boolean).length;
+  const lowered = reason.toLowerCase();
+  const leaksIdentity =
+    LEAK.test(reason) ||
+    context.names.some((n) => n.length >= 2 && lowered.includes(n.toLowerCase()));
+  const gendered = [...new Set([...reason.matchAll(GENDERED)].map((m) => m[0].toLowerCase()))];
+  const invented = inventedNumbers(reason, context.source);
+  const withinLength = words >= 3 && words <= 30;
+  return {
+    words,
+    withinLength,
+    leaksIdentity,
+    gendered,
+    invented,
+    pass: withinLength && !leaksIdentity && gendered.length === 0 && invented.length === 0,
+  };
+}
+
+// ── Benchmark citations (A3, US-108) ──────────────────────────────────────────────────────────
+
+export interface BenchmarkGradeInput {
+  /** What the structuring step returned, before code kept or dropped anything. */
+  raw: {
+    web: { text: string; sourceIds: string[] }[];
+    suggestions: { basedOn: string[] }[];
+  };
+  /** The sources the research step cited. */
+  research: { findings: string; sources: { id: string; url: string; citedTexts: string[] }[] };
+  /** The stored report. */
+  content: {
+    web: { text: string; sources: { url: string; retrievedOn: string }[] }[];
+    suggestions: unknown[];
+    droppedWebItems: number;
+  };
+  isPaid: (url: string) => boolean;
+}
+
+export interface BenchmarkGrade {
+  /** Share of the model's web findings that carried at least one label of a cited page. */
+  rawCitedRate: number;
+  keptItems: number;
+  /** Every kept item has a source with an http(s) link the research really cited, and a date. */
+  allLinked: boolean;
+  anyPaid: boolean;
+  /** Share of kept items whose numbers all appear in the research text or its cited passages. */
+  numbersSupported: number;
+  suggestionsKeptRate: number;
+}
+
+export function gradeBenchmark(input: BenchmarkGradeInput): BenchmarkGrade {
+  const cited = new Set(input.research.sources.map((s) => s.id));
+  const raw = input.raw.web;
+  const rawCited = raw.filter((w) => w.sourceIds.some((id) => cited.has(id))).length;
+  const urls = new Set(input.research.sources.map((s) => s.url));
+  const allLinked = input.content.web.every(
+    (w) =>
+      w.sources.length > 0 &&
+      w.sources.every(
+        (s) => /^https?:\/\//.test(s.url) && urls.has(s.url) && s.retrievedOn.length > 0,
+      ),
+  );
+  const evidence = `${input.research.findings}\n${input.research.sources.flatMap((s) => s.citedTexts).join('\n')}`;
+  const supported = input.content.web.filter((w) => inventedNumbers(w.text, evidence).length === 0);
+  return {
+    rawCitedRate: raw.length === 0 ? 1 : rawCited / raw.length,
+    keptItems: input.content.web.length,
+    allLinked,
+    anyPaid: input.content.web.some((w) => w.sources.some((s) => input.isPaid(s.url))),
+    numbersSupported:
+      input.content.web.length === 0 ? 1 : supported.length / input.content.web.length,
+    suggestionsKeptRate:
+      input.raw.suggestions.length === 0
+        ? 1
+        : input.content.suggestions.length / input.raw.suggestions.length,
+  };
+}

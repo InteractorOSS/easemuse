@@ -5,8 +5,11 @@ import { callQuestionsPrompt } from './call-questions';
 import { factCheckVerifierPrompt } from './factcheck';
 import { intakeQuestionsPrompt } from './intake-questions';
 import { jdStructurePrompt } from './jd-structure';
+import { marketBenchmarkPrompt } from './market-benchmark';
 import { matchAnalyzePrompt } from './match-analyze';
 import { outreachDraftPrompt } from './outreach-draft';
+import { poolSimilarPrompt } from './pool-similar';
+import { portfolioCheckPrompt } from './portfolio-check';
 import { profileStructurePrompt } from './profile-structure';
 import { qualifyNotesPrompt } from './qualify-notes';
 import { reportDraftPrompt } from './report-draft';
@@ -30,4 +33,7 @@ export function registerBuiltInPrompts(registry: PromptRegistry): void {
   registry.register(resumeTailorPrompt);
   registry.register(reportDraftPrompt);
   registry.register(screeningPrefillPrompt);
+  registry.register(poolSimilarPrompt);
+  registry.register(portfolioCheckPrompt);
+  registry.register(marketBenchmarkPrompt);
 }

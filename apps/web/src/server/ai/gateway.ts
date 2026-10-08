@@ -7,7 +7,7 @@ import { ApiError } from '@/lib/http/errors';
 import { addDraftVersion, findOrCreateArtifact, type Subject } from '@/server/artifacts/service';
 import { AiCallError, AiCancelledError, toApiError } from './errors';
 import { assertWithinBudget, recordLlmCall } from './ledger';
-import type { ModelClient } from './anthropic';
+import type { ModelClient, SearchResponse } from './anthropic';
 import type { TokenUsage } from './pricing';
 import { createPromptRegistry, type PromptRegistry } from './prompts';
 import { PURPOSES, isPurposeId, type PurposeId } from './purposes';
@@ -102,12 +102,51 @@ export function createGateway(deps: GatewayDeps) {
       return row.id;
     });
 
-    // 3. The model call.
+    // 3. The optional web search step, recorded on its own so its cost is kept even if the next step fails.
+    let research: SearchResponse | null = null;
+    let recordedCalls = 0;
+    const researchRequest = prompt.research?.buildRequest(input) ?? null;
+    if (researchRequest) {
+      try {
+        if (!deps.model.search) throw new Error('The model client cannot run a web search');
+        research = await deps.model.search({
+          model: purpose.model,
+          effort: purpose.effort,
+          system: researchRequest.system,
+          user: researchRequest.user,
+          maxTokens: purpose.maxTokens,
+          maxUses: researchRequest.maxUses,
+          blockedDomains: researchRequest.blockedDomains,
+          signal: ctx.signal,
+        });
+        const searched = research;
+        await deps.scope.withAgency(ctx.agencyId, (tx) =>
+          recordLlmCall(tx, {
+            agencyId: ctx.agencyId,
+            aiGenerationId: generationId,
+            requestedById,
+            positionId: ctx.positionId ?? null,
+            purpose: purposeId,
+            model: purpose.model,
+            promptVersion: prompt.version,
+            usage: searched.usage,
+            latencyMs: searched.latencyMs,
+          }),
+        );
+        recordedCalls = 1;
+      } catch (error) {
+        const spent = error instanceof AiCallError ? error.usage : undefined;
+        await finish(generationId, ctx, purposeId, prompt.version, 'failed', spent, 0, error, 0);
+        throw toApiError(error);
+      }
+    }
+
+    // 4. The model call.
     let usage: TokenUsage | undefined;
     let latencyMs = 0;
     let output: O;
     try {
-      const { system, user } = prompt.buildPrompt(input);
+      const { system, user } = prompt.buildPrompt(input, research);
       const response = await deps.model.complete<O>({
         model: purpose.model,
         effort: purpose.effort,
@@ -124,11 +163,21 @@ export function createGateway(deps: GatewayDeps) {
     } catch (error) {
       // A refusal or truncated answer still cost tokens: record them.
       usage = error instanceof AiCallError ? error.usage : undefined;
-      await finish(generationId, ctx, purposeId, prompt.version, 'failed', usage, latencyMs, error);
+      await finish(
+        generationId,
+        ctx,
+        purposeId,
+        prompt.version,
+        'failed',
+        usage,
+        latencyMs,
+        error,
+        recordedCalls,
+      );
       throw toApiError(error);
     }
 
-    // 4. Record the call and store the draft in ONE transaction: either both exist or neither.
+    // 5. Record the call and store the draft in ONE transaction: either both exist or neither.
     try {
       const stored = await deps.scope.withAgency(ctx.agencyId, async (tx) => {
         const call = await recordLlmCall(tx, {
@@ -154,7 +203,7 @@ export function createGateway(deps: GatewayDeps) {
               })
             ).id;
           const content = prompt.toContent
-            ? prompt.toContent(output, input as never)
+            ? prompt.toContent(output, input as never, research)
             : (output as Record<string, unknown>);
           const version = await addDraftVersion(tx, {
             agencyId: ctx.agencyId,
@@ -175,7 +224,17 @@ export function createGateway(deps: GatewayDeps) {
       return { generationId, output, draft: stored.draft, usage: usage!, costUsd: stored.costUsd };
     } catch (error) {
       // The answer was unusable (for example it failed the kind's schema): keep the cost, drop the draft.
-      await finish(generationId, ctx, purposeId, prompt.version, 'failed', usage, latencyMs, error);
+      await finish(
+        generationId,
+        ctx,
+        purposeId,
+        prompt.version,
+        'failed',
+        usage,
+        latencyMs,
+        error,
+        recordedCalls,
+      );
       throw toApiError(error);
     }
   }
@@ -190,6 +249,7 @@ export function createGateway(deps: GatewayDeps) {
     usage: TokenUsage | undefined,
     latencyMs: number,
     error: unknown,
+    recordedCalls = 0,
   ): Promise<void> {
     const cancelled = error instanceof AiCancelledError;
     const code = cancelled ? 'cancelled' : toApiError(error).code;
@@ -197,7 +257,7 @@ export function createGateway(deps: GatewayDeps) {
       await deps.scope.withAgency(ctx.agencyId, async (tx) => {
         if (usage && ctx.actor.kind === 'agency') {
           const already = await tx.llmCall.count({ where: { aiGenerationId: generationId } });
-          if (already === 0) {
+          if (already <= recordedCalls) {
             await recordLlmCall(tx, {
               agencyId: ctx.agencyId,
               aiGenerationId: generationId,

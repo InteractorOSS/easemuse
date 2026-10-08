@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import type { z } from 'zod';
+import type { SearchResponse } from './anthropic';
 import type { PurposeId } from './purposes';
 
 /**
@@ -13,9 +14,19 @@ export interface PromptModule<I = unknown, O = unknown> {
   /** Bump on every prompt change: it is stored in `AiGeneration` and `LlmCall` for provenance. */
   version: string;
   schema: z.ZodType<O>;
-  buildPrompt(input: I): { system: string; user: string };
+  /**
+   * An optional first step that searches the web (ADR-005). Returning null skips it (search is not
+   * switched on); `buildPrompt` and `toContent` then receive no research. The step's cost is
+   * recorded as its own ledger row under the same generation.
+   */
+  research?: {
+    buildRequest(
+      input: I,
+    ): { system: string; user: string; maxUses: number; blockedDomains: string[] } | null;
+  };
+  buildPrompt(input: I, research?: SearchResponse | null): { system: string; user: string };
   /** Maps the model's answer to artifact content; default is the answer itself. */
-  toContent?(output: O, input: I): Record<string, unknown>;
+  toContent?(output: O, input: I, research?: SearchResponse | null): Record<string, unknown>;
 }
 
 export interface PromptRegistry {

@@ -3,8 +3,10 @@
 import { describe, expect, it } from 'vitest';
 import type { ResumeKey } from './dataset';
 import {
+  gradeBenchmark,
   gradeMatch,
   gradeProfile,
+  gradeReason,
   inventedNumbers,
   norm,
   numbersIn,
@@ -153,5 +155,75 @@ describe('ranking and spread', () => {
   it('measures the spread of repeated scores', () => {
     expect(spread([78, 81, 80])).toBe(3);
     expect(spread([])).toBe(0);
+  });
+});
+
+describe('gradeReason', () => {
+  const context = {
+    source: 'HR Director at Northwind. Managed a team of 20.',
+    names: ['Minsu', 'Kim'],
+  };
+  it('accepts one short, grounded, neutral sentence', () => {
+    const g = gradeReason('Directs HR at a similar company and managed a team of 20.', context);
+    expect(g).toMatchObject({ pass: true, leaksIdentity: false, gendered: [], invented: [] });
+  });
+  it('fails a name, a contact detail, a gendered word, an invented number and a long reason', () => {
+    expect(gradeReason('Minsu directs HR for a team of 20.', context).leaksIdentity).toBe(true);
+    expect(gradeReason('Reach at a.b@example.com about HR work.', context).leaksIdentity).toBe(
+      true,
+    );
+    expect(gradeReason('She directs HR for a team of 20 people.', context).gendered).toEqual([
+      'she',
+    ]);
+    expect(gradeReason('Directs HR for a team of 45 people.', context).invented).toEqual(['45']);
+    expect(
+      gradeReason(Array.from({ length: 31 }, () => 'word').join(' '), context).withinLength,
+    ).toBe(false);
+  });
+});
+
+describe('gradeBenchmark', () => {
+  const research = {
+    findings: 'Pay is 120k. [S1]',
+    sources: [{ id: 'S1', url: 'https://jobs.example.com/a', citedTexts: ['120k'] }],
+  };
+  const kept = (text: string, url = 'https://jobs.example.com/a') => ({
+    text,
+    sources: [{ url, retrievedOn: '2026-10-07' }],
+  });
+  const grade = (web: ReturnType<typeof kept>[], rawWeb = [{ text: '', sourceIds: ['S1'] }]) =>
+    gradeBenchmark({
+      raw: { web: rawWeb, suggestions: [{ basedOn: ['W1'] }] },
+      research,
+      content: { web, suggestions: [], droppedWebItems: 0 },
+      isPaid: (u) => u.includes('payscale'),
+    });
+
+  it('is clean when every kept item has a cited, free, dated link and states only supported numbers', () => {
+    expect(grade([kept('Pay is 120k.')])).toMatchObject({
+      allLinked: true,
+      anyPaid: false,
+      numbersSupported: 1,
+      rawCitedRate: 1,
+      suggestionsKeptRate: 0,
+    });
+  });
+  it('catches a link the research never cited, a paid source and a number nobody wrote', () => {
+    expect(grade([kept('Pay is 120k.', 'https://elsewhere.example.com/')]).allLinked).toBe(false);
+    expect(grade([kept('Pay is 120k.', 'https://www.payscale.com/x')]).anyPaid).toBe(true);
+    expect(grade([kept('Pay is 190k.')]).numbersSupported).toBe(0);
+  });
+  it('measures how often the model cited at all, before the code drops anything', () => {
+    expect(
+      grade(
+        [],
+        [
+          { text: 'a', sourceIds: ['S1'] },
+          { text: 'b', sourceIds: [] },
+          { text: 'c', sourceIds: ['S9'] },
+          { text: 'd', sourceIds: ['S1'] },
+        ],
+      ).rawCitedRate,
+    ).toBe(0.5);
   });
 });

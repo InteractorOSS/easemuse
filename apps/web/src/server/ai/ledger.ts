@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 import type { ScopedTx } from '@/lib/db';
 import { ApiError } from '@/lib/http/errors';
-import { costUsd, type TokenUsage } from './pricing';
+import { costUsd, embeddingCostUsd, type TokenUsage } from './pricing';
 
 /** Start of the calendar month (UTC) that budgets and usage reports are counted in. */
 export function monthStart(now: Date): Date {
@@ -95,6 +95,44 @@ export async function recordLlmCall(
       inputTokens: call.usage.inputTokens,
       outputTokens: call.usage.outputTokens,
       cachedTokens: call.usage.cachedTokens,
+      costUsd: cost,
+      latencyMs: call.latencyMs,
+    },
+    select: { id: true },
+  });
+  return { id: row.id, costUsd: cost };
+}
+
+export interface EmbeddingCallRecord {
+  agencyId: string;
+  aiGenerationId: string | null;
+  /** The recruiter who asked (a pool search); null for indexing after an approval (FR-AI-01 exception). */
+  requestedById: string | null;
+  positionId: string | null;
+  purpose: 'embedding.index' | 'embedding.query';
+  model: string;
+  tokens: number;
+  latencyMs: number;
+}
+
+/** One ledger row per embedding call, so Voyage cost is metered like every model call (ADR-013). */
+export async function recordEmbeddingCall(
+  tx: ScopedTx,
+  call: EmbeddingCallRecord,
+): Promise<{ id: string; costUsd: number }> {
+  const cost = embeddingCostUsd(call.model, call.tokens);
+  const row = await tx.llmCall.create({
+    data: {
+      agencyId: call.agencyId,
+      aiGenerationId: call.aiGenerationId,
+      requestedById: call.requestedById,
+      positionId: call.positionId,
+      purpose: call.purpose,
+      model: call.model,
+      promptVersion: 'voyage-v1',
+      inputTokens: call.tokens,
+      outputTokens: 0,
+      cachedTokens: 0,
       costUsd: cost,
       latencyMs: call.latencyMs,
     },

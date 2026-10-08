@@ -13,6 +13,16 @@ export const PRICE_PER_MILLION_USD = {
 
 export type PricedModel = keyof typeof PRICE_PER_MILLION_USD;
 
+/**
+ * Embedding prices in USD per million tokens (ADR-008): Voyage `voyage-3-large`, 1024 dimensions.
+ * Checked against ADR-008's reported figure; re-check on the provider's price page when it changes.
+ */
+export const EMBEDDING_PRICE_PER_MILLION_USD = { 'voyage-3-large': 0.18 } as const;
+export type EmbeddingModel = keyof typeof EMBEDDING_PRICE_PER_MILLION_USD;
+
+/** The Claude API charges a fee per web search on top of tokens (ADR-005: $10 per 1,000 searches). */
+export const WEB_SEARCH_USD_PER_REQUEST = 0.01;
+
 /** Reading cached input costs a tenth of fresh input. */
 const CACHE_READ_FACTOR = 0.1;
 
@@ -22,6 +32,8 @@ export interface TokenUsage {
   outputTokens: number;
   /** Input tokens served from the prompt cache. */
   cachedTokens: number;
+  /** Web searches the call ran (`usage.server_tool_use.web_search_requests`); each has its own fee. */
+  webSearchRequests?: number;
 }
 
 export function isPricedModel(model: string): model is PricedModel {
@@ -37,6 +49,23 @@ export function costUsd(model: string, usage: TokenUsage): number {
     (usage.inputTokens * price.input +
       usage.cachedTokens * price.input * CACHE_READ_FACTOR +
       usage.outputTokens * price.output) /
-    1_000_000;
+      1_000_000 +
+    (usage.webSearchRequests ?? 0) * WEB_SEARCH_USD_PER_REQUEST;
   return Math.round(dollars * 1_000_000) / 1_000_000;
+}
+
+export function isEmbeddingModel(model: string): model is EmbeddingModel {
+  return model in EMBEDDING_PRICE_PER_MILLION_USD;
+}
+
+/** Cost of one embedding call: all tokens are input tokens. */
+export function embeddingCostUsd(model: string, tokens: number): number {
+  if (!isEmbeddingModel(model))
+    throw new Error(
+      `No price for embedding model "${model}"; add it to EMBEDDING_PRICE_PER_MILLION_USD`,
+    );
+  return (
+    Math.round(((tokens * EMBEDDING_PRICE_PER_MILLION_USD[model]) / 1_000_000) * 1_000_000) /
+    1_000_000
+  );
 }

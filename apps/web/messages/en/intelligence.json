@@ -1,0 +1,131 @@
+{
+  "pool": {
+    "title": "Find in my pool",
+    "back": "Back to the position",
+    "intro": "Looks through the candidates you already have for people who resemble this position's confirmed success profile. These are suggestions for you to look at: nobody is added to the position until you add them, and the similarity figure is only a reference.",
+    "run": "Find in my pool",
+    "rerun": "Search again",
+    "working": "Searching your pool…",
+    "basis": {
+      "semantic": "Compared by meaning.",
+      "keyword": "Compared by keywords, because the meaning search is not available right now."
+    },
+    "searchedOn": "Searched on {date}.",
+    "coverage": "{poolSize, plural, one {# candidate} other {# candidates}} in your pool. {notIndexed, plural, =0 {All are indexed.} one {# is not indexed yet and was not compared.} other {# are not indexed yet and were not compared.}}",
+    "alreadyIn": "{count, plural, one {# candidate is already in this position and is not listed.} other {# candidates are already in this position and are not listed.}}",
+    "resultsHeading": "Candidates that may fit",
+    "none": "Nobody in your pool resembles this profile yet.",
+    "suggestion": "This list is a suggestion. The order and the figures are a reference, not a ranking of who is better.",
+    "similarity": "Reference similarity: {value}",
+    "caveat": "To check: {text}",
+    "dnc": "Do not contact",
+    "view": "Open profile",
+    "add": "Add to this position",
+    "adding": "Adding…",
+    "added": "Added to this position",
+    "addedToast": "Added to the position",
+    "addLabel": "Add {name} to this position",
+    "errors": {
+      "notConfirmed": "Confirm the success profile first: the search starts from the confirmed version.",
+      "budget": "This month's AI budget has been used. Ask your admin to raise it.",
+      "add": "Could not add this candidate.",
+      "generic": "Could not search the pool. Try again."
+    }
+  },
+  "portfolio": {
+    "title": "Open positions",
+    "intro": "Shows how this candidate could fit the open positions of your agency. It is a suggestion for you to review; nothing is changed.",
+    "run": "Check open positions",
+    "rerun": "Check again",
+    "working": "Checking open positions…",
+    "generatedOn": "Checked on {date}.",
+    "fit": {
+      "strong": "Strong fit",
+      "moderate": "Moderate fit",
+      "low": "Low fit"
+    },
+    "none": "Nothing has been checked yet.",
+    "notAssessed": "Not assessed",
+    "why": {
+      "no_success_profile": "No confirmed success profile yet",
+      "already_in_pipeline": "Already in this position",
+      "no_answer": "The assistant gave no answer for it"
+    },
+    "truncated": "There are more open positions than one check covers. The most recent ones were checked.",
+    "errors": {
+      "noProfile": "This candidate has no confirmed profile yet.",
+      "noPositions": "There is no open position with a confirmed success profile to compare with.",
+      "budget": "This month's AI budget has been used. Ask your admin to raise it.",
+      "generic": "Could not check the open positions. Try again."
+    }
+  },
+  "benchmark": {
+    "title": "Market benchmark",
+    "back": "Back to the position",
+    "intro": "Compares this position with similar ones: first your own earlier positions, then public web pages. Everything here is a draft until you approve it, and no suggested change reaches the job description until you accept it.",
+    "run": "Run the benchmark",
+    "rerun": "Run it again",
+    "webOn": "Web search is on. Only free public pages are used, and each finding shows its source and date.",
+    "webOff": "Web search is not switched on on this server, so the benchmark uses your own data only.",
+    "webNoResults": "The web search found nothing that could be cited.",
+    "dropped": "{count, plural, one {# web finding was left out because no cited page backs it.} other {# web findings were left out because no cited page backs them.}}",
+    "ourData": {
+      "heading": "Our data",
+      "hint": "Counted from your agency's own earlier positions with similar titles. Each line links to those positions.",
+      "empty": "No earlier position with a similar title.",
+      "positions": "From:"
+    },
+    "web": {
+      "heading": "Web",
+      "hint": "Public web pages only. No paid sources.",
+      "empty": "No web findings.",
+      "retrieved": "read on {date}",
+      "published": "page date: {date}",
+      "sources": "Sources:"
+    },
+    "categories": {
+      "title": "Job title",
+      "responsibility": "Responsibility",
+      "skill": "Skill",
+      "experience": "Experience",
+      "industry": "Industry",
+      "education": "Education",
+      "compensation": "Compensation",
+      "location": "Location"
+    },
+    "remove": "Remove",
+    "removeLabel": "Remove from the report: {text}",
+    "invalid": "This report cannot be shown.",
+    "suggestions": {
+      "heading": "Suggested changes to the job description",
+      "hint": "Accept or reject each one. An accepted change goes into a new draft of the structured job description, which you still approve there.",
+      "empty": "There are no suggested changes.",
+      "needsApproval": "Approve the report above to accept or reject these.",
+      "noJd": "Structure the job description first: there is nothing to change yet.",
+      "kind": {
+        "add_requirement": "Add a requirement",
+        "change_requirement": "Change a requirement",
+        "update_section": "Update a section"
+      },
+      "replaces": "Replaces: {text}",
+      "basedOn": "Based on: {ids}",
+      "accept": "Accept",
+      "reject": "Reject",
+      "acceptLabel": "Accept: {text}",
+      "rejectLabel": "Reject: {text}",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "openJd": "Open the structured job description",
+      "decided": "Saved",
+      "errors": {
+        "conflict": "This could not be applied. Check the structured job description.",
+        "generic": "Could not save that. Try again."
+      }
+    },
+    "errors": {
+      "webSearch": "Web search is not available. An owner has to switch it on for the Anthropic account.",
+      "budget": "This month's AI budget has been used. Ask your admin to raise it.",
+      "generic": "Could not run the benchmark. Try again."
+    }
+  }
+}

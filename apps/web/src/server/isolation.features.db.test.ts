@@ -16,6 +16,10 @@ import {
 } from '@/test/db';
 import { seedAgency, type SeededAgency } from '@/test/isolation-fixtures';
 import { createScope } from '@/lib/db';
+import { decideSuggestion, getBenchmark, planBenchmark } from '@/server/benchmark/service';
+import { findInPool, getPoolMatches } from '@/server/pool/similar';
+import { getPortfolio, planPortfolioCheck } from '@/server/pool/portfolio';
+import { fakeEmbedder } from '@/test/pool-fixtures';
 import {
   createInterview,
   listInterviews,
@@ -232,6 +236,38 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
           anonymizeCandidate(tx, candidate()),
         ),
     ],
+    [
+      'pool: read matches of a position',
+      () => asA((tx) => getPoolMatches(tx, actorA, b.positionId)),
+    ],
+    [
+      'pool: find in my pool',
+      () =>
+        findInPool(
+          { embedder: fakeEmbedder(), scope: appScope(handle), run: (async () => ({})) as never },
+          actorA,
+          b.positionId,
+        ),
+    ],
+    ['portfolio: read', () => asA((tx) => getPortfolio(tx, actorA, candidate()))],
+    [
+      'portfolio: check open positions',
+      () => asA((tx) => planPortfolioCheck(tx, actorA, candidate())),
+    ],
+    ['benchmark: read', () => asA((tx) => getBenchmark(tx, actorA, b.positionId))],
+    ['benchmark: plan', () => asA((tx) => planBenchmark(tx, actorA, b.positionId))],
+    [
+      'benchmark: decide a suggestion',
+      () =>
+        asA((tx) =>
+          decideSuggestion(tx, actorA, {
+            positionId: b.positionId,
+            versionId: guid,
+            suggestionId: 'G1',
+            decision: 'accepted',
+          }),
+        ),
+    ],
   ];
 
   it.each(cases)("%s: another agency's id is not found", async (_name, call) => {
@@ -256,5 +292,10 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
       [b.agencyId],
     );
     expect(Number(touched.rows[0].n)).toBe(0);
+    const intelligence = await admin.query(
+      `SELECT (SELECT count(*) FROM "ProfileEmbedding" WHERE "agencyId" = $1) + (SELECT count(*) FROM "BenchmarkDecision" WHERE "agencyId" = $1) + (SELECT count(*) FROM "LlmCall" WHERE "agencyId" = $1 AND "purpose" LIKE 'embedding.%') AS n`,
+      [b.agencyId],
+    );
+    expect(Number(intelligence.rows[0].n)).toBe(0);
   });
 });

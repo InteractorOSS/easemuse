@@ -9,6 +9,8 @@ pnpm eval -- --suite profile-structure --limit 10 --max-cost 2
 pnpm eval -- --suite match-analyze --limit 30
 pnpm eval -- --suite bias --runs 3          # paired resumes, NFR-AI04
 pnpm eval -- --suite stability --limit 5     # 5 runs of the same resume, TR-010
+pnpm eval -- --suite pool-similar --limit 3  # the one-line reasons of "Find in my pool"
+pnpm eval -- --suite benchmark --limit 3     # real web search; billed per search, not part of `all`
 pnpm eval -- --suite all --max-cost 15
 ```
 
@@ -19,6 +21,13 @@ pnpm eval -- --suite all --max-cost 15
 | `match-analyze`     | Do A10's seven levels agree with the key, and do strong, partial and weak resumes rank in order?   | `keys/*.json` `criteria` |
 | `bias`              | Do two resumes that differ only in the name score within the tolerance? (NFR-AI04)                 | `bias_pair` in the keys  |
 | `stability`         | Does the same resume keep its score within the tolerance over repeated runs? (TR-010)              | repeated runs            |
+| `pool-similar`      | Is each "why this person may fit" line short, grounded, gender-neutral and free of identity? (A8)  | the candidate card itself |
+| `benchmark`         | Does every web finding rest on a page the search cited, with a link, a date and no paid source? (A3) | the search result itself |
+
+`benchmark` needs web search switched on for the Anthropic account (Claude Console, privacy settings),
+costs $0.01 per search on top of the tokens, and is left out of `--suite all`. Its numbers are
+`rawCitedRate` (how often the model itself names a cited page, before the code drops anything),
+`allLinked`, `paidSourceRate` and `numbersSupported` (the figures in an item appear in the research).
 
 Options: `--limit N` (cases per suite), `--runs N`, `--tolerance POINTS` (default 5), `--max-cost USD`
 (default 5; the run stops when it is reached). Reports are written to `evals/out/` (git-ignored).

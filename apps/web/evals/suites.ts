@@ -4,16 +4,32 @@ import {
   DEFAULT_MATCH_WEIGHTS,
   computeOverall,
   criterionScoresOf,
+  candidateEmbeddingText,
+  identityTokens,
+  isPaidSource,
+  successProfileEmbeddingText,
+  type BenchmarkContent,
   type CandidateProfileContent,
   type MatchAnalysisContent,
+  type SimilarCandidatesContent,
 } from '@easemuse/core';
 import type { ModelClient } from '@/server/ai/anthropic';
 import { jdStructurePrompt } from '@/server/ai/prompts/jd-structure';
 import { matchAnalyzePrompt, type MatchAnalyzeInput } from '@/server/ai/prompts/match-analyze';
+import { marketBenchmarkPrompt, type BenchmarkInput } from '@/server/ai/prompts/market-benchmark';
+import { poolSimilarPrompt, type PoolSimilarInput } from '@/server/ai/prompts/pool-similar';
 import { profileStructurePrompt } from '@/server/ai/prompts/profile-structure';
+import { redactText } from '@/server/ai/redaction';
 import { allResumeIds, loadJobDescription, loadResume, type Resume } from './lib/dataset';
-import { gradeMatch, gradeProfile, rankingAccuracy, spread } from './lib/graders';
-import { CostMeter, runPrompt } from './lib/runner';
+import {
+  gradeBenchmark,
+  gradeMatch,
+  gradeProfile,
+  gradeReason,
+  rankingAccuracy,
+  spread,
+} from './lib/graders';
+import { CostMeter, runPrompt, runResearchedPrompt } from './lib/runner';
 
 export interface SuiteContext {
   model: ModelClient;
@@ -275,10 +291,183 @@ export const jdStructure: Suite = async (ctx) => {
   };
 };
 
+/**
+ * A8 (US-205, FR-AI-09): the one-line reasons for "Find in my pool". Resumes that were written for
+ * the same JD form a small pool; the cards are built exactly as in production (approved profile,
+ * no name or contact details). A reason must be short, grounded in the card, say "the candidate"
+ * and never carry an identity.
+ */
+export const poolSimilar: Suite = async (ctx) => {
+  const byJd = new Map<string, string[]>();
+  for (const id of allResumeIds()) {
+    const jd = loadResume(id).key.target_jd;
+    byJd.set(jd, [...(byJd.get(jd) ?? []), id]);
+  }
+  const jds = pick([...byJd.keys()], ctx.limit);
+  const grades: ReturnType<typeof gradeReason>[] = [];
+  const failures: string[] = [];
+  let cards = 0;
+  let answered = 0;
+  for (const jdId of jds) {
+    const jd = loadJobDescription(jdId);
+    const resumes = byJd
+      .get(jdId)!
+      .slice(0, 6)
+      .map((id) => loadResume(id));
+    const people: { ref: string; text: string; names: string[] }[] = [];
+    for (const [i, resume] of resumes.entries()) {
+      const profile = await structure(ctx, resume);
+      people.push({
+        ref: `C${i + 1}`,
+        text: redactText(candidateEmbeddingText(profile)).value.slice(0, 1_800),
+        names: identityTokens(profile.fullName),
+      });
+    }
+    const successProfileText = successProfileEmbeddingText(
+      {
+        summary: `${jd.title} at ${jd.company}`,
+        criteria: resumes[0]!.key.must_haves.map((m, i) => ({
+          id: `c${i + 1}`,
+          text: m.requirement,
+          category: 'must_have' as const,
+          basis: 'jd' as const,
+        })),
+        expectations: { sixMonths: '', twelveMonths: '' },
+        keyChallenges: [],
+      },
+      { title: jd.title, location: jd.location },
+    );
+    const input: PoolSimilarInput = {
+      generatedOn: new Date().toISOString().slice(0, 10),
+      basis: 'semantic',
+      notIndexed: 0,
+      poolSize: people.length,
+      alreadyInPosition: 0,
+      position: { title: jd.title, location: jd.location },
+      successProfileText,
+      candidates: people.map((p, i) => ({
+        ref: p.ref,
+        candidateId: `00000000-0000-4000-8000-${String(i + 1).padStart(12, '0')}`,
+        similarity: null,
+        text: p.text,
+      })),
+    };
+    const run = await track(ctx, runPrompt(ctx.model, poolSimilarPrompt, input));
+    const content = poolSimilarPrompt.toContent!(run.output, input) as SimilarCandidatesContent;
+    for (const [i, person] of people.entries()) {
+      cards++;
+      const written = run.output.items.filter((it) => it.ref === person.ref);
+      if (written.length === 1) answered++;
+      const reason = content.items[i]!.reason;
+      const grade = gradeReason(reason, {
+        source: `${person.text}\n${successProfileText}`,
+        names: person.names,
+      });
+      grades.push(grade);
+      if (!grade.pass || written.length !== 1) {
+        failures.push(
+          `${jdId} ${person.ref}: answered ${written.length}x, ${grade.words} words, identity ${grade.leaksIdentity}, gendered [${grade.gendered.join(', ')}], invented [${grade.invented.join(', ')}]`,
+        );
+      }
+    }
+    ctx.log(
+      `${jdId}: ${people.length} cards, ${grades.filter((g) => !g.pass).length} reasons failed so far`,
+    );
+  }
+  return {
+    suite: 'pool-similar',
+    cases: cards,
+    costUsd: ctx.meter.total,
+    failures,
+    metrics: {
+      answeredOnce: cards === 0 ? 0 : answered / cards,
+      reasonPass: mean(grades.map((g) => (g.pass ? 1 : 0))),
+      withinLength: mean(grades.map((g) => (g.withinLength ? 1 : 0))),
+      noIdentity: mean(grades.map((g) => (g.leaksIdentity ? 0 : 1))),
+      noGenderedWords: mean(grades.map((g) => (g.gendered.length === 0 ? 1 : 0))),
+      noInventedNumbers: mean(grades.map((g) => (g.invented.length === 0 ? 1 : 0))),
+    },
+  };
+};
+
+/**
+ * A3 (US-108, Q-05): the benchmark's web step with real search. Items must rest on pages the search
+ * actually cited, carry a link and a date, avoid paid sources, and state only numbers the cited
+ * material contains. `rawCitedRate` is the model's own discipline before the code drops anything.
+ */
+export const benchmark: Suite = async (ctx) => {
+  const ids = pick(
+    Array.from({ length: 32 }, (_, i) => `jd-${String(i + 1).padStart(2, '0')}`),
+    ctx.limit || 3,
+  );
+  const grades: ReturnType<typeof gradeBenchmark>[] = [];
+  const failures: string[] = [];
+  for (const id of ids) {
+    let jd;
+    try {
+      jd = loadJobDescription(id);
+    } catch {
+      continue;
+    }
+    const input: BenchmarkInput = {
+      generatedOn: new Date().toISOString().slice(0, 10),
+      webSearchEnabled: true,
+      position: {
+        title: jd.title,
+        location: jd.location,
+        department: null,
+        workArrangement: null,
+        compensation: jd.compRange,
+        requiredExperience: null,
+        requiredSkills: [],
+      },
+      structuredJd: null,
+      ourData: [],
+    };
+    const run = await track(ctx, runResearchedPrompt(ctx.model, marketBenchmarkPrompt, input));
+    const content = marketBenchmarkPrompt.toContent!(
+      run.output,
+      input,
+      run.research,
+    ) as BenchmarkContent;
+    const grade = gradeBenchmark({
+      raw: run.output,
+      research: run.research ?? { findings: '', sources: [] },
+      content,
+      isPaid: isPaidSource,
+    });
+    grades.push(grade);
+    ctx.log(
+      `${id}: ${run.research?.searches ?? 0} searches, ${grade.keptItems} items kept, cited ${(grade.rawCitedRate * 100).toFixed(0)}%`,
+    );
+    if (!grade.allLinked || grade.anyPaid || grade.numbersSupported < 1 || grade.keptItems === 0) {
+      failures.push(
+        `${id}: kept ${grade.keptItems}, linked ${grade.allLinked}, paid ${grade.anyPaid}, numbers supported ${grade.numbersSupported.toFixed(2)}`,
+      );
+    }
+  }
+  return {
+    suite: 'benchmark',
+    cases: grades.length,
+    costUsd: ctx.meter.total,
+    failures,
+    metrics: {
+      rawCitedRate: mean(grades.map((g) => g.rawCitedRate)),
+      allLinked: mean(grades.map((g) => (g.allLinked ? 1 : 0))),
+      paidSourceRate: mean(grades.map((g) => (g.anyPaid ? 1 : 0))),
+      numbersSupported: mean(grades.map((g) => g.numbersSupported)),
+      itemsKept: mean(grades.map((g) => g.keptItems)),
+      suggestionsKeptRate: mean(grades.map((g) => g.suggestionsKeptRate)),
+    },
+  };
+};
+
 export const SUITES: Record<string, Suite> = {
   'jd-structure': jdStructure,
   'profile-structure': profileStructure,
   'match-analyze': matchAnalyze,
   bias,
   stability,
+  'pool-similar': poolSimilar,
+  benchmark,
 };

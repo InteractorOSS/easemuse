@@ -46,3 +46,6 @@ export * from './artifacts/qualification';
 export * from './artifacts/tailored-resume';
 export * from './artifacts/submission-report';
 export * from './artifacts/screening-draft';
+export * from './artifacts/pool-intelligence';
+export * from './artifacts/benchmark';
+export * from './candidates/embedding-text';

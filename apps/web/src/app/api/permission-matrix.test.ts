@@ -181,6 +181,7 @@ vi.mock('@/server/candidates/search', () => ({
 vi.mock('@/server/search/global', () => ({
   globalSearch: async () => ({ clients: [], positions: [], candidates: [] }),
 }));
+vi.mock('@/server/candidates/import-csv', () => ({ importCandidateRows: async () => [] }));
 vi.mock('@/server/candidates/notes', () => ({
   setTags: async () => ({ tags: [] }),
   listNotes: async () => [],
@@ -439,6 +440,7 @@ import {
 } from './v1/agencies/[agencyId]/candidates/route';
 import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
 import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
+import { POST as candidatesImportPost } from './v1/agencies/[agencyId]/candidates/import/route';
 import { PUT as candidateTagsPut } from './v1/agencies/[agencyId]/candidates/[candidateId]/tags/route';
 import {
   GET as candidateNotesGet,
@@ -995,6 +997,20 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => searchGet(new Request('http://x.test/?q=hr'), agencyParams),
+  },
+  {
+    name: 'POST candidates import',
+    file: 'v1/agencies/[agencyId]/candidates/import/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      candidatesImportPost(
+        new Request(
+          'http://x.test/',
+          json({ source: 'database', rows: [{ fullName: 'Alex Kim', email: 'alex@x.com' }] }),
+        ),
+        agencyParams,
+      ),
   },
   {
     name: 'PUT candidate tags',

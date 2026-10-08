@@ -72,12 +72,26 @@ export function CandidatesPool({
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">{t('title')}</h1>
-        <Link
-          href={`/a/${agencySlug}/candidates/new`}
-          className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
-        >
-          {t('add')}
-        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href={`/a/${agencySlug}/candidates/import`}
+            className="inline-flex h-10 items-center rounded-md border border-border px-4 text-sm font-medium"
+          >
+            {t('import')}
+          </Link>
+          <Link
+            href={`/a/${agencySlug}/candidates/bulk`}
+            className="inline-flex h-10 items-center rounded-md border border-border px-4 text-sm font-medium"
+          >
+            {t('bulk')}
+          </Link>
+          <Link
+            href={`/a/${agencySlug}/candidates/new`}
+            className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
+          >
+            {t('add')}
+          </Link>
+        </div>
       </div>
 
       <form

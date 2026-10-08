@@ -314,8 +314,8 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 | T-3-12 | Stale analysis: marker and one-click re-analysis on the analysis page and the dashboard | 3 | Done | US-305, FR-MAT-07 |
 | T-8-05 | Duplicate-submission guard (earlier submission shown, reason required) | 3 | Done | US-803, FR-SUB-04 |
 | T-2-13 | Tags and notes on candidates: edit UI, filter by tag (filter exists) | 4 | Done | FR-SRC-09 |
-| T-2-14 | Bulk resume upload (about 20 files) creating drafts to review | 6 | | FR-SRC-10 |
-| T-2-15 | CSV candidate import with column mapping (ATS exports) | 6 | | Q-10 |
+| T-2-14 | Bulk resume upload (about 20 files) creating drafts to review | 6 | Done | FR-SRC-10 |
+| T-2-15 | CSV candidate import with column mapping (ATS exports) | 6 | Done | Q-10 |
 | T-5-11 | Outreach templates per recruiter and client, picker in the composer | 6 | | FR-OUT-06 |
 | T-5-02 | SMTP transport and per-agency selection | 5 | Postponed by the product owner | ADR-009 |
 | T-5-12 | Real mail provider with reply sync (Interactor credentials and webhooks), replies stop the sequence | 8 | | US-505, FR-MSG-04, ADR-014 |

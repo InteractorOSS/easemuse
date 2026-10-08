@@ -59,4 +59,12 @@ describe('parseEnv', () => {
       'production',
     );
   });
+
+  it('refuses the fake AI model in production, and allows it elsewhere (off by default)', () => {
+    expect(() =>
+      parseEnv({ ...base, ...prodSecrets, NODE_ENV: 'production', AI_FAKE: 'on' }),
+    ).toThrow(/AI_FAKE: the fake AI model cannot run in production/);
+    expect(parseEnv({ ...base, AI_FAKE: 'on' }).AI_FAKE).toBe('on');
+    expect(parseEnv(base).AI_FAKE).toBe('off');
+  });
 });

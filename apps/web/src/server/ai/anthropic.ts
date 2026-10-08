@@ -31,6 +31,12 @@ export interface ModelRequest<T> {
   /** Receives text as it is generated (partial JSON for structured output), for streaming drafts. */
   onDelta?: (text: string) => void;
   signal?: AbortSignal;
+  /**
+   * The AI purpose and its structured input. The Anthropic client ignores them; the local fake
+   * model (AI_FAKE, never in production) uses them to answer in the right shape.
+   */
+  purpose?: string;
+  input?: unknown;
 }
 
 export interface ModelResponse<T> {

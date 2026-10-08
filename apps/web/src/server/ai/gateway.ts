@@ -170,6 +170,8 @@ export function createGateway(deps: GatewayDeps) {
         maxTokens: purpose.maxTokens,
         onDelta: ctx.onDelta,
         signal: ctx.signal,
+        purpose: purposeId,
+        input,
       });
       usage = response.usage;
       latencyMs = response.latencyMs;

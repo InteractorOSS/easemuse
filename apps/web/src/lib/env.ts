@@ -54,6 +54,11 @@ const envSchema = z.object({
    * search switched on first (Claude Console, Privacy settings), and each search is billed.
    */
   WEB_SEARCH: z.enum(['on', 'off']).default('off'),
+  /**
+   * A local fake AI model for development and the end-to-end test: canned answers, no provider,
+   * no cost. Refused in production (parseEnv), so it can never answer real users.
+   */
+  AI_FAKE: z.enum(['on', 'off']).default('off'),
 
   // Object storage for generated files (ADR-011).
   S3_ENDPOINT: z.url().optional(),
@@ -114,9 +119,9 @@ export function parseEnv(source: Record<string, string | undefined>): Env {
   const env = result.data;
   if (env.NODE_ENV === 'production') {
     const missing = REQUIRED_IN_PRODUCTION.filter((key) => env[key] === undefined);
-    if (missing.length > 0) {
-      throw new EnvError(missing.map((key) => `${key}: required in production`));
-    }
+    const issues = missing.map((key) => `${key}: required in production`);
+    if (env.AI_FAKE === 'on') issues.push('AI_FAKE: the fake AI model cannot run in production');
+    if (issues.length > 0) throw new EnvError(issues);
   }
   return env;
 }

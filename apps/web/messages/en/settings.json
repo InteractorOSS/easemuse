@@ -71,6 +71,13 @@
     "explainOnly": {
       "label": "Explain-only mode",
       "hint": "Show how well a candidate matches in words and evidence, and hide the numeric scores. Candidates are still listed in the suggested review order."
+    },
+    "candidateStatus": {
+      "label": "What candidates see of their applications",
+      "hint": "When you share a candidate's status with them. Nobody ever sees client feedback, reasons for rejection or scores.",
+      "off": "Do not share status",
+      "basic": "The position and a general step",
+      "detailed": "Also the client, the number of interviews and the date of the last change"
     }
   },
   "usage": {

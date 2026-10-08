@@ -335,7 +335,7 @@ vi.mock('@/server/portal/publish', () => ({
 vi.mock('@/server/portal/directory', () => ({ listDirectory: async () => [] }));
 vi.mock('@/server/portal/proposals', () => ({
   listOpenProposals: async () => [],
-  resolveProposal: async () => undefined,
+  resolveProposal: async () => ({ notificationMessageId: null }),
 }));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),

@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useId, useState } from 'react';
 import {
+  CANDIDATE_STATUS_LEVELS,
   DEFAULT_MATCH_WEIGHTS,
   GUARD_KEYS,
   GUARD_MODES,
@@ -78,6 +79,7 @@ function Form({
   const [reasons, setReasons] = useState(initial.rejectionReasons.join('\n'));
   const [visibility, setVisibility] = useState(initial.visibility);
   const [explainOnly, setExplainOnly] = useState(initial.explainOnly);
+  const [candidateStatus, setCandidateStatus] = useState(initial.candidateStatusLevel);
   const [locale, setLocale] = useState<string>(initial.locale ?? 'en');
   const [errors, setErrors] = useState<{ weights?: string; reasons?: string; form?: string }>({});
 
@@ -106,6 +108,7 @@ function Form({
         .filter(Boolean),
       visibility,
       explainOnly,
+      candidateStatusLevel: candidateStatus,
       locale,
     };
     const checked = agencySettingsPatchSchema.safeParse(patch);
@@ -260,6 +263,18 @@ function Form({
             <span className="block text-muted">{t('explainOnly.hint')}</span>
           </span>
         </label>
+        <SelectField
+          label={t('candidateStatus.label')}
+          hint={t('candidateStatus.hint')}
+          value={candidateStatus}
+          onChange={(e) => setCandidateStatus(e.target.value as typeof candidateStatus)}
+        >
+          {CANDIDATE_STATUS_LEVELS.map((level) => (
+            <option key={level} value={level}>
+              {t(`candidateStatus.${level}`)}
+            </option>
+          ))}
+        </SelectField>
         <SelectField
           label={t('language.label')}
           hint={t('language.hint')}

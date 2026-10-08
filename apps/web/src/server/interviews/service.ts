@@ -13,6 +13,7 @@ import type { ScopedTx } from '@/lib/db';
 import { ApiError, notFound } from '@/lib/http/errors';
 import { logActivity } from '@/server/activity/service';
 import { requireEntry, transitionEntry } from '@/server/pipeline/service';
+import { refreshStatusShares } from '@/server/portal/status-snapshot';
 
 export interface FeedbackView {
   id: string;
@@ -185,6 +186,7 @@ export async function createInterview(
     include,
   });
   await syncTask(tx, actor, entry.ownerId, row);
+  await refreshStatusShares(tx, actor.agencyId, entry.candidateId);
   await logRound(tx, actor, entry, 'interview.added', {
     interviewId: row.id,
     roundName: row.roundName,
@@ -221,6 +223,7 @@ export async function updateInterview(
   });
   await syncTask(tx, actor, entry.ownerId, row);
   if (input.status && input.status !== current.status) {
+    await refreshStatusShares(tx, actor.agencyId, entry.candidateId);
     await logRound(tx, actor, entry, 'interview.status_changed', {
       interviewId: row.id,
       status: row.status,

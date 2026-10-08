@@ -67,17 +67,68 @@ export const resumeForApprovalSnapshotSchema = z
   })
   .strict();
 
+/**
+ * How far the agency lets a candidate see into their own applications (T-15-01, FR-CDP-05). `off`
+ * shares nothing; `basic` shows the position and a coarse step; `detailed` adds the client's name,
+ * the number of interviews and the date of the last change. No level ever shows client feedback,
+ * rejection reasons, scores or what other candidates did.
+ */
+export const CANDIDATE_STATUS_LEVELS = ['off', 'basic', 'detailed'] as const;
+export type CandidateStatusLevel = (typeof CANDIDATE_STATUS_LEVELS)[number];
+
+export const CANDIDATE_STATUS_STEPS = [
+  'submitted',
+  'interviewing',
+  'on_hold',
+  'offer',
+  'accepted',
+  'started',
+  'closed',
+] as const;
+export type CandidateStatusStep = (typeof CANDIDATE_STATUS_STEPS)[number];
+
+export const statusSnapshotSchema = z
+  .object({
+    kind: z.literal('status'),
+    level: z.enum(['basic', 'detailed']),
+    applications: z
+      .array(
+        z
+          .object({
+            positionTitle: z.string().max(200),
+            /** Detailed level only. */
+            clientName: z.string().max(200).nullable(),
+            step: z.enum(CANDIDATE_STATUS_STEPS),
+            /** Date (YYYY-MM-DD) of the last change; detailed level only. */
+            since: z.string().max(20).nullable(),
+            /** Interviews held or planned; detailed level only. */
+            interviews: z.number().int().min(0).nullable(),
+          })
+          .strict(),
+      )
+      .max(50),
+    publishedAt: day,
+  })
+  .strict();
+
 export const portalSnapshotSchema = z.discriminatedUnion('kind', [
   jdForApprovalSnapshotSchema,
   submissionSnapshotSchema,
   resumeForApprovalSnapshotSchema,
+  statusSnapshotSchema,
 ]);
 export type PortalSnapshot = z.infer<typeof portalSnapshotSchema>;
 export type JdForApprovalSnapshot = z.infer<typeof jdForApprovalSnapshotSchema>;
 export type SubmissionSnapshot = z.infer<typeof submissionSnapshotSchema>;
 export type ResumeForApprovalSnapshot = z.infer<typeof resumeForApprovalSnapshotSchema>;
+export type StatusSnapshot = z.infer<typeof statusSnapshotSchema>;
 
-export const PORTAL_SHARE_KINDS = ['jd_for_approval', 'submission', 'tailored_resume'] as const;
+export const PORTAL_SHARE_KINDS = [
+  'jd_for_approval',
+  'submission',
+  'tailored_resume',
+  'status',
+] as const;
 export type PortalShareKind = (typeof PORTAL_SHARE_KINDS)[number];
 
 /** Which audience each kind is for. */
@@ -85,13 +136,14 @@ export const SHARE_AUDIENCE: Record<PortalShareKind, 'hiring_manager' | 'candida
   jd_for_approval: 'hiring_manager',
   submission: 'hiring_manager',
   tailored_resume: 'candidate',
+  status: 'candidate',
 };
 
 /** `POST /portal-shares`: the recruiter shares one thing with one portal user. */
 export const publishShareInputSchema = z.object({
   kind: z.enum(PORTAL_SHARE_KINDS),
   portalUserId: z.guid(),
-  /** The position (jd_for_approval) or the pipeline entry (submission, tailored_resume). */
+  /** The position (jd_for_approval), the pipeline entry (submission, tailored_resume) or the candidate (status). */
   subjectId: z.guid(),
 });
 export type PublishShareInput = z.infer<typeof publishShareInputSchema>;

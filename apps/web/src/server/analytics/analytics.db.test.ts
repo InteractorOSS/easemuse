@@ -132,6 +132,34 @@ describe.skipIf(!dbAvailable())('analytics reads (T-11-01 to T-11-05)', () => {
     expect((await runB((tx) => getAnalytics(tx, outsider, { clientId }))).entryCount).toBe(0);
   });
 
+  it('counts what was done in the portals against everything done (T-14-08)', async () => {
+    const position = (
+      await runA((tx) => tx.pipelineEntry.findUniqueOrThrow({ where: { id: entryId } }))
+    ).positionId;
+    const approval = (source: string) =>
+      admin.query(
+        `INSERT INTO "Approval" (id, "agencyId", subject, "subjectId", "versionId", decision, source, "approverName", "decidedAt", "updatedAt")
+         VALUES (gen_random_uuid(), $1, 'jd'::"ApprovalSubject", $2, gen_random_uuid(), 'approved'::"ApprovalDecision", $3, 'Ms. Park', now(), now())`,
+        [agencyA, position, source],
+      );
+    await approval('portal');
+    await approval('recorded_by_recruiter');
+    const interview = await runA((tx) => tx.interview.findFirstOrThrow({ where: { entryId } }));
+    await admin.query(
+      `INSERT INTO "InterviewFeedback" (id, "agencyId", "interviewId", "fromRole", source, "updatedAt") VALUES (gen_random_uuid(), $1, $2, 'hm', 'portal', now())`,
+      [agencyA, interview.id],
+    );
+    const result = await runA((tx) => getAnalytics(tx, lead, { positionId: position }));
+    expect(result.portalAdoption.approvals).toMatchObject({ numerator: 1, denominator: 2 });
+    expect(result.portalAdoption.feedback).toMatchObject({ numerator: 1, denominator: 1 });
+    expect(result.portalAdoption.overall).toMatchObject({ numerator: 2, denominator: 3 });
+    expect(analyticsCsv(result, 'kpis')).toContain('portal_adoption,66.7,percent,2,3');
+    // Another agency's lead sees none of it.
+    expect(
+      (await runB((tx) => getAnalytics(tx, outsider, {}))).portalAdoption.overall.denominator,
+    ).toBe(0);
+  });
+
   it('exports every table as CSV with the same filters', async () => {
     const result = await runA((tx) => getAnalytics(tx, lead, { clientId }));
     for (const table of ['kpis', 'stages', 'sources', 'capacity'] as const) {

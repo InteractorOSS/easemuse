@@ -29,6 +29,12 @@ const result = (over: Record<string, unknown> = {}) => ({
     interviewToHire: ratio(1, 3),
     sourceToHire: ratio(1, 8),
   },
+  portalAdoption: {
+    overall: ratio(2, 3),
+    approvals: ratio(1, 2),
+    reviews: ratio(0, 0),
+    feedback: ratio(1, 1),
+  },
   stages: [
     { stage: 'sourced', reached: 8, conversion: null },
     { stage: 'screened', reached: 6, conversion: ratio(6, 8) },
@@ -92,6 +98,9 @@ describe('AnalyticsView (T-11-04)', () => {
     expect(screen.getByText('50 days')).toBeTruthy();
     expect(screen.getByText('83.3%')).toBeTruthy();
     expect(screen.getByText('5 of 6')).toBeTruthy();
+    expect(screen.getByText('Portal adoption')).toBeTruthy();
+    const adoption = screen.getByText('Portal adoption').closest('div')!;
+    expect(within(adoption).getByText('66.7%')).toBeTruthy();
     // Offer acceptance has nothing to divide by: no percentage is invented.
     const offer = screen.getByText('Offer Acceptance Rate').closest('div')!;
     expect(within(offer).getByText('No data yet')).toBeTruthy();

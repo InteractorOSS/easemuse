@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import type { AgencyActor, AnalyticsQuery, AnalyticsTable } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
+import { computeAdoption, loadAdoptionRows, type PortalAdoption } from './adoption';
 import { computeCapacity, type CapacityRow } from './capacity';
 import { toCsv } from './csv';
 import {
@@ -27,6 +28,8 @@ export interface AnalyticsResult {
   /** The recruiter filter as applied: a recruiter always sees their own figures (brief §13: "their own"). */
   recruiterId: string | null;
   kpis: Kpis;
+  /** Share of approvals, submission reviews and feedback done in the portals (T-14-08). */
+  portalAdoption: PortalAdoption;
   stages: StageRow[];
   sources: SourceRow[];
   capacity: (CapacityRow & { name: string | null })[];
@@ -135,6 +138,15 @@ export async function getAnalytics(
     recruiterId: recruiterId ?? undefined,
   });
 
+  const portalAdoption = computeAdoption(
+    await loadAdoptionRows(tx, {
+      ...range,
+      clientId: query.clientId,
+      positionId: query.positionId,
+      recruiterId: recruiterId ?? undefined,
+    }),
+  );
+
   const memberRows = await tx.membership.findMany({
     where: { active: true },
     select: { userId: true },
@@ -153,6 +165,7 @@ export async function getAnalytics(
     range: { from: iso(range.from), to: iso(new Date(range.to.getTime() - DAY_MS)) },
     recruiterId,
     kpis: computeKpis(entries, positions, range),
+    portalAdoption,
     stages: stageFunnel(entries),
     sources: sourceTable(entries),
     capacity,
@@ -192,6 +205,7 @@ export function analyticsCsv(result: AnalyticsResult, table: AnalyticsTable): st
               ['offer_acceptance_rate', k.offerAcceptance],
               ['interview_to_hire', k.interviewToHire],
               ['source_to_hire', k.sourceToHire],
+              ['portal_adoption', result.portalAdoption.overall],
             ] as const
           ).map(([name, r]) => [name, pct(r), 'percent', r.numerator, r.denominator]),
         ],

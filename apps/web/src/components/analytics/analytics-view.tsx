@@ -46,7 +46,8 @@ type KpiKey =
   | 'interviewToOffer'
   | 'offerAcceptance'
   | 'interviewToHire'
-  | 'sourceToHire';
+  | 'sourceToHire'
+  | 'portalAdoption';
 const KPI_ORDER: KpiKey[] = [
   'timeToFill',
   'timeToInterview',
@@ -56,6 +57,7 @@ const KPI_ORDER: KpiKey[] = [
   'offerAcceptance',
   'interviewToHire',
   'sourceToHire',
+  'portalAdoption',
 ];
 
 /**
@@ -102,7 +104,7 @@ export function AnalyticsView({
   const csvHref = (table: string) => `${base}/analytics/export?${params(filters)}&table=${table}`;
 
   const card = (key: KpiKey, result: AnalyticsResult) => {
-    const kpi = result.kpis[key];
+    const kpi = key === 'portalAdoption' ? result.portalAdoption.overall : result.kpis[key];
     const isDuration = key === 'timeToFill' || key === 'timeToInterview';
     const value = isDuration
       ? (kpi as DurationStat).medianDays === null

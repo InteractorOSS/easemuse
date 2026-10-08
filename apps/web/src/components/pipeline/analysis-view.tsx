@@ -167,6 +167,18 @@ export function AnalysisView({
         />
       ) : null}
 
+      {['submitted', 'interviewing', 'on_hold', 'offer', 'accepted', 'started'].includes(
+        e.state,
+      ) ? (
+        <PortalSharing
+          agencyId={agencyId}
+          target={{ candidateId: e.candidateId }}
+          subject={{ kind: 'status', subjectId: e.candidateId }}
+          heading={portalT('statusTitle')}
+          onChanged={refresh}
+        />
+      ) : null}
+
       <ProposalsPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
 
       <section aria-labelledby="analyze-heading" className="flex max-w-2xl flex-col gap-2">

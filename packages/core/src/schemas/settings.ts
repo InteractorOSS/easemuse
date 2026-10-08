@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { z } from 'zod';
+import { CANDIDATE_STATUS_LEVELS } from './portal-snapshots';
 
 /**
  * Matching criteria and their default weights (brief §5.1). The overall score is a weighted sum of
@@ -103,6 +104,8 @@ export const agencySettingsSchema = z.object({
   visibility: z.enum(VISIBILITY_RULES).default('all_positions'),
   /** Explain-only mode (ADR-007, Q-06): match levels and evidence are shown, numeric scores are hidden. */
   explainOnly: z.boolean().default(false),
+  /** How much of their own applications a candidate sees when the recruiter shares their status (FR-CDP-05). */
+  candidateStatusLevel: z.enum(CANDIDATE_STATUS_LEVELS).default('basic'),
   /** Agency default UI language (ADR-015). Absent = English. */
   locale: z.enum(UI_LOCALES).optional(),
   /** Email transport for this agency (ADR-009); capture-only until a provider is configured. */
@@ -142,6 +145,7 @@ export const agencySettingsPatchSchema = z
     rejectionReasons: shape.rejectionReasons.removeDefault().optional(),
     visibility: shape.visibility.removeDefault().optional(),
     explainOnly: shape.explainOnly.removeDefault().optional(),
+    candidateStatusLevel: shape.candidateStatusLevel.removeDefault().optional(),
     locale: shape.locale,
     emailTransport: shape.emailTransport,
   })

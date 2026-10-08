@@ -21,6 +21,8 @@ export interface ShareSummary {
   kind: PortalShareKind;
   title: string;
   subtitle: string;
+  /** Applications listed in a status share; null for every other kind. */
+  count: number | null;
   publishedAt: string;
 }
 
@@ -33,13 +35,13 @@ export interface ShareDetail {
 }
 
 const titleOf = (s: PortalSnapshot) =>
-  s.kind === 'submission'
-    ? s.candidateName
-    : s.kind === 'jd_for_approval'
-      ? s.positionTitle
-      : s.positionTitle;
+  s.kind === 'submission' ? s.candidateName : s.kind === 'status' ? '' : s.positionTitle;
 const subtitleOf = (s: PortalSnapshot) =>
-  s.kind === 'submission' ? `${s.positionTitle} · ${s.clientName}` : s.clientName;
+  s.kind === 'submission'
+    ? `${s.positionTitle} · ${s.clientName}`
+    : s.kind === 'status'
+      ? ''
+      : s.clientName;
 
 export async function listMyShares(tx: ScopedTx, actor: PortalActor): Promise<ShareSummary[]> {
   const rows = await tx.portalShare.findMany({
@@ -55,6 +57,7 @@ export async function listMyShares(tx: ScopedTx, actor: PortalActor): Promise<Sh
             kind: row.kind as PortalShareKind,
             title: titleOf(parsed.data),
             subtitle: subtitleOf(parsed.data),
+            count: parsed.data.kind === 'status' ? parsed.data.applications.length : null,
             publishedAt: parsed.data.publishedAt,
           },
         ]

@@ -5,6 +5,7 @@ import type { ScopedTx } from '@/lib/db';
 import { ApiError, notFound } from '@/lib/http/errors';
 import { logActivity } from '@/server/activity/service';
 import { requireEntry, transitionEntry } from '@/server/pipeline/service';
+import { queuePortalNotice } from './notify';
 
 export interface ProposalView {
   id: string;
@@ -65,7 +66,7 @@ export async function resolveProposal(
   proposalId: string,
   input: ResolveProposalInput,
   now: Date = new Date(),
-): Promise<void> {
+): Promise<{ notificationMessageId: string | null }> {
   const proposal = await tx.proposedTransition.findUnique({ where: { id: proposalId } });
   if (!proposal) throw notFound('Proposal');
   if (proposal.resolvedAt)
@@ -99,4 +100,12 @@ export async function resolveProposal(
     entityId: entry.candidateId,
     data: { proposalId, toState: proposal.toState },
   });
+  // The hiring manager who made the recommendation hears that it was answered (T-14-07).
+  const notice = await queuePortalNotice(tx, {
+    agencyId: actor.agencyId,
+    senderId: actor.userId,
+    portalUserId: proposal.proposedBy,
+    notice: { type: 'answered' },
+  });
+  return { notificationMessageId: notice?.outboxMessageId ?? null };
 }

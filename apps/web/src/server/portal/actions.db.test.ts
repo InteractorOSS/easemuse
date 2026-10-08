@@ -254,7 +254,15 @@ describe.skipIf(!dbAvailable())('what portal users can do (ADR-003, FR-HMP-05)',
         (p) => p.entryId === s.entryId,
       )!;
       expect(open).toMatchObject({ toState: 'interviewing', proposedBy: 'Ms. Park' });
-      await run((tx) => resolveProposal(tx, lead, open.id, { accept: true }));
+      const answered = await run((tx) => resolveProposal(tx, lead, open.id, { accept: true }));
+      // The hiring manager is told that the recommendation was answered (T-14-07), without the answer.
+      const notice = (
+        await admin.query(`SELECT * FROM "OutboxMessage" WHERE id = $1`, [
+          answered.notificationMessageId,
+        ])
+      ).rows[0];
+      expect(notice.bodyText).toContain('has answered your recommendation');
+      expect(notice.bodyText).not.toContain('interview');
       expect(
         (await admin.query(`SELECT state FROM "PipelineEntry" WHERE id = $1`, [s.entryId])).rows[0]
           .state,

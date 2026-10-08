@@ -6,6 +6,7 @@ import { authorizeAgency } from '@/lib/auth/authorize';
 import { withAgency } from '@/lib/db';
 import { created, handleRoute, ok } from '@/lib/http/responses';
 import { parseBody, parseQuery } from '@/lib/http/validation';
+import { dispatchOutboxMessage } from '@/server/messaging/outbox';
 import { listSharesFor, publishShare } from '@/server/portal/publish';
 
 /**
@@ -22,11 +23,20 @@ export async function POST(
     const authed = await authorizeAgency(agencyId);
     if (authed instanceof Response) return authed;
     const input = await parseBody(req, publishShareInputSchema);
-    return created(
-      await withAgency(authed.agency.id, (tx) => publishShare(tx, authed.actor, input), {
-        userId: authed.userId,
-      }),
+    const { notificationMessageId, ...share } = await withAgency(
+      authed.agency.id,
+      (tx) => publishShare(tx, authed.actor, input),
+      { userId: authed.userId },
     );
+    // The email goes out only after the share is committed (T-14-07).
+    if (notificationMessageId) {
+      await dispatchOutboxMessage({
+        agencyId: authed.agency.id,
+        outboxMessageId: notificationMessageId,
+        requestedById: authed.userId,
+      });
+    }
+    return created(share);
   });
 }
 

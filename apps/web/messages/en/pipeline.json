@@ -700,6 +700,8 @@
       "on_hold": "hold",
       "client_rejected": "reject",
       "rejected": "reject"
-    }
+    },
+    "statusTitle": "Share application status with the candidate",
+    "statusHint": "The candidate sees where their applications stand, at the level set in Settings. It updates when the status changes."
   }
 }

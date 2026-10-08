@@ -24,8 +24,10 @@
     "kinds": {
       "jd_for_approval": "Job description",
       "submission": "Candidate",
-      "tailored_resume": "Your resume"
-    }
+      "tailored_resume": "Your resume",
+      "status": "Your application status"
+    },
+    "statusCount": "{count, plural, one {# application} other {# applications}}"
   },
   "share": {
     "back": "Back",
@@ -158,5 +160,26 @@
     "open": "You already have an open request of this kind.",
     "deleteWarn": "Deleting removes your profile, resumes and documents. It cannot be undone.",
     "link": "My data"
+  },
+  "status": {
+    "title": "Your application status",
+    "intro": "Where your applications stand. Your recruiter shares this page; it updates when something changes.",
+    "empty": "None of your applications has been sent to an employer yet.",
+    "updated": "Last updated {date}",
+    "position": "Position",
+    "client": "Employer",
+    "step": "Where it stands",
+    "since": "Since",
+    "interviews": "Interviews",
+    "caption": "Your applications and where each one stands",
+    "steps": {
+      "submitted": "Sent to the employer",
+      "interviewing": "Interviewing",
+      "on_hold": "On hold",
+      "offer": "Offer",
+      "accepted": "Offer accepted",
+      "started": "Started",
+      "closed": "No longer in process"
+    }
   }
 }

@@ -244,6 +244,57 @@ describe.skipIf(!dbAvailable())('publishing to the portals (ADR-003)', () => {
     expect(listed.every((s) => s.revokedAt !== null)).toBe(true);
   });
 
+  it('emails the person when something is shared or updated, without content or a sign-in link (T-14-07)', async () => {
+    const { positionId } = await readyMatchEntry(run, lead, clientId);
+    await approveStructuredJd(run, lead, positionId);
+    const input = {
+      kind: 'jd_for_approval',
+      portalUserId: hm.portalUserId,
+      subjectId: positionId,
+    } as const;
+    const first = await run((tx) => publishShare(tx, lead, input));
+    const second = await run((tx) => publishShare(tx, lead, input));
+    const mail = async (id: string | null) =>
+      (await admin.query(`SELECT * FROM "OutboxMessage" WHERE id = $1`, [id])).rows[0];
+    const one = await mail(first.notificationMessageId);
+    const two = await mail(second.notificationMessageId);
+    expect(one).toMatchObject({ kind: 'notification', status: 'queued', agencyId: agency });
+    expect(one.toAddress).toBe(
+      (await admin.query(`SELECT email FROM "PortalUser" WHERE id = $1`, [hm.portalUserId])).rows[0]
+        .email,
+    );
+    expect(one.bodyText).toContain('shared a job description');
+    expect(two.bodyText).toContain('updated the job description');
+    for (const row of [one, two]) {
+      expect(row.bodyText).toMatch(/\/h\/[a-z0-9-]+\n/);
+      expect(row.bodyText).not.toContain('token=');
+      expect(row.bodyHtml).not.toContain('token=');
+    }
+  });
+
+  it('sends no email to a person who has been turned off', async () => {
+    const { positionId } = await readyMatchEntry(run, lead, clientId);
+    await approveStructuredJd(run, lead, positionId);
+    await admin.query(`UPDATE "PortalUser" SET "disabledAt" = now() WHERE id = $1`, [
+      hm.portalUserId,
+    ]);
+    try {
+      await expect(
+        run((tx) =>
+          publishShare(tx, lead, {
+            kind: 'jd_for_approval',
+            portalUserId: hm.portalUserId,
+            subjectId: positionId,
+          }),
+        ),
+      ).rejects.toMatchObject({ status: 409 });
+    } finally {
+      await admin.query(`UPDATE "PortalUser" SET "disabledAt" = NULL WHERE id = $1`, [
+        hm.portalUserId,
+      ]);
+    }
+  });
+
   it('a submission carries the 14 sections and the two PDFs and nothing else, and sharing records it', async () => {
     const { entryId } = await readyToSubmit();
     const share = await run((tx) =>

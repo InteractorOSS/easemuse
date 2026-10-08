@@ -285,9 +285,9 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 | T-14-04 | HM portal pages (enter, list, JD, submission) and candidate portal pages (resume, consent, data requests), agency colour, axe | 8 | Done | FR-HMP-07, FR-CDP-07 |
 | T-14-05 | Recruiter side: invite, share, withdraw, answer proposals | 6 | Done | US-1401 |
 | T-14-06 | Agency logo in the portal header and in emails (needs T-13-06) | 3 | | FR-TEN-04 |
-| T-15-01 | Candidate status share (`status` snapshot, level chosen by the agency, refreshed on stage changes) | 5 | | US-1505, FR-CDP-05 |
-| T-14-07 | Portal notifications: email the person when something is shared or when the recruiter answers (outbox, localized) | 4 | | US-1404 |
-| T-14-08 | Portal adoption KPI (approvals, reviews and feedback done in portals ÷ all) | 2 | | planning-handoff section 6 |
+| T-15-01 | Candidate status share (`status` snapshot, level chosen by the agency, refreshed on stage changes) | 5 | Done | US-1505, FR-CDP-05 |
+| T-14-07 | Portal notifications: email the person when something is shared or when the recruiter answers (outbox, localized) | 4 | Done | US-1404 |
+| T-14-08 | Portal adoption KPI (approvals, reviews and feedback done in portals ÷ all) | 2 | Done | planning-handoff section 6 |
 
 ### E9 / E10: Feedback and reminders (session A)
 

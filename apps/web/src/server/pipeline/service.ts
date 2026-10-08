@@ -19,6 +19,7 @@ import { channels } from '@/lib/realtime/channels';
 import { publish } from '@/lib/realtime/publish';
 import { logActivity } from '@/server/activity/service';
 import { applyGuards } from '@/server/guards';
+import { refreshStatusShares } from '@/server/portal/status-snapshot';
 import { requirePosition } from '@/server/positions/service';
 import { getAgencySettings } from '@/server/tenancy/settings';
 import { unsatisfiedGuards } from './guards';
@@ -290,5 +291,7 @@ export async function transitionEntry(
     from,
     to: input.to,
   });
+  // A candidate who was sent their status sees the new step (T-15-01).
+  await refreshStatusShares(tx, actor.agencyId, entry.candidateId);
   return toView(row);
 }

@@ -13,6 +13,7 @@ import {
   REPORT_SECTIONS,
   type JdForApprovalSnapshot,
   type ResumeForApprovalSnapshot,
+  type StatusSnapshot,
   type SubmissionSnapshot,
 } from '@easemuse/core';
 import { Button } from '@/components/ui/button';
@@ -70,6 +71,7 @@ export function ShareView({
       {snapshot.kind === 'tailored_resume' ? (
         <ResumeShare base={base} shareId={shareId} snapshot={snapshot} />
       ) : null}
+      {snapshot.kind === 'status' ? <StatusShare snapshot={snapshot} /> : null}
     </div>
   );
 }
@@ -402,5 +404,78 @@ function ResumeShare({
       ) : null}
       <Decision base={base} shareId={shareId} />
     </>
+  );
+}
+
+/** The candidate's own application status (T-15-01): read only, at the level the agency chose. */
+function StatusShare({ snapshot }: { snapshot: StatusSnapshot }) {
+  const t = useTranslations('portal.status');
+  const format = useFormatter();
+  const detailed = snapshot.level === 'detailed';
+  return (
+    <section aria-labelledby="status-title" className="flex flex-col gap-3">
+      <h1 id="status-title" className="text-2xl font-semibold">
+        {t('title')}
+      </h1>
+      <p className="text-sm text-muted">{t('intro')}</p>
+      <p className="text-xs text-muted">
+        {t('updated', {
+          date: format.dateTime(new Date(snapshot.publishedAt), { dateStyle: 'medium' }),
+        })}
+      </p>
+      {snapshot.applications.length === 0 ? (
+        <p>{t('empty')}</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <caption className="sr-only">{t('caption')}</caption>
+            <thead>
+              <tr className="border-b border-border">
+                <th scope="col" className="px-3 py-2 font-medium">
+                  {t('position')}
+                </th>
+                {detailed ? (
+                  <th scope="col" className="px-3 py-2 font-medium">
+                    {t('client')}
+                  </th>
+                ) : null}
+                <th scope="col" className="px-3 py-2 font-medium">
+                  {t('step')}
+                </th>
+                {detailed ? (
+                  <>
+                    <th scope="col" className="px-3 py-2 font-medium">
+                      {t('since')}
+                    </th>
+                    <th scope="col" className="px-3 py-2 text-right font-medium">
+                      {t('interviews')}
+                    </th>
+                  </>
+                ) : null}
+              </tr>
+            </thead>
+            <tbody>
+              {snapshot.applications.map((a, i) => (
+                <tr key={i} className="border-b border-border">
+                  <th scope="row" className="px-3 py-2 font-medium">
+                    {a.positionTitle}
+                  </th>
+                  {detailed ? <td className="px-3 py-2">{a.clientName}</td> : null}
+                  <td className="px-3 py-2">{t(`steps.${a.step}`)}</td>
+                  {detailed ? (
+                    <>
+                      <td className="px-3 py-2">
+                        {a.since ? format.dateTime(new Date(a.since), { dateStyle: 'medium' }) : ''}
+                      </td>
+                      <td className="px-3 py-2 text-right">{a.interviews}</td>
+                    </>
+                  ) : null}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 }

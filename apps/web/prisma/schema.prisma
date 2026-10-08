@@ -96,16 +96,22 @@ model MemberInvite {
   @@index([agencyId, email])
 }
 
+// A platform administrator's request to look at one agency's workspace, read-only (FR-TEN-07, FR-ADM-07).
+// Pending until an agency admin decides: approving sets grantedById and expiresAt (requestedHours from then,
+// at most 72), denying sets deniedAt, and an admin can revoke an active grant at any time.
 model SupportAccessGrant {
-  id          String    @id @default(uuid()) @db.Uuid
-  agencyId    String    @db.Uuid
-  adminId     String    @db.Uuid // platform administrator (User)
-  grantedById String    @db.Uuid // agency admin
-  reason      String
-  expiresAt   DateTime
-  revokedAt   DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id             String    @id @default(uuid()) @db.Uuid
+  agencyId       String    @db.Uuid
+  adminId        String    @db.Uuid // platform administrator (User)
+  grantedById    String?   @db.Uuid // agency admin who approved; null while pending or denied
+  reason         String
+  requestedHours Int       @default(24)
+  expiresAt      DateTime? // set on approval
+  decidedAt      DateTime?
+  deniedAt       DateTime?
+  revokedAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
 

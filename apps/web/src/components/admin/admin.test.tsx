@@ -195,9 +195,12 @@ describe('AgencyDetailView', () => {
   it('shows metadata and counts', async () => {
     vi.stubGlobal(
       'fetch',
-      stubApi({ [`GET /api/admin/v1/agencies/${id}`]: () => json(detail('active')) }).impl,
+      stubApi({
+        [`GET /api/admin/v1/agencies/${id}`]: () => json(detail('active')),
+        [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
+      }).impl,
     );
-    renderApp(<AgencyDetailView agencyId={id} canWrite />);
+    renderApp(<AgencyDetailView agencyId={id} canWrite userId="u1" />);
     expect(await screen.findByRole('heading', { name: 'Acme 1' })).toBeTruthy();
     expect(screen.getByText('acme-1')).toBeTruthy();
     expect(screen.getByText('Pending invitations').nextElementSibling?.textContent).toBe('2');
@@ -207,6 +210,7 @@ describe('AgencyDetailView', () => {
     let status = 'active';
     const api = stubApi({
       [`GET /api/admin/v1/agencies/${id}`]: () => json(detail(status)),
+      [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
       [`POST /api/admin/v1/agencies/${id}/suspend`]: () => {
         status = 'suspended';
         return json({ data: {} });
@@ -214,7 +218,7 @@ describe('AgencyDetailView', () => {
     });
     vi.stubGlobal('fetch', api.impl);
     const user = userEvent.setup();
-    renderApp(<AgencyDetailView agencyId={id} canWrite />);
+    renderApp(<AgencyDetailView agencyId={id} canWrite userId="u1" />);
     await user.click(await screen.findByRole('button', { name: 'Suspend' }));
     const confirm = within(
       await screen.findByRole('dialog', { name: 'Suspend Acme 1?' }),
@@ -233,12 +237,15 @@ describe('AgencyDetailView', () => {
   it('offers reactivate for a suspended agency, and nothing to read-only users', async () => {
     vi.stubGlobal(
       'fetch',
-      stubApi({ [`GET /api/admin/v1/agencies/${id}`]: () => json(detail('suspended')) }).impl,
+      stubApi({
+        [`GET /api/admin/v1/agencies/${id}`]: () => json(detail('suspended')),
+        [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
+      }).impl,
     );
-    const { unmount } = renderApp(<AgencyDetailView agencyId={id} canWrite />);
+    const { unmount } = renderApp(<AgencyDetailView agencyId={id} canWrite userId="u1" />);
     expect(await screen.findByRole('button', { name: 'Reactivate' })).toBeTruthy();
     unmount();
-    renderApp(<AgencyDetailView agencyId={id} canWrite={false} />);
+    renderApp(<AgencyDetailView agencyId={id} canWrite={false} userId="u1" />);
     await screen.findByRole('heading', { name: 'Acme 1' });
     expect(screen.queryByRole('button', { name: 'Reactivate' })).toBeNull();
     fireEvent.click(document.body);

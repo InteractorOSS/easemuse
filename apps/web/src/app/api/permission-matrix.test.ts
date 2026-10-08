@@ -34,6 +34,9 @@ vi.mock('@/lib/auth/authorize', async () => {
       who.current.kind === 'agency' ? { role: who.current.role, active: true } : null,
     mfaEnforcement: () => 'off',
     log: () => undefined,
+    loadSupportGrant: async () => null,
+    requestInfo: async () => ({ method: 'GET', path: '/' }),
+    recordSupportView: async () => undefined,
   });
   return real;
 });
@@ -89,6 +92,15 @@ vi.mock('@/server/branding/service', () => ({
   updateBranding: async () => ({ agencyName: 'Acme' }),
   setLogo: async () => ({ agencyName: 'Acme' }),
   removeLogo: async () => ({ agencyName: 'Acme' }),
+}));
+vi.mock('@/server/support/access', () => ({
+  listSupportGrantsForPlatform: async () => [],
+  requestSupportAccess: async () => ({ id: 'g1' }),
+  endSupportAccess: async () => ({ id: 'g1' }),
+  getSupportOverview: async () => ({ grants: [], views: [] }),
+  decideSupportGrant: async () => ({ id: 'g1' }),
+  findActiveGrant: async () => null,
+  recordSupportView: async () => undefined,
 }));
 vi.mock('@/server/tenancy/settings', () => ({
   readSettings: async () => ({}),
@@ -546,6 +558,13 @@ import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifac
 import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
 import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
 import {
+  GET as supportListGet,
+  POST as supportRequestPost,
+} from './admin/v1/agencies/[id]/support-access/route';
+import { DELETE as supportEndDelete } from './admin/v1/agencies/[id]/support-access/[grantId]/route';
+import { GET as supportOverviewGet } from './v1/agencies/[agencyId]/support-access/route';
+import { POST as supportDecisionPost } from './v1/agencies/[agencyId]/support-access/[grantId]/decision/route';
+import {
   GET as brandingGet,
   PATCH as brandingPatch,
 } from './v1/agencies/[agencyId]/branding/route';
@@ -577,6 +596,7 @@ const agencyParams = {
     analysisId: 'an1',
     n: '1',
     jobRunId: 'job1',
+    grantId: 'g1',
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
@@ -1844,6 +1864,55 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: ['admin'],
     call: () => logoDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
+  },
+  {
+    name: 'GET support access (platform)',
+    file: 'admin/v1/agencies/[id]/support-access/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => supportListGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'POST support access request (platform)',
+    file: 'admin/v1/agencies/[id]/support-access/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () =>
+      supportRequestPost(
+        new Request(
+          'http://x.test/',
+          json({ reason: 'A customer reported a missing report', hours: 24 }),
+        ),
+        adminParams,
+      ),
+  },
+  {
+    name: 'DELETE support access (platform)',
+    file: 'admin/v1/agencies/[id]/support-access/[grantId]/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () =>
+      supportEndDelete(new Request('http://x.test/', { method: 'DELETE' }), {
+        params: Promise.resolve({ id: 'acme', grantId: 'g1' }),
+      }),
+  },
+  {
+    name: 'GET support access overview',
+    file: 'v1/agencies/[agencyId]/support-access/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => supportOverviewGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST support access decision',
+    file: 'v1/agencies/[agencyId]/support-access/[grantId]/decision/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () =>
+      supportDecisionPost(
+        new Request('http://x.test/', json({ decision: 'approve' })),
+        agencyParams,
+      ),
   },
 ];
 

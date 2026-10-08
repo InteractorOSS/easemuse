@@ -7,6 +7,7 @@
     "branding": "Branding",
     "usage": "AI usage",
     "outbox": "Outbox",
+    "support": "Support access",
     "privacy": "Privacy requests"
   },
   "defaults": {
@@ -184,6 +185,42 @@
     "preview": {
       "title": "Preview",
       "sample": "How the header of a document looks"
+    }
+  },
+  "support": {
+    "title": "Support access",
+    "intro": "Team of Wakers support can look into your workspace only if you approve a request here. Access is read-only, ends on its own (at most 72 hours) and you can revoke it at any time.",
+    "unknownAdmin": "A Team of Wakers administrator",
+    "grants": {
+      "title": "Requests and access",
+      "empty": "Nobody has asked for access."
+    },
+    "status": {
+      "pending": "Waiting for your answer",
+      "active": "Access is open",
+      "expired": "Expired",
+      "denied": "Denied",
+      "revoked": "Ended",
+      "lapsed": "Not answered in time"
+    },
+    "requested": "Asked {when} for {hours} hours.",
+    "until": "Access ends {when}.",
+    "approve": "Approve for {hours} hours",
+    "deny": "Deny",
+    "revoke": "End access now",
+    "decided": {
+      "approve": "Access approved",
+      "deny": "Request denied",
+      "revoke": "Access ended"
+    },
+    "failed": "This could not be saved. The request may already have been answered.",
+    "views": {
+      "title": "What support has looked at",
+      "intro": "Every page or data request made under a grant is listed here and in the activity log.",
+      "empty": "Nothing has been viewed.",
+      "when": "When",
+      "who": "Who",
+      "what": "Request"
     }
   }
 }

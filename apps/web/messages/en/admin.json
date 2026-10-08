@@ -75,6 +75,33 @@
         "saved": "Budget saved.",
         "invalid": "Enter a number from 0 to 1,000,000."
       }
+    },
+    "support": {
+      "title": "Support access",
+      "intro": "You cannot see this agency's data unless its admin approves a request. Access is read-only, limited to the hours you ask for and every page you open is logged.",
+      "empty": "No requests yet.",
+      "status": {
+        "pending": "Waiting for the agency admin",
+        "active": "Access open",
+        "expired": "Expired",
+        "denied": "Denied",
+        "revoked": "Ended",
+        "lapsed": "Not answered in time"
+      },
+      "until": "Ends {when}",
+      "open": "Open the workspace",
+      "end": "End access",
+      "withdraw": "Withdraw request",
+      "reason": "Why do you need to look?",
+      "reasonHint": "The agency admin reads this before deciding.",
+      "reasonError": "Say why, in at least 10 characters.",
+      "hours": "How long",
+      "hoursOption": "{hours, plural, one {# hour} other {# hours}}",
+      "request": "Ask the agency admin",
+      "requested": "Request sent to the agency admins.",
+      "requestFailed": "The request could not be sent. You may already have an open one.",
+      "ended": "Done.",
+      "auditLink": "Open the audit log"
     }
   },
   "errors": {

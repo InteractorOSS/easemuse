@@ -66,6 +66,9 @@ describe.skipIf(!dbAvailable())('authorizeAgency with real memberships (RLS)', (
       loadMembership: membershipLoader(appScope(handle)),
       mfaEnforcement: () => 'off',
       log: () => undefined,
+      loadSupportGrant: async () => null,
+      requestInfo: async () => null,
+      recordSupportView: async () => undefined,
     });
   };
 

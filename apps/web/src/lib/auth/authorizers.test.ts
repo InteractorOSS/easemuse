@@ -21,6 +21,9 @@ function setup(overrides: Partial<AuthDeps> = {}) {
     loadMembership: async () => ({ role: 'recruiter', active: true }),
     mfaEnforcement: () => 'off',
     log: vi.fn(),
+    loadSupportGrant: async () => null,
+    requestInfo: async () => ({ method: 'GET', path: '/api/v1/agencies/a-1/clients' }),
+    recordSupportView: vi.fn(async () => undefined),
     ...overrides,
   };
   return { deps, auth: createAuthorizers(deps) };
@@ -139,5 +142,89 @@ describe('resolveActor', () => {
     expect((await auth.resolveActor())?.kind).toBe('platform_admin');
     const anon = setup({ getSession: async () => null });
     expect(await anon.auth.resolveActor('acme')).toBeNull();
+  });
+});
+
+describe('authorizeAgency under a support grant (T-13-07, FR-ADM-07)', () => {
+  const grant = { id: 'g-1', expiresAt: new Date('2099-01-01T00:00:00Z') };
+  const admin: PlatformUser = { ...user, platformRole: 'support' };
+  const asSupport = (overrides: Partial<AuthDeps> = {}) =>
+    setup({
+      getUser: async () => admin,
+      loadMembership: async () => null,
+      loadSupportGrant: async () => grant,
+      ...overrides,
+    });
+
+  it('lets a platform administrator with a grant read the workspace, as a lead who cannot administer', async () => {
+    const { auth, deps } = asSupport();
+    const result = await auth.authorizeAgency('acme');
+    expect(result).toMatchObject({
+      role: 'lead',
+      actor: { kind: 'agency', userId: 'u-1', agencyId: 'a-1', role: 'lead' },
+      support: grant,
+    });
+    expect(deps.recordSupportView).toHaveBeenCalledWith({
+      agencyId: 'a-1',
+      adminId: 'u-1',
+      grantId: 'g-1',
+      method: 'GET',
+      path: '/api/v1/agencies/a-1/clients',
+    });
+    expect(await status(await auth.authorizeAgency('acme', { roles: ['admin'] }))).toBe(403);
+  });
+
+  it('is a plain 404 without a grant, for a user with no platform role, and when the agency is unknown', async () => {
+    expect(
+      await status(
+        await asSupport({ loadSupportGrant: async () => null }).auth.authorizeAgency('acme'),
+      ),
+    ).toBe(404);
+    expect(
+      await status(await asSupport({ getUser: async () => user }).auth.authorizeAgency('acme')),
+    ).toBe(404);
+    expect(await status(await asSupport().auth.authorizeAgency('nope'))).toBe(404);
+  });
+
+  it('refuses every method but GET and HEAD, and logs nothing for a refused request', async () => {
+    for (const method of ['POST', 'PUT', 'PATCH', 'DELETE']) {
+      const { auth, deps } = asSupport({ requestInfo: async () => ({ method, path: '/x' }) });
+      const res = (await auth.authorizeAgency('acme')) as Response;
+      expect(res.status, method).toBe(403);
+      expect((await res.json()).error.code).toBe('support_read_only');
+      expect(deps.recordSupportView).not.toHaveBeenCalled();
+    }
+    expect(
+      await status(
+        await asSupport({
+          requestInfo: async () => ({ method: 'HEAD', path: '/x' }),
+        }).auth.authorizeAgency('acme'),
+      ),
+    ).toBe('ok');
+  });
+
+  it('fails closed when the method is unknown or the view cannot be logged', async () => {
+    expect(
+      await status(await asSupport({ requestInfo: async () => null }).auth.authorizeAgency('acme')),
+    ).toBe(403);
+    const failing = asSupport({
+      recordSupportView: async () => {
+        throw new Error('db down');
+      },
+    });
+    await expect(failing.auth.authorizeAgency('acme')).rejects.toThrow('db down');
+  });
+
+  it('refuses a suspended agency, and a real member keeps their own role', async () => {
+    const suspended = asSupport({ getAgency: async () => ({ ...agency, status: 'suspended' }) });
+    expect(await status(await suspended.auth.authorizeAgency('acme'))).toBe(403);
+    const member = asSupport({ loadMembership: async () => ({ role: 'admin', active: true }) });
+    const result = (await member.auth.authorizeAgency('acme')) as {
+      role: string;
+      support?: unknown;
+    };
+    expect(result.role).toBe('admin');
+    expect(result.support).toBeUndefined();
+    expect(member.deps.recordSupportView).not.toHaveBeenCalled();
   });
 });

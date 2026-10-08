@@ -1136,6 +1136,18 @@ model PrivacyRequest {
 }
 
 // Secrets an owner enters in the admin area, encrypted at rest (see server/platform/secrets.ts)
+/// The latest problem with an AI provider account (for example no credit), shown in /admin/settings.
+/// Cleared after the next call that works or when an owner changes the key. Platform table, no RLS.
+model PlatformAlert {
+  name      String   @id /// for example "anthropic_account"
+  code      String /// no_key | invalid_key | no_credit
+  firstAt   DateTime
+  lastAt    DateTime
+  count     Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model PlatformSecret {
   name        String   @id // for example "anthropic_api_key"
   ciphertext  String

@@ -103,17 +103,29 @@ export function createProcessor(queue: QueueName, deps: DispatcherDeps) {
       await deps.publishJobEvent(jobRunId, 'job.succeeded', { jobRunId });
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      const willRetry =
-        !(error instanceof UnrecoverableError) && job.attemptsMade + 1 < (job.opts.attempts ?? 1);
+      const permanent = error instanceof UnrecoverableError || isPermanentFailure(error);
+      const willRetry = !permanent && job.attemptsMade + 1 < (job.opts.attempts ?? 1);
       log('job.error', { queue, name: job.name, jobRunId, willRetry, message });
       await deps.updateJobRun(jobRunId, {
         status: willRetry ? 'queued' : 'failed',
         error: message.slice(0, 500),
       });
       await deps.publishJobEvent(jobRunId, willRetry ? 'job.retrying' : 'job.failed', { jobRunId });
-      throw error;
+      // BullMQ retries anything that is not an UnrecoverableError.
+      throw permanent && !(error instanceof UnrecoverableError)
+        ? new UnrecoverableError(message)
+        : error;
     } finally {
       if (acquired && agencyId !== null) await deps.limiter!.release(agencyId);
     }
   };
+}
+
+/**
+ * Failures that a retry cannot fix, for example the AI account has no credit or its key was rejected
+ * (`ai_account_*`): the job stops at once instead of retrying.
+ */
+export function isPermanentFailure(error: unknown): boolean {
+  const code = (error as { code?: unknown } | null)?.code;
+  return typeof code === 'string' && code.startsWith('ai_account_');
 }

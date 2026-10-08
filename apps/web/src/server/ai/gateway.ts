@@ -5,7 +5,13 @@ import type { AgencyActor, SystemActor } from '@easemuse/core';
 import type { Scope } from '@/lib/db';
 import { ApiError } from '@/lib/http/errors';
 import { addDraftVersion, findOrCreateArtifact, type Subject } from '@/server/artifacts/service';
-import { AiCallError, AiCancelledError, toApiError } from './errors';
+import {
+  AiAccountError,
+  AiCallError,
+  AiCancelledError,
+  toApiError,
+  type AiAccountProblem,
+} from './errors';
 import { assertWithinBudget, recordLlmCall } from './ledger';
 import type { ModelClient, SearchResponse } from './anthropic';
 import type { TokenUsage } from './pricing';
@@ -45,6 +51,14 @@ export interface GatewayDeps {
   model: ModelClient;
   prompts?: PromptRegistry;
   log?: (message: string, data: Record<string, unknown>) => void;
+  /**
+   * Remembers an AI account problem (no key, rejected key, no credit) for the admin area, and forgets
+   * it after the next call that works. Optional: tests and scripts run without it.
+   */
+  accountStatus?: {
+    report(problem: AiAccountProblem): Promise<void>;
+    clear(): Promise<void>;
+  };
 }
 
 /**
@@ -160,6 +174,7 @@ export function createGateway(deps: GatewayDeps) {
       usage = response.usage;
       latencyMs = response.latencyMs;
       output = response.parsed;
+      await noteAccount(null);
     } catch (error) {
       // A refusal or truncated answer still cost tokens: record them.
       usage = error instanceof AiCallError ? error.usage : undefined;
@@ -253,6 +268,17 @@ export function createGateway(deps: GatewayDeps) {
   ): Promise<void> {
     const cancelled = error instanceof AiCancelledError;
     const code = cancelled ? 'cancelled' : toApiError(error).code;
+    if (!cancelled) {
+      // Ids and codes only: never prompt or document content.
+      log('ai.failed', {
+        generationId,
+        agencyId: ctx.agencyId,
+        purpose: purposeId,
+        code,
+        providerStatus: (error as { status?: unknown }).status ?? null,
+      });
+    }
+    if (error instanceof AiAccountError) await noteAccount(error.problem);
     try {
       await deps.scope.withAgency(ctx.agencyId, async (tx) => {
         if (usage && ctx.actor.kind === 'agency') {
@@ -278,6 +304,16 @@ export function createGateway(deps: GatewayDeps) {
       });
     } catch (loggingError) {
       log('ai.finish_failed', { generationId, error: (loggingError as Error).message });
+    }
+  }
+
+  /** Records or clears the account problem; a failure here never changes the AI call's outcome. */
+  async function noteAccount(problem: AiAccountProblem | null): Promise<void> {
+    if (!deps.accountStatus) return;
+    try {
+      await (problem ? deps.accountStatus.report(problem) : deps.accountStatus.clear());
+    } catch (error) {
+      log('ai.account_status_failed', { error: (error as Error).message });
     }
   }
 

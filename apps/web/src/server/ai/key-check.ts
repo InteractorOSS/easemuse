@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import Anthropic from '@anthropic-ai/sdk';
 import { resolveAnthropicKey } from '@/server/platform/secrets';
+import { accountProblemOf } from './errors';
 
 export interface KeyCheck {
   ok: boolean;
@@ -30,8 +31,7 @@ export async function checkAnthropicKey(client?: Pick<Anthropic, 'messages'>): P
   } catch (error) {
     const status = (error as { status?: number }).status;
     const text = String((error as Error).message ?? '');
-    if (status === 401 || status === 403) return { ok: false, message: 'invalid_key' };
-    if (status === 400 && /credit balance/i.test(text)) return { ok: false, message: 'no_credit' };
-    return { ok: false, message: 'unreachable' };
+    const problem = accountProblemOf(status, text);
+    return { ok: false, message: problem && problem !== 'no_key' ? problem : 'unreachable' };
   }
 }

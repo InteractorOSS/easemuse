@@ -216,6 +216,11 @@
         "no_credit": "The key is valid but the account has no credit left.",
         "unreachable": "Could not reach Voyage AI. Try again."
       }
+    },
+    "problem": {
+      "no_credit": "AI calls are failing: the Anthropic account has run out of credit. Last seen {date} ({count, plural, one {# failed call} other {# failed calls}}). Add credit in the Anthropic console. This warning clears after the next AI call that works.",
+      "invalid_key": "AI calls are failing: Anthropic did not accept the key. Last seen {date} ({count, plural, one {# failed call} other {# failed calls}}). Enter a new key above.",
+      "no_key": "AI calls are failing: no Anthropic key is set. Last seen {date} ({count, plural, one {# failed call} other {# failed calls}}). Enter a key above."
     }
   }
 }

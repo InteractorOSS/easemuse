@@ -94,6 +94,17 @@ function KeySection({ provider, canWrite }: { provider: Provider; canWrite: bool
           ? ` ${t('updatedAt', { date: format.dateTime(new Date(s.updatedAt), { dateStyle: 'medium' }) })}`
           : ''}
       </p>
+      {s.problem ? (
+        <p role="alert" className="text-sm text-danger">
+          {t(`problem.${s.problem.code}`, {
+            date: format.dateTime(new Date(s.problem.lastAt), {
+              dateStyle: 'medium',
+              timeStyle: 'short',
+            }),
+            count: s.problem.count,
+          })}
+        </p>
+      ) : null}
       {canWrite ? (
         <div className="flex flex-col gap-2">
           <TextField

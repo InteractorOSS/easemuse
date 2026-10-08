@@ -8,6 +8,8 @@ import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
 import type { z } from 'zod';
 import { resolveAnthropicKey } from '@/server/platform/secrets';
 import {
+  accountProblemOf,
+  AiAccountError,
   AiCallError,
   AiCancelledError,
   AiInvalidOutputError,
@@ -114,12 +116,7 @@ export function createAnthropicClient(
   const sdkFor = async (): Promise<AnthropicLike> => {
     if (options.client) return options.client;
     const apiKey = options.apiKey ?? (await resolveAnthropicKey());
-    if (!apiKey) {
-      throw new AiProviderError(
-        'No Anthropic API key is configured. An owner can add it in the admin area.',
-        false,
-      );
-    }
+    if (!apiKey) throw new AiAccountError('no_key');
     if (current?.key !== apiKey) {
       current = {
         key: apiKey,
@@ -320,6 +317,12 @@ function mapProviderError(error: unknown, signal?: AbortSignal): Error {
     return new AiCancelledError('cancelled');
   if (error instanceof Anthropic.APIError) {
     const status = typeof error.status === 'number' ? error.status : null;
+    // No credit or a rejected key: retrying cannot help, and an administrator has to act.
+    const problem = accountProblemOf(
+      status,
+      `${error.message} ${JSON.stringify(error.error ?? '')}`,
+    );
+    if (problem) return new AiAccountError(problem, status);
     return new AiProviderError(
       `provider error ${status ?? 'unknown'}`,
       status === null || status === 429 || status >= 500,

@@ -30,6 +30,32 @@ export class AiProviderError extends AiCallError {
     super(message);
   }
 }
+/** Why the AI account cannot be used until a person fixes it. */
+export type AiAccountProblem = 'no_key' | 'invalid_key' | 'no_credit';
+
+/**
+ * The AI account itself is the problem: no key, a key the provider rejects, or no credit left.
+ * Retrying cannot help, so jobs stop at once and a platform administrator is told (/admin/settings).
+ */
+export class AiAccountError extends AiCallError {
+  constructor(
+    public readonly problem: AiAccountProblem,
+    public readonly status: number | null = null,
+  ) {
+    super(`ai account problem: ${problem}`);
+  }
+}
+
+/** Reads a provider error response as an account problem, or null when it is something else. */
+export function accountProblemOf(
+  status: number | null | undefined,
+  message: string,
+): AiAccountProblem | null {
+  if (status === 401 || status === 403) return 'invalid_key';
+  if ((status === 400 || status === 402) && /credit balance/i.test(message)) return 'no_credit';
+  return null;
+}
+
 /** The web search step cannot run: the tool is not switched on for this API key, or it is off here. */
 export class AiWebSearchUnavailableError extends AiCallError {}
 /** The recruiter cancelled the request (FR-AI-07). */
@@ -59,6 +85,19 @@ export function toApiError(error: unknown): ApiError {
   }
   if (error instanceof AiCancelledError)
     return new ApiError('ai_cancelled', 'The request was cancelled.', { status: 499 });
+  if (error instanceof AiAccountError) {
+    return error.problem === 'no_credit'
+      ? new ApiError(
+          'ai_account_no_credit',
+          'AI drafting is paused: the AI account has run out of credit. A platform administrator needs to add credit. Everything else keeps working.',
+          { status: 503 },
+        )
+      : new ApiError(
+          'ai_account_key',
+          'AI drafting is paused: the AI account key is missing or was not accepted. A platform administrator needs to check it in the admin area. Everything else keeps working.',
+          { status: 503 },
+        );
+  }
   if (error instanceof AiProviderError) {
     return new ApiError(
       'ai_unavailable',

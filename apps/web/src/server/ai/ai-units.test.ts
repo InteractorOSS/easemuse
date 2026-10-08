@@ -6,6 +6,8 @@ import { z } from 'zod';
 import { ARTIFACT_KINDS } from '@easemuse/core';
 import { createAnthropicClient, type AnthropicLike } from './anthropic';
 import {
+  accountProblemOf,
+  AiAccountError,
   AiCancelledError,
   AiInvalidOutputError,
   AiProviderError,
@@ -159,7 +161,31 @@ describe('error mapping', () => {
       code: 'ai_unavailable',
     });
     expect(toApiError(new AiCancelledError('c'))).toMatchObject({ code: 'ai_cancelled' });
+    // Account problems say what is wrong and who can fix it; retrying would not help.
+    const noCredit = toApiError(new AiAccountError('no_credit', 400));
+    expect(noCredit).toMatchObject({ status: 503, code: 'ai_account_no_credit' });
+    expect(noCredit.message).toMatch(/credit/);
+    expect(noCredit.message).not.toMatch(/try again/i);
+    expect(toApiError(new AiAccountError('invalid_key', 401))).toMatchObject({
+      status: 503,
+      code: 'ai_account_key',
+    });
+    expect(toApiError(new AiAccountError('no_key'))).toMatchObject({ code: 'ai_account_key' });
     expect(toApiError(new Error('boom'))).toMatchObject({ status: 500 });
+  });
+});
+
+describe('account problems', () => {
+  it('reads no credit and rejected keys from the provider response, and nothing else', () => {
+    expect(
+      accountProblemOf(400, 'Your credit balance is too low to access the Anthropic API.'),
+    ).toBe('no_credit');
+    expect(accountProblemOf(402, 'credit balance')).toBe('no_credit');
+    expect(accountProblemOf(401, 'invalid x-api-key')).toBe('invalid_key');
+    expect(accountProblemOf(403, 'permission')).toBe('invalid_key');
+    expect(accountProblemOf(400, 'max_tokens is too large')).toBeNull();
+    expect(accountProblemOf(500, 'credit balance')).toBeNull();
+    expect(accountProblemOf(null, 'credit balance')).toBeNull();
   });
 });
 
@@ -272,7 +298,6 @@ describe('Anthropic client adapter (ADR-004)', () => {
       [500, true],
       [529, true],
       [400, false],
-      [401, false],
     ] as const) {
       const { sdk } = fake(null, { throws: make(status) });
       const error = await createAnthropicClient({ client: sdk })
@@ -289,6 +314,43 @@ describe('Anthropic client adapter (ADR-004)', () => {
           .catch((e) => e)
       ).retryable,
     ).toBe(true);
+  });
+
+  it('maps no credit, a rejected key and a missing key to account errors', async () => {
+    const credit = fake(null, {
+      throws: new Anthropic.APIError(
+        400,
+        {
+          type: 'error',
+          error: {
+            type: 'invalid_request_error',
+            message: 'Your credit balance is too low to access the Anthropic API.',
+          },
+        },
+        undefined,
+        new Headers(),
+      ),
+    });
+    const noCredit = await createAnthropicClient({ client: credit.sdk })
+      .complete(request)
+      .catch((e) => e);
+    expect(noCredit).toBeInstanceOf(AiAccountError);
+    expect(noCredit).toMatchObject({ problem: 'no_credit', status: 400 });
+
+    const rejected = fake(null, {
+      throws: new Anthropic.APIError(401, { type: 'error' }, 'invalid x-api-key', new Headers()),
+    });
+    expect(
+      await createAnthropicClient({ client: rejected.sdk })
+        .complete(request)
+        .catch((e) => e),
+    ).toMatchObject({ problem: 'invalid_key', status: 401 });
+
+    expect(
+      await createAnthropicClient({ apiKey: '' })
+        .complete(request)
+        .catch((e) => e),
+    ).toMatchObject({ problem: 'no_key' });
   });
 
   it('maps an abort to a cancellation', async () => {

@@ -266,6 +266,45 @@ export async function getPlatformSecretRow(name: string): Promise<{ ciphertext: 
   return prisma.platformSecret.findUnique({ where: { name }, select: { ciphertext: true } });
 }
 
+export interface PlatformAlertRow {
+  code: string;
+  firstAt: Date;
+  lastAt: Date;
+  count: number;
+}
+
+/** Records a platform problem (for example the AI account has no credit), counting repeats. */
+export async function recordPlatformAlert(
+  name: string,
+  code: string,
+  at = new Date(),
+): Promise<void> {
+  const { prisma } = getDbHandle();
+  await prisma.$executeRaw`
+    INSERT INTO "PlatformAlert" (name, code, "firstAt", "lastAt", count, "updatedAt")
+    VALUES (${name}, ${code}, ${at}, ${at}, 1, ${at})
+    ON CONFLICT (name) DO UPDATE SET
+      "firstAt" = CASE WHEN "PlatformAlert".code = EXCLUDED.code THEN "PlatformAlert"."firstAt" ELSE EXCLUDED."firstAt" END,
+      count = CASE WHEN "PlatformAlert".code = EXCLUDED.code THEN "PlatformAlert".count + 1 ELSE 1 END,
+      code = EXCLUDED.code,
+      "lastAt" = EXCLUDED."lastAt",
+      "updatedAt" = EXCLUDED."updatedAt"`;
+}
+
+/** Forgets a platform problem once it is fixed. */
+export async function clearPlatformAlert(name: string): Promise<void> {
+  const { prisma } = getDbHandle();
+  await prisma.platformAlert.deleteMany({ where: { name } });
+}
+
+export async function getPlatformAlert(name: string): Promise<PlatformAlertRow | null> {
+  const { prisma } = getDbHandle();
+  return prisma.platformAlert.findUnique({
+    where: { name },
+    select: { code: true, firstAt: true, lastAt: true, count: true },
+  });
+}
+
 /** What a portal page needs to know about the agency: name, state and branding (no tenant data). */
 export async function getAgencyPortalInfo(slug: string) {
   const { prisma } = getDbHandle();

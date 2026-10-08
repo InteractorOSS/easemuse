@@ -1,6 +1,7 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
-import { withAgency } from '@/lib/db';
+import { clearPlatformAlert, recordPlatformAlert, withAgency } from '@/lib/db';
+import { ANTHROPIC_ACCOUNT_ALERT } from '@/server/platform/secrets';
 import { createAnthropicClient } from './anthropic';
 import { createGateway, type Gateway } from './gateway';
 import { promptRegistry } from './prompts';
@@ -24,6 +25,11 @@ export function getGateway(): Gateway {
     scope: { withAgency },
     model: createAnthropicClient(),
     prompts: promptRegistry,
+    log: (message, data) => console.warn(`[ai] ${message}`, data),
+    accountStatus: {
+      report: (problem) => recordPlatformAlert(ANTHROPIC_ACCOUNT_ALERT, problem),
+      clear: () => clearPlatformAlert(ANTHROPIC_ACCOUNT_ALERT),
+    },
   });
   return gateway;
 }

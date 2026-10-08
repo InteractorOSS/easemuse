@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { createCipheriv, createDecipheriv, hkdfSync, randomBytes } from 'node:crypto';
 import type { PlatformAdminActor } from '@easemuse/core';
-import { getPlatformSecretRow, withUser } from '@/lib/db';
+import { clearPlatformAlert, getPlatformAlert, getPlatformSecretRow, withUser } from '@/lib/db';
 import { getEnv } from '@/lib/env';
 import { ApiError, forbidden } from '@/lib/http/errors';
 import { recordPlatformAudit } from './audit';
@@ -77,6 +77,17 @@ export function validateAnthropicKey(value: string): string {
   return key;
 }
 
+/** The platform alert that remembers an Anthropic account problem (see the AI gateway). */
+export const ANTHROPIC_ACCOUNT_ALERT = 'anthropic_account';
+
+/** The latest AI account problem seen by real calls, so administrators can act on it. */
+export interface AccountProblem {
+  code: 'no_key' | 'invalid_key' | 'no_credit';
+  firstAt: Date;
+  lastAt: Date;
+  count: number;
+}
+
 export interface SecretStatus {
   configured: boolean;
   /** Where the key in use comes from: the admin area wins over the environment. */
@@ -86,6 +97,8 @@ export interface SecretStatus {
   updatedAt: Date | null;
   /** The stored value cannot be decrypted (the encryption key changed): enter it again. */
   unreadable: boolean;
+  /** Anthropic only: the account problem real AI calls ran into, until a call works again. */
+  problem?: AccountProblem | null;
 }
 
 /** A Voyage key looks like `pa-...`; anything else is refused before it is stored. */
@@ -175,7 +188,9 @@ async function setKey(
     });
   });
   clearKeyCache(kind.name);
-  return keyStatus(actor, kind);
+  // A new or removed key starts fresh: the old problem may no longer apply.
+  if (kind === ANTHROPIC) await clearPlatformAlert(ANTHROPIC_ACCOUNT_ALERT);
+  return kind === ANTHROPIC ? getAnthropicKeyStatus(actor) : keyStatus(actor, kind);
 }
 
 async function clearKey(actor: PlatformAdminActor, kind: KeyKind): Promise<SecretStatus> {
@@ -190,10 +205,19 @@ async function clearKey(actor: PlatformAdminActor, kind: KeyKind): Promise<Secre
     });
   });
   clearKeyCache(kind.name);
-  return keyStatus(actor, kind);
+  // A new or removed key starts fresh: the old problem may no longer apply.
+  if (kind === ANTHROPIC) await clearPlatformAlert(ANTHROPIC_ACCOUNT_ALERT);
+  return kind === ANTHROPIC ? getAnthropicKeyStatus(actor) : keyStatus(actor, kind);
 }
 
-export const getAnthropicKeyStatus = (actor: PlatformAdminActor) => keyStatus(actor, ANTHROPIC);
+export async function getAnthropicKeyStatus(actor: PlatformAdminActor): Promise<SecretStatus> {
+  const status = await keyStatus(actor, ANTHROPIC);
+  const alert = await getPlatformAlert(ANTHROPIC_ACCOUNT_ALERT);
+  return {
+    ...status,
+    problem: alert ? { ...alert, code: alert.code as AccountProblem['code'] } : null,
+  };
+}
 export const setAnthropicKey = (actor: PlatformAdminActor, value: string) =>
   setKey(actor, ANTHROPIC, value);
 export const clearAnthropicKey = (actor: PlatformAdminActor) => clearKey(actor, ANTHROPIC);

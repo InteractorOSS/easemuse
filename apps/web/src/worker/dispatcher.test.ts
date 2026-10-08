@@ -3,7 +3,7 @@
 import { DelayedError, UnrecoverableError, type Job } from 'bullmq';
 import { randomUUID } from 'node:crypto';
 import { describe, expect, it, vi } from 'vitest';
-import { createProcessor, type DispatcherDeps } from './dispatcher';
+import { createProcessor, isPermanentFailure, type DispatcherDeps } from './dispatcher';
 import { JobRegistry, type JobHandler } from './registry';
 
 const agencyId = randomUUID();
@@ -164,6 +164,29 @@ describe('job dispatcher', () => {
     expect(last.deps.publishJobEvent).toHaveBeenLastCalledWith(jobRunId, 'job.failed', {
       jobRunId,
     });
+  });
+
+  it('stops at once, without retrying, when the AI account has no credit or a rejected key', async () => {
+    const accountProblem = Object.assign(new Error('AI drafting is paused: no credit'), {
+      code: 'ai_account_no_credit',
+    });
+    const run = setup(
+      vi.fn(async () => {
+        throw accountProblem;
+      }),
+    );
+    const error = await run.process(fakeJob({ attemptsMade: 0 })).catch((e) => e);
+    expect(error).toBeInstanceOf(UnrecoverableError);
+    expect(run.deps.updateJobRun).toHaveBeenLastCalledWith(jobRunId, {
+      status: 'failed',
+      error: 'AI drafting is paused: no credit',
+    });
+    expect(run.deps.publishJobEvent).toHaveBeenLastCalledWith(jobRunId, 'job.failed', { jobRunId });
+    expect(isPermanentFailure(accountProblem)).toBe(true);
+    expect(isPermanentFailure(Object.assign(new Error('x'), { code: 'ai_unavailable' }))).toBe(
+      false,
+    );
+    expect(isPermanentFailure(null)).toBe(false);
   });
 
   describe('per-agency cap on limited queues', () => {

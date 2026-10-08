@@ -415,6 +415,32 @@ describe('Admin settings: keys', () => {
     await expectNoA11yViolations(container);
   });
 
+  it('warns when real AI calls are failing because the account has no credit', async () => {
+    vi.stubGlobal(
+      'fetch',
+      stubApi({
+        'GET /api/admin/v1/settings/anthropic': () =>
+          json({
+            data: {
+              ...status(true, 'environment').data,
+              problem: {
+                code: 'no_credit',
+                firstAt: '2026-10-08T06:00:00.000Z',
+                lastAt: '2026-10-08T06:09:40.000Z',
+                count: 3,
+              },
+            },
+          }),
+        'GET /api/admin/v1/settings/voyage': () => json(status(false, 'none')),
+      }).impl,
+    );
+    const { container } = renderApp(<SettingsView canWrite />);
+    const alert = await screen.findByRole('alert');
+    expect(alert.textContent).toMatch(/the Anthropic account has run out of credit/);
+    expect(alert.textContent).toMatch(/3 failed calls/);
+    await expectNoA11yViolations(container);
+  });
+
   it('saves the Voyage key to its own endpoint and tests it there', async () => {
     const stub = stubApi({
       'GET /api/admin/v1/settings/anthropic': () => json(status(true, 'environment')),

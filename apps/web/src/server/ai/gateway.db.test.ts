@@ -8,7 +8,7 @@ import type { AgencyActor } from '@easemuse/core';
 import type { DbHandle } from '@/lib/db/client';
 import { adminClient, appHandle, appScope, cleanup, createAgency, dbAvailable } from '@/test/db';
 import type { ModelClient, ModelRequest } from './anthropic';
-import { AiCancelledError, AiProviderError, AiRefusalError } from './errors';
+import { AiAccountError, AiCancelledError, AiProviderError, AiRefusalError } from './errors';
 import { createGateway } from './gateway';
 import { getProvenance } from './provenance';
 import { createPromptRegistry } from './prompts';
@@ -265,6 +265,61 @@ describe.skipIf(!dbAvailable())('AI gateway (ADR-004)', () => {
       });
       expect(await counts()).toEqual(before);
       expect(await lastGeneration()).toEqual({ status: 'failed', error: 'ai_unavailable' });
+    });
+
+    it('an account problem (no credit) is reported for the admin area, logged, and cleared once a call works', async () => {
+      const events: string[] = [];
+      const logged: Array<Record<string, unknown>> = [];
+      const accountGateway = () =>
+        createGateway({
+          scope: appScope(handle),
+          model,
+          prompts: registry(),
+          log: (message, data) => logged.push({ message, ...data }),
+          accountStatus: {
+            report: async (problem) => void events.push(`report:${problem}`),
+            clear: async () => void events.push('clear'),
+          },
+        });
+      behaviour = async () => {
+        throw new AiAccountError('no_credit', 400);
+      };
+      await expect(
+        accountGateway().run('jd.improve', { text: 'a' }, baseCtx()),
+      ).rejects.toMatchObject({ status: 503, code: 'ai_account_no_credit' });
+      expect(await lastGeneration()).toEqual({ status: 'failed', error: 'ai_account_no_credit' });
+      expect(events).toEqual(['report:no_credit']);
+      expect(logged).toContainEqual(
+        expect.objectContaining({
+          message: 'ai.failed',
+          code: 'ai_account_no_credit',
+          providerStatus: 400,
+        }),
+      );
+      // Ids and codes only: nothing from the prompt reaches the log.
+      expect(JSON.stringify(logged)).not.toContain('JD:');
+
+      behaviour = ok();
+      await accountGateway().run('jd.improve', { text: 'a' }, baseCtx());
+      expect(events).toEqual(['report:no_credit', 'clear']);
+    });
+
+    it('a failing account-status store never changes the outcome of the AI call', async () => {
+      behaviour = ok();
+      const result = await createGateway({
+        scope: appScope(handle),
+        model,
+        prompts: registry(),
+        accountStatus: {
+          report: async () => {
+            throw new Error('db down');
+          },
+          clear: async () => {
+            throw new Error('db down');
+          },
+        },
+      }).run('jd.improve', { text: 'a' }, baseCtx());
+      expect(result.draft).not.toBeNull();
     });
 
     it('a cancelled request is marked cancelled and saves no draft', async () => {

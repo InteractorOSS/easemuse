@@ -117,3 +117,7 @@ apps/web/next-env.d.ts
 # Playwright
 test-results/
 playwright-report/
+.build/.sync
+# Interactor Build: machine-local session data and per-person task views (re-synced by ibuild)
+.build/.data/
+.build/my-tasks*.md

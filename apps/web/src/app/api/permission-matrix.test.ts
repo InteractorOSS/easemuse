@@ -181,6 +181,13 @@ vi.mock('@/server/candidates/search', () => ({
 vi.mock('@/server/search/global', () => ({
   globalSearch: async () => ({ clients: [], positions: [], candidates: [] }),
 }));
+vi.mock('@/server/candidates/notes', () => ({
+  setTags: async () => ({ tags: [] }),
+  listNotes: async () => [],
+  addNote: async () => ({ id: 'n1' }),
+  updateNote: async () => ({ id: 'n1' }),
+  deleteNote: async () => undefined,
+}));
 vi.mock('@/server/candidates/do-not-contact', () => ({
   setDoNotContact: async () => ({ doNotContact: true, reason: 'x', at: null }),
 }));
@@ -432,6 +439,15 @@ import {
 } from './v1/agencies/[agencyId]/candidates/route';
 import { GET as candidateGet } from './v1/agencies/[agencyId]/candidates/[candidateId]/route';
 import { POST as discardPost2 } from './v1/agencies/[agencyId]/candidates/[candidateId]/discard/route';
+import { PUT as candidateTagsPut } from './v1/agencies/[agencyId]/candidates/[candidateId]/tags/route';
+import {
+  GET as candidateNotesGet,
+  POST as candidateNotesPost,
+} from './v1/agencies/[agencyId]/candidates/[candidateId]/notes/route';
+import {
+  DELETE as candidateNoteDelete,
+  PATCH as candidateNotePatch,
+} from './v1/agencies/[agencyId]/candidates/[candidateId]/notes/[noteId]/route';
 import { PATCH as dncPatch } from './v1/agencies/[agencyId]/candidates/[candidateId]/do-not-contact/route';
 import {
   GET as screeningGet,
@@ -578,6 +594,7 @@ const agencyParams = {
     proposalId: '11111111-1111-4111-8111-111111111111',
     analysisId: 'an1',
     n: '1',
+    noteId: 'note1',
     jobRunId: 'job1',
   }),
 };
@@ -978,6 +995,51 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => searchGet(new Request('http://x.test/?q=hr'), agencyParams),
+  },
+  {
+    name: 'PUT candidate tags',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/tags/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      candidateTagsPut(
+        new Request('http://x.test/', { ...json({ tags: ['vip'] }), method: 'PUT' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET candidate notes',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/notes/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => candidateNotesGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST candidate note',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/notes/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      candidateNotesPost(new Request('http://x.test/', json({ body: 'A note' })), agencyParams),
+  },
+  {
+    name: 'PATCH candidate note',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/notes/[noteId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      candidateNotePatch(
+        new Request('http://x.test/', { ...json({ body: 'Changed' }), method: 'PATCH' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'DELETE candidate note',
+    file: 'v1/agencies/[agencyId]/candidates/[candidateId]/notes/[noteId]/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      candidateNoteDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
   },
   {
     name: 'PATCH candidate do-not-contact',

@@ -99,9 +99,9 @@ export function ReviewBoard({
     onError: () => setError(t('errors.generic')),
   });
   const analyze = useMutation({
-    mutationFn: () =>
+    mutationFn: (entryIds: string[]) =>
       apiFetch<{ jobRunId: string; total: number }>(`${base}/analyses`, {
-        body: { entryIds: [...selected].slice(0, MAX_BATCH) },
+        body: { entryIds: entryIds.slice(0, MAX_BATCH) },
       }),
     onSuccess: (res) => {
       setError(null);
@@ -125,6 +125,8 @@ export function ReviewBoard({
       return next;
     });
   const manual = rows.some((r) => r.manualRank !== null);
+  // Analyses that a changed profile made out of date (T-3-12): one click starts them all again.
+  const staleIds = rows.filter((r) => r.analysis?.stale).map((r) => r.entryId);
 
   return (
     <div className="flex flex-col gap-6">
@@ -198,10 +200,19 @@ export function ReviewBoard({
         </label>
         <Button
           disabled={selected.size === 0 || analyze.isPending || selected.size > MAX_BATCH}
-          onClick={() => analyze.mutate()}
+          onClick={() => analyze.mutate([...selected])}
         >
           {t('analyzeSelected', { count: selected.size })}
         </Button>
+        {canEditPosition && staleIds.length > 0 ? (
+          <Button
+            variant="secondary"
+            disabled={analyze.isPending}
+            onClick={() => analyze.mutate(staleIds)}
+          >
+            {t('reanalyzeStale', { count: Math.min(staleIds.length, MAX_BATCH) })}
+          </Button>
+        ) : null}
         {manual && canEditPosition ? (
           <Button variant="ghost" size="sm" onClick={() => resetOrder.mutate()}>
             {t('resetOrder')}
@@ -295,6 +306,11 @@ export function ReviewBoard({
                         : null
                     }
                     onMoved={refresh}
+                    onReanalyze={
+                      canEditPosition && !analyze.isPending
+                        ? () => analyze.mutate([row.entryId])
+                        : null
+                    }
                     levels={(l) => levels(l)}
                     criterionLabel={(k) => criteria(k)}
                     stateLabel={(s) => states(s)}
@@ -318,6 +334,7 @@ function BoardRow({
   onToggle,
   reorder,
   onMoved,
+  onReanalyze,
   levels,
   stateLabel,
 }: {
@@ -329,6 +346,7 @@ function BoardRow({
   onToggle: () => void;
   reorder: { up: () => void; down: () => void; first: boolean; last: boolean } | null;
   onMoved: () => void | Promise<void>;
+  onReanalyze: (() => void) | null;
   levels: (l: 'strong' | 'partial' | 'gap' | 'unknown') => string;
   criterionLabel: (k: MatchWeightKey) => string;
   stateLabel: (s: PipelineState) => string;
@@ -402,7 +420,21 @@ function BoardRow({
               {a.overall !== null ? a.overall : '–'}
               {a.overridden ? <span title={t('overridden')}>{' *'}</span> : null}
             </span>
-            {a.stale ? <span className="text-xs text-warning">{t('stale')}</span> : null}
+            {a.stale ? (
+              <span className="flex flex-wrap items-center gap-1 text-xs text-warning">
+                {t('stale')}
+                {onReanalyze ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    aria-label={t('reanalyzeOne', { name: row.candidateName })}
+                    onClick={onReanalyze}
+                  >
+                    {t('reanalyze')}
+                  </Button>
+                ) : null}
+              </span>
+            ) : null}
             <span className="text-xs text-muted">{a.reviewed ? t('reviewed') : t('draft')}</span>
           </div>
         ) : (

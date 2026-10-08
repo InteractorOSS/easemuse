@@ -311,9 +311,9 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 
 | ID | Task | Est | Status | Refs |
 |----|------|-----|--------|------|
-| T-3-12 | Stale analysis: marker and one-click re-analysis on the analysis page and the dashboard | 3 | Partial: hooks set `stale`, the page shows it; no re-analyse button | US-305, FR-MAT-07 |
+| T-3-12 | Stale analysis: marker and one-click re-analysis on the analysis page and the dashboard | 3 | Done | US-305, FR-MAT-07 |
 | T-8-05 | Duplicate-submission guard (earlier submission shown, reason required) | 3 | Done | US-803, FR-SUB-04 |
-| T-2-13 | Tags and notes on candidates: edit UI, filter by tag (filter exists) | 4 | Partial: tags stored, shown and filterable; no editing, no notes | FR-SRC-09 |
+| T-2-13 | Tags and notes on candidates: edit UI, filter by tag (filter exists) | 4 | Done | FR-SRC-09 |
 | T-2-14 | Bulk resume upload (about 20 files) creating drafts to review | 6 | | FR-SRC-10 |
 | T-2-15 | CSV candidate import with column mapping (ATS exports) | 6 | | Q-10 |
 | T-5-11 | Outreach templates per recruiter and client, picker in the composer | 6 | | FR-OUT-06 |

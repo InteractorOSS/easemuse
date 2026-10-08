@@ -254,6 +254,28 @@ describe('AnalysisView', () => {
     expect(screen.getByText(/Out of date: a profile changed/)).toBeTruthy();
   });
 
+  it('starts a new analysis with one click from the out-of-date notice (T-3-12)', async () => {
+    const stub = serve(detail({ reviewed: true }, { stale: true }), {
+      [`POST ${api}/pipeline/e1/analysis`]: () =>
+        new Response('', { status: 200, headers: { 'Content-Type': 'text/event-stream' } }),
+    });
+    const user = userEvent.setup();
+    view();
+    await user.click(await screen.findByRole('button', { name: 'Analyze again now' }));
+    await waitFor(() =>
+      expect(
+        stub.calls.some((c) => c.method === 'POST' && c.url.pathname.endsWith('/analysis')),
+      ).toBe(true),
+    );
+  });
+
+  it('offers no one-click button when the analysis is up to date', async () => {
+    serve(detail({ reviewed: true }, { stale: false }));
+    view();
+    await screen.findByText('Reviewed');
+    expect(screen.queryByRole('button', { name: 'Analyze again now' })).toBeNull();
+  });
+
   it('hides the numbers and the score controls in explain-only mode', async () => {
     serve(
       detail(

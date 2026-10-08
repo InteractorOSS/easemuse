@@ -22,6 +22,7 @@ import {
   recordFeedback,
   updateInterview,
 } from '@/server/interviews/service';
+import { addNote, listNotes, setTags } from '@/server/candidates/notes';
 import { getFeedbackDraft, planFeedbackDraft } from '@/server/interviews/feedback-draft';
 import { getOffer, recordOutcome, saveOffer } from '@/server/offers/service';
 import {
@@ -209,6 +210,9 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
           }),
         ),
     ],
+    ['notes: list', () => asA((tx) => listNotes(tx, actorA, candidate()))],
+    ['notes: add', () => asA((tx) => addNote(tx, actorA, candidate(), { body: 'planted' }))],
+    ['tags: set', () => asA((tx) => setTags(tx, actorA, candidate(), { tags: ['planted'] }))],
     ['offer: read', () => asA((tx) => getOffer(tx, actorA, entry()))],
     [
       'offer: save',

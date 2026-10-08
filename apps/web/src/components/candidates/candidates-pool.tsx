@@ -19,6 +19,7 @@ export interface PoolFilters {
   seniority: string;
   minYears: string;
   maxYears: string;
+  tags: string;
 }
 
 export const EMPTY_FILTERS: PoolFilters = {
@@ -28,6 +29,7 @@ export const EMPTY_FILTERS: PoolFilters = {
   seniority: '',
   minYears: '',
   maxYears: '',
+  tags: '',
 };
 
 /** The talent pool (US-207): text search with filters over everyone in the agency, matches highlighted. */
@@ -91,12 +93,18 @@ export function CandidatesPool({
           value={filters.q}
           onChange={set('q')}
         />
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
           <TextField
             label={t('skills')}
             hint={t('skillsHint')}
             value={filters.skills}
             onChange={set('skills')}
+          />
+          <TextField
+            label={t('tags')}
+            hint={t('tagsHint')}
+            value={filters.tags}
+            onChange={set('tags')}
           />
           <TextField label={t('location')} value={filters.location} onChange={set('location')} />
           <TextField label={t('seniority')} value={filters.seniority} onChange={set('seniority')} />

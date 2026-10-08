@@ -149,7 +149,9 @@
       "experience": "Experience",
       "skills": "Skills"
     },
-    "searchForm": "Find candidates"
+    "searchForm": "Find candidates",
+    "tags": "Tags (all of)",
+    "tagsHint": "Separate with commas."
   },
   "globalSearch": {
     "label": "Search clients, positions and candidates",
@@ -200,6 +202,34 @@
         "conflict": "Confirm the candidate first.",
         "forbidden": "Only an admin can clear this."
       }
+    },
+    "tagsEditor": {
+      "title": "Tags",
+      "hint": "Short labels of your own. Anyone in the agency can use them to find this candidate.",
+      "none": "No tags yet.",
+      "add": "Add a tag",
+      "addButton": "Add",
+      "remove": "Remove the tag {tag}",
+      "filter": "Show candidates tagged {tag}",
+      "saved": "Tags saved.",
+      "error": "Could not save the tags. A tag is at most 40 characters and there can be 20 of them."
+    },
+    "notes": {
+      "title": "Notes",
+      "hint": "Only your agency sees these. They are included when the candidate asks for their data and removed when it is deleted.",
+      "none": "No notes yet.",
+      "label": "New note",
+      "add": "Add note",
+      "by": "{name}, {date}",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleteNote": "Delete this note",
+      "editNote": "Edit this note",
+      "edited": "(edited)",
+      "saved": "Note saved.",
+      "error": "Could not save the note."
     }
   }
 }

@@ -365,6 +365,7 @@ model Candidate {
   pipeline   PipelineEntry[]
   portalUser PortalUser?
   consents   Consent[]
+  notes      CandidateNote[]
 
   @@index([agencyId, status])
   @@index([agencyId, email])
@@ -379,6 +380,21 @@ model Candidate {
   @@index([employerKeys], type: Gin)
   @@index([searchText], type: Gin)
   @@index([agencyId, fullName])
+}
+
+// Recruiter notes on a candidate (T-2-13, FR-SRC-09): free text only the agency sees.
+model CandidateNote {
+  id          String   @id @default(uuid()) @db.Uuid
+  agencyId    String   @db.Uuid
+  candidateId String   @db.Uuid
+  authorId    String   @db.Uuid
+  body        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, candidateId, createdAt])
 }
 
 model CandidateDocument {

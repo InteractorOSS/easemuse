@@ -55,6 +55,7 @@ const serve = (c: Record<string, unknown>, extra: Record<string, () => Response>
   const stub = stubApi({
     [`GET ${api}/candidates/c1`]: () => json({ data: c }),
     [`GET ${api}/activity`]: () => json({ data: [], nextCursor: null }),
+    [`GET ${api}/candidates/c1/notes`]: () => json({ data: [] }),
     ...extra,
   });
   vi.stubGlobal('fetch', stub.impl);
@@ -151,5 +152,69 @@ describe('CandidateDetail', () => {
       }),
     );
     expect((await screen.findByRole('alert')).textContent).toBe('Confirm the candidate first.');
+  });
+
+  it('adds and removes tags, and a tag links to the pool filtered by it (T-2-13)', async () => {
+    const stub = serve(candidate(), {
+      [`PUT ${api}/candidates/c1/tags`]: () => json({ data: { tags: [] } }),
+    });
+    const user = userEvent.setup();
+    view();
+    const tag = await screen.findByRole('link', { name: 'Show candidates tagged vip' });
+    expect(tag.getAttribute('href')).toBe('/a/acme/candidates?tags=vip');
+    await user.type(screen.getByLabelText('Add a tag'), '  Seoul  Based ');
+    await user.click(screen.getByRole('button', { name: 'Add' }));
+    await waitFor(() =>
+      expect(stub.calls.find((c) => c.method === 'PUT')!.body).toEqual({
+        tags: ['vip', 'seoul based'],
+      }),
+    );
+    await user.click(screen.getByRole('button', { name: 'Remove the tag vip' }));
+    await waitFor(() =>
+      expect(stub.calls.filter((c) => c.method === 'PUT').at(-1)!.body).toEqual({ tags: [] }),
+    );
+  });
+
+  it('lists notes with their author, lets the author edit and delete, and others only read (T-2-13)', async () => {
+    const note = (id: string, over: Record<string, unknown> = {}) => ({
+      id,
+      body: `Note ${id}`,
+      authorId: 'u1',
+      authorName: 'Jane Recruiter',
+      createdAt: '2026-10-06T10:00:00.000Z',
+      updatedAt: '2026-10-06T10:00:00.000Z',
+      canEdit: true,
+      canDelete: true,
+      ...over,
+    });
+    const stub = serve(candidate(), {
+      [`GET ${api}/candidates/c1/notes`]: () =>
+        json({
+          data: [note('n1'), note('n2', { canEdit: false, canDelete: false, authorName: 'Bob' })],
+        }),
+      [`POST ${api}/candidates/c1/notes`]: () => json({ data: note('n3') }, 201),
+      [`PATCH ${api}/candidates/c1/notes/n1`]: () => json({ data: note('n1') }),
+      [`DELETE ${api}/candidates/c1/notes/n1`]: () => new Response(null, { status: 204 }),
+    });
+    const user = userEvent.setup();
+    view();
+    expect(await screen.findByText('Note n1')).toBeTruthy();
+    expect(screen.getAllByRole('button', { name: 'Edit this note' })).toHaveLength(1);
+    expect(screen.getAllByRole('button', { name: 'Delete this note' })).toHaveLength(1);
+    await user.type(screen.getByLabelText('New note'), 'Prefers calls');
+    await user.click(screen.getByRole('button', { name: 'Add note' }));
+    await waitFor(() =>
+      expect(stub.calls.find((c) => c.method === 'POST')!.body).toEqual({ body: 'Prefers calls' }),
+    );
+    await user.click(screen.getByRole('button', { name: 'Edit this note' }));
+    const box = screen.getByLabelText('Edit this note', { selector: 'textarea' });
+    await user.clear(box);
+    await user.type(box, 'Changed');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    await waitFor(() =>
+      expect(stub.calls.find((c) => c.method === 'PATCH')!.body).toEqual({ body: 'Changed' }),
+    );
+    await user.click(screen.getByRole('button', { name: 'Delete this note' }));
+    await waitFor(() => expect(stub.calls.some((c) => c.method === 'DELETE')).toBe(true));
   });
 });

@@ -89,7 +89,10 @@
     "errors": {
       "generic": "Something went wrong. Try again.",
       "analyze": "Could not start the analysis. Check that each selected candidate has a confirmed profile and the position a confirmed success profile."
-    }
+    },
+    "reanalyze": "Analyze again",
+    "reanalyzeOne": "Analyze {name} again",
+    "reanalyzeStale": "Analyze out-of-date again ({count})"
   },
   "move": {
     "label": "Move {name}",
@@ -225,7 +228,8 @@
       "forbidden": "Only the owner, a lead or an admin can do this for this candidate."
     },
     "stageLine": "Stage: {stage}",
-    "criterionLine": "{name}: {level}"
+    "criterionLine": "{name}: {level}",
+    "reanalyze": "Analyze again now"
   },
   "screening": {
     "title": "Screening",

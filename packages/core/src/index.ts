@@ -48,3 +48,4 @@ export * from './artifacts/submission-report';
 export * from './artifacts/screening-draft';
 export * from './schemas/analytics';
 export * from './artifacts/interview-feedback';
+export * from './schemas/candidate-notes';

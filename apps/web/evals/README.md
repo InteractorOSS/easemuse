@@ -19,6 +19,7 @@ pnpm eval -- --suite all --max-cost 15
 | `match-analyze`     | Do A10's seven levels agree with the key, and do strong, partial and weak resumes rank in order?   | `keys/*.json` `criteria` |
 | `bias`              | Do two resumes that differ only in the name score within the tolerance? (NFR-AI04)                 | `bias_pair` in the keys  |
 | `stability`         | Does the same resume keep its score within the tolerance over repeated runs? (TR-010)              | repeated runs            |
+| `pattern-summary`   | Does A18 cite real facts, copy their numbers, hedge few records, name no protected trait and ignore planted instructions? (brief 14, NFR-AI04) | built-in synthetic cases (`lib/patterns.ts`) |
 
 Options: `--limit N` (cases per suite), `--runs N`, `--tolerance POINTS` (default 5), `--max-cost USD`
 (default 5; the run stops when it is reached). Reports are written to `evals/out/` (git-ignored).

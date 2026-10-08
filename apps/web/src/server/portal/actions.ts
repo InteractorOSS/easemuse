@@ -23,11 +23,11 @@ import { logActivity } from '@/server/activity/service';
  */
 const DAY = 86_400_000;
 
-function audience(actor: PortalActor, expected: PortalActor['audience']) {
+export function audience(actor: PortalActor, expected: PortalActor['audience']) {
   if (actor.audience !== expected) throw forbidden('This is not available to you');
 }
 
-async function myShare(tx: ScopedTx, actor: PortalActor, shareId: string, kind: string) {
+export async function myShare(tx: ScopedTx, actor: PortalActor, shareId: string, kind: string) {
   const row = await tx.portalShare.findFirst({
     where: { id: shareId, portalUserId: actor.portalUserId, revokedAt: null, kind },
   });
@@ -36,7 +36,7 @@ async function myShare(tx: ScopedTx, actor: PortalActor, shareId: string, kind: 
   return { row, snapshot: parsed.data };
 }
 
-async function whoIs(tx: ScopedTx, actor: PortalActor): Promise<string> {
+export async function whoIs(tx: ScopedTx, actor: PortalActor): Promise<string> {
   const user = await tx.portalUser.findUniqueOrThrow({
     where: { id: actor.portalUserId },
     select: {
@@ -49,7 +49,7 @@ async function whoIs(tx: ScopedTx, actor: PortalActor): Promise<string> {
 }
 
 /** A task for the person who works the item, so the recruiter sees it in "My tasks" (FR-HMP-02, FR-HMP-05). */
-async function notify(
+export async function notify(
   tx: ScopedTx,
   input: {
     agencyId: string;

@@ -44,6 +44,6 @@ export type PortalDirectoryQuery = z.infer<typeof portalDirectoryQuerySchema>;
 
 /** `GET /portal-shares` */
 export const listSharesQuerySchema = z.object({
-  kind: z.enum(['jd_for_approval', 'submission', 'tailored_resume']),
+  kind: z.enum(['jd_for_approval', 'submission', 'tailored_resume', 'intake_form']),
   subjectId: z.guid(),
 });

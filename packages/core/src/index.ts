@@ -46,3 +46,8 @@ export * from './artifacts/qualification';
 export * from './artifacts/tailored-resume';
 export * from './artifacts/submission-report';
 export * from './artifacts/screening-draft';
+export * from './schemas/knowledge';
+export * from './artifacts/pattern-summary';
+export * from './knowledge/guardrails';
+export * from './knowledge/patterns';
+export * from './knowledge/summary-facts';

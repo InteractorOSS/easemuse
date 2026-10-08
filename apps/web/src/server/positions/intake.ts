@@ -4,16 +4,22 @@ import type { Prisma } from '@prisma/client';
 import {
   INTAKE_TOPICS,
   intakeAnswersSchema,
+  intakeProposalsSchema,
   type AgencyActor,
   type IntakeAnswers,
   type IntakeInput,
+  type IntakeTopic,
   type RecordApprovalInput,
+  type ResolveIntakeProposalInput,
 } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
-import { ApiError } from '@/lib/http/errors';
+import { ApiError, notFound } from '@/lib/http/errors';
 import { logActivity } from '@/server/activity/service';
 import { approvedJdVersionId } from './jd-approval';
 import { requirePosition } from './service';
+
+const isGuid = (v: string) =>
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v);
 
 /** The hiring manager intake (T-1-09, brief 3.4) and the recorded JD approval (brief 3.4, FR-INT-10). */
 export interface ApprovalView {
@@ -29,8 +35,19 @@ export interface ApprovalView {
   current: boolean;
 }
 
+/** A hiring manager's answer from the portal that the recruiter has not answered yet (FR-HMP-03). */
+export interface IntakeProposalView {
+  topic: IntakeTopic;
+  value: string;
+  stages?: string[];
+  proposedBy: string | null;
+  at: string;
+}
+
 export interface IntakeView {
   answers: IntakeAnswers;
+  /** Answers from the hiring manager waiting for the recruiter; they change nothing until accepted. */
+  proposals: IntakeProposalView[];
   /** The latest decision on the JD, if any. */
   jdApproval: ApprovalView | null;
 }
@@ -50,12 +67,37 @@ export async function getIntake(
 ): Promise<IntakeView> {
   await requirePosition(tx, actor, positionId, 'read');
   const [record, approval, version] = await Promise.all([
-    tx.intakeRecord.findUnique({ where: { positionId }, select: { answers: true } }),
+    tx.intakeRecord.findUnique({
+      where: { positionId },
+      select: { answers: true, proposals: true },
+    }),
     latestApproval(tx, positionId),
     approvedJdVersionId(tx, positionId),
   ]);
+  const proposed = intakeProposalsSchema.parse(record?.proposals ?? {});
+  const people = await tx.portalUser.findMany({
+    where: {
+      id: { in: [...new Set(Object.values(proposed).map((p) => p!.proposedBy))].filter(isGuid) },
+    },
+    select: { id: true, clientContact: { select: { name: true } } },
+  });
+  const names = new Map(people.map((u) => [u.id, u.clientContact?.name ?? null]));
   return {
     answers: intakeAnswersSchema.parse(record?.answers ?? {}),
+    proposals: INTAKE_TOPICS.flatMap((topic) => {
+      const p = proposed[topic];
+      return p
+        ? [
+            {
+              topic,
+              value: p.value,
+              ...(p.stages ? { stages: p.stages } : {}),
+              proposedBy: names.get(p.proposedBy) ?? null,
+              at: p.at,
+            },
+          ]
+        : [];
+    }),
     jdApproval: approval
       ? {
           id: approval.id,
@@ -179,4 +221,59 @@ export async function recordJdApproval(
     versionId,
     current: true,
   };
+}
+
+/**
+ * The recruiter answers the hiring manager's answer to one intake topic (FR-HMP-03, brief 1.1).
+ * Accepting copies it into the intake as "from the hiring manager" and replaces what was there for
+ * that topic; declining only removes the proposal. Either way it is closed and logged.
+ */
+export async function resolveIntakeProposal(
+  tx: ScopedTx,
+  actor: AgencyActor,
+  positionId: string,
+  input: ResolveIntakeProposalInput,
+): Promise<IntakeView> {
+  await requirePosition(tx, actor, positionId, 'edit');
+  const record = await tx.intakeRecord.findUnique({
+    where: { positionId },
+    select: { answers: true, proposals: true },
+  });
+  const proposals = intakeProposalsSchema.parse(record?.proposals ?? {});
+  const proposal = proposals[input.topic];
+  if (!record || !proposal) throw notFound('Proposed answer');
+  const answers = intakeAnswersSchema.parse(record.answers ?? {});
+  if (input.accept) {
+    answers[input.topic] = {
+      value: proposal.value,
+      ...(proposal.stages ? { stages: proposal.stages } : {}),
+      source: 'hm_portal',
+      status: 'accepted',
+    };
+  }
+  delete proposals[input.topic];
+  await tx.intakeRecord.update({
+    where: { positionId },
+    data: {
+      answers: answers as unknown as Prisma.InputJsonValue,
+      proposals: proposals as unknown as Prisma.InputJsonValue,
+    },
+  });
+  if (Object.values(proposals).every((p) => !p)) {
+    await tx.task.updateMany({
+      where: { kind: 'proposal', entityType: 'position', entityId: positionId, completedAt: null },
+      data: { completedAt: new Date() },
+    });
+  }
+  await logActivity(tx, {
+    agencyId: actor.agencyId,
+    actor: { type: 'user', id: actor.userId },
+    action: input.accept
+      ? 'position.intake_proposal_accepted'
+      : 'position.intake_proposal_declined',
+    entityType: 'position',
+    entityId: positionId,
+    data: { topic: input.topic },
+  });
+  return getIntake(tx, actor, positionId);
 }

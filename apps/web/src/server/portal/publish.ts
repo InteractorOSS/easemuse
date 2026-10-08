@@ -1,8 +1,10 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import {
+  INTAKE_TOPICS,
   REPORT_SECTIONS,
   SHARE_AUDIENCE,
+  intakeQuestionsContentSchema,
   structuredJdContentSchema,
   submissionReportContentSchema,
   tailoredResumeContentSchema,
@@ -30,6 +32,9 @@ export interface ShareView {
 }
 
 const iso = (d: Date) => d.toISOString();
+
+/** Shares about a position (the rest are about a candidate in a position). */
+const POSITION_KINDS = new Set<string>(['jd_for_approval', 'intake_form']);
 
 async function loadPortalUser(tx: ScopedTx, id: string, audience: 'hiring_manager' | 'candidate') {
   const user = await tx.portalUser.findUnique({
@@ -89,6 +94,42 @@ async function jdSnapshot(
       summary: s.summary,
     })),
     requirements: content.requirements.map((r) => ({ text: r.text, category: r.category })),
+    publishedAt: iso(now),
+  });
+}
+
+/**
+ * The intake questionnaire for the hiring manager (US-1403): the ten topics, each with the
+ * recruiter's APPROVED questions for it (a topic with none is still asked, with its own title).
+ * Nothing the recruiter already recorded is shown.
+ */
+async function intakeSnapshot(
+  tx: ScopedTx,
+  actor: AgencyActor,
+  positionId: string,
+  now: Date,
+): Promise<PortalSnapshot> {
+  await requirePosition(tx, actor, positionId, 'edit');
+  const approved = await readApproved(tx, {
+    kind: 'intake_questions',
+    subject: { type: 'position', id: positionId },
+  });
+  const questions = approved ? intakeQuestionsContentSchema.parse(approved.content).questions : [];
+  const details = await tx.position.findUniqueOrThrow({
+    where: { id: positionId },
+    select: { title: true, client: { select: { name: true } } },
+  });
+  return portalSnapshotSchema.parse({
+    kind: 'intake_form',
+    positionTitle: details.title,
+    clientName: details.client.name,
+    topics: INTAKE_TOPICS.map((key) => ({
+      key,
+      questions: questions
+        .filter((q) => q.topic === key)
+        .map((q) => q.question)
+        .slice(0, 8),
+    })),
     publishedAt: iso(now),
   });
 }
@@ -229,7 +270,7 @@ export async function publishShare(
   const user = await loadPortalUser(tx, input.portalUserId, audience);
   let snapshot: PortalSnapshot;
 
-  if (input.kind === 'jd_for_approval') {
+  if (input.kind === 'jd_for_approval' || input.kind === 'intake_form') {
     const position = await tx.position.findUnique({
       where: { id: input.subjectId },
       select: { clientId: true },
@@ -238,7 +279,10 @@ export async function publishShare(
     if (user.clientContact?.clientId !== position.clientId) {
       throw forbidden("This person is not a contact of the position's client");
     }
-    snapshot = await jdSnapshot(tx, actor, input.subjectId, now);
+    snapshot =
+      input.kind === 'jd_for_approval'
+        ? await jdSnapshot(tx, actor, input.subjectId, now)
+        : await intakeSnapshot(tx, actor, input.subjectId, now);
   } else {
     const entry = await tx.pipelineEntry.findUnique({
       where: { id: input.subjectId },
@@ -275,7 +319,7 @@ export async function publishShare(
     agencyId: actor.agencyId,
     actor: { type: 'user', id: actor.userId },
     action: 'portal.shared',
-    entityType: input.kind === 'jd_for_approval' ? 'position' : 'pipeline_entry',
+    entityType: POSITION_KINDS.has(input.kind) ? 'position' : 'pipeline_entry',
     entityId: input.subjectId,
     data: { kind: input.kind, shareId: row.id },
   });
@@ -307,7 +351,7 @@ export async function revokeShare(
     agencyId: actor.agencyId,
     actor: { type: 'user', id: actor.userId },
     action: 'portal.share_revoked',
-    entityType: share.kind === 'jd_for_approval' ? 'position' : 'pipeline_entry',
+    entityType: POSITION_KINDS.has(share.kind) ? 'position' : 'pipeline_entry',
     entityId: share.subjectId,
     data: { kind: share.kind, shareId },
   });

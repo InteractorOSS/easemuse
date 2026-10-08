@@ -13,6 +13,7 @@ import { matchAnalyzePrompt, type MatchAnalyzeInput } from '@/server/ai/prompts/
 import { profileStructurePrompt } from '@/server/ai/prompts/profile-structure';
 import { allResumeIds, loadJobDescription, loadResume, type Resume } from './lib/dataset';
 import { gradeMatch, gradeProfile, rankingAccuracy, spread } from './lib/graders';
+import { patternSummary } from './lib/patterns-suite';
 import { CostMeter, runPrompt } from './lib/runner';
 
 export interface SuiteContext {
@@ -281,4 +282,5 @@ export const SUITES: Record<string, Suite> = {
   'match-analyze': matchAnalyze,
   bias,
   stability,
+  'pattern-summary': patternSummary,
 };

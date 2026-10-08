@@ -22,7 +22,12 @@ describe('secret encryption', () => {
     const stored = encryptSecret(ANTHROPIC, KEY);
     expect(decryptSecret(stored, 'another-secret-another-secret-123456')).toBeNull();
     const [v, iv, tag, body] = stored.split('.');
-    expect(decryptSecret([v, iv, tag, `${body!.slice(0, -2)}AA`].join('.'), KEY)).toBeNull();
+    expect(
+      decryptSecret(
+        [v, iv, tag, `${body![0] === 'A' ? 'B' : 'A'}${body!.slice(1)}`].join('.'),
+        KEY,
+      ),
+    ).toBeNull();
     for (const bad of ['', 'x', 'v1.a.b', 'v2.a.b.c']) expect(decryptSecret(bad, KEY)).toBeNull();
   });
 });

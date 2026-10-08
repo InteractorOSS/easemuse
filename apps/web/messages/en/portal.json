@@ -1,0 +1,162 @@
+{
+  "enter": {
+    "title": "Opening your page",
+    "working": "Checking your link…",
+    "expired": "This link has expired or was already used.",
+    "invalid": "This link is not valid.",
+    "needNew": "Enter your email and we will send you a new link.",
+    "email": "Email",
+    "send": "Send me a new link",
+    "sent": "If that email has access, a new link is on its way. It works for 15 minutes.",
+    "error": "Something went wrong. Try again."
+  },
+  "shell": {
+    "signOut": "Sign out",
+    "home": "Your page",
+    "poweredBy": "Sent through EaseMuse for {agency}"
+  },
+  "list": {
+    "hmTitle": "For your review",
+    "candidateTitle": "For you",
+    "empty": "Nothing has been shared with you yet.",
+    "published": "Shared {date}",
+    "open": "Open",
+    "kinds": {
+      "jd_for_approval": "Job description",
+      "submission": "Candidate",
+      "tailored_resume": "Your resume"
+    }
+  },
+  "share": {
+    "back": "Back",
+    "updatedOn": "Updated on {date}",
+    "publishedOn": "Shared {date}",
+    "error": "Could not load this page. It may have been withdrawn."
+  },
+  "jd": {
+    "title": "Job description",
+    "intro": "Please review the role as we understand it. Approve it, or tell us what to change.",
+    "sections": {
+      "position_summary": "Position summary",
+      "key_responsibilities": "Key responsibilities",
+      "required_qualifications": "Required qualifications",
+      "preferred_qualifications": "Preferred qualifications",
+      "core_competencies": "Core competencies",
+      "technical_skills": "Technical skills",
+      "industry_experience": "Industry experience",
+      "leadership_management": "Leadership and management",
+      "years_of_experience": "Years of experience",
+      "education_certification": "Education and certification",
+      "location": "Location",
+      "compensation": "Compensation",
+      "work_authorization": "Work authorization"
+    },
+    "missing": "Not in the description. Please let us know.",
+    "requirements": "Requirements",
+    "categories": {
+      "must_have": "Must have",
+      "preferred": "Preferred",
+      "nice_to_have": "Nice to have",
+      "disqualifying": "Deal-breaker"
+    }
+  },
+  "decision": {
+    "comments": "Comments (optional)",
+    "approve": "Approve",
+    "requestChanges": "Request changes",
+    "approved": "Thank you. Your approval is recorded.",
+    "changesSent": "Thank you. Your comments were sent.",
+    "stale": "This was updated while you were reading. Reload to see the newest version.",
+    "error": "Could not save. Try again."
+  },
+  "submission": {
+    "title": "Candidate",
+    "reportTitle": "Candidate submission report",
+    "assessment": "Recruiter's assessment",
+    "documents": "Documents",
+    "report": "Download the report (PDF)",
+    "resume": "Download the resume (PDF)",
+    "submittedOn": "Submitted {date}",
+    "sections": {
+      "overview": "1. Candidate overview",
+      "currentPosition": "2. Current position",
+      "careerSummary": "3. Career summary",
+      "keyQualifications": "4. Key qualifications",
+      "achievements": "5. Relevant achievements",
+      "jdMatch": "6. Job description match",
+      "recommendation": "7. Reasons for recommendation",
+      "concerns": "8. Potential concerns and gaps",
+      "compensation": "9. Compensation expectation",
+      "location": "10. Location and relocation",
+      "workAuthorization": "11. Work authorization",
+      "motivation": "12. Candidate motivation",
+      "interviewAvailability": "13. Interview availability",
+      "recruiterAssessment": "14. Recruiter's assessment"
+    }
+  },
+  "hmDecision": {
+    "title": "Your decision",
+    "hint": "This goes to the recruiter, who confirms the next step with you.",
+    "interview": "Interview",
+    "hold": "Hold",
+    "reject": "Reject",
+    "reason": "Reason",
+    "send": "Send decision",
+    "sent": "Sent. The recruiter will confirm the next step.",
+    "pending": "A decision is waiting for the recruiter."
+  },
+  "feedback": {
+    "title": "Interview feedback",
+    "hint": "Rate the most recent interview round.",
+    "comments": "Comments",
+    "send": "Send feedback",
+    "sent": "Thank you. Your feedback was sent.",
+    "noRound": "There is no interview round to give feedback on yet.",
+    "ratings": {
+      "strong": "Strong",
+      "moderate": "Moderate",
+      "gap": "Gap",
+      "none": "Not rated"
+    },
+    "criteria": {
+      "technicalFit": "Technical fit",
+      "leadershipFit": "Leadership fit",
+      "communication": "Communication",
+      "culturalFit": "Cultural fit",
+      "industryExperience": "Industry experience"
+    }
+  },
+  "resume": {
+    "title": "Your resume for {position}",
+    "intro": "This is the version we plan to send to {client}. Please check every line is true, then approve it or ask for changes.",
+    "summary": "Summary",
+    "experience": "Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "present": "present"
+  },
+  "consent": {
+    "title": "Consent",
+    "intro": "We only send your details to a company with your permission. You can give or withdraw it at any time.",
+    "given": "You have given consent",
+    "withdrawn": "You have withdrawn consent",
+    "none": "No answer yet",
+    "give": "Give consent",
+    "withdraw": "Withdraw consent",
+    "forClient": "For {client}",
+    "saved": "Saved",
+    "link": "Consent"
+  },
+  "privacy": {
+    "title": "Your data",
+    "intro": "You can ask for a copy of your data or for it to be deleted. We answer within {days} days.",
+    "export": "Send me a copy of my data",
+    "delete": "Delete my data",
+    "note": "Anything we should know (optional)",
+    "send": "Send request",
+    "sent": "Your request was sent. We will answer within {days} days.",
+    "open": "You already have an open request of this kind.",
+    "deleteWarn": "Deleting removes your profile, resumes and documents. It cannot be undone.",
+    "link": "My data"
+  }
+}

@@ -265,3 +265,12 @@ export async function getPlatformSecretRow(name: string): Promise<{ ciphertext: 
   const { prisma } = getDbHandle();
   return prisma.platformSecret.findUnique({ where: { name }, select: { ciphertext: true } });
 }
+
+/** What a portal page needs to know about the agency: name, state and branding (no tenant data). */
+export async function getAgencyPortalInfo(slug: string) {
+  const { prisma } = getDbHandle();
+  return prisma.agency.findUnique({
+    where: { slug },
+    select: { id: true, slug: true, name: true, status: true, branding: true },
+  });
+}

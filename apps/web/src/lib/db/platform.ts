@@ -259,3 +259,9 @@ export async function findAuditPage(input: {
     createdAt: r.createdAt,
   }));
 }
+
+/** The stored (encrypted) value of a platform secret, read without a user context for the AI client. */
+export async function getPlatformSecretRow(name: string): Promise<{ ciphertext: string } | null> {
+  const { prisma } = getDbHandle();
+  return prisma.platformSecret.findUnique({ where: { name }, select: { ciphertext: true } });
+}

@@ -300,6 +300,33 @@ vi.mock('@/server/portal/identity', () => ({
 vi.mock('@/server/portal/links', () => ({
   emailPortalLink: async () => ({ outboxMessageId: 'ob1' }),
 }));
+vi.mock('@/server/platform/secrets', () => ({
+  getAnthropicKeyStatus: async () => ({
+    configured: false,
+    source: 'none',
+    last4: null,
+    updatedAt: null,
+    unreadable: false,
+  }),
+  setAnthropicKey: async () => ({
+    configured: true,
+    source: 'admin',
+    last4: 'abcd',
+    updatedAt: null,
+    unreadable: false,
+  }),
+  clearAnthropicKey: async () => ({
+    configured: false,
+    source: 'none',
+    last4: null,
+    updatedAt: null,
+    unreadable: false,
+  }),
+  resolveAnthropicKey: async () => undefined,
+}));
+vi.mock('@/server/ai/key-check', () => ({
+  checkAnthropicKey: async () => ({ ok: true, message: 'ok' }),
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -466,6 +493,12 @@ import {
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/screening/prefill/route';
 import { POST as portalInvitePost } from './v1/agencies/[agencyId]/portal-users/route';
 import { POST as portalDisablePost } from './v1/agencies/[agencyId]/portal-users/[portalUserId]/disable/route';
+import {
+  DELETE as anthropicDelete,
+  GET as anthropicGet,
+  PUT as anthropicPut,
+} from './admin/v1/settings/anthropic/route';
+import { POST as anthropicTestPost } from './admin/v1/settings/anthropic/test/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -1571,6 +1604,40 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', { ...json({ aiMonthlyBudgetUsd: 100 }), method: 'PATCH' }),
         adminParams,
       ),
+  },
+  {
+    name: 'GET anthropic key status',
+    file: 'admin/v1/settings/anthropic/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => anthropicGet(),
+  },
+  {
+    name: 'PUT anthropic key',
+    file: 'admin/v1/settings/anthropic/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () =>
+      anthropicPut(
+        new Request('http://x.test/', {
+          ...json({ apiKey: 'sk-ant-api03-abcdefghijklmnopqrstuvwxyz' }),
+          method: 'PUT',
+        }),
+      ),
+  },
+  {
+    name: 'DELETE anthropic key',
+    file: 'admin/v1/settings/anthropic/route.ts',
+    audience: 'admin',
+    allowed: ['owner'],
+    call: () => anthropicDelete(),
+  },
+  {
+    name: 'POST anthropic key test',
+    file: 'admin/v1/settings/anthropic/test/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () => anthropicTestPost(new Request('http://x.test/', { method: 'POST' })),
   },
   {
     name: 'GET usage',

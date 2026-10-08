@@ -6,7 +6,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
 import type { z } from 'zod';
-import { getEnv } from '@/lib/env';
+import { resolveAnthropicKey } from '@/server/platform/secrets';
 import {
   AiCancelledError,
   AiInvalidOutputError,
@@ -68,13 +68,30 @@ export function createAnthropicClient(
   options: { apiKey?: string; client?: AnthropicLike; now?: () => number } = {},
 ): ModelClient {
   const now = options.now ?? (() => performance.now());
-  const sdk: AnthropicLike =
-    options.client ??
-    (new Anthropic({
-      apiKey: options.apiKey ?? getEnv().ANTHROPIC_API_KEY,
-      maxRetries: 2,
-      timeout: REQUEST_TIMEOUT_MS,
-    }) as unknown as AnthropicLike);
+  // The key is looked up on every call (an owner can change it in the admin area), and the SDK
+  // object is reused while the key stays the same.
+  let current: { key: string; sdk: AnthropicLike } | null = null;
+  const sdkFor = async (): Promise<AnthropicLike> => {
+    if (options.client) return options.client;
+    const apiKey = options.apiKey ?? (await resolveAnthropicKey());
+    if (!apiKey) {
+      throw new AiProviderError(
+        'No Anthropic API key is configured. An owner can add it in the admin area.',
+        false,
+      );
+    }
+    if (current?.key !== apiKey) {
+      current = {
+        key: apiKey,
+        sdk: new Anthropic({
+          apiKey,
+          maxRetries: 2,
+          timeout: REQUEST_TIMEOUT_MS,
+        }) as unknown as AnthropicLike,
+      };
+    }
+    return current.sdk;
+  };
 
   return {
     async complete<T>(request: ModelRequest<T>): Promise<ModelResponse<T>> {
@@ -92,6 +109,7 @@ export function createAnthropicClient(
       } as never;
       const started = now();
 
+      const sdk = await sdkFor();
       let message: ParsedMessageLike;
       try {
         if (request.onDelta) {

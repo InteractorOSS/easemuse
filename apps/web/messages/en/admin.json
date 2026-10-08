@@ -5,7 +5,8 @@
     "agencies": "Agencies",
     "usage": "AI usage",
     "audit": "Audit log",
-    "admins": "Administrators"
+    "admins": "Administrators",
+    "settings": "Settings"
   },
   "signedInAs": "Signed in as {name} ({role})",
   "roles": {
@@ -170,5 +171,35 @@
       "missing": "This invitation link is incomplete."
     },
     "you": "you"
+  },
+  "settings": {
+    "title": "Settings",
+    "intro": "Platform-wide settings. Only an owner can change them.",
+    "anthropic": "Anthropic API key",
+    "none": "No key is set. The AI features cannot run until one is added.",
+    "inUse": "A key is in use ({source}), ending in {last4}.",
+    "updatedAt": "Changed {date}.",
+    "sources": {
+      "admin": "entered here",
+      "environment": "from the server environment",
+      "none": "none"
+    },
+    "unreadable": "A key is stored but cannot be read (the server's encryption key changed). Enter it again.",
+    "apiKey": "New API key",
+    "apiKeyHint": "Starts with sk-ant-. It is stored encrypted and never shown again.",
+    "save": "Save key",
+    "saved": "Key saved",
+    "remove": "Remove the stored key",
+    "removed": "Stored key removed",
+    "test": "Test the key",
+    "ownerOnly": "Only an owner can change the key.",
+    "error": "Could not do that. Try again.",
+    "check": {
+      "ok": "The key works and has credit.",
+      "no_key": "No key is set.",
+      "invalid_key": "Anthropic did not accept this key.",
+      "no_credit": "The key is valid but the account has no credit left.",
+      "unreachable": "Could not reach Anthropic. Try again."
+    }
   }
 }

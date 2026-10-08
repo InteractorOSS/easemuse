@@ -1117,3 +1117,13 @@ model PrivacyRequest {
   @@index([agencyId, status, deadlineAt])
   @@index([agencyId, candidateId])
 }
+
+// Secrets an owner enters in the admin area, encrypted at rest (see server/platform/secrets.ts)
+model PlatformSecret {
+  name        String   @id // for example "anthropic_api_key"
+  ciphertext  String
+  last4       String
+  updatedById String   @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

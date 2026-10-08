@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { listActiveAgencyIds, withAgency } from '@/lib/db';
-import { getEnv } from '@/lib/env';
 import { enqueue } from '@/lib/queue';
 import { getGateway } from '@/server/ai';
 import { extractCandidateDocument } from '@/server/candidates/extract';
@@ -12,6 +11,7 @@ import { createClaudePdfReader } from '@/server/ai/pdf-reader';
 import { extractJd } from '@/server/positions/jd-extract';
 import { runOrphanReport } from '@/server/artifacts/orphans';
 import { runAnonymizeJob, runExportJob } from '@/server/privacy/jobs';
+import { resolveAnthropicKey } from '@/server/platform/secrets';
 import { sendOutboxMessage } from '@/server/messaging/send';
 import type { JobRegistry } from '../registry';
 
@@ -23,13 +23,13 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
   });
   registry.register('messaging', 'send', (ctx) => sendOutboxMessage(ctx));
   // Reads an uploaded original JD. Scans fall back to the model only when an API key is configured.
-  registry.register('documents', 'jd.extract', (ctx) => {
-    const apiKey = getEnv().ANTHROPIC_API_KEY;
+  registry.register('documents', 'jd.extract', async (ctx) => {
+    const apiKey = await resolveAnthropicKey();
     return extractJd(ctx, { pdfReader: apiKey ? createClaudePdfReader({ apiKey }) : undefined });
   });
   // Reads an uploaded resume or profile (same scan fallback as the JD).
-  registry.register('documents', 'candidate.extract', (ctx) => {
-    const apiKey = getEnv().ANTHROPIC_API_KEY;
+  registry.register('documents', 'candidate.extract', async (ctx) => {
+    const apiKey = await resolveAnthropicKey();
     return extractCandidateDocument(ctx, {
       pdfReader: apiKey ? createClaudePdfReader({ apiKey }) : undefined,
       // Uploading a resume is the recruiter's request for a structured profile (FR-AI-01).

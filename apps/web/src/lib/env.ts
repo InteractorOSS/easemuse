@@ -43,7 +43,10 @@ const envSchema = z.object({
   MFA_ENFORCEMENT: z.enum(['off', 'log', 'enforce']).default('log'),
 
   // AI (ADR-004/005, ADR-008).
+  /** Fallback only: an owner can enter the key in the admin area, and that wins (server/platform/secrets.ts). */
   ANTHROPIC_API_KEY: optionalString,
+  /** Optional: key material for secrets stored in the database. Defaults to AUTH_SECRET. */
+  SECRETS_ENCRYPTION_KEY: optionalString,
   VOYAGE_API_KEY: optionalString,
 
   // Object storage for generated files (ADR-011).
@@ -74,7 +77,6 @@ const REQUIRED_IN_PRODUCTION = [
   'INTERACTOR_AUTH_CLIENT_ID',
   'INTERACTOR_AUTH_CLIENT_SECRET',
   'AUTH_SECRET',
-  'ANTHROPIC_API_KEY',
   'VOYAGE_API_KEY',
   'S3_BUCKET',
   'S3_REGION',

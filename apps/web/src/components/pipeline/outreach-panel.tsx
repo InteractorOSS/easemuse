@@ -80,12 +80,12 @@ export function OutreachPanel({
         <p className="text-sm text-muted">{t('hint')}</p>
       </div>
       {o.doNotContact ? (
-        <p role="alert" className="rounded-md border border-border p-3 text-sm">
+        <p role="alert" className="rounded-2xl border border-border p-3 text-sm">
           {t('dnc', { reason: o.doNotContactReason ? `: ${o.doNotContactReason}` : '' })}
         </p>
       ) : null}
       {o.recentlyContacted ? (
-        <p role="status" className="rounded-md border border-border p-3 text-sm">
+        <p role="status" className="rounded-2xl border border-border p-3 text-sm">
           {t(o.recentlyContacted.byOtherPosition ? 'recentOther' : 'recent', {
             date: date(o.recentlyContacted.at),
           })}
@@ -258,7 +258,7 @@ function TouchCard({
   return (
     <article
       aria-labelledby={`touch-${n}`}
-      className="flex flex-col gap-3 rounded-md border border-border p-4"
+      className="flex flex-col gap-3 rounded-2xl border border-border p-4"
     >
       <header className="flex flex-wrap items-baseline justify-between gap-2">
         <h3 id={`touch-${n}`} className="font-medium">

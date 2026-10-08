@@ -97,7 +97,7 @@ export function ClientsView({
       ) : null}
       <ul className="flex flex-col gap-3">
         {clients.map((client) => (
-          <li key={client.id} className="rounded-md border border-border p-4">
+          <li key={client.id} className="rounded-2xl border border-border p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="font-medium">

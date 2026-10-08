@@ -57,7 +57,7 @@ export function ProposalsPanel({
     <section aria-label={t('proposals')} className="flex max-w-3xl flex-col gap-3">
       <h3 className="font-medium">{t('proposals')}</h3>
       {mine.map((p) => (
-        <div key={p.id} className="flex flex-col gap-2 rounded-md border border-border p-3">
+        <div key={p.id} className="flex flex-col gap-2 rounded-2xl border border-border p-3">
           <p className="font-medium">
             {t('proposalLine', {
               who: p.proposedBy ?? '',

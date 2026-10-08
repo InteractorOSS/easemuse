@@ -69,7 +69,10 @@ export function BenchmarkEditor({ content, onChange, readOnly }: ContentEditorPr
         ) : (
           <ul className="flex flex-col gap-2">
             {report.ourData.map((item) => (
-              <li key={item.id} className="flex flex-col gap-1 rounded-md border border-border p-3">
+              <li
+                key={item.id}
+                className="flex flex-col gap-1 rounded-2xl border border-border p-3"
+              >
                 <p className="text-sm">
                   <span className="mr-2 font-mono text-xs text-muted">{item.id}</span>
                   <Badge className="mr-2">{t(`categories.${item.category}`)}</Badge>
@@ -126,7 +129,7 @@ export function BenchmarkEditor({ content, onChange, readOnly }: ContentEditorPr
         ) : null}
         <ul className="flex flex-col gap-2">
           {report.web.map((item) => (
-            <li key={item.id} className="flex flex-col gap-1 rounded-md border border-border p-3">
+            <li key={item.id} className="flex flex-col gap-1 rounded-2xl border border-border p-3">
               <p className="text-sm">
                 <span className="mr-2 font-mono text-xs text-muted">{item.id}</span>
                 <Badge className="mr-2">{t(`categories.${item.category}`)}</Badge>

@@ -53,7 +53,7 @@ export function OutboxList({ agencyId }: { agencyId: string }) {
       {query.isSuccess && items.length === 0 ? <p className="text-muted">{t('empty')}</p> : null}
       <ul className="flex flex-col gap-3">
         {items.map((m) => (
-          <li key={m.id} className="flex flex-col gap-1 rounded-md border border-border p-3">
+          <li key={m.id} className="flex flex-col gap-1 rounded-2xl border border-border p-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="font-medium">{m.subject}</span>
               <Badge

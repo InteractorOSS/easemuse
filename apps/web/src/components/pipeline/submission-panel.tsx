@@ -149,7 +149,7 @@ export function SubmissionPanel({
           {needsReason ? (
             <div
               role="alert"
-              className="flex flex-col gap-2 rounded-md border border-border p-3 text-sm"
+              className="flex flex-col gap-2 rounded-2xl border border-border p-3 text-sm"
             >
               <p className="font-medium">{t('duplicateTitle', { client: o.clientName })}</p>
               <ul>
@@ -169,7 +169,7 @@ export function SubmissionPanel({
           {guards.length > 0 ? (
             <div
               role="alert"
-              className="flex flex-col gap-2 rounded-md border border-border p-3 text-sm"
+              className="flex flex-col gap-2 rounded-2xl border border-border p-3 text-sm"
             >
               <p className="font-medium">{t('guardTitle')}</p>
               <p>{canOverride ? t('guardWarn') : t('guardBlocked')}</p>

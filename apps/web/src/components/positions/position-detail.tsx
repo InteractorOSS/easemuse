@@ -272,7 +272,7 @@ function StatusControl({
           {guards.length > 0 ? (
             <div
               role="alert"
-              className="flex flex-col gap-2 rounded-md border border-border p-3 text-sm"
+              className="flex flex-col gap-2 rounded-2xl border border-border p-3 text-sm"
             >
               <p className="font-medium">{d('guard.title')}</p>
               <ul className="list-disc pl-5">

@@ -128,6 +128,8 @@ describe('PositionForm', () => {
     const user = userEvent.setup();
     renderApp(<PositionForm agencyId="a1" onSaved={onSaved} />);
     await screen.findByRole('option', { name: 'Northwind' });
+    // Creating is a page of its own, so it carries the page's top-level heading.
+    expect(screen.getByRole('heading', { level: 1, name: 'New position' })).toBeTruthy();
     await user.selectOptions(screen.getByLabelText('Client'), CLIENT);
     await user.type(screen.getByLabelText('Job title'), 'Staff Engineer');
     await user.type(screen.getByLabelText('Location'), 'Seoul');
@@ -165,6 +167,7 @@ describe('PositionForm', () => {
     const onSaved = vi.fn();
     renderApp(<PositionForm agencyId="a1" position={position() as never} onSaved={onSaved} />);
     expect((await screen.findByLabelText('Client')).matches(':disabled')).toBe(true);
+    expect(screen.queryByRole('heading', { level: 1 })).toBeNull();
     const title = screen.getByLabelText('Job title');
     await user.clear(title);
     await user.type(title, 'Principal');

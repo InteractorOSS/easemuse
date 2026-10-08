@@ -70,7 +70,7 @@ export function ResumeEditor({ content, onChange, readOnly }: ContentEditorProps
         {parsed.data.roles.map((role, index) => (
           <div
             key={`${role.company}-${index}`}
-            className="flex flex-col gap-2 rounded-md border border-border p-3"
+            className="flex flex-col gap-2 rounded-2xl border border-border p-3"
           >
             <p className="font-medium">
               {t('roleTitle', { title: role.title, company: role.company })}

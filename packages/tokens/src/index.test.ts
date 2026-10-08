@@ -30,6 +30,8 @@ describe('tokens', () => {
     expect(ratio(c.foreground, c.background)).toBeGreaterThanOrEqual(4.5);
     expect(ratio(c.muted, c.background)).toBeGreaterThanOrEqual(4.5);
     expect(ratio(c.primaryForeground, c.primary)).toBeGreaterThanOrEqual(4.5);
+    // Green used as text, borders and focus rings on the page (WCAG 1.4.3 text, 1.4.11 non-text).
+    expect(ratio(c.primaryStrong, c.background)).toBeGreaterThanOrEqual(4.5);
     expect(ratio(c.dangerForeground, c.danger)).toBeGreaterThanOrEqual(4.5);
     expect(ratio(c.draftBadge, c.draftBadgeBackground)).toBeGreaterThanOrEqual(4.5);
   });

@@ -88,7 +88,7 @@ export function TasksView({ agencyId }: { agencyId: string }) {
         {tasks.map((task) => (
           <li
             key={task.id}
-            className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-border p-3"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border p-3"
           >
             <div className="flex flex-col text-sm">
               <span className="font-medium">{name(task)}</span>

@@ -56,7 +56,7 @@ export function BatchProgress({
   return (
     <section
       aria-labelledby="batch-heading"
-      className="flex max-w-xl flex-col gap-2 rounded-md border border-border p-3"
+      className="flex max-w-xl flex-col gap-2 rounded-2xl border border-border p-3"
     >
       <div className="flex items-center justify-between gap-3">
         <h2 id="batch-heading" className="text-lg font-semibold">

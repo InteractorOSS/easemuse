@@ -23,7 +23,10 @@ export function StreamingDraft({
   const t = useTranslations('artifacts.streaming');
   if (state.status === 'idle' || state.status === 'done') return null;
   return (
-    <section aria-live="polite" className="flex flex-col gap-3 rounded-md border border-border p-4">
+    <section
+      aria-live="polite"
+      className="flex flex-col gap-3 rounded-2xl border border-border p-4"
+    >
       <div className="flex items-center gap-3">
         <AiDraftBadge />
         {state.status === 'running' ? <span role="status">{t('working')}</span> : null}

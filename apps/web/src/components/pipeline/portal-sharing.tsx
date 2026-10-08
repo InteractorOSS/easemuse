@@ -106,7 +106,7 @@ export function PortalSharing({
           return (
             <li
               key={p.personId}
-              className="flex flex-wrap items-center gap-2 rounded-md border border-border p-3"
+              className="flex flex-wrap items-center gap-2 rounded-2xl border border-border p-3"
             >
               <span className="font-medium">
                 {p.title ? t('contact', { name: p.name, title: p.title }) : p.name}

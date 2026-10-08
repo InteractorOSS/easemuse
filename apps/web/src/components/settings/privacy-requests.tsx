@@ -158,7 +158,7 @@ export function PrivacyRequests({ agencyId, isAdmin }: { agencyId: string; isAdm
       ) : null}
       <ul className="flex flex-col gap-3">
         {list.data?.data.map((r) => (
-          <li key={r.id} className="flex flex-col gap-2 rounded-md border border-border p-3">
+          <li key={r.id} className="flex flex-col gap-2 rounded-2xl border border-border p-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="font-medium">
                 {t('line', { kind: t(`kinds.${r.kind}`), name: r.candidateName })}

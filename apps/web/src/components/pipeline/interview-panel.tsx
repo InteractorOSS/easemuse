@@ -62,7 +62,7 @@ export function InterviewPanel({
       {rounds.length === 0 ? <p className="text-sm text-muted">{t('none')}</p> : null}
       <ul className="flex flex-col gap-4">
         {rounds.map((r) => (
-          <li key={r.id} className="flex flex-col gap-3 rounded-md border border-border p-4">
+          <li key={r.id} className="flex flex-col gap-3 rounded-2xl border border-border p-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h3 className="font-medium">{r.roundName}</h3>
               <p className="text-sm text-muted">

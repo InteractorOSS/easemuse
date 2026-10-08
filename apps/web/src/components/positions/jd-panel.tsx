@@ -94,7 +94,7 @@ export function JdPanel({
       {query.isSuccess && originals.length === 0 ? <p className="text-muted">{t('none')}</p> : null}
       <ul className="flex flex-col gap-3">
         {originals.map((jd) => (
-          <li key={jd.id} className="rounded-md border border-border p-3 text-sm">
+          <li key={jd.id} className="rounded-2xl border border-border p-3 text-sm">
             <p className="font-medium">{jd.filename ?? t('pasted')}</p>
             <p className="text-muted">
               {t('added', {

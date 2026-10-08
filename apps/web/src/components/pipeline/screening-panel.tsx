@@ -138,7 +138,7 @@ export function ScreeningPanel({
             onRetry={() => void run.start()}
           />
           {suggested ? (
-            <div className="flex flex-col gap-2 rounded-md border border-border p-3">
+            <div className="flex flex-col gap-2 rounded-2xl border border-border p-3">
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="font-medium">{t('suggestionsTitle')}</h3>
                 <AiDraftBadge />

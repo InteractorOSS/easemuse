@@ -42,7 +42,7 @@ export function ReportEditor({ content, onChange, readOnly }: ContentEditorProps
           />
         </div>
       ))}
-      <div className="flex flex-col gap-1 rounded-md border border-border p-3">
+      <div className="flex flex-col gap-1 rounded-2xl border border-border p-3">
         <label htmlFor="report-assessment" className="text-sm font-semibold">
           {t('assessment')}
         </label>

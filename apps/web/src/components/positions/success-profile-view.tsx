@@ -69,7 +69,7 @@ export function SuccessProfileView({
       {guards.length > 0 ? (
         <div
           role="alert"
-          className="flex max-w-xl flex-col gap-2 rounded-md border border-border p-3 text-sm"
+          className="flex max-w-xl flex-col gap-2 rounded-2xl border border-border p-3 text-sm"
         >
           <p className="font-medium">{t('guardTitle')}</p>
           {canOverride ? (

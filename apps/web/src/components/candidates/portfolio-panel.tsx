@@ -96,7 +96,7 @@ export function PortfolioPanel({
               .map((i) => (
                 <li
                   key={i.position.id}
-                  className="flex flex-col gap-1 rounded-md border border-border p-3 text-sm"
+                  className="flex flex-col gap-1 rounded-2xl border border-border p-3 text-sm"
                 >
                   <p>
                     <span className="font-medium">{t(`fit.${fit}`)}</span>

@@ -13,15 +13,18 @@ export const tokens = {
     surface: '#f9fafb',
     muted: '#4b5563',
     border: '#d1d5db',
-    primary: '#1d4ed8',
-    primaryForeground: '#ffffff',
+    // Brand green (build prompt §2). White text on it fails WCAG AA, so it carries dark text, and
+    // `primaryStrong` is the shade for green text, borders and focus rings on white.
+    primary: '#4cd964',
+    primaryForeground: '#0b2d14',
+    primaryStrong: '#15803d',
     danger: '#b91c1c',
     dangerForeground: '#ffffff',
     // The "AI draft" badge (brief §1.1: AI output is a draft until the recruiter approves it).
     draftBadge: '#92400e',
     draftBadgeBackground: '#fef3c7',
   },
-  radius: { sm: '4px', md: '8px', lg: '12px' },
+  radius: { sm: '4px', md: '8px', lg: '12px', card: '16px' },
 } as const;
 
 type TokenTree = { readonly [key: string]: string | TokenTree };

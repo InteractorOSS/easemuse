@@ -36,7 +36,7 @@ export function SettingsNav({
             className={cn(
               '-mb-px border-b-2 px-3 py-2 text-sm',
               current
-                ? 'border-primary font-medium'
+                ? 'border-primary-strong font-medium'
                 : 'border-transparent text-muted hover:text-foreground',
             )}
           >

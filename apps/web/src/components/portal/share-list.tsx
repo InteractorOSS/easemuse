@@ -40,7 +40,7 @@ export function ShareList({
           <li key={s.id}>
             <Link
               href={`/${prefix}/${slug}/s/${s.id}`}
-              className="flex flex-col gap-1 rounded-md border border-border p-4 hover:bg-surface"
+              className="flex flex-col gap-1 rounded-2xl border border-border p-4 hover:bg-surface"
             >
               <span className="flex flex-wrap items-center gap-2">
                 <Badge>{t(`kinds.${s.kind}`)}</Badge>

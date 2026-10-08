@@ -294,7 +294,7 @@ function DetailBody({
           {detail.criteria.map((c) => (
             <li
               key={c.key}
-              className="flex max-w-2xl flex-col gap-1 rounded-md border border-border p-3"
+              className="flex max-w-2xl flex-col gap-1 rounded-2xl border border-border p-3"
             >
               <p className="font-medium">
                 {t('criterionLine', {

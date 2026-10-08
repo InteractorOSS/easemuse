@@ -78,7 +78,7 @@ export function BenchmarkSuggestions({
           const decision = view.decisions[s.id];
           const replaces = s.requirementId ? view.requirementTexts[s.requirementId] : undefined;
           return (
-            <li key={s.id} className="flex flex-col gap-2 rounded-md border border-border p-4">
+            <li key={s.id} className="flex flex-col gap-2 rounded-2xl border border-border p-4">
               <p className="flex flex-wrap items-center gap-2 text-sm">
                 <Badge>{t(`kind.${s.kind}`)}</Badge>
                 <span className="text-muted">

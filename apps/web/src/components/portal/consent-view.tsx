@@ -46,7 +46,7 @@ export function ConsentView({ slug }: { slug: string }) {
       </div>
       <ul className="flex flex-col gap-3">
         {query.data.data.map((r) => (
-          <li key={r.clientId} className="flex flex-col gap-2 rounded-md border border-border p-4">
+          <li key={r.clientId} className="flex flex-col gap-2 rounded-2xl border border-border p-4">
             <p className="font-medium">{t('forClient', { client: r.clientName })}</p>
             <p className="text-sm" role="status">
               {r.current ? t(r.current) : t('none')}

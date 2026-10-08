@@ -163,7 +163,12 @@ export function PositionForm({
         save.mutate(v);
       })}
     >
-      <h2 className="text-lg font-semibold">{position ? t('editTitle') : t('createTitle')}</h2>
+      {/* Creating is a page of its own (top-level heading); editing sits inside the position page. */}
+      {position ? (
+        <h2 className="text-lg font-semibold">{t('editTitle')}</h2>
+      ) : (
+        <h1 className="text-2xl font-semibold">{t('createTitle')}</h1>
+      )}
       <SelectField
         label={t('client')}
         disabled={Boolean(position)}

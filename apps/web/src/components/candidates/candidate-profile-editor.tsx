@@ -181,7 +181,7 @@ export function CandidateProfileEditor({ content, onChange, readOnly }: ContentE
                 ),
               });
             return (
-              <li key={index} className="flex flex-col gap-2 rounded-md border border-border p-3">
+              <li key={index} className="flex flex-col gap-2 rounded-2xl border border-border p-3">
                 <div className="grid gap-2 sm:grid-cols-4">
                   <input
                     aria-label={t('career.company', { n: index + 1 })}

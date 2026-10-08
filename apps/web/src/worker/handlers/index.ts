@@ -11,6 +11,7 @@ import { createClaudePdfReader } from '@/server/ai/pdf-reader';
 import { extractJd } from '@/server/positions/jd-extract';
 import { runOrphanReport } from '@/server/artifacts/orphans';
 import { runAnonymizeJob, runExportJob } from '@/server/privacy/jobs';
+import { runBillingJob } from '@/server/billing/service';
 import { runTenantDeletionJob } from '@/server/tenant/deletion';
 import { runTenantExportJob } from '@/server/tenant/export';
 import { resolveAnthropicKey } from '@/server/platform/secrets';
@@ -60,6 +61,8 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
   // Candidate data rights (ADR-016): the export builds a ZIP; the deletion runs as the data-rights role.
   registry.register('documents', 'privacy.export', (ctx) => runExportJob(ctx));
   registry.register('documents', 'privacy.anonymize', (ctx) => runAnonymizeJob(ctx));
+  // Daily: AI cost and seats to Billing Server, plan and seat limit back (T-13-08).
+  registry.register('maintenance', 'billing.report', (ctx) => runBillingJob(ctx));
   // Full export of one agency's data for its admin (FR-TEN-06).
   registry.register('documents', 'tenant.export', (ctx) => runTenantExportJob(ctx));
   // Deleting an agency at contract end, as the data-rights role, after two platform owners/admins agreed (FR-ADM-08).

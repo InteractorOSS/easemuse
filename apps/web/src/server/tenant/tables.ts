@@ -16,6 +16,7 @@ export const TENANT_TABLES = [
   'AiGeneration',
   'Approval',
   'ArtifactVersion',
+  'BillingUsageReport',
   'CandidateDocument',
   'Consent',
   'FileBlob',

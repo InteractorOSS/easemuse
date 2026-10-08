@@ -24,6 +24,7 @@ export function SettingsNav({
     ...(role !== 'recruiter' ? [{ key: 'privacy' as const }] : []),
     ...(role === 'admin'
       ? [
+          { key: 'plan' as const },
           { key: 'usage' as const },
           { key: 'outbox' as const },
           { key: 'support' as const },

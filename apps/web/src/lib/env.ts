@@ -31,6 +31,8 @@ const envSchema = z.object({
   // Interactor services (ADR-002, ADR-014). Base URLs fall back in lib/interactor/service-urls.ts.
   ACCOUNT_SERVER_URL: z.url().optional(),
   BILLING_SERVER_URL: z.url().optional(),
+  /** `off`: Billing Server is not used (default). `fake`: an in-memory stand-in for development. `live`: the real server (needs the Interactor client credentials). */
+  BILLING_MODE: z.enum(['off', 'fake', 'live']).default('off'),
   INTERACTOR_CORE_URL: z.url().optional(),
   INTERACTOR_USERDB_URL: z.url().optional(),
   UKB_URL: z.url().optional(),

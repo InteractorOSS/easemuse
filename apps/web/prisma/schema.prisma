@@ -36,6 +36,7 @@ model Agency {
   settings           Json         @default("{}") // defaults: weights, outreach intervals, guard modes, rejection reasons
   branding           Json         @default("{}") // logo file key, colors (FR-TEN-04)
   featureFlags       Json         @default("{}") // platform-set switches per agency (FR-ADM-10); known keys in core/schemas/platform-config.ts
+  billing            Json         @default("{}") // last plan state read from Billing Server (server/billing/state.ts); never trusted for money
   aiMonthlyBudgetUsd Decimal?     @db.Decimal(10, 2)
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
@@ -1065,6 +1066,25 @@ model ActivityLog {
   createdAt  DateTime @default(now())
 
   @@index([agencyId, entityType, entityId, createdAt])
+}
+
+// What EaseMuse has told Billing Server about an agency's usage (T-13-08, ADR-013). One row per report,
+// so a retry sends the same idempotency key and the server counts it once. Quantities and ids only.
+model BillingUsageReport {
+  id             String    @id @default(uuid()) @db.Uuid
+  agencyId       String    @db.Uuid
+  metric         String
+  periodKey      String // "2026-10" for monthly AI cost, "2026-10-07" for the daily seat snapshot
+  quantity       Int
+  idempotencyKey String
+  status         String    @default("pending") // pending | sent | failed
+  attempts       Int       @default(0)
+  error          String? // a short code such as http_500, never the server's text
+  createdAt      DateTime  @default(now())
+  sentAt         DateTime?
+
+  @@unique([agencyId, idempotencyKey])
+  @@index([agencyId, metric, periodKey])
 }
 
 // A full export of one agency's data as a ZIP, built in the background for an agency admin (FR-TEN-06, ADR-016).

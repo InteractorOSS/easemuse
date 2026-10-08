@@ -49,3 +49,4 @@ export * from './artifacts/screening-draft';
 export * from './schemas/support';
 export * from './schemas/tenant';
 export * from './schemas/platform-config';
+export * from './schemas/billing';

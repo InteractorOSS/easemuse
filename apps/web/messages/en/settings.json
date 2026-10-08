@@ -6,6 +6,7 @@
     "defaults": "Defaults",
     "branding": "Branding",
     "usage": "AI usage",
+    "plan": "Plan and seats",
     "outbox": "Outbox",
     "support": "Support access",
     "export": "Data export",
@@ -239,6 +240,42 @@
       "running": "Being prepared",
       "completed": "Ready",
       "failed": "Failed"
+    }
+  },
+  "billing": {
+    "title": "Plan and seats",
+    "intro": "Your plan, how many seats you use, this month's AI use and your invoices. To change your plan, contact Team of Wakers.",
+    "notConnected": "Billing is not connected yet, so there is no plan or invoice to show. Everything else keeps working.",
+    "plan": {
+      "title": "Plan",
+      "none": "No plan has been assigned yet.",
+      "unnamed": "Unnamed plan",
+      "synced": "Checked {when}.",
+      "stale": "Billing could not be read just now. This is the last plan we know."
+    },
+    "seats": {
+      "title": "Seats",
+      "line": "{active} of {limit} seats in use.",
+      "noLimit": "{active} seats in use. Your plan sets no limit.",
+      "pending": "{count, plural, one {# invitation is open and holds a seat.} other {# invitations are open and hold seats.}}",
+      "full": "No free seat: switch someone off or cancel an invitation to invite another person."
+    },
+    "usage": {
+      "title": "AI use in {month}",
+      "cost": "AI cost this month: {cost}.",
+      "reported": "Reported for billing: {cents} cents. Last report {when}.",
+      "failed": "{count, plural, one {# report to Billing has not gone through yet and will be sent again.} other {# reports to Billing have not gone through yet and will be sent again.}}"
+    },
+    "invoices": {
+      "title": "Invoices",
+      "none": "No invoices yet.",
+      "unavailable": "Invoices could not be loaded just now.",
+      "columns": {
+        "period": "Period",
+        "amount": "Amount",
+        "status": "Status",
+        "paid": "Paid"
+      }
     }
   }
 }

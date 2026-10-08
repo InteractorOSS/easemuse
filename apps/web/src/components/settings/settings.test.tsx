@@ -34,6 +34,7 @@ describe('SettingsNav', () => {
       'Defaults',
       'Branding',
       'Privacy requests',
+      'Plan and seats',
       'AI usage',
       'Outbox',
       'Support access',

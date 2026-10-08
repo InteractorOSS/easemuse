@@ -134,6 +134,14 @@ vi.mock('@/server/platform/config', async (importOriginal) => ({
   getAgencyFeatures: async () => ({ agencyId: 'a1', flags: {} }),
   setAgencyFeature: async () => ({ agencyId: 'a1', flags: {} }),
 }));
+vi.mock('@/server/billing/service', () => ({
+  getBillingOverview: async () => ({ connected: false }),
+  getAdminBilling: async () => ({ overview: {}, plans: null }),
+  listAssignablePlans: async () => [],
+  assignAgencyPlan: async () => ({}),
+  refreshAgencyBilling: async () => ({}),
+  assertSeatAvailable: async () => undefined,
+}));
 vi.mock('@/server/tenancy/settings', () => ({
   readSettings: async () => ({}),
   updateSettings: async () => ({}),
@@ -589,6 +597,10 @@ import { POST as versionPost } from './v1/agencies/[agencyId]/artifacts/[artifac
 import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route';
 import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
 import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
+import { GET as billingOverviewGet } from './v1/agencies/[agencyId]/billing/route';
+import { GET as adminBillingGet } from './admin/v1/agencies/[id]/billing/route';
+import { POST as adminBillingPlan } from './admin/v1/agencies/[id]/billing/plan/route';
+import { POST as adminBillingRefresh } from './admin/v1/agencies/[id]/billing/refresh/route';
 import { GET as configGet } from './admin/v1/config/route';
 import {
   GET as defaultsGet,
@@ -2076,6 +2088,35 @@ const endpoints: Endpoint[] = [
         }),
         adminParams,
       ),
+  },
+  {
+    name: 'GET agency billing',
+    file: 'v1/agencies/[agencyId]/billing/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => billingOverviewGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET agency billing (platform)',
+    file: 'admin/v1/agencies/[id]/billing/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => adminBillingGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'POST assign plan',
+    file: 'admin/v1/agencies/[id]/billing/plan/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      adminBillingPlan(new Request('http://x.test/', json({ planId: 'plan-team' })), adminParams),
+  },
+  {
+    name: 'POST refresh billing',
+    file: 'admin/v1/agencies/[id]/billing/refresh/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () => adminBillingRefresh(new Request('http://x.test/', { method: 'POST' }), adminParams),
   },
 ];
 

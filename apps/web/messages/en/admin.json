@@ -135,6 +135,18 @@
       "intro": "Switch features on or off for this agency. Each change is logged here and in the agency's activity log.",
       "saved": "Saved.",
       "failed": "This could not be saved."
+    },
+    "billing": {
+      "title": "Plan and billing",
+      "plan": "Plan",
+      "choose": "Choose a plan",
+      "assign": "Put on this plan",
+      "refresh": "Read again from Billing",
+      "assigned": "The agency is on the plan.",
+      "refreshed": "Updated from Billing.",
+      "failed": "This did not work. Billing may be unreachable.",
+      "changeInBilling": "This agency already has a subscription on another plan. Change it in Billing Server.",
+      "plansUnavailable": "The plan list could not be loaded."
     }
   },
   "errors": {

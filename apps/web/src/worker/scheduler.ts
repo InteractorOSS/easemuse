@@ -15,6 +15,8 @@ export interface DailyJob {
 
 export const DAILY_JOBS: readonly DailyJob[] = [
   { queue: 'maintenance', name: 'artifacts.orphan_report', hourUtc: 3 },
+  // Usage out to Billing Server, plan state back (ADR-013). Does nothing while billing is not connected.
+  { queue: 'maintenance', name: 'billing.report', hourUtc: 4 },
 ];
 
 const dayKey = (now: Date) => now.toISOString().slice(0, 10);

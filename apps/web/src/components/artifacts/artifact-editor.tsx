@@ -38,6 +38,8 @@ export interface ArtifactEditorProps {
   artifactId: string;
   /** A feature's own form for the kind; the JSON text editor is used when absent. */
   ContentEditor?: ComponentType<ContentEditorProps>;
+  /** Called after a version is saved, approved or discarded, so the page around it can update. */
+  onChanged?: () => unknown;
 }
 
 /**
@@ -46,7 +48,12 @@ export interface ArtifactEditorProps {
  * fact-check decisions, and the approve / discard bar. Approval is the only way content becomes
  * official, and it is always the recruiter's click.
  */
-export function ArtifactEditor({ agencyId, artifactId, ContentEditor }: ArtifactEditorProps) {
+export function ArtifactEditor({
+  agencyId,
+  artifactId,
+  ContentEditor,
+  onChanged,
+}: ArtifactEditorProps) {
   const t = useTranslations('artifacts');
   const states = useTranslations('common.states');
   const history = useTranslations('artifacts.history');
@@ -85,6 +92,7 @@ export function ArtifactEditor({ agencyId, artifactId, ContentEditor }: Artifact
         version={current}
         ContentEditor={ContentEditor}
         base={base}
+        onChanged={onChanged}
       />
 
       <nav aria-label={history('title')} className="flex flex-col gap-2">
@@ -123,12 +131,14 @@ function VersionEditor({
   version,
   ContentEditor,
   base,
+  onChanged,
 }: {
   agencyId: string;
   artifact: ArtifactView;
   version: VersionView;
   ContentEditor?: ComponentType<ContentEditorProps>;
   base: string;
+  onChanged?: () => unknown;
 }) {
   const t = useTranslations('artifacts');
   const { toast } = useToast();
@@ -146,10 +156,13 @@ function VersionEditor({
   const dirty = text !== stored;
   const original = [...artifact.versions].reverse().find((v) => v.origin === 'ai');
 
-  const refresh = () =>
-    queryClient.invalidateQueries({ queryKey: ['artifact', agencyId, artifact.id] });
+  const refresh = async () => {
+    await queryClient.invalidateQueries({ queryKey: ['artifact', agencyId, artifact.id] });
+    await onChanged?.();
+  };
   const explain = (e: unknown): string => {
     if (!(e instanceof ApiClientError)) return t('errors.generic');
+    if (Object.values(e.fields).includes('reason_required')) return t('errors.reasonRequired');
     const map: Record<string, string> = {
       factcheck_unresolved: t('errors.factcheckUnresolved'),
       missing_recruiter_assessment: t('errors.missingAssessment'),

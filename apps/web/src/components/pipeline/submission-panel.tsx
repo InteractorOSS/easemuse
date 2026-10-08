@@ -10,9 +10,8 @@ import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
+import { dayAsInstant, localDay } from '@/lib/dates';
 import type { SubmissionOverview } from '@/server/submission/submit';
-
-const today = () => new Date().toISOString().slice(0, 10);
 
 /** Records the submission to the client (US-802, FR-SUB-03), after the report and resume are approved with PDFs. */
 export function SubmissionPanel({
@@ -38,7 +37,7 @@ export function SubmissionPanel({
   const [form, setForm] = useState({
     toContactId: '',
     method: 'email',
-    submittedAt: today(),
+    submittedAt: localDay(),
     duplicateReason: '',
   });
   const [reasons, setReasons] = useState<Record<string, string>>({});
@@ -56,7 +55,7 @@ export function SubmissionPanel({
           tailoredResumeId: o!.resume!.tailoredResumeId,
           toContactId: form.toContactId,
           method: form.method,
-          submittedAt: new Date(`${form.submittedAt}T12:00:00Z`).toISOString(),
+          submittedAt: dayAsInstant(form.submittedAt),
           ...(form.duplicateReason.trim() ? { duplicateReason: form.duplicateReason.trim() } : {}),
           ...(overrides.length ? { overrideGuards: overrides } : {}),
         },
@@ -143,7 +142,7 @@ export function SubmissionPanel({
             label={t('submittedAt')}
             type="date"
             value={form.submittedAt}
-            max={today()}
+            max={localDay()}
             onChange={(e) => setForm((f) => ({ ...f, submittedAt: e.target.value }))}
           />
           {needsReason ? (

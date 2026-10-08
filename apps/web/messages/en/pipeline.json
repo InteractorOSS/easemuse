@@ -85,7 +85,7 @@
     "orderSaved": "Order saved.",
     "analyzeSelected": "Analyze selected ({count})",
     "selectAll": "Select all",
-    "open": "Open {name}",
+    "selectRow": "Select {name}",
     "errors": {
       "generic": "Something went wrong. Try again.",
       "analyze": "Could not start the analysis. Check that each selected candidate has a confirmed profile and the position a confirmed success profile."

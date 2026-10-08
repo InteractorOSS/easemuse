@@ -334,6 +334,40 @@ describe('ArtifactEditor', () => {
     expect((await screen.findByRole('alert')).textContent).toBe(text);
   });
 
+  it('tells the page around it when a version is approved', async () => {
+    serve(artifactOf([version(1)]), {
+      [`POST ${base}/versions/v1/approve`]: () =>
+        json({ data: artifactOf([version(1, { status: 'approved' })]) }),
+    });
+    const onChanged = vi.fn();
+    const user = userEvent.setup();
+    renderApp(<ArtifactEditor agencyId="ag1" artifactId="art1" onChanged={onChanged} />);
+    await user.click(await screen.findByRole('button', { name: 'Approve' }));
+    await waitFor(() => expect(onChanged).toHaveBeenCalledTimes(1));
+  });
+
+  it('says a confirmed claim needs a reason', async () => {
+    serve(artifactOf([version(1)]), {
+      [`POST ${base}/versions/v1/approve`]: () =>
+        json(
+          {
+            error: {
+              code: 'invalid_input',
+              message: 'x',
+              fields: { 'factCheckResolutions.w1': 'reason_required' },
+            },
+          },
+          422,
+        ),
+    });
+    const user = userEvent.setup();
+    renderApp(<ArtifactEditor agencyId="ag1" artifactId="art1" />);
+    await user.click(await screen.findByRole('button', { name: 'Approve' }));
+    expect((await screen.findByRole('alert')).textContent).toBe(
+      'Say why each claim you marked as correct is correct.',
+    );
+  });
+
   it('discards after confirmation', async () => {
     const api = serve(artifactOf([version(1)]), {
       [`POST ${base}/versions/v1/discard`]: () => json({ data: {} }),

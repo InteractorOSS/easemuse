@@ -74,6 +74,7 @@
   },
   "errors": {
     "factcheckUnresolved": "Decide on every fact-check warning first.",
+    "reasonRequired": "Say why each claim you marked as correct is correct.",
     "missingAssessment": "Write your own assessment before approving.",
     "missingRequired": "A required field is empty.",
     "factcheckNotRun": "The fact check has not run for this draft.",

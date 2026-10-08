@@ -94,6 +94,7 @@ export function ResumePanel({
           agencyId={agencyId}
           artifactId={o.artifactId}
           ContentEditor={ResumeEditor}
+          onChanged={() => queryClient.invalidateQueries({ queryKey: key })}
         />
       ) : null}
       {o.approvedVersionId ? <ResumeExport agencyId={agencyId} entryId={entryId} /> : null}

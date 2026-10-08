@@ -17,9 +17,8 @@ import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
+import { localDay } from '@/lib/dates';
 import type { OfferView } from '@/server/offers/service';
-
-const today = () => new Date().toISOString().slice(0, 10);
 
 /** The offer record and its outcome, from offer preparation to the start date (T-10-01, brief 12). */
 export function OfferPanel({
@@ -50,7 +49,7 @@ export function OfferPanel({
   }>({});
   const [outcome, setOutcome] = useState({
     outcome: 'accepted',
-    at: today(),
+    at: localDay(),
     reasonCode: '',
     reason: '',
   });
@@ -220,7 +219,7 @@ export function OfferPanel({
               label={t('outcomeDate')}
               type="date"
               value={outcome.at}
-              max={today()}
+              max={localDay()}
               onChange={(e) => setOutcome((s) => ({ ...s, at: e.target.value }))}
             />
             {outcome.outcome === 'declined' ? (

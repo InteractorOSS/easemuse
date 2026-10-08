@@ -353,7 +353,7 @@ function BoardRow({
       <td className="px-2 py-2">
         <input
           type="checkbox"
-          aria-label={t('open', { name: row.candidateName })}
+          aria-label={t('selectRow', { name: row.candidateName })}
           checked={selected}
           onChange={onToggle}
         />

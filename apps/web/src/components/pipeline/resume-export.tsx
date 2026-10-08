@@ -4,7 +4,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
 
@@ -28,6 +28,12 @@ export function ResumeExport({ agencyId, entryId }: { agencyId: string; entryId:
   });
   const document = status.data?.data.document ?? null;
   const waiting = requested && !document?.upToDate;
+  // The submission checklist counts this PDF, so it is refreshed when a new one is ready.
+  const readyFileId = document?.upToDate ? document.fileId : null;
+  useEffect(() => {
+    if (readyFileId)
+      void queryClient.invalidateQueries({ queryKey: ['submissions', agencyId, entryId] });
+  }, [readyFileId, queryClient, agencyId, entryId]);
   const explain = (e: unknown) =>
     e instanceof ApiClientError && e.status === 409 ? t('exportNotApproved') : t('exportError');
 

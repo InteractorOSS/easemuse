@@ -86,6 +86,7 @@ export function ReportPanel({
           agencyId={agencyId}
           artifactId={o.artifactId}
           ContentEditor={ReportEditor}
+          onChanged={() => queryClient.invalidateQueries({ queryKey: key })}
         />
       ) : null}
       {o.approvedVersionId ? <ReportExport agencyId={agencyId} entryId={entryId} /> : null}

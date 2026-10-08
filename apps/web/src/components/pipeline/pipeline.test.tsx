@@ -479,8 +479,8 @@ describe('ReviewBoard', () => {
     await screen.findByRole('link', { name: 'Person 1' });
     const analyze = screen.getByRole('button', { name: /Analyze selected/ });
     expect((analyze as HTMLButtonElement).disabled).toBe(true);
-    await user.click(screen.getByLabelText('Open Person 1'));
-    await user.click(screen.getByLabelText('Open Person 3'));
+    await user.click(screen.getByLabelText('Select Person 1'));
+    await user.click(screen.getByLabelText('Select Person 3'));
     expect(screen.getByRole('button', { name: 'Analyze selected (2)' })).toBeTruthy();
     await user.click(screen.getByRole('button', { name: 'Analyze selected (2)' }));
     expect(await screen.findByText('Analyzing 0 of 2…')).toBeTruthy();
@@ -493,7 +493,7 @@ describe('ReviewBoard', () => {
     });
     const user = userEvent.setup();
     board();
-    await user.click(await screen.findByLabelText('Open Person 1'));
+    await user.click(await screen.findByLabelText('Select Person 1'));
     await user.click(screen.getByRole('button', { name: 'Analyze selected (1)' }));
     expect((await screen.findByRole('alert')).textContent).toContain(
       'Could not start the analysis',

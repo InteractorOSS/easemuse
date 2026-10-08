@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
+import { dayAsInstant, localDay } from '@/lib/dates';
 import type { IntakeView } from '@/server/positions/intake';
 
 /** The ten intake topics (brief 3.4) and the recorded hiring manager decision on the JD (US-106). */
@@ -167,7 +168,7 @@ function ApprovalSection({
   const format = useFormatter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = localDay();
   const [form, setForm] = useState({
     decision: 'approved',
     approverName: '',
@@ -183,7 +184,7 @@ function ApprovalSection({
           decision: form.decision,
           approverName: form.approverName,
           method: form.method,
-          decidedAt: new Date(`${form.decidedAt}T00:00:00Z`).toISOString(),
+          decidedAt: dayAsInstant(form.decidedAt),
           ...(form.comments.trim() ? { comments: form.comments.trim() } : {}),
         },
       }),

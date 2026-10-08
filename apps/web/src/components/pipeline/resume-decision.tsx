@@ -10,10 +10,8 @@ import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
 import { apiFetch } from '@/lib/api-client';
+import { dayAsInstant, localDay } from '@/lib/dates';
 import type { ApprovalsOverview } from '@/server/resume/approval';
-
-const today = () => new Date().toISOString().slice(0, 10);
-const noon = (day: string) => new Date(`${day}T12:00:00Z`).toISOString();
 
 /** The candidate's answer on the approved resume, and the consent to submit to this client (US-702, brief 9.2). */
 export function ResumeDecision({
@@ -50,10 +48,10 @@ export function ResumeDecision({
     decision: 'approved',
     approverName: '',
     method: 'email',
-    decidedAt: today(),
+    decidedAt: localDay(),
     comments: '',
   });
-  const [consent, setConsent] = useState({ action: 'given', method: 'email', at: today() });
+  const [consent, setConsent] = useState({ action: 'given', method: 'email', at: localDay() });
   const done = async (title: string) => {
     toast({ title });
     await queryClient.invalidateQueries({ queryKey: key });
@@ -66,7 +64,7 @@ export function ResumeDecision({
           decision: form.decision,
           approverName: form.approverName.trim(),
           method: form.method,
-          decidedAt: noon(form.decidedAt),
+          decidedAt: dayAsInstant(form.decidedAt),
           ...(form.comments.trim() ? { comments: form.comments.trim() } : {}),
         },
       }),
@@ -81,7 +79,7 @@ export function ResumeDecision({
           clientId: o!.clientId,
           action: consent.action,
           method: consent.method,
-          at: noon(consent.at),
+          at: dayAsInstant(consent.at),
         },
       }),
     onSuccess: () => done(t('consentRecorded')),
@@ -129,7 +127,7 @@ export function ResumeDecision({
               label={t('decidedAt')}
               type="date"
               value={form.decidedAt}
-              max={today()}
+              max={localDay()}
               onChange={(e) => setForm((f) => ({ ...f, decidedAt: e.target.value }))}
             />
             <TextField
@@ -196,7 +194,7 @@ export function ResumeDecision({
           label={t('decidedAt')}
           type="date"
           value={consent.at}
-          max={today()}
+          max={localDay()}
           onChange={(e) => setConsent((c) => ({ ...c, at: e.target.value }))}
         />
         <div>

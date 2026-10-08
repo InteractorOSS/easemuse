@@ -331,6 +331,10 @@ vi.mock('@/server/portal/publish', () => ({
   publishShare: async () => ({ id: 'sh1' }),
   revokeShare: async () => undefined,
 }));
+vi.mock('@/server/portal/proposals', () => ({
+  listOpenProposals: async () => [],
+  resolveProposal: async () => undefined,
+}));
 vi.mock('@/server/screening/service', () => ({
   getScreening: async () => ({ items: {}, screeningClass: null, updatedAt: null }),
   saveScreening: async () => ({}),
@@ -505,6 +509,8 @@ import {
 import { POST as anthropicTestPost } from './admin/v1/settings/anthropic/test/route';
 import { POST as portalSharePost } from './v1/agencies/[agencyId]/portal-shares/route';
 import { DELETE as portalShareDelete } from './v1/agencies/[agencyId]/portal-shares/[shareId]/route';
+import { GET as proposalsGet } from './v1/agencies/[agencyId]/proposed-transitions/route';
+import { POST as proposalResolvePost } from './v1/agencies/[agencyId]/proposed-transitions/[proposalId]/resolve/route';
 import { GET as analysisDetailGet } from './v1/agencies/[agencyId]/analyses/[analysisId]/route';
 import { POST as reviewPost } from './v1/agencies/[agencyId]/analyses/[analysisId]/review/route';
 import { PATCH as overridePatch } from './v1/agencies/[agencyId]/analyses/[analysisId]/overrides/route';
@@ -548,6 +554,7 @@ const agencyParams = {
     requestId: 'pr1',
     portalUserId: 'pu1',
     shareId: 'sh1',
+    proposalId: '11111111-1111-4111-8111-111111111111',
     analysisId: 'an1',
     n: '1',
     jobRunId: 'job1',
@@ -1507,6 +1514,21 @@ const endpoints: Endpoint[] = [
     allowed: AGENCY_ALL,
     call: () =>
       portalShareDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
+  },
+  {
+    name: 'GET proposed transitions',
+    file: 'v1/agencies/[agencyId]/proposed-transitions/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => proposalsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST resolve proposal',
+    file: 'v1/agencies/[agencyId]/proposed-transitions/[proposalId]/resolve/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      proposalResolvePost(new Request('http://x.test/', json({ accept: false })), agencyParams),
   },
   {
     name: 'GET screening',

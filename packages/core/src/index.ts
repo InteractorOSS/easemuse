@@ -39,6 +39,7 @@ export * from './schemas/offers';
 export * from './schemas/privacy';
 export * from './schemas/portal';
 export * from './schemas/portal-snapshots';
+export * from './schemas/portal-actions';
 export * from './artifacts/outreach-message';
 export * from './artifacts/call-questions';
 export * from './artifacts/qualification';

@@ -104,3 +104,35 @@ describe('portal route authorization', () => {
     expect(await status()).toBe(401);
   });
 });
+
+describe('every portal route needs a session', () => {
+  const routes = import.meta.glob('./v1/**/route.ts');
+  const guid = '11111111-1111-4111-8111-111111111111';
+  const p = { params: Promise.resolve({ agencySlug: 'acme', shareId: guid, fileId: guid }) };
+
+  it('finds the portal routes (sanity)', () => {
+    expect(Object.keys(routes).length).toBeGreaterThanOrEqual(8);
+  });
+
+  it.each(Object.keys(routes))('%s answers 401 without a cookie', async (file) => {
+    state.cookie = undefined;
+    const mod = (await routes[file]!()) as Record<
+      string,
+      (req: Request, ctx: typeof p) => Promise<Response>
+    >;
+    const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].filter(
+      (m) => typeof mod[m] === 'function',
+    );
+    expect(methods.length).toBeGreaterThan(0);
+    for (const method of methods) {
+      const init =
+        method === 'GET'
+          ? undefined
+          : { method, body: '{}', headers: { 'content-type': 'application/json' } };
+      expect(
+        (await mod[method]!(new Request('http://x.test/', init), p)).status,
+        `${method} ${file}`,
+      ).toBe(401);
+    }
+  });
+});

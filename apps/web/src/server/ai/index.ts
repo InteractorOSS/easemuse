@@ -1,8 +1,10 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import { withAgency } from '@/lib/db';
+import { isE2eMode } from '@/lib/e2e-mode';
 import { createAnthropicClient } from './anthropic';
 import { createGateway, type Gateway } from './gateway';
+import { createStubModelClient } from './stub-client';
 import { promptRegistry } from './prompts';
 import { registerBuiltInPrompts } from './prompts/index';
 
@@ -22,7 +24,8 @@ export function getGateway(): Gateway {
   }
   gateway ??= createGateway({
     scope: { withAgency },
-    model: createAnthropicClient(),
+    // End-to-end tests answer from canned data; impossible in production (lib/e2e-mode.ts).
+    model: isE2eMode() ? createStubModelClient() : createAnthropicClient(),
     prompts: promptRegistry,
   });
   return gateway;

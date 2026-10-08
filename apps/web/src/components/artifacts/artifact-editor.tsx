@@ -180,6 +180,9 @@ function VersionEditor({
       setError(null);
       toast({ title: t('messages.approved') });
       await refresh();
+      // Approval makes content official everywhere it is shown (the "confirmed" line of a profile, the
+      // approved requirements of a JD...), and the screen around this editor owns those queries.
+      await queryClient.invalidateQueries();
     },
     onError: (e) => setError(explain(e)),
   });

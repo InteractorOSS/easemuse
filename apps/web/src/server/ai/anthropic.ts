@@ -20,6 +20,8 @@ import type { TokenUsage } from './pricing';
 import type { Effort } from './purposes';
 
 export interface ModelRequest<T> {
+  /** The AI purpose asking (A1..A18); informational, used by the end-to-end test model. */
+  purpose?: string;
   model: string;
   effort: Effort;
   system: string;

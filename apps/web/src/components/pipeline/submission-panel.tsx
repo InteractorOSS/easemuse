@@ -9,6 +9,7 @@ import { SUBMISSION_METHODS } from '@easemuse/core';
 import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
+import { dayToInstant } from '@/lib/day';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { SubmissionOverview } from '@/server/submission/submit';
 
@@ -56,7 +57,7 @@ export function SubmissionPanel({
           tailoredResumeId: o!.resume!.tailoredResumeId,
           toContactId: form.toContactId,
           method: form.method,
-          submittedAt: new Date(`${form.submittedAt}T12:00:00Z`).toISOString(),
+          submittedAt: dayToInstant(form.submittedAt),
           ...(form.duplicateReason.trim() ? { duplicateReason: form.duplicateReason.trim() } : {}),
           ...(overrides.length ? { overrideGuards: overrides } : {}),
         },

@@ -1,8 +1,10 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
+import { useQuery } from '@tanstack/react-query';
 import { act, fireEvent, renderHook, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { apiFetch } from '@/lib/api-client';
 import { renderApp, renderWithIntl, stubApi } from '@/test/render';
 import { ArtifactEditor } from './artifact-editor';
 import { DiffView } from './diff-view';
@@ -318,6 +320,35 @@ describe('ArtifactEditor', () => {
       }),
     );
     expect(await screen.findByText('Approved. This version is now the official one.')).toBeTruthy();
+  });
+
+  it('refreshes what the screen around the editor shows once a version is approved', async () => {
+    let approved = false;
+    const api = serve(artifactOf([version(1)]), {
+      [`POST ${base}/versions/v1/approve`]: () => {
+        approved = true;
+        return json({ data: artifactOf([version(1, { status: 'approved' })]) });
+      },
+      'GET /api/v1/agencies/ag1/things': () => json({ data: { confirmed: approved } }),
+    });
+    function Around() {
+      const q = useQuery({
+        queryKey: ['things'],
+        queryFn: () => apiFetch<{ confirmed: boolean }>('/api/v1/agencies/ag1/things'),
+      });
+      return (
+        <>
+          <p>{q.data?.data.confirmed ? 'Confirmed' : 'Not confirmed'}</p>
+          <ArtifactEditor agencyId="ag1" artifactId="art1" />
+        </>
+      );
+    }
+    const user = userEvent.setup();
+    renderApp(<Around />);
+    expect(await screen.findByText('Not confirmed')).toBeTruthy();
+    await user.click(await screen.findByRole('button', { name: 'Approve' }));
+    expect(await screen.findByText('Confirmed')).toBeTruthy();
+    expect(api.calls.filter((c) => c.url.pathname.endsWith('/things')).length).toBeGreaterThan(1);
   });
 
   it.each([

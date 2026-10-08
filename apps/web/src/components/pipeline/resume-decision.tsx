@@ -9,11 +9,12 @@ import { APPROVAL_METHODS, CONSENT_ACTIONS } from '@easemuse/core';
 import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
+import { dayToInstant } from '@/lib/day';
 import { apiFetch } from '@/lib/api-client';
 import type { ApprovalsOverview } from '@/server/resume/approval';
 
 const today = () => new Date().toISOString().slice(0, 10);
-const noon = (day: string) => new Date(`${day}T12:00:00Z`).toISOString();
+const noon = dayToInstant;
 
 /** The candidate's answer on the approved resume, and the consent to submit to this client (US-702, brief 9.2). */
 export function ResumeDecision({

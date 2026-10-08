@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import path from 'node:path';
 import { z } from 'zod';
+import { e2eModeProblem } from './e2e-mode';
 
 /**
  * Validated runtime configuration (T-F-04). Read through `getEnv()`; never touch `process.env`
@@ -79,6 +80,9 @@ const envSchema = z.object({
   MAILBOX_GOOGLE_SERVICE_ID: optionalString,
   MAILBOX_MICROSOFT_SERVICE_ID: optionalString,
   INTERACTOR_WEBHOOK_SECRET: optionalString,
+
+  // End-to-end tests only (T-QA-06): canned AI answers. Refused in production, see lib/e2e-mode.ts.
+  E2E_MODE: z.enum(['1']).optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;
@@ -112,6 +116,8 @@ function dropBlank(source: Record<string, string | undefined>): Record<string, s
 
 /** Pure parser: validates `source` and throws `EnvError` listing every problem at once. */
 export function parseEnv(source: Record<string, string | undefined>): Env {
+  const e2e = e2eModeProblem({ ...source } as NodeJS.ProcessEnv);
+  if (e2e) throw new EnvError([`E2E_MODE: ${e2e}`]);
   const result = envSchema.safeParse(dropBlank(source));
   if (!result.success) {
     throw new EnvError(result.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`));

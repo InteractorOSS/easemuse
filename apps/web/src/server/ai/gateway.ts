@@ -148,6 +148,7 @@ export function createGateway(deps: GatewayDeps) {
     try {
       const { system, user } = prompt.buildPrompt(input, research);
       const response = await deps.model.complete<O>({
+        purpose: purposeId,
         model: purpose.model,
         effort: purpose.effort,
         system,

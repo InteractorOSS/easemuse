@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BudgetEditor } from './budget-editor';
 import { SupportAccessPanel } from './support-access-panel';
+import { TenantDeletionPanel } from './tenant-deletion-panel';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
@@ -99,6 +100,15 @@ export function AgencyDetailView({
       />
 
       <SupportAccessPanel agencyId={agency.id} agencySlug={agency.slug} userId={userId} />
+
+      {canWrite ? (
+        <TenantDeletionPanel
+          agencyId={agency.id}
+          agencySlug={agency.slug}
+          agencyStatus={agency.status}
+          userId={userId}
+        />
+      ) : null}
 
       {canChange ? (
         <Dialog

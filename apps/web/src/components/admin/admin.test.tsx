@@ -198,6 +198,8 @@ describe('AgencyDetailView', () => {
       stubApi({
         [`GET /api/admin/v1/agencies/${id}`]: () => json(detail('active')),
         [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
       }).impl,
     );
     renderApp(<AgencyDetailView agencyId={id} canWrite userId="u1" />);
@@ -211,6 +213,7 @@ describe('AgencyDetailView', () => {
     const api = stubApi({
       [`GET /api/admin/v1/agencies/${id}`]: () => json(detail(status)),
       [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
+      [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
       [`POST /api/admin/v1/agencies/${id}/suspend`]: () => {
         status = 'suspended';
         return json({ data: {} });
@@ -240,6 +243,8 @@ describe('AgencyDetailView', () => {
       stubApi({
         [`GET /api/admin/v1/agencies/${id}`]: () => json(detail('suspended')),
         [`GET /api/admin/v1/agencies/${id}/support-access`]: () => json({ data: [] }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
+        [`GET /api/admin/v1/agencies/${agency(1).id}/deletion`]: () => json({ data: null }),
       }).impl,
     );
     const { unmount } = renderApp(<AgencyDetailView agencyId={id} canWrite userId="u1" />);

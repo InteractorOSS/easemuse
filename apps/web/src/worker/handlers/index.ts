@@ -11,6 +11,7 @@ import { createClaudePdfReader } from '@/server/ai/pdf-reader';
 import { extractJd } from '@/server/positions/jd-extract';
 import { runOrphanReport } from '@/server/artifacts/orphans';
 import { runAnonymizeJob, runExportJob } from '@/server/privacy/jobs';
+import { runTenantDeletionJob } from '@/server/tenant/deletion';
 import { runTenantExportJob } from '@/server/tenant/export';
 import { resolveAnthropicKey } from '@/server/platform/secrets';
 import { sendOutboxMessage } from '@/server/messaging/send';
@@ -61,6 +62,8 @@ export function registerHandlers(registry: JobRegistry): JobRegistry {
   registry.register('documents', 'privacy.anonymize', (ctx) => runAnonymizeJob(ctx));
   // Full export of one agency's data for its admin (FR-TEN-06).
   registry.register('documents', 'tenant.export', (ctx) => runTenantExportJob(ctx));
+  // Deleting an agency at contract end, as the data-rights role, after two platform owners/admins agreed (FR-ADM-08).
+  registry.register('maintenance', 'tenant.delete', (ctx) => runTenantDeletionJob(ctx));
   // Nightly (see scheduler.ts): artifacts whose subject no longer exists (ADR-006).
   registry.register('maintenance', 'artifacts.orphan_report', async (ctx) => {
     const summary = await runOrphanReport({

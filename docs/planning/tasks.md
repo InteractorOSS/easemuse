@@ -330,7 +330,7 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 | T-13-07 | Support access: an agency admin grants a time-limited read-only view; banner; every view in both logs | 8 | Done | US-1305, FR-ADM-07, FR-TEN-07 |
 | T-13-08 | Plans, seats and usage through the Interactor Billing Server (client, plan assignment, admin view of plan, seats and invoices) | 10 | | US-1308, FR-TEN-05, ADR-013 |
 | T-13-09 | Tenant export (full ZIP, admin) | 5 | Done | US-1307, FR-TEN-06 |
-| T-13-10 | Tenant deletion: per-table job in dependency order, typed confirmation, second owner's approval, guard test that every `agencyId` table is in the job | 8 | | US-1307, FR-ADM-08, ADR-016 |
+| T-13-10 | Tenant deletion: per-table job in dependency order, typed confirmation, second owner's approval, guard test that every `agencyId` table is in the job | 8 | Done | US-1307, FR-ADM-08, ADR-016 |
 | T-16-01 | System health: queues and failures, outbox failures, AI error and refusal rates per agency, no content | 5 | | US-1606, FR-ADM-09 |
 | T-16-02 | Platform configuration: view routing table and prompt versions, default templates, per-agency feature flags, changes logged | 6 | Partial: the Anthropic key is manageable in `/admin/settings` | FR-ADM-10 |
 | T-SEC-01 | Pen test, DPA and terms, sub-processor list before the first external agency | 8 | | TR-005 |

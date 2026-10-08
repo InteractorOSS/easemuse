@@ -27,7 +27,6 @@ export function BrandingForm({
   agencySlug: string;
   canEdit: boolean;
 }) {
-  const t = useTranslations('settings.branding');
   const states = useTranslations('common.states');
   const path = `/api/v1/agencies/${agencyId}/branding`;
   const query = useQuery({

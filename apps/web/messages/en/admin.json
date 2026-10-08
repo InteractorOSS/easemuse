@@ -5,6 +5,7 @@
     "agencies": "Agencies",
     "usage": "AI usage",
     "audit": "Audit log",
+    "deletions": "Deletions",
     "admins": "Administrators",
     "settings": "Settings"
   },
@@ -102,6 +103,30 @@
       "requestFailed": "The request could not be sent. You may already have an open one.",
       "ended": "Done.",
       "auditLink": "Open the audit log"
+    },
+    "deletion": {
+      "title": "Delete this agency",
+      "intro": "At contract end an owner or admin asks for the agency's data to be deleted, and a different owner or admin approves. Both type the agency's URL name. Everything is removed for good: all records, files and the agency itself. A record of the deletion stays here. Its admins can download their data first (Settings, Data export).",
+      "status": {
+        "requested": "Waiting for a second person",
+        "approved": "Approved, starting",
+        "running": "Deleting",
+        "completed": "Deleted",
+        "failed": "Failed",
+        "cancelled": "Cancelled"
+      },
+      "requestedBy": "Asked by {who} on {when}",
+      "typeName": "Type {slug} to confirm",
+      "request": "Ask for deletion",
+      "approve": "Approve and delete everything",
+      "cancel": "Cancel",
+      "waitingForSecond": "You asked for this deletion. A different owner or admin has to approve it.",
+      "running": "Deleting. {rows} rows removed so far. This page updates by itself.",
+      "runFailed": "The deletion stopped with an error. Nothing more is removed until someone asks again; what was already removed stays removed.",
+      "requested": "Deletion requested.",
+      "approved": "Approved. The deletion has started.",
+      "cancelled": "Deletion cancelled.",
+      "failed": "This did not work. Check the name you typed, and that you are not the person who asked."
     }
   },
   "errors": {
@@ -227,6 +252,27 @@
       "invalid_key": "Anthropic did not accept this key.",
       "no_credit": "The key is valid but the account has no credit left.",
       "unreachable": "Could not reach Anthropic. Try again."
+    }
+  },
+  "deletions": {
+    "title": "Deleted agencies",
+    "intro": "The permanent record of agencies deleted at contract end. It holds no agency content.",
+    "empty": "No agency has been deleted.",
+    "columns": {
+      "agency": "Agency",
+      "status": "Status",
+      "requestedBy": "Asked by",
+      "approvedBy": "Approved by",
+      "finished": "Finished",
+      "rows": "Rows removed"
+    },
+    "status": {
+      "requested": "Waiting for a second person",
+      "approved": "Approved",
+      "running": "Deleting",
+      "completed": "Deleted",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
     }
   }
 }

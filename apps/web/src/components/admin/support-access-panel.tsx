@@ -109,7 +109,6 @@ export function SupportAccessPanel({
                 <div className="flex gap-2">
                   {grant.status === 'active' ? (
                     // A full page load: the workbench is a different part of the app.
-                    // eslint-disable-next-line @next/next/no-html-link-for-pages
                     <a
                       href={`/a/${agencySlug}`}
                       className="inline-flex h-8 items-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground"

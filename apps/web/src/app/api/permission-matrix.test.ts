@@ -116,6 +116,13 @@ vi.mock('@/server/files/files', async (importOriginal) => ({
     bytes: Buffer.from('zip'),
   }),
 }));
+vi.mock('@/server/tenant/deletion', () => ({
+  getLatestTenantDeletion: async () => null,
+  requestTenantDeletion: async () => ({ id: 'd1' }),
+  cancelTenantDeletion: async () => ({ id: 'd1' }),
+  approveTenantDeletion: async () => ({ id: 'd1' }),
+  listTenantDeletions: async () => [],
+}));
 vi.mock('@/server/tenancy/settings', () => ({
   readSettings: async () => ({}),
   updateSettings: async () => ({}),
@@ -571,6 +578,10 @@ import { POST as versionPost } from './v1/agencies/[agencyId]/artifacts/[artifac
 import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route';
 import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
 import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
+import { GET as deletionGet, POST as deletionPost } from './admin/v1/agencies/[id]/deletion/route';
+import { DELETE as deletionCancel } from './admin/v1/agencies/[id]/deletion/[deletionId]/route';
+import { POST as deletionApprove } from './admin/v1/agencies/[id]/deletion/[deletionId]/approve/route';
+import { GET as deletionsGet } from './admin/v1/tenant-deletions/route';
 import { GET as exportsGet, POST as exportsPost } from './v1/agencies/[agencyId]/data-export/route';
 import { GET as exportDownloadGet } from './v1/agencies/[agencyId]/data-export/[exportId]/download/route';
 import {
@@ -1953,6 +1964,48 @@ const endpoints: Endpoint[] = [
       exportDownloadGet(new Request('http://x.test/'), {
         params: Promise.resolve({ agencyId: 'acme', exportId: 'x1' }),
       }),
+  },
+  {
+    name: 'GET tenant deletion',
+    file: 'admin/v1/agencies/[id]/deletion/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => deletionGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'POST tenant deletion request',
+    file: 'admin/v1/agencies/[id]/deletion/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      deletionPost(new Request('http://x.test/', json({ confirmSlug: 'acme' })), adminParams),
+  },
+  {
+    name: 'DELETE tenant deletion (cancel)',
+    file: 'admin/v1/agencies/[id]/deletion/[deletionId]/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      deletionCancel(new Request('http://x.test/', { method: 'DELETE' }), {
+        params: Promise.resolve({ id: 'acme', deletionId: 'd1' }),
+      }),
+  },
+  {
+    name: 'POST tenant deletion approve',
+    file: 'admin/v1/agencies/[id]/deletion/[deletionId]/approve/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      deletionApprove(new Request('http://x.test/', json({ confirmSlug: 'acme' })), {
+        params: Promise.resolve({ id: 'acme', deletionId: 'd1' }),
+      }),
+  },
+  {
+    name: 'GET tenant deletions',
+    file: 'admin/v1/tenant-deletions/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => deletionsGet(),
   },
 ];
 

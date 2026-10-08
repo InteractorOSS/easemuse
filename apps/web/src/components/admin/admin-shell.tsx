@@ -23,6 +23,7 @@ export function AdminShell({ userName, role, children }: AdminShellProps) {
     { href: '/admin/agencies', label: t('nav.agencies') },
     { href: '/admin/usage', label: t('nav.usage') },
     { href: '/admin/audit', label: t('nav.audit') },
+    ...(role !== 'support' ? [{ href: '/admin/deletions', label: t('nav.deletions') }] : []),
     ...(role === 'owner' ? [{ href: '/admin/admins', label: t('nav.admins') }] : []),
     { href: '/admin/settings', label: t('nav.settings') },
   ];

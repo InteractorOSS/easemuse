@@ -123,6 +123,10 @@ vi.mock('@/server/tenant/deletion', () => ({
   approveTenantDeletion: async () => ({ id: 'd1' }),
   listTenantDeletions: async () => [],
 }));
+vi.mock('@/server/platform/health', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/platform/health')>()),
+  getSystemHealth: async () => ({ queues: [], agencies: [], failedJobs: [] }),
+}));
 vi.mock('@/server/tenancy/settings', () => ({
   readSettings: async () => ({}),
   updateSettings: async () => ({}),
@@ -578,6 +582,7 @@ import { POST as versionPost } from './v1/agencies/[agencyId]/artifacts/[artifac
 import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route';
 import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
 import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
+import { GET as healthGet } from './admin/v1/health/route';
 import { GET as deletionGet, POST as deletionPost } from './admin/v1/agencies/[id]/deletion/route';
 import { DELETE as deletionCancel } from './admin/v1/agencies/[id]/deletion/[deletionId]/route';
 import { POST as deletionApprove } from './admin/v1/agencies/[id]/deletion/[deletionId]/approve/route';
@@ -2006,6 +2011,13 @@ const endpoints: Endpoint[] = [
     audience: 'admin',
     allowed: ['owner', 'admin', 'support'],
     call: () => deletionsGet(),
+  },
+  {
+    name: 'GET health',
+    file: 'admin/v1/health/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => healthGet(new Request('http://x.test/?hours=24')),
   },
 ];
 

@@ -4,6 +4,7 @@
     "label": "Admin navigation",
     "agencies": "Agencies",
     "usage": "AI usage",
+    "health": "System health",
     "audit": "Audit log",
     "deletions": "Deletions",
     "admins": "Administrators",
@@ -273,6 +274,51 @@
       "completed": "Deleted",
       "failed": "Failed",
       "cancelled": "Cancelled"
+    }
+  },
+  "health": {
+    "title": "System health",
+    "intro": "Job queues, mail that did not go out, and AI errors and refusals, per agency. Counts and ids only: nothing a candidate or client wrote is shown here.",
+    "window": "Period",
+    "windowOption": "{hours, plural, one {Last hour} other {Last # hours}}",
+    "generated": "Updated {when}. The page refreshes by itself.",
+    "queues": {
+      "title": "Job queues",
+      "empty": "No jobs yet.",
+      "columns": {
+        "queue": "Queue",
+        "queued": "Waiting",
+        "running": "Running",
+        "succeeded": "Done",
+        "failed": "Failed",
+        "oldest": "Oldest waiting since"
+      }
+    },
+    "agencies": {
+      "title": "Agencies",
+      "empty": "No active agencies.",
+      "attention": "Needs a look",
+      "columns": {
+        "agency": "Agency",
+        "jobsFailed": "Failed jobs",
+        "mailFailed": "Mail failed or bounced",
+        "mailStuck": "Mail stuck",
+        "generations": "AI drafts",
+        "errorRate": "AI error rate",
+        "refusalRate": "AI refusal rate"
+      }
+    },
+    "failed": {
+      "title": "Latest failed jobs",
+      "intro": "Use the id to find the run in the logs.",
+      "empty": "No failed jobs in this period.",
+      "system": "Platform",
+      "columns": {
+        "when": "When",
+        "job": "Job",
+        "agency": "Agency",
+        "id": "Id"
+      }
     }
   }
 }

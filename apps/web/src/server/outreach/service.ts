@@ -15,6 +15,7 @@ import {
   type SequenceInput,
 } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
+import { getEnv } from '@/lib/env';
 import { ApiError } from '@/lib/http/errors';
 import type { AiRunContext, AiRunResult } from '@/server/ai';
 import type { OutreachDraftInput } from '@/server/ai/prompts/outreach-draft';
@@ -22,7 +23,9 @@ import { logActivity } from '@/server/activity/service';
 import { assertNoProtectedFields, redactStructured } from '@/server/ai/redaction';
 import { createArtifact, readApproved, readApprovedVersionById } from '@/server/artifacts/service';
 import { createOutboxMessage } from '@/server/messaging/outbox';
-import { renderUnsubscribeFooter } from '@/server/messaging/templates';
+import { loadBrand } from '@/server/branding/brand';
+import { brandHeaderHtml, renderUnsubscribeFooter } from '@/server/messaging/templates';
+import { assertFeature } from '@/server/platform/features';
 import { requireEntry, transitionEntry } from '@/server/pipeline/service';
 import { getAgencySettings } from '@/server/tenancy/settings';
 
@@ -519,6 +522,7 @@ export async function sendTouchEmail(
   now: Date = new Date(),
   options: { unsubscribeFor?: (address: string) => string } = {},
 ): Promise<{ outboxMessageId: string }> {
+  await assertFeature(tx, actor.agencyId, 'email_sending');
   const entry = await requireEntry(tx, actor, entryId, 'edit');
   const candidate = await candidateOf(tx, entry.candidateId);
   assertContactable(candidate);
@@ -553,6 +557,7 @@ export async function sendTouchEmail(
     where: { id: actor.agencyId },
     select: { settings: true },
   });
+  const brand = await loadBrand(tx, actor.agencyId, getEnv().APP_URL);
   const message = await createOutboxMessage(
     tx,
     {
@@ -561,7 +566,7 @@ export async function sendTouchEmail(
       toAddress: to,
       subject: shown.subject || '(no subject)',
       bodyText: shown.body + footer.text,
-      bodyHtml: `<div style="font-family:system-ui,sans-serif">${escapeHtml(shown.body).replace(/\n/g, '<br>')}${footer.html}</div>`,
+      bodyHtml: `<div style="font-family:system-ui,sans-serif">${brandHeaderHtml(brand)}${escapeHtml(shown.body).replace(/\n/g, '<br>')}${footer.html}</div>`,
       kind: 'outreach',
       entityType: 'pipeline_entry',
       entityId: entryId,

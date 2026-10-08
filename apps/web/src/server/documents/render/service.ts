@@ -4,6 +4,7 @@ import { parseBranding, type AgencyBranding } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 import { ApiError, notFound } from '@/lib/http/errors';
 import { readApprovedVersionById } from '@/server/artifacts/service';
+import { loadLogo } from '@/server/branding/service';
 import { saveGeneratedFile } from '@/server/files/files';
 import type { ObjectStore } from '@/server/files/object-store';
 import { storeOriginal } from '@/server/documents/store';
@@ -70,6 +71,7 @@ export async function loadRenderSource(
         })
       : null;
   const branding: AgencyBranding = parseBranding(agency?.branding);
+  const logo = await loadLogo(tx, agencyId, branding);
   const context = {
     agency: agency?.name ?? null,
     position: position
@@ -86,6 +88,9 @@ export async function loadRenderSource(
   return {
     version,
     branding,
+    /** The agency logo, drawn on every document (FR-TEN-04). */
+    logo,
+    logoDataUri: logo ? `data:${logo.contentType};base64,${logo.bytes.toString('base64')}` : null,
     context,
     hash: renderHash({ kind, content: version.content, branding, context }),
   };

@@ -38,4 +38,4 @@ Read this first, then `docs/planning/tasks.md` (the task list and its progress n
 
 Pool intelligence and the benchmark (session D) are built and tested against fakes; no live Voyage or web search call has been made.
 
-SMTP and a real mail provider; Playwright end to end; Korean translations (skeleton only); agency logo editing and drawing; every drafting prompt except A7 and A10 has only been tested against fakes (no labelled data for them, they need a recruiter's review).
+SMTP and a real mail provider; Playwright end to end; Korean translations (skeleton only); the Billing Server client has not run against the real server (no credentials, see `docs/planning/billing.md`); the legal documents in `docs/legal/` are drafts nobody has reviewed and the penetration test is not done; every drafting prompt except A7 and A10 has only been tested against fakes (no labelled data for them, they need a recruiter's review).

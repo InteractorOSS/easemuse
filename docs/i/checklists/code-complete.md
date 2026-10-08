@@ -7,6 +7,7 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Functionality
 
 ### Features
+
 - [ ] All acceptance criteria met
 - [ ] Feature works as specified
 - [ ] Edge cases handled
@@ -14,6 +15,7 @@ Use this checklist before declaring a feature or sprint "code complete."
 - [ ] User feedback provided (loading states, success/error messages)
 
 ### Integration
+
 - [ ] Integrates correctly with existing code
 - [ ] No regressions introduced
 - [ ] API contracts followed
@@ -24,6 +26,7 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Code Quality
 
 ### Standards
+
 - [ ] Code follows style guide
 - [ ] No linting errors
 - [ ] No type errors
@@ -31,12 +34,14 @@ Use this checklist before declaring a feature or sprint "code complete."
 - [ ] No commented-out code
 
 ### Structure
+
 - [ ] Functions are small and focused
 - [ ] No code duplication
 - [ ] Clear separation of concerns
 - [ ] Appropriate abstraction level
 
 ### Readability
+
 - [ ] Code is self-documenting
 - [ ] Complex logic has comments
 - [ ] No magic numbers/strings
@@ -47,6 +52,7 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Testing
 
 ### Unit Tests
+
 - [ ] Unit tests written for new code
 - [ ] Tests cover happy path
 - [ ] Tests cover edge cases
@@ -54,12 +60,14 @@ Use this checklist before declaring a feature or sprint "code complete."
 - [ ] All unit tests passing
 
 ### Integration Tests
+
 - [ ] Integration tests for APIs
 - [ ] Integration tests for database operations
 - [ ] Integration tests for external services (mocked)
 - [ ] All integration tests passing
 
 ### Coverage
+
 - [ ] Overall coverage ≥ 80%
 - [ ] New code coverage ≥ 80%
 - [ ] Critical paths at 100%
@@ -70,6 +78,7 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Security
 
 ### Code Security
+
 - [ ] No hardcoded secrets
 - [ ] Input validation implemented
 - [ ] Output encoding applied
@@ -78,11 +87,13 @@ Use this checklist before declaring a feature or sprint "code complete."
 - [ ] No XSS vulnerabilities
 
 ### Authentication & Authorization
+
 - [ ] Auth checks on protected endpoints
 - [ ] Permission checks for actions
 - [ ] Session management secure
 
 ### Data Protection
+
 - [ ] Sensitive data encrypted
 - [ ] No sensitive data in logs
 - [ ] PII handled correctly
@@ -92,12 +103,14 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Performance
 
 ### Efficiency
+
 - [ ] No obvious performance issues
 - [ ] Database queries optimized
 - [ ] No N+1 queries
 - [ ] Appropriate indexes exist
 
 ### Resources
+
 - [ ] No memory leaks
 - [ ] Resources properly released
 - [ ] Async operations where appropriate
@@ -108,12 +121,14 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Error Handling
 
 ### Implementation
+
 - [ ] All errors caught appropriately
 - [ ] Meaningful error messages
 - [ ] Errors logged with context
 - [ ] No silent failures
 
 ### User Experience
+
 - [ ] User-friendly error messages
 - [ ] Graceful degradation
 - [ ] Recovery options provided
@@ -123,11 +138,13 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Documentation
 
 ### Code Documentation
+
 - [ ] Public APIs documented (JSDoc/docstrings)
 - [ ] Complex logic explained
 - [ ] Type definitions complete
 
 ### External Documentation
+
 - [ ] README updated (if needed)
 - [ ] API documentation updated
 - [ ] CHANGELOG entry added
@@ -138,12 +155,14 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Code Review
 
 ### Pre-Review
+
 - [ ] Self-review completed
 - [ ] PR description is clear
 - [ ] Related issues linked
 - [ ] Screenshots included (for UI changes)
 
 ### Review Process
+
 - [ ] Code reviewed by peer
 - [ ] All comments addressed
 - [ ] Approval obtained
@@ -153,12 +172,14 @@ Use this checklist before declaring a feature or sprint "code complete."
 ## Build & Deploy
 
 ### Build
+
 - [ ] Build succeeds locally
 - [ ] Build succeeds in CI
 - [ ] No build warnings
 - [ ] Bundle size acceptable
 
 ### Deployment
+
 - [ ] Deployment scripts work
 - [ ] Environment variables documented
 - [ ] Migrations tested
@@ -197,9 +218,9 @@ Use this checklist before declaring a feature or sprint "code complete."
 
 ## Sign-off
 
-| Check | Developer | Date |
-|-------|-----------|------|
-| Code Complete | | |
-| Tests Passing | | |
-| Documentation Updated | | |
-| Ready for Review | | |
+| Check                 | Developer | Date |
+| --------------------- | --------- | ---- |
+| Code Complete         |           |      |
+| Tests Passing         |           |      |
+| Documentation Updated |           |      |
+| Ready for Review      |           |      |

@@ -9,6 +9,10 @@ import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BudgetEditor } from './budget-editor';
+import { AdminBillingPanel } from './billing-panel';
+import { FeatureFlagsPanel } from './feature-flags-panel';
+import { SupportAccessPanel } from './support-access-panel';
+import { TenantDeletionPanel } from './tenant-deletion-panel';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
@@ -16,7 +20,15 @@ import { apiFetch } from '@/lib/api-client';
 import type { AgencyDetail } from '@/server/tenancy/agencies';
 
 /** One agency: metadata, counts, and (for owners and admins) suspend / reactivate with a reason. */
-export function AgencyDetailView({ agencyId, canWrite }: { agencyId: string; canWrite: boolean }) {
+export function AgencyDetailView({
+  agencyId,
+  canWrite,
+  userId,
+}: {
+  agencyId: string;
+  canWrite: boolean;
+  userId: string;
+}) {
   const t = useTranslations('admin.agencies');
   const common = useTranslations('common.actions');
   const states = useTranslations('common.states');
@@ -88,6 +100,21 @@ export function AgencyDetailView({ agencyId, canWrite }: { agencyId: string; can
         budget={agency.budget}
         canWrite={canWrite}
       />
+
+      <AdminBillingPanel agencyId={agency.id} canWrite={canWrite} />
+
+      <FeatureFlagsPanel agencyId={agency.id} canWrite={canWrite} />
+
+      <SupportAccessPanel agencyId={agency.id} agencySlug={agency.slug} userId={userId} />
+
+      {canWrite ? (
+        <TenantDeletionPanel
+          agencyId={agency.id}
+          agencySlug={agency.slug}
+          agencyStatus={agency.status}
+          userId={userId}
+        />
+      ) : null}
 
       {canChange ? (
         <Dialog

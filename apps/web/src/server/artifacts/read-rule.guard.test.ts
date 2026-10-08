@@ -18,6 +18,9 @@ const ALLOWED_DIRS = [
   path.join(SRC, 'app', 'api', 'v1', 'agencies', '[agencyId]', 'artifacts'), // review surface: editor API
   // Data rights export and delete every version of a candidate's artifacts, drafts included (ADR-016).
   path.join(SRC, 'server', 'privacy'),
+  // So do the tenant export and the tenant deletion, for the whole agency (ADR-016): they list the table
+  // by name and never feed a version to another feature.
+  path.join(SRC, 'server', 'tenant'),
   path.join(SRC, 'test'),
 ];
 

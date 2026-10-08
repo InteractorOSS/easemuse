@@ -4,12 +4,12 @@ Comprehensive checklist for React/Express releases with validation at every step
 
 ## Release Information
 
-| Field | Value |
-|-------|-------|
-| **Version** | [X.Y.Z] |
-| **Date** | [Date] |
-| **Release Manager** | [Name] |
-| **Type** | Major / Minor / Patch / Hotfix |
+| Field               | Value                          |
+| ------------------- | ------------------------------ |
+| **Version**         | [X.Y.Z]                        |
+| **Date**            | [Date]                         |
+| **Release Manager** | [Name]                         |
+| **Type**            | Major / Minor / Patch / Hotfix |
 
 ---
 
@@ -26,13 +26,13 @@ npm run test:coverage               # Coverage >= 80%
 npm run lint                        # No lint errors
 ```
 
-| Check | Command | Status |
-|-------|---------|--------|
-| TypeScript compiles | `npm run typecheck` | [ ] |
-| Code formatted | `npm run format:check` | [ ] |
-| All tests pass | `npm test` | [ ] |
-| Coverage >= 80% | `npm run test:coverage` | [ ] |
-| No lint errors | `npm run lint` | [ ] |
+| Check               | Command                 | Status |
+| ------------------- | ----------------------- | ------ |
+| TypeScript compiles | `npm run typecheck`     | [ ]    |
+| Code formatted      | `npm run format:check`  | [ ]    |
+| All tests pass      | `npm test`              | [ ]    |
+| Coverage >= 80%     | `npm run test:coverage` | [ ]    |
+| No lint errors      | `npm run lint`          | [ ]    |
 
 ### Security (ALL MUST PASS)
 
@@ -40,10 +40,10 @@ npm run lint                        # No lint errors
 npm audit --audit-level=high        # No high/critical vulnerabilities
 ```
 
-| Check | Command | Status |
-|-------|---------|--------|
-| Security audit | `npm audit` | [ ] |
-| No secrets in code | Manual review | [ ] |
+| Check              | Command       | Status |
+| ------------------ | ------------- | ------ |
+| Security audit     | `npm audit`   | [ ]    |
+| No secrets in code | Manual review | [ ]    |
 
 ### Database Validation
 
@@ -52,10 +52,10 @@ npx prisma migrate deploy --dry-run # Migrations valid
 npx prisma generate                 # Client up to date
 ```
 
-| Check | Command | Status |
-|-------|---------|--------|
-| Migrations valid | `npx prisma migrate deploy --dry-run` | [ ] |
-| Prisma client generated | `npx prisma generate` | [ ] |
+| Check                   | Command                               | Status |
+| ----------------------- | ------------------------------------- | ------ |
+| Migrations valid        | `npx prisma migrate deploy --dry-run` | [ ]    |
+| Prisma client generated | `npx prisma generate`                 | [ ]    |
 
 ### Build (MUST PASS)
 
@@ -63,9 +63,9 @@ npx prisma generate                 # Client up to date
 npm run build                       # Production build succeeds
 ```
 
-| Check | Command | Status |
-|-------|---------|--------|
-| Build succeeds | `npm run build` | [ ] |
+| Check          | Command         | Status |
+| -------------- | --------------- | ------ |
+| Build succeeds | `npm run build` | [ ]    |
 
 ---
 
@@ -110,6 +110,7 @@ Then run: `npm run release:validate`
 ## Configuration
 
 ### Environment Variables
+
 - [ ] Variables documented in `.env.example`
 - [ ] Production environment variables set
 - [ ] `JWT_SECRET` configured (strong, 64+ characters)
@@ -117,10 +118,12 @@ Then run: `npm run release:validate`
 - [ ] `NODE_ENV=production` set
 
 ### Feature Flags
+
 - [ ] Flags configured correctly
 - [ ] Gradual rollout plan (if applicable)
 
 ### Database
+
 - [ ] Migrations tested (`npx prisma migrate deploy`)
 - [ ] Rollback tested
 - [ ] Backup verified
@@ -130,11 +133,13 @@ Then run: `npm run release:validate`
 ## Infrastructure
 
 ### Deployment
+
 - [ ] Build succeeds (`npm run build`)
 - [ ] CI/CD pipeline configured
 - [ ] Rollback procedure documented
 
 ### Monitoring
+
 - [ ] Health endpoint configured (`/api/health`)
 - [ ] Ready endpoint configured (`/api/health/ready`)
 - [ ] Error tracking active (Sentry, etc.)
@@ -142,6 +147,7 @@ Then run: `npm run release:validate`
 - [ ] Alerts configured
 
 ### Scaling
+
 - [ ] Database pool size configured
 - [ ] Express concurrency appropriate
 - [ ] Load balancer health checks configured
@@ -151,11 +157,13 @@ Then run: `npm run release:validate`
 ## Communication
 
 ### Internal
+
 - [ ] Engineering team notified
 - [ ] Support team briefed
 - [ ] Stakeholders informed
 
 ### External
+
 - [ ] Release notes prepared
 - [ ] Status page ready
 - [ ] Customer communication (if needed)
@@ -165,6 +173,7 @@ Then run: `npm run release:validate`
 ## Deployment Steps
 
 ### 1. Pre-Deployment (T-1 hour)
+
 - [ ] Final code freeze
 - [ ] Create release branch/tag
 - [ ] Backup production database
@@ -172,6 +181,7 @@ Then run: `npm run release:validate`
 - [ ] Run `npm run release:validate`
 
 ### 2. Staging Deployment
+
 - [ ] Deploy to staging
 - [ ] Run migrations: `npx prisma migrate deploy`
 - [ ] Verify health endpoint: `curl -f https://staging.example.com/api/health`
@@ -179,6 +189,7 @@ Then run: `npm run release:validate`
 - [ ] Verify all features
 
 ### 3. Production Deployment
+
 - [ ] Deploy to production
 - [ ] Run migrations: `npx prisma migrate deploy`
 - [ ] Verify health endpoint: `curl -f https://production.example.com/api/health`
@@ -186,6 +197,7 @@ Then run: `npm run release:validate`
 - [ ] Verify critical paths
 
 ### 4. Post-Deployment
+
 - [ ] Check error rates
 - [ ] Verify performance metrics
 - [ ] Test key user flows
@@ -197,6 +209,7 @@ Then run: `npm run release:validate`
 ## Smoke Tests
 
 ### Critical Paths (Must Pass)
+
 - [ ] Health endpoint responds (200 OK)
 - [ ] Ready endpoint shows all healthy
 - [ ] User can log in
@@ -205,6 +218,7 @@ Then run: `npm run release:validate`
 - [ ] [Critical feature 2]
 
 ### Secondary Checks
+
 - [ ] WebSocket connections stable (if applicable)
 - [ ] Forms submit correctly
 - [ ] Error pages display correctly
@@ -215,6 +229,7 @@ Then run: `npm run release:validate`
 ## Rollback Checklist
 
 ### Rollback Triggers
+
 - [ ] Error rate > 5%
 - [ ] Critical bug discovered
 - [ ] Security issue found
@@ -239,6 +254,7 @@ curl -f https://production.example.com/api/health
 ```
 
 ### Rollback Verification
+
 - [ ] Health endpoint responds
 - [ ] Error rates normalized
 - [ ] Issue resolved
@@ -250,18 +266,21 @@ curl -f https://production.example.com/api/health
 ## Post-Release
 
 ### Immediate (0-1 hour)
+
 - [ ] Monitor error rates
 - [ ] Check performance metrics
 - [ ] Verify background jobs processing
 - [ ] Watch for support tickets
 
 ### Short-term (1-24 hours)
+
 - [ ] Continue monitoring
 - [ ] Address any issues
 - [ ] Gather feedback
 - [ ] Update documentation
 
 ### Follow-up (1-7 days)
+
 - [ ] Review release metrics
 - [ ] Document lessons learned
 - [ ] Plan fixes for any issues
@@ -271,12 +290,12 @@ curl -f https://production.example.com/api/health
 
 ## Sign-offs
 
-| Role | Name | Date | Signature |
-|------|------|------|-----------|
-| Engineering Lead | | | |
-| QA Lead | | | |
-| Product Owner | | | |
-| DevOps | | | |
+| Role             | Name | Date | Signature |
+| ---------------- | ---- | ---- | --------- |
+| Engineering Lead |      |      |           |
+| QA Lead          |      |      |           |
+| Product Owner    |      |      |           |
+| DevOps           |      |      |           |
 
 ---
 
@@ -290,38 +309,43 @@ curl -f https://production.example.com/api/health
 **Deployer**: [Name]
 
 ### Pre-Deployment Validation
-| Check | Command | Status |
-|-------|---------|--------|
-| TypeScript | `npm run typecheck` | PASS |
-| Formatting | `npm run format:check` | PASS |
-| Linting | `npm run lint` | PASS |
-| Tests | `npm test` | PASS ([X] tests) |
-| Coverage | `npm run test:coverage` | PASS ([X]%) |
-| Security | `npm audit` | PASS |
-| Build | `npm run build` | PASS |
+
+| Check      | Command                 | Status           |
+| ---------- | ----------------------- | ---------------- |
+| TypeScript | `npm run typecheck`     | PASS             |
+| Formatting | `npm run format:check`  | PASS             |
+| Linting    | `npm run lint`          | PASS             |
+| Tests      | `npm test`              | PASS ([X] tests) |
+| Coverage   | `npm run test:coverage` | PASS ([X]%)      |
+| Security   | `npm audit`             | PASS             |
+| Build      | `npm run build`         | PASS             |
 
 ### Database Validation
-| Check | Status |
-|-------|--------|
-| Migrations valid | PASS |
-| Prisma client | PASS |
+
+| Check            | Status |
+| ---------------- | ------ |
+| Migrations valid | PASS   |
+| Prisma client    | PASS   |
 
 ### Staging Validation
-| Check | Status |
-|-------|--------|
-| Health endpoint | PASS |
-| Ready endpoint | PASS |
-| Smoke tests | PASS |
+
+| Check           | Status |
+| --------------- | ------ |
+| Health endpoint | PASS   |
+| Ready endpoint  | PASS   |
+| Smoke tests     | PASS   |
 
 ### Production Deployment
-| Check | Status |
-|-------|--------|
-| Deploy | SUCCESS |
-| Health endpoint | PASS |
-| Smoke tests | PASS |
-| Error rate | Normal |
+
+| Check           | Status  |
+| --------------- | ------- |
+| Deploy          | SUCCESS |
+| Health endpoint | PASS    |
+| Smoke tests     | PASS    |
+| Error rate      | Normal  |
 
 ### Summary
+
 **Status**: DEPLOYMENT SUCCESSFUL
 **Rollback Required**: No
 **Issues**: None
@@ -335,27 +359,35 @@ curl -f https://production.example.com/api/health
 ## [Version] - [Date]
 
 ### Highlights
+
 - [Main feature or change]
 
 ### New Features
+
 - [Feature 1]
 - [Feature 2]
 
 ### Improvements
+
 - [Improvement 1]
 
 ### Bug Fixes
+
 - [Fix 1]
 
 ### Breaking Changes
+
 - [Breaking change with migration guide]
 
 ### Database Migrations
+
 - [Migration description]
 
 ### Known Issues
+
 - [Known issue]
 
 ### Upgrade Guide
+
 [Steps to upgrade from previous version]
 ```

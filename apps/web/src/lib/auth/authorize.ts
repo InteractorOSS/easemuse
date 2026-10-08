@@ -1,9 +1,11 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
+import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { getAgencyByRef, getPlatformUser, withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
 import { createAuthorizers } from './authorizers';
+import { findActiveGrant, recordSupportView } from '@/server/support/access';
 import { membershipLoader } from './membership';
 
 /**
@@ -30,4 +32,17 @@ export const {
   loadMembership: membershipLoader({ withAgency }),
   mfaEnforcement: () => getEnv().MFA_ENFORCEMENT,
   log: (message, data) => console.warn(`[auth] ${message}`, data),
+  loadSupportGrant: (agencyId, userId) => findActiveGrant(agencyId, userId),
+  /** Set by `src/proxy.ts` on every request; without it support access is refused. */
+  async requestInfo() {
+    try {
+      const h = await headers();
+      const method = h.get('x-easemuse-method');
+      const path = h.get('x-easemuse-path');
+      return method && path ? { method, path } : null;
+    } catch {
+      return null; // outside a request
+    }
+  },
+  recordSupportView,
 });

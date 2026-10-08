@@ -41,8 +41,21 @@ export default async function AgencyLayout({
           <QueryProvider>
             <AppShell
               agencySlug={access.agency.slug}
-              agencies={me.memberships.map((m) => ({ slug: m.slug, name: m.name }))}
+              agencies={
+                access.support
+                  ? [{ slug: access.agency.slug, name: access.agency.name }]
+                  : me.memberships.map((m) => ({ slug: m.slug, name: m.name }))
+              }
               userName={me.user.name ?? me.user.email}
+              support={
+                access.support
+                  ? {
+                      agencyName: access.agency.name,
+                      expiresAt: access.support.expiresAt.toISOString(),
+                      exitHref: `/admin/agencies/${access.agency.id}`,
+                    }
+                  : undefined
+              }
             >
               {children}
             </AppShell>

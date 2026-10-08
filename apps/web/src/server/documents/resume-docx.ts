@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { Document, HeadingLevel, Packer, Paragraph, TextRun } from 'docx';
 import type { AgencyBranding, TailoredResumeContent } from '@easemuse/core';
+import { logoParagraph, type DocxLogo } from './logo-docx';
 
 export interface ResumeLabels {
   roles: string;
@@ -26,6 +27,7 @@ export function roleRange(
 export async function buildResumeDocx(input: {
   content: TailoredResumeContent;
   branding: AgencyBranding;
+  logo?: DocxLogo | null;
   labels: ResumeLabels;
 }): Promise<Buffer> {
   const { content, labels } = input;
@@ -41,6 +43,7 @@ export async function buildResumeDocx(input: {
   );
 
   const children: Paragraph[] = [
+    ...logoParagraph(input.logo),
     ...(content.header.name
       ? [
           new Paragraph({

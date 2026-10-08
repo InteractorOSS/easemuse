@@ -34,6 +34,9 @@ vi.mock('@/lib/auth/authorize', async () => {
       who.current.kind === 'agency' ? { role: who.current.role, active: true } : null,
     mfaEnforcement: () => 'off',
     log: () => undefined,
+    loadSupportGrant: async () => null,
+    requestInfo: async () => ({ method: 'GET', path: '/' }),
+    recordSupportView: async () => undefined,
   });
   return real;
 });
@@ -83,6 +86,61 @@ vi.mock('@/server/platform/usage', async (importOriginal) => ({
 vi.mock('@/server/platform/audit-log', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@/server/platform/audit-log')>()),
   listAuditEntries: async () => ({ items: [], nextCursor: null }),
+}));
+vi.mock('@/server/branding/service', () => ({
+  readBranding: async () => ({ agencyName: 'Acme' }),
+  updateBranding: async () => ({ agencyName: 'Acme' }),
+  setLogo: async () => ({ agencyName: 'Acme' }),
+  removeLogo: async () => ({ agencyName: 'Acme' }),
+}));
+vi.mock('@/server/support/access', () => ({
+  listSupportGrantsForPlatform: async () => [],
+  requestSupportAccess: async () => ({ id: 'g1' }),
+  endSupportAccess: async () => ({ id: 'g1' }),
+  getSupportOverview: async () => ({ grants: [], views: [] }),
+  decideSupportGrant: async () => ({ id: 'g1' }),
+  findActiveGrant: async () => null,
+  recordSupportView: async () => undefined,
+}));
+vi.mock('@/server/tenant/export', () => ({
+  listTenantExports: async () => [],
+  requestTenantExport: async () => ({ id: 'x1', status: 'queued' }),
+  getCompletedExportFile: async () => ({ fileId: 'f1' }),
+}));
+vi.mock('@/server/files/files', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/files/files')>()),
+  openFileForDownload: async () => ({
+    kind: 'bytes',
+    filename: 'x.zip',
+    contentType: 'application/zip',
+    bytes: Buffer.from('zip'),
+  }),
+}));
+vi.mock('@/server/tenant/deletion', () => ({
+  getLatestTenantDeletion: async () => null,
+  requestTenantDeletion: async () => ({ id: 'd1' }),
+  cancelTenantDeletion: async () => ({ id: 'd1' }),
+  approveTenantDeletion: async () => ({ id: 'd1' }),
+  listTenantDeletions: async () => [],
+}));
+vi.mock('@/server/platform/health', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/platform/health')>()),
+  getSystemHealth: async () => ({ queues: [], agencies: [], failedJobs: [] }),
+}));
+vi.mock('@/server/platform/config', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/server/platform/config')>()),
+  getNewAgencyDefaultsView: async () => ({}),
+  patchNewAgencyDefaults: async () => ({}),
+  getAgencyFeatures: async () => ({ agencyId: 'a1', flags: {} }),
+  setAgencyFeature: async () => ({ agencyId: 'a1', flags: {} }),
+}));
+vi.mock('@/server/billing/service', () => ({
+  getBillingOverview: async () => ({ connected: false }),
+  getAdminBilling: async () => ({ overview: {}, plans: null }),
+  listAssignablePlans: async () => [],
+  assignAgencyPlan: async () => ({}),
+  refreshAgencyBilling: async () => ({}),
+  assertSeatAvailable: async () => undefined,
 }));
 vi.mock('@/server/tenancy/settings', () => ({
   readSettings: async () => ({}),
@@ -609,6 +667,35 @@ import { POST as versionPost } from './v1/agencies/[agencyId]/artifacts/[artifac
 import { POST as approvePost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/approve/route';
 import { POST as discardPost } from './v1/agencies/[agencyId]/artifacts/[artifactId]/versions/[versionId]/discard/route';
 import { GET as generationGet } from './v1/agencies/[agencyId]/ai-generations/[id]/route';
+import { GET as billingOverviewGet } from './v1/agencies/[agencyId]/billing/route';
+import { GET as adminBillingGet } from './admin/v1/agencies/[id]/billing/route';
+import { POST as adminBillingPlan } from './admin/v1/agencies/[id]/billing/plan/route';
+import { POST as adminBillingRefresh } from './admin/v1/agencies/[id]/billing/refresh/route';
+import { GET as configGet } from './admin/v1/config/route';
+import {
+  GET as defaultsGet,
+  PATCH as defaultsPatch,
+} from './admin/v1/config/new-agency-defaults/route';
+import { GET as featuresGet, PUT as featuresPut } from './admin/v1/agencies/[id]/features/route';
+import { GET as healthGet } from './admin/v1/health/route';
+import { GET as deletionGet, POST as deletionPost } from './admin/v1/agencies/[id]/deletion/route';
+import { DELETE as deletionCancel } from './admin/v1/agencies/[id]/deletion/[deletionId]/route';
+import { POST as deletionApprove } from './admin/v1/agencies/[id]/deletion/[deletionId]/approve/route';
+import { GET as deletionsGet } from './admin/v1/tenant-deletions/route';
+import { GET as exportsGet, POST as exportsPost } from './v1/agencies/[agencyId]/data-export/route';
+import { GET as exportDownloadGet } from './v1/agencies/[agencyId]/data-export/[exportId]/download/route';
+import {
+  GET as supportListGet,
+  POST as supportRequestPost,
+} from './admin/v1/agencies/[id]/support-access/route';
+import { DELETE as supportEndDelete } from './admin/v1/agencies/[id]/support-access/[grantId]/route';
+import { GET as supportOverviewGet } from './v1/agencies/[agencyId]/support-access/route';
+import { POST as supportDecisionPost } from './v1/agencies/[agencyId]/support-access/[grantId]/decision/route';
+import {
+  GET as brandingGet,
+  PATCH as brandingPatch,
+} from './v1/agencies/[agencyId]/branding/route';
+import { PUT as logoPut, DELETE as logoDelete } from './v1/agencies/[agencyId]/branding/logo/route';
 
 const json = (body: unknown) => ({
   method: 'POST',
@@ -637,6 +724,7 @@ const agencyParams = {
     analysisId: 'an1',
     n: '1',
     jobRunId: 'job1',
+    grantId: 'g1',
   }),
 };
 const adminParams = { params: Promise.resolve({ id: 'acme' }) };
@@ -1978,6 +2066,238 @@ const endpoints: Endpoint[] = [
     allowed: ['owner', 'admin'],
     call: () =>
       reactivatePost(new Request('http://x.test/', json({ reason: 'Paid' })), adminParams),
+  },
+  {
+    name: 'GET branding',
+    file: 'v1/agencies/[agencyId]/branding/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => brandingGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'PATCH branding',
+    file: 'v1/agencies/[agencyId]/branding/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () =>
+      brandingPatch(
+        new Request('http://x.test/', { ...json({ primaryColor: '#1d4ed8' }), method: 'PATCH' }),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'PUT branding logo',
+    file: 'v1/agencies/[agencyId]/branding/logo/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => {
+      const form = new FormData();
+      form.set('file', new File([new Uint8Array([1, 2, 3])], 'logo.png'));
+      return logoPut(new Request('http://x.test/', { method: 'PUT', body: form }), agencyParams);
+    },
+  },
+  {
+    name: 'DELETE branding logo',
+    file: 'v1/agencies/[agencyId]/branding/logo/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => logoDelete(new Request('http://x.test/', { method: 'DELETE' }), agencyParams),
+  },
+  {
+    name: 'GET support access (platform)',
+    file: 'admin/v1/agencies/[id]/support-access/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => supportListGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'POST support access request (platform)',
+    file: 'admin/v1/agencies/[id]/support-access/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () =>
+      supportRequestPost(
+        new Request(
+          'http://x.test/',
+          json({ reason: 'A customer reported a missing report', hours: 24 }),
+        ),
+        adminParams,
+      ),
+  },
+  {
+    name: 'DELETE support access (platform)',
+    file: 'admin/v1/agencies/[id]/support-access/[grantId]/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () =>
+      supportEndDelete(new Request('http://x.test/', { method: 'DELETE' }), {
+        params: Promise.resolve({ id: 'acme', grantId: 'g1' }),
+      }),
+  },
+  {
+    name: 'GET support access overview',
+    file: 'v1/agencies/[agencyId]/support-access/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => supportOverviewGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST support access decision',
+    file: 'v1/agencies/[agencyId]/support-access/[grantId]/decision/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () =>
+      supportDecisionPost(
+        new Request('http://x.test/', json({ decision: 'approve' })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET data exports',
+    file: 'v1/agencies/[agencyId]/data-export/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => exportsGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'POST data export',
+    file: 'v1/agencies/[agencyId]/data-export/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => exportsPost(new Request('http://x.test/', { method: 'POST' }), agencyParams),
+  },
+  {
+    name: 'GET data export download',
+    file: 'v1/agencies/[agencyId]/data-export/[exportId]/download/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () =>
+      exportDownloadGet(new Request('http://x.test/'), {
+        params: Promise.resolve({ agencyId: 'acme', exportId: 'x1' }),
+      }),
+  },
+  {
+    name: 'GET tenant deletion',
+    file: 'admin/v1/agencies/[id]/deletion/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => deletionGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'POST tenant deletion request',
+    file: 'admin/v1/agencies/[id]/deletion/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      deletionPost(new Request('http://x.test/', json({ confirmSlug: 'acme' })), adminParams),
+  },
+  {
+    name: 'DELETE tenant deletion (cancel)',
+    file: 'admin/v1/agencies/[id]/deletion/[deletionId]/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      deletionCancel(new Request('http://x.test/', { method: 'DELETE' }), {
+        params: Promise.resolve({ id: 'acme', deletionId: 'd1' }),
+      }),
+  },
+  {
+    name: 'POST tenant deletion approve',
+    file: 'admin/v1/agencies/[id]/deletion/[deletionId]/approve/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      deletionApprove(new Request('http://x.test/', json({ confirmSlug: 'acme' })), {
+        params: Promise.resolve({ id: 'acme', deletionId: 'd1' }),
+      }),
+  },
+  {
+    name: 'GET tenant deletions',
+    file: 'admin/v1/tenant-deletions/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => deletionsGet(),
+  },
+  {
+    name: 'GET health',
+    file: 'admin/v1/health/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => healthGet(new Request('http://x.test/?hours=24')),
+  },
+  {
+    name: 'GET platform config',
+    file: 'admin/v1/config/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => configGet(),
+  },
+  {
+    name: 'GET new agency defaults',
+    file: 'admin/v1/config/new-agency-defaults/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => defaultsGet(),
+  },
+  {
+    name: 'PATCH new agency defaults',
+    file: 'admin/v1/config/new-agency-defaults/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      defaultsPatch(
+        new Request('http://x.test/', { ...json({ recentlyContactedDays: 7 }), method: 'PATCH' }),
+      ),
+  },
+  {
+    name: 'GET agency features',
+    file: 'admin/v1/agencies/[id]/features/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => featuresGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'PUT agency feature',
+    file: 'admin/v1/agencies/[id]/features/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      featuresPut(
+        new Request('http://x.test/', {
+          ...json({ flag: 'portals', enabled: false }),
+          method: 'PUT',
+        }),
+        adminParams,
+      ),
+  },
+  {
+    name: 'GET agency billing',
+    file: 'v1/agencies/[agencyId]/billing/route.ts',
+    audience: 'agency',
+    allowed: ['admin'],
+    call: () => billingOverviewGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET agency billing (platform)',
+    file: 'admin/v1/agencies/[id]/billing/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin', 'support'],
+    call: () => adminBillingGet(new Request('http://x.test/'), adminParams),
+  },
+  {
+    name: 'POST assign plan',
+    file: 'admin/v1/agencies/[id]/billing/plan/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () =>
+      adminBillingPlan(new Request('http://x.test/', json({ planId: 'plan-team' })), adminParams),
+  },
+  {
+    name: 'POST refresh billing',
+    file: 'admin/v1/agencies/[id]/billing/refresh/route.ts',
+    audience: 'admin',
+    allowed: ['owner', 'admin'],
+    call: () => adminBillingRefresh(new Request('http://x.test/', { method: 'POST' }), adminParams),
   },
 ];
 

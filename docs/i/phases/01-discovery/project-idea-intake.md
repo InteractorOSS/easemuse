@@ -6,7 +6,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## The Idea
 
-*Describe what you want to build in your own words. Be as detailed or rough as you like.*
+_Describe what you want to build in your own words. Be as detailed or rough as you like._
 
 ```
 [Your idea here - write freely, bullet points, paragraphs, whatever works]
@@ -21,7 +21,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## Problem / Opportunity
 
-*What problem does this solve? Or what opportunity does it address?*
+_What problem does this solve? Or what opportunity does it address?_
 
 ```
 [Why does this need to exist?]
@@ -34,7 +34,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## Users
 
-*Who will use this? List anyone you can think of.*
+_Who will use this? List anyone you can think of._
 
 ```
 [e.g., "small business owners", "our internal team", "developers who need X"]
@@ -47,7 +47,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## Key Features (Brain Dump)
 
-*List features, capabilities, or things users should be able to do. Don't filter - just dump everything.*
+_List features, capabilities, or things users should be able to do. Don't filter - just dump everything._
 
 ```
 -
@@ -61,7 +61,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## Inspirations / References
 
-*Are there similar products? Screenshots? Competitors? Things you like or don't like?*
+_Are there similar products? Screenshots? Competitors? Things you like or don't like?_
 
 ```
 [Links, names, or descriptions of things that inspire this idea]
@@ -74,7 +74,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## Technical Thoughts (Optional)
 
-*Any technical ideas, constraints, or preferences you already have in mind.*
+_Any technical ideas, constraints, or preferences you already have in mind._
 
 ```
 [e.g., "needs to work offline", "must integrate with Slack", "real-time updates important"]
@@ -87,7 +87,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## What Success Looks Like
 
-*How would you know this project succeeded?*
+_How would you know this project succeeded?_
 
 ```
 [e.g., "users can do X in under 5 minutes", "replaces our current spreadsheet", "100 daily active users"]
@@ -100,7 +100,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## Open Questions
 
-*Things you're unsure about or need to figure out.*
+_Things you're unsure about or need to figure out._
 
 ```
 -
@@ -112,7 +112,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## Priority / Timeline
 
-*Any constraints on when this needs to ship or what's most important?*
+_Any constraints on when this needs to ship or what's most important?_
 
 ```
 [e.g., "MVP in 2 months", "core feature X must work first", "demo for investors in January"]
@@ -125,7 +125,7 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ## Deployment Preferences (Optional)
 
-*Where and how should this run? Any infrastructure preferences or constraints?*
+_Where and how should this run? Any infrastructure preferences or constraints?_
 
 ```
 [e.g., "Fly.io", "AWS", "self-hosted", "Docker", "Kubernetes"]
@@ -136,15 +136,15 @@ Use this document to capture your initial project idea. Don't worry about struct
 
 ### Deployment Considerations
 
-| Consideration | Your Preference |
-|---------------|-----------------|
-| **Hosting** | [Fly.io / Gigalixir / AWS / GCP / Self-hosted / Other] |
-| **Database** | [Managed PostgreSQL / Self-hosted / RDS / etc.] |
-| **CI/CD** | [GitHub Actions / GitLab CI / Other] |
-| **Environments** | [dev / staging / prod] or [just prod] |
-| **Release Strategy** | [Blue-green / Rolling / Canary / Simple] |
+| Consideration        | Your Preference                                        |
+| -------------------- | ------------------------------------------------------ |
+| **Hosting**          | [Fly.io / Gigalixir / AWS / GCP / Self-hosted / Other] |
+| **Database**         | [Managed PostgreSQL / Self-hosted / RDS / etc.]        |
+| **CI/CD**            | [GitHub Actions / GitLab CI / Other]                   |
+| **Environments**     | [dev / staging / prod] or [just prod]                  |
+| **Release Strategy** | [Blue-green / Rolling / Canary / Simple]               |
 
-*Don't worry if you're unsure - these can be decided during planning. See `docs/phases/06-deployment/` for detailed deployment guidance.*
+_Don't worry if you're unsure - these can be decided during planning. See `docs/phases/06-deployment/` for detailed deployment guidance._
 
 ---
 

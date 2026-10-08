@@ -32,9 +32,13 @@ describe('SettingsNav', () => {
     expect(links('admin')).toEqual([
       'Members',
       'Defaults',
+      'Branding',
       'Privacy requests',
+      'Plan and seats',
       'AI usage',
       'Outbox',
+      'Support access',
+      'Data export',
     ]);
   });
   it('hides usage from leads and members from recruiters', () => {

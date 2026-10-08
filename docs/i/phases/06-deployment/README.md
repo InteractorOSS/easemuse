@@ -40,34 +40,40 @@ MIX_ENV=prod mix release            # Release builds successfully
 
 ### Validation Checklist
 
-| Check | Command | Required |
-|-------|---------|----------|
-| Compiles | `mix compile --warnings-as-errors` | MUST PASS |
-| Formatted | `mix format --check-formatted` | MUST PASS |
-| Tests | `mix test` | MUST PASS |
-| Coverage | `mix test --cover` (≥80%) | MUST PASS |
-| Credo | `mix credo --strict` | MUST PASS |
-| Security | `mix sobelow` | MUST PASS |
-| Dependencies | `mix hex.audit` | MUST PASS |
-| Dialyzer | `mix dialyzer` | SHOULD PASS |
-| Release | `MIX_ENV=prod mix release` | MUST PASS |
+| Check        | Command                            | Required    |
+| ------------ | ---------------------------------- | ----------- |
+| Compiles     | `mix compile --warnings-as-errors` | MUST PASS   |
+| Formatted    | `mix format --check-formatted`     | MUST PASS   |
+| Tests        | `mix test`                         | MUST PASS   |
+| Coverage     | `mix test --cover` (≥80%)          | MUST PASS   |
+| Credo        | `mix credo --strict`               | MUST PASS   |
+| Security     | `mix sobelow`                      | MUST PASS   |
+| Dependencies | `mix hex.audit`                    | MUST PASS   |
+| Dialyzer     | `mix dialyzer`                     | SHOULD PASS |
+| Release      | `MIX_ENV=prod mix release`         | MUST PASS   |
 
 ---
 
 ## Deployment Strategies
 
 ### Blue-Green Deployment
+
 Two identical environments; switch traffic after verification.
+
 - **Pros**: Instant rollback, zero downtime
 - **Cons**: Requires double infrastructure
 
 ### Canary Deployment
+
 Gradual rollout to small percentage of users.
+
 - **Pros**: Early issue detection, controlled risk
 - **Cons**: More complex, longer deployment
 
 ### Rolling Deployment
+
 Update instances one at a time.
+
 - **Pros**: No extra infrastructure needed
 - **Cons**: Mixed versions during deployment
 
@@ -148,6 +154,7 @@ Update instances one at a time.
 ## Checklist
 
 ### Pre-Deployment Validation
+
 - [ ] `mix compile --warnings-as-errors` passes
 - [ ] `mix format --check-formatted` passes
 - [ ] `mix test` passes (all tests)
@@ -158,23 +165,27 @@ Update instances one at a time.
 - [ ] `MIX_ENV=prod mix release` builds successfully
 
 ### Database
+
 - [ ] Migrations tested (`mix ecto.migrate`)
 - [ ] Rollback tested (`mix ecto.rollback`)
 - [ ] Backup verified
 
 ### Documentation
+
 - [ ] CHANGELOG updated
 - [ ] Version bumped in mix.exs
 - [ ] Release notes prepared
 - [ ] Rollback plan documented
 
 ### Staging Deployment
+
 - [ ] Release deployed to staging
 - [ ] Migrations run successfully
 - [ ] Health endpoint responds
 - [ ] Smoke tests pass
 
 ### Production Deployment
+
 - [ ] Release deployed to production
 - [ ] Migrations run successfully
 - [ ] Health endpoint responds
@@ -182,6 +193,7 @@ Update instances one at a time.
 - [ ] Error rates normal
 
 ### Post-Deployment
+
 - [ ] Monitoring dashboards checked
 - [ ] Error rates normal
 - [ ] Performance within SLA
@@ -201,6 +213,7 @@ Update instances one at a time.
 ## Rollback Criteria
 
 Initiate rollback if:
+
 - Error rate > 5% of requests
 - P1 bug discovered
 - Security vulnerability found
@@ -237,32 +250,36 @@ Generate after each deployment:
 **Status**: SUCCESS / FAILED
 
 ### Pre-Deployment Validation
-| Check | Status |
-|-------|--------|
-| mix compile --warnings-as-errors | ✓ PASS |
-| mix format --check-formatted | ✓ PASS |
-| mix test | ✓ PASS (X tests) |
-| mix test --cover | ✓ PASS (X%) |
-| mix credo --strict | ✓ PASS |
-| mix sobelow | ✓ PASS |
-| mix hex.audit | ✓ PASS |
-| MIX_ENV=prod mix release | ✓ PASS |
+
+| Check                            | Status           |
+| -------------------------------- | ---------------- |
+| mix compile --warnings-as-errors | ✓ PASS           |
+| mix format --check-formatted     | ✓ PASS           |
+| mix test                         | ✓ PASS (X tests) |
+| mix test --cover                 | ✓ PASS (X%)      |
+| mix credo --strict               | ✓ PASS           |
+| mix sobelow                      | ✓ PASS           |
+| mix hex.audit                    | ✓ PASS           |
+| MIX_ENV=prod mix release         | ✓ PASS           |
 
 ### Deployment Validation
-| Check | Status |
-|-------|--------|
-| Staging health check | ✓ PASS |
-| Staging smoke tests | ✓ PASS |
+
+| Check                   | Status |
+| ----------------------- | ------ |
+| Staging health check    | ✓ PASS |
+| Staging smoke tests     | ✓ PASS |
 | Production health check | ✓ PASS |
-| Production smoke tests | ✓ PASS |
+| Production smoke tests  | ✓ PASS |
 
 ### Post-Deployment Metrics
-| Metric | Before | After | Status |
-|--------|--------|-------|--------|
-| Error Rate | 0.1% | 0.1% | ✓ OK |
-| p99 Latency | 180ms | 185ms | ✓ OK |
+
+| Metric      | Before | After | Status |
+| ----------- | ------ | ----- | ------ |
+| Error Rate  | 0.1%   | 0.1%  | ✓ OK   |
+| p99 Latency | 180ms  | 185ms | ✓ OK   |
 
 ### Summary
+
 **Deployment**: SUCCESSFUL
 **All Validations**: PASSED
 ```
@@ -299,6 +316,7 @@ Generate after each deployment:
 ## Exit Gate
 
 Deployment phase is complete when:
+
 - [ ] All pre-deployment validation passed
 - [ ] Staging validated and smoke tests passed
 - [ ] Production deployed and validated

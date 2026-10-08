@@ -3,6 +3,7 @@
 import { describe, expect, it } from 'vitest';
 import JSZip from 'jszip';
 import { parseBranding, tailoredResumeContentSchema } from '@easemuse/core';
+import { TINY_PNG } from '@/test/images';
 import { buildResumeDocx, roleRange } from './resume-docx';
 
 const labels = {
@@ -71,5 +72,21 @@ describe('resume docx', () => {
     );
     expect(xml).not.toMatch(/Alex Kim|alex@x\.com|010-1234/);
     expect(xml).toContain('Led a team of 20');
+  });
+
+  it('draws the agency logo as an image in the file, and nothing when there is none', async () => {
+    const withLogo = await JSZip.loadAsync(
+      await buildResumeDocx({
+        content: content(),
+        branding: parseBranding(null),
+        logo: { bytes: TINY_PNG, name: 'Acme Search' },
+        labels,
+      }),
+    );
+    expect(Object.keys(withLogo.files).some((f) => f.startsWith('word/media/'))).toBe(true);
+    const without = await JSZip.loadAsync(
+      await buildResumeDocx({ content: content(), branding: parseBranding(null), labels }),
+    );
+    expect(Object.keys(without.files).some((f) => f.startsWith('word/media/'))).toBe(false);
   });
 });

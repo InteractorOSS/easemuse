@@ -17,21 +17,25 @@ The Testing phase ensures quality through comprehensive testing strategies, incl
 ## Test Types
 
 ### Unit Tests
+
 - Test individual functions and components
 - Fast, isolated, deterministic
 - Cover business logic and utilities
 
 ### Integration Tests
+
 - Test component interactions
 - API endpoints and database operations
 - External service integrations (mocked)
 
 ### End-to-End (E2E) Tests
+
 - Test complete user workflows
 - Critical user journeys
 - Cross-browser testing
 
 ### Other Testing Types
+
 - **Performance testing** - Load and stress tests
 - **Security testing** - Vulnerability scanning
 - **Accessibility testing** - WCAG compliance
@@ -40,14 +44,15 @@ The Testing phase ensures quality through comprehensive testing strategies, incl
 
 ## Coverage Requirements
 
-| Metric | Minimum | Target |
-|--------|---------|--------|
-| Overall Coverage | 80% | 90% |
-| Critical Paths | 100% | 100% |
-| New Code | 80% | 95% |
-| Branch Coverage | 70% | 85% |
+| Metric           | Minimum | Target |
+| ---------------- | ------- | ------ |
+| Overall Coverage | 80%     | 90%    |
+| Critical Paths   | 100%    | 100%   |
+| New Code         | 80%     | 95%    |
+| Branch Coverage  | 70%     | 85%    |
 
 ### Critical Paths (100% Required)
+
 - Authentication/authorization
 - Payment processing
 - Data mutations
@@ -100,12 +105,14 @@ The Testing phase ensures quality through comprehensive testing strategies, incl
 ## Checklist
 
 ### Test Planning
+
 - [ ] Test scenarios identified
 - [ ] Test data prepared
 - [ ] Environment configured
 - [ ] Dependencies mocked
 
 ### Test Implementation
+
 - [ ] Unit tests written
 - [ ] Integration tests written
 - [ ] E2E tests for critical paths
@@ -113,12 +120,14 @@ The Testing phase ensures quality through comprehensive testing strategies, incl
 - [ ] Error cases tested
 
 ### Test Quality
+
 - [ ] Tests are readable
 - [ ] Tests are independent
 - [ ] No flaky tests
 - [ ] Meaningful assertions
 
 ### Coverage
+
 - [ ] Coverage meets threshold
 - [ ] Critical paths at 100%
 - [ ] New code fully tested

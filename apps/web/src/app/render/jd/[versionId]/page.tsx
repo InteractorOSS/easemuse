@@ -8,6 +8,7 @@ import { withAgency } from '@/lib/db';
 import { ApiError } from '@/lib/http/errors';
 import { getEnv } from '@/lib/env';
 import { buildJdDocumentModel } from '@/server/documents/jd-document';
+import { LogoMark } from '@/components/documents/logo-mark';
 import { loadRenderSource } from '@/server/documents/render/service';
 import { verifyRenderToken } from '@/server/documents/render/token';
 
@@ -59,18 +60,24 @@ export default async function PrintJdPage({
       style={{ ['--brand' as string]: branding.primaryColor }}
       className="mx-auto max-w-3xl bg-white p-8 text-[11pt] leading-relaxed text-black"
     >
-      <header className="mb-6 border-b-4 pb-3" style={{ borderColor: 'var(--brand)' }}>
-        <p className="text-sm font-semibold" style={{ color: 'var(--brand)' }}>
-          {branding.displayName ?? context.agency}
-        </p>
-        <h1 className="text-2xl font-bold">{context.position?.title ?? t('title')}</h1>
-        {context.position ? (
-          <p className="text-sm text-neutral-600">
-            {context.position.client}
-            {' · '}
-            {context.position.location}
+      <header
+        className="mb-6 flex items-start gap-4 border-b-4 pb-3"
+        style={{ borderColor: 'var(--brand)' }}
+      >
+        <div>
+          <p className="text-sm font-semibold" style={{ color: 'var(--brand)' }}>
+            {branding.displayName ?? context.agency}
           </p>
-        ) : null}
+          <h1 className="text-2xl font-bold">{context.position?.title ?? t('title')}</h1>
+          {context.position ? (
+            <p className="text-sm text-neutral-600">
+              {context.position.client}
+              {' · '}
+              {context.position.location}
+            </p>
+          ) : null}
+        </div>
+        <LogoMark src={source.logoDataUri} name={branding.displayName ?? context.agency} />
       </header>
 
       {model.sections.map((s) => (

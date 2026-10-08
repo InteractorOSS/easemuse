@@ -35,6 +35,8 @@ model Agency {
   plan               String? // Billing Server plan key (ADR-013)
   settings           Json         @default("{}") // defaults: weights, outreach intervals, guard modes, rejection reasons
   branding           Json         @default("{}") // logo file key, colors (FR-TEN-04)
+  featureFlags       Json         @default("{}") // platform-set switches per agency (FR-ADM-10); known keys in core/schemas/platform-config.ts
+  billing            Json         @default("{}") // last plan state read from Billing Server (server/billing/state.ts); never trusted for money
   aiMonthlyBudgetUsd Decimal?     @db.Decimal(10, 2)
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
@@ -96,16 +98,22 @@ model MemberInvite {
   @@index([agencyId, email])
 }
 
+// A platform administrator's request to look at one agency's workspace, read-only (FR-TEN-07, FR-ADM-07).
+// Pending until an agency admin decides: approving sets grantedById and expiresAt (requestedHours from then,
+// at most 72), denying sets deniedAt, and an admin can revoke an active grant at any time.
 model SupportAccessGrant {
-  id          String    @id @default(uuid()) @db.Uuid
-  agencyId    String    @db.Uuid
-  adminId     String    @db.Uuid // platform administrator (User)
-  grantedById String    @db.Uuid // agency admin
-  reason      String
-  expiresAt   DateTime
-  revokedAt   DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id             String    @id @default(uuid()) @db.Uuid
+  agencyId       String    @db.Uuid
+  adminId        String    @db.Uuid // platform administrator (User)
+  grantedById    String?   @db.Uuid // agency admin who approved; null while pending or denied
+  reason         String
+  requestedHours Int       @default(24)
+  expiresAt      DateTime? // set on approval
+  decidedAt      DateTime?
+  deniedAt       DateTime?
+  revokedAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
 
@@ -1075,6 +1083,76 @@ model ActivityLog {
   createdAt  DateTime @default(now())
 
   @@index([agencyId, entityType, entityId, createdAt])
+}
+
+// What EaseMuse has told Billing Server about an agency's usage (T-13-08, ADR-013). One row per report,
+// so a retry sends the same idempotency key and the server counts it once. Quantities and ids only.
+model BillingUsageReport {
+  id             String    @id @default(uuid()) @db.Uuid
+  agencyId       String    @db.Uuid
+  metric         String
+  periodKey      String // "2026-10" for monthly AI cost, "2026-10-07" for the daily seat snapshot
+  quantity       Int
+  idempotencyKey String
+  status         String    @default("pending") // pending | sent | failed
+  attempts       Int       @default(0)
+  error          String? // a short code such as http_500, never the server's text
+  createdAt      DateTime  @default(now())
+  sentAt         DateTime?
+
+  @@unique([agencyId, idempotencyKey])
+  @@index([agencyId, metric, periodKey])
+}
+
+// A full export of one agency's data as a ZIP, built in the background for an agency admin (FR-TEN-06, ADR-016).
+model TenantExport {
+  id            String    @id @default(uuid()) @db.Uuid
+  agencyId      String    @db.Uuid
+  requestedById String    @db.Uuid
+  status        String    @default("queued") // queued | running | completed | failed
+  jobRunId      String?   @db.Uuid
+  fileId        String?   @db.Uuid
+  sizeBytes     Int?
+  tableCounts   Json? // rows per table, no content
+  error         String?
+  createdAt     DateTime  @default(now())
+  completedAt   DateTime?
+
+  @@index([agencyId, createdAt])
+}
+
+// Platform table: NOT under RLS and deliberately without an agencyId column. The record of a tenant
+// deletion has to outlive the tenant, so it holds the tenant's id, slug and name as plain values
+// (FR-ADM-08, ADR-016). Two different platform owners/admins are needed: one requests, another approves.
+model TenantDeletion {
+  id            String    @id @default(uuid()) @db.Uuid
+  tenantId      String    @db.Uuid
+  tenantSlug    String
+  tenantName    String
+  status        String    @default("requested") // requested | approved | running | completed | failed | cancelled
+  requestedById String    @db.Uuid
+  requestedAt   DateTime  @default(now())
+  approvedById  String?   @db.Uuid
+  approvedAt    DateTime?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  cancelledAt   DateTime?
+  jobRunId      String?   @db.Uuid
+  counts        Json? // rows removed per table, no content
+  error         String?
+  updatedAt     DateTime  @updatedAt
+
+  @@index([tenantId, status])
+}
+
+// Platform-wide configuration an owner or admin sets in /admin (FR-ADM-10): for now the settings new
+// agencies start from. Not under RLS and holds no agency data.
+model PlatformConfig {
+  key         String   @id // for example "new_agency_defaults"
+  value       Json
+  updatedById String?  @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // Platform table: NOT under RLS (ids and status only, no candidate data).

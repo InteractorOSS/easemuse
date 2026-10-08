@@ -9,6 +9,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 ## Quick Assessment
 
 ### Critical Checks
+
 - [ ] No hardcoded secrets/credentials
 - [ ] Input validation on all user input
 - [ ] Authentication on protected endpoints
@@ -21,6 +22,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 ## OWASP Top 10 Review
 
 ### A01: Broken Access Control
+
 - [ ] Access controls enforced server-side
 - [ ] Default deny for protected resources
 - [ ] CORS properly configured
@@ -29,6 +31,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 - [ ] Rate limiting implemented
 
 ### A02: Cryptographic Failures
+
 - [ ] Sensitive data encrypted at rest
 - [ ] TLS for data in transit
 - [ ] Strong algorithms used (no MD5, SHA1)
@@ -36,6 +39,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 - [ ] No sensitive data in URLs
 
 ### A03: Injection
+
 - [ ] Parameterized queries/prepared statements
 - [ ] Input validation (whitelist preferred)
 - [ ] Output encoding
@@ -43,12 +47,14 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 - [ ] No command injection risks
 
 ### A04: Insecure Design
+
 - [ ] Threat modeling considered
 - [ ] Security requirements defined
 - [ ] Secure design patterns used
 - [ ] Business logic validated
 
 ### A05: Security Misconfiguration
+
 - [ ] Default credentials changed
 - [ ] Unnecessary features disabled
 - [ ] Error messages don't leak info
@@ -56,11 +62,13 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 - [ ] Proper file permissions
 
 ### A06: Vulnerable Components
+
 - [ ] Dependencies up to date
 - [ ] No known vulnerabilities (npm audit)
 - [ ] Components from trusted sources
 
 ### A07: Authentication Failures
+
 - [ ] Strong password policy
 - [ ] MFA available/required
 - [ ] Session management secure
@@ -68,17 +76,20 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 - [ ] Secure password storage (bcrypt)
 
 ### A08: Integrity Failures
+
 - [ ] Dependencies verified (lockfile)
 - [ ] No unsigned code/resources
 - [ ] CI/CD pipeline secured
 
 ### A09: Logging Failures
+
 - [ ] Security events logged
 - [ ] No sensitive data in logs
 - [ ] Log integrity protected
 - [ ] Alerting configured
 
 ### A10: SSRF
+
 - [ ] URL validation for remote requests
 - [ ] Allowlist for external resources
 - [ ] No internal network exposure
@@ -88,6 +99,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 ## Code-Level Security Checks
 
 ### Authentication
+
 ```
 - [ ] Passwords hashed with bcrypt/argon2
 - [ ] Tokens have appropriate expiration
@@ -96,6 +108,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 ```
 
 ### Authorization
+
 ```
 - [ ] Every endpoint has auth check
 - [ ] Role/permission checks present
@@ -104,6 +117,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 ```
 
 ### Input Handling
+
 ```
 - [ ] All inputs validated
 - [ ] Validation server-side
@@ -113,6 +127,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 ```
 
 ### Output Handling
+
 ```
 - [ ] HTML encoding for user content
 - [ ] JSON responses properly typed
@@ -121,6 +136,7 @@ This checklist guides security reviews for code changes, with focus on OWASP Top
 ```
 
 ### Data Protection
+
 ```
 - [ ] PII properly handled
 - [ ] Encryption for sensitive data
@@ -149,6 +165,7 @@ Permissions-Policy: geolocation=(), camera=()
 ## Common Vulnerabilities
 
 ### SQL Injection
+
 ```javascript
 // BAD
 db.query(`SELECT * FROM users WHERE id = '${userId}'`);
@@ -158,6 +175,7 @@ db.query('SELECT * FROM users WHERE id = ?', [userId]);
 ```
 
 ### XSS
+
 ```javascript
 // BAD
 element.innerHTML = userInput;
@@ -169,6 +187,7 @@ element.innerHTML = DOMPurify.sanitize(userInput);
 ```
 
 ### Command Injection
+
 ```javascript
 // BAD
 exec(`ls ${userInput}`);
@@ -178,6 +197,7 @@ execFile('ls', [validatedInput]);
 ```
 
 ### Path Traversal
+
 ```javascript
 // BAD
 const file = path.join(baseDir, userInput);
@@ -192,6 +212,7 @@ if (!file.startsWith(baseDir)) throw new Error('Invalid path');
 ## Secrets Check
 
 Ensure these are NOT in code:
+
 - [ ] API keys
 - [ ] Database passwords
 - [ ] Private keys
@@ -200,6 +221,7 @@ Ensure these are NOT in code:
 - [ ] AWS credentials
 
 Check these files:
+
 - `.env` (should be gitignored)
 - Configuration files
 - Test files
@@ -217,6 +239,7 @@ Check these files:
 **PR/Code**: [Reference]
 
 ### Summary
+
 - [ ] Passed - No security issues found
 - [ ] Passed with notes - Minor issues, acceptable
 - [ ] Failed - Security issues must be addressed
@@ -224,21 +247,27 @@ Check these files:
 ### Findings
 
 #### Critical
+
 [List critical findings]
 
 #### High
+
 [List high findings]
 
 #### Medium
+
 [List medium findings]
 
 #### Low
+
 [List low findings]
 
 ### Recommendations
+
 [List recommendations]
 
 ### Sign-off
+
 - [ ] Security review complete
 - [ ] Issues addressed (if any)
 ```

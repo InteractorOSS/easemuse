@@ -9,21 +9,25 @@ This document outlines the coding standards and best practices for the project. 
 ## General Principles
 
 ### 1. Readability First
+
 - Code is read more often than written
 - Optimize for understanding, not cleverness
 - Use meaningful names that explain purpose
 
 ### 2. Keep It Simple
+
 - Solve the problem at hand, not hypothetical future problems
 - Avoid premature optimization
 - Prefer simple solutions over complex ones
 
 ### 3. Consistency
+
 - Follow existing patterns in the codebase
 - Use the same style throughout
 - When in doubt, match surrounding code
 
 ### 4. Self-Documenting Code
+
 - Code should explain itself through naming
 - Comments explain "why", not "what"
 - If code needs extensive comments, consider refactoring
@@ -33,6 +37,7 @@ This document outlines the coding standards and best practices for the project. 
 ## Code Organization
 
 ### File Structure
+
 ```
 src/
 ├── components/          # UI components
@@ -55,12 +60,14 @@ src/
 ```
 
 ### File Naming
+
 - Use kebab-case for file names: `user-service.ts`
 - Match component name for React: `UserProfile.tsx`
 - Test files: `*.test.ts` or `*.spec.ts`
 - Type files: `types.ts` or `*.types.ts`
 
 ### Module Organization
+
 ```typescript
 // 1. Imports (grouped and ordered)
 // External packages
@@ -98,6 +105,7 @@ function helperFunction() {
 ## Functions
 
 ### Function Design
+
 ```typescript
 // Good - small, focused, single responsibility
 function validateEmail(email: string): boolean {
@@ -126,6 +134,7 @@ function validateUser(user: any): boolean {
 ```
 
 ### Parameters
+
 ```typescript
 // Good - use options object for multiple params
 interface CreateUserOptions {
@@ -146,13 +155,14 @@ function createUser(
   name: string,
   role: string,
   sendEmail: boolean,
-  department: string
+  department: string,
 ): Promise<User> {
   // ...
 }
 ```
 
 ### Return Values
+
 ```typescript
 // Good - explicit return type
 function calculateTotal(items: Item[]): number {
@@ -160,9 +170,7 @@ function calculateTotal(items: Item[]): number {
 }
 
 // Good - handle errors with Result type
-type Result<T, E = Error> =
-  | { success: true; data: T }
-  | { success: false; error: E };
+type Result<T, E = Error> = { success: true; data: T } | { success: false; error: E };
 
 function parseConfig(json: string): Result<Config> {
   try {
@@ -179,12 +187,13 @@ function parseConfig(json: string): Result<Config> {
 ## Error Handling
 
 ### Use Specific Error Types
+
 ```typescript
 class ValidationError extends Error {
   constructor(
     message: string,
     public field?: string,
-    public code?: string
+    public code?: string,
   ) {
     super(message);
     this.name = 'ValidationError';
@@ -204,6 +213,7 @@ throw new NotFoundError('User', userId);
 ```
 
 ### Handle Errors Appropriately
+
 ```typescript
 // Good - specific handling
 async function processOrder(order: Order): Promise<Result<void>> {
@@ -229,6 +239,7 @@ async function processOrder(order: Order): Promise<Result<void>> {
 ```
 
 ### Never Swallow Errors
+
 ```typescript
 // Bad - silently failing
 try {
@@ -252,6 +263,7 @@ try {
 ## Async Code
 
 ### Async/Await
+
 ```typescript
 // Good - clear async flow
 async function fetchUserWithOrders(userId: string): Promise<UserWithOrders> {
@@ -278,12 +290,10 @@ async function fetchDashboardData(userId: string): Promise<DashboardData> {
 ```
 
 ### Error Handling in Async
+
 ```typescript
 // Good - proper error handling
-async function fetchWithTimeout<T>(
-  promise: Promise<T>,
-  timeoutMs: number
-): Promise<T> {
+async function fetchWithTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
   const timeout = new Promise<never>((_, reject) => {
     setTimeout(() => reject(new Error('Request timeout')), timeoutMs);
   });
@@ -307,6 +317,7 @@ try {
 ## Testing
 
 ### Test Structure
+
 ```typescript
 describe('UserService', () => {
   describe('createUser', () => {
@@ -327,14 +338,14 @@ describe('UserService', () => {
       const userData = { email: 'invalid', name: 'Test' };
 
       // Act & Assert
-      await expect(userService.createUser(userData))
-        .rejects.toThrow(ValidationError);
+      await expect(userService.createUser(userData)).rejects.toThrow(ValidationError);
     });
   });
 });
 ```
 
 ### Test Best Practices
+
 - Test behavior, not implementation
 - One assertion per test (when practical)
 - Use descriptive test names
@@ -346,6 +357,7 @@ describe('UserService', () => {
 ## Security
 
 ### Never Trust Input
+
 ```typescript
 // Validate all external input
 const CreateUserSchema = z.object({
@@ -361,6 +373,7 @@ function createUser(input: unknown): User {
 ```
 
 ### Protect Sensitive Data
+
 ```typescript
 // Never log sensitive data
 logger.info('User login', {
@@ -381,6 +394,7 @@ function sanitizeUser(user: User): PublicUser {
 ## Code Review Checklist
 
 Before submitting code:
+
 - [ ] Code follows style guide
 - [ ] Functions are small and focused
 - [ ] Error handling is appropriate

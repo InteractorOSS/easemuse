@@ -7,6 +7,7 @@ import {
 } from '@easemuse/core';
 import { resolveLocale } from '@/i18n/config';
 import type { ScopedTx } from '@/lib/db';
+import { loadBrand } from '@/server/branding/brand';
 import { renderPortalLinkEmail } from '@/server/messaging/templates';
 import { queuePortalEmail, type PortalLink } from './identity';
 
@@ -47,6 +48,7 @@ export async function emailPortalLink(
     kind: input.kind,
     days: PORTAL_INVITE_TTL_DAYS,
     minutes: PORTAL_RELOGIN_TTL_MINUTES,
+    brand: await loadBrand(tx, input.agency.id, input.baseUrl),
   });
   const message = await queuePortalEmail(tx, {
     agencyId: input.agency.id,

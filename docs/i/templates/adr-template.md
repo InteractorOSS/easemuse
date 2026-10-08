@@ -26,11 +26,13 @@
 **Description**: [Brief description of this option]
 
 **Pros**:
+
 - [Pro 1]
 - [Pro 2]
 - [Pro 3]
 
 **Cons**:
+
 - [Con 1]
 - [Con 2]
 
@@ -43,10 +45,12 @@
 **Description**: [Brief description of this option]
 
 **Pros**:
+
 - [Pro 1]
 - [Pro 2]
 
 **Cons**:
+
 - [Con 1]
 - [Con 2]
 
@@ -59,10 +63,12 @@
 **Description**: [Brief description of this option]
 
 **Pros**:
+
 - [Pro 1]
 - [Pro 2]
 
 **Cons**:
+
 - [Con 1]
 - [Con 2]
 
@@ -98,10 +104,10 @@ We have decided to go with **[Option X]**.
 
 ## Risks
 
-| Risk | Impact | Likelihood | Mitigation |
-|------|--------|------------|------------|
-| [Risk 1] | [H/M/L] | [H/M/L] | [Mitigation strategy] |
-| [Risk 2] | [H/M/L] | [H/M/L] | [Mitigation strategy] |
+| Risk     | Impact  | Likelihood | Mitigation            |
+| -------- | ------- | ---------- | --------------------- |
+| [Risk 1] | [H/M/L] | [H/M/L]    | [Mitigation strategy] |
+| [Risk 2] | [H/M/L] | [H/M/L]    | [Mitigation strategy] |
 
 ## Implementation Notes
 
@@ -130,11 +136,11 @@ We have decided to go with **[Option X]**.
 
 ## Decision Record
 
-| Date | Author | Action |
-|------|--------|--------|
-| [YYYY-MM-DD] | [Name] | Created |
+| Date         | Author | Action                                 |
+| ------------ | ------ | -------------------------------------- |
+| [YYYY-MM-DD] | [Name] | Created                                |
 | [YYYY-MM-DD] | [Name] | Updated: [Brief description of change] |
-| [YYYY-MM-DD] | [Name] | Accepted by [approvers] |
+| [YYYY-MM-DD] | [Name] | Accepted by [approvers]                |
 
 ---
 
@@ -149,6 +155,7 @@ We have decided to go with **[Option X]**.
 ## When to Write an ADR
 
 Write an ADR when making decisions that:
+
 - Affect the architecture significantly
 - Are difficult to reverse
 - Have long-term implications
@@ -181,6 +188,7 @@ Write an ADR when making decisions that:
 ## File Naming Convention
 
 Use this naming pattern for ADR files:
+
 ```
 docs/planning/decisions/adr-001-database-selection.md
 docs/planning/decisions/adr-002-api-framework.md

@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
+import type { Prisma } from '@prisma/client';
 import type { CreateAgencyInput, PlatformAdminActor } from '@easemuse/core';
 import { resolveLocale } from '@/i18n/config';
 import {
@@ -17,6 +18,7 @@ import { getBudgetStatus, type BudgetStatus } from '@/server/ai/ledger';
 import { createOutboxMessage, dispatchOutboxMessage } from '@/server/messaging/outbox';
 import { renderMemberInviteEmail } from '@/server/messaging/templates';
 import { recordPlatformAudit } from '@/server/platform/audit';
+import { getNewAgencyDefaults } from '@/server/platform/config';
 import { INVITE_TTL_DAYS, inviteExpiry, newInviteToken } from './tokens';
 import { hashToken } from './invites';
 import { randomUUID } from 'node:crypto';
@@ -109,6 +111,7 @@ export async function createAgencyWithAdmin(
     days: INVITE_TTL_DAYS,
   });
 
+  const newAgencyDefaults = await getNewAgencyDefaults(actor.userId);
   let outboxMessageId: string;
   try {
     outboxMessageId = await withAgency(agencyId, async (tx) => {
@@ -119,6 +122,8 @@ export async function createAgencyWithAdmin(
           name: input.name,
           region: input.region,
           status: 'active',
+          // The settings new agencies start from (Platform configuration); later changes do not reach existing agencies.
+          settings: newAgencyDefaults as Prisma.InputJsonValue,
         },
       });
       const invite = await tx.memberInvite.create({

@@ -9,16 +9,19 @@ This guide provides best practices for working effectively with AI assistants li
 ## Core Principles
 
 ### 1. AI as a Collaborator, Not a Replacement
+
 - AI assists your thinking, doesn't replace it
 - You are responsible for understanding and validating all code
 - Use AI to accelerate, not to abdicate decision-making
 
 ### 2. Context is Key
+
 - Provide relevant context for better results
 - Share architecture decisions, constraints, and requirements
 - Include existing code patterns when asking for new code
 
 ### 3. Iterate and Refine
+
 - First responses may not be perfect
 - Ask follow-up questions to improve
 - Request modifications rather than starting over
@@ -30,6 +33,7 @@ This guide provides best practices for working effectively with AI assistants li
 ### Provide Context First
 
 **Good Prompt:**
+
 ```
 I'm implementing a user authentication system for a Node.js/Express API.
 We're using:
@@ -46,6 +50,7 @@ Help me implement the login endpoint that:
 ```
 
 **Bad Prompt:**
+
 ```
 Write a login function
 ```
@@ -53,6 +58,7 @@ Write a login function
 ### Be Specific About Requirements
 
 **Good Prompt:**
+
 ```
 Create a React component for a user profile card that:
 - Displays user avatar, name, and email
@@ -64,6 +70,7 @@ Create a React component for a user profile card that:
 ```
 
 **Bad Prompt:**
+
 ```
 Make a user profile component
 ```
@@ -71,6 +78,7 @@ Make a user profile component
 ### Request Explanations
 
 **Good Prompt:**
+
 ```
 Explain why you chose this approach for handling concurrent requests.
 What are the trade-offs compared to using a queue?
@@ -163,6 +171,7 @@ Keep the same external interface.
 ## What AI Does Well
 
 ### Excellent For:
+
 - **Boilerplate code** - Generating repetitive patterns
 - **Test generation** - Creating test cases from specifications
 - **Documentation** - Writing JSDoc, README sections
@@ -173,12 +182,14 @@ Keep the same external interface.
 - **Exploration** - Suggesting approaches to problems
 
 ### Use Cautiously For:
+
 - **Complex business logic** - May miss domain nuances
 - **Performance optimization** - Needs real profiling data
 - **Security-critical code** - Requires expert review
 - **Architecture decisions** - Context-dependent choices
 
 ### Not Recommended For:
+
 - **Proprietary algorithms** - IP concerns
 - **Production secrets** - Security risk
 - **Compliance code** - Requires domain expertise
@@ -191,28 +202,33 @@ Keep the same external interface.
 Before using AI-generated code:
 
 ### Understanding
+
 - [ ] I understand what this code does
 - [ ] I can explain why each part is necessary
 - [ ] I know how it integrates with existing code
 
 ### Correctness
+
 - [ ] Logic is correct for all cases
 - [ ] Edge cases are handled
 - [ ] Error handling is appropriate
 
 ### Security
+
 - [ ] No hardcoded secrets
 - [ ] Input validation present
 - [ ] No obvious vulnerabilities
 - [ ] Follows security guidelines
 
 ### Quality
+
 - [ ] Follows code style guidelines
 - [ ] Well-structured and readable
 - [ ] No unnecessary complexity
 - [ ] Appropriate naming
 
 ### Testing
+
 - [ ] Unit tests cover the code
 - [ ] Tests actually pass
 - [ ] Edge cases tested
@@ -224,6 +240,7 @@ Before using AI-generated code:
 ### Refining Responses
 
 **If the code is close but not quite right:**
+
 ```
 This is good, but can you modify it to:
 - Handle the case where [specific case]
@@ -232,6 +249,7 @@ This is good, but can you modify it to:
 ```
 
 **If you need a different approach:**
+
 ```
 This approach won't work because [reason].
 Can you try an alternative that:
@@ -240,6 +258,7 @@ Can you try an alternative that:
 ```
 
 **If you need explanation:**
+
 ```
 Can you explain:
 1. Why you chose [approach] over [alternative]?
@@ -287,6 +306,7 @@ Instead of asking for everything at once:
 ## Security Considerations
 
 ### Never Share:
+
 - API keys or secrets
 - Production credentials
 - Customer data
@@ -294,6 +314,7 @@ Instead of asking for everything at once:
 - Security-sensitive configurations
 
 ### Safe to Share:
+
 - Public API patterns
 - Generic code structures
 - Sanitized example data
@@ -306,30 +327,35 @@ Instead of asking for everything at once:
 ### Prompt Templates
 
 **Feature Implementation:**
+
 ```
 Implement [feature] for [context] that [requirements].
 Use [technologies]. Follow [patterns].
 ```
 
 **Bug Fix:**
+
 ```
 Fix [issue] in [code]. Error: [message].
 Expected: [behavior]. Actual: [behavior].
 ```
 
 **Code Review:**
+
 ```
 Review [code] for [concerns].
 Provide specific suggestions with examples.
 ```
 
 **Refactoring:**
+
 ```
 Refactor [code] to [goal].
 Maintain [constraints]. Apply [patterns].
 ```
 
 **Testing:**
+
 ```
 Write tests for [code] covering [scenarios].
 Use [framework] with [patterns].

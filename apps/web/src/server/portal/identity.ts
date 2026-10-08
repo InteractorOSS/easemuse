@@ -12,6 +12,7 @@ import { getAgencyByRef, withAgency, type ScopedTx } from '@/lib/db';
 import { ApiError, forbidden, notFound } from '@/lib/http/errors';
 import { logActivity } from '@/server/activity/service';
 import { createOutboxMessage } from '@/server/messaging/outbox';
+import { assertFeature, isFeatureEnabled } from '@/server/platform/features';
 import { hashToken } from '@/server/tenancy/invites';
 
 const MINUTE = 60_000;
@@ -62,6 +63,7 @@ export async function invitePortalUser(
   input: InvitePortalUserInput,
   now: Date = new Date(),
 ): Promise<PortalLink> {
+  await assertFeature(tx, actor.agencyId, 'portals');
   let email: string | null;
   let link: { clientContactId: string } | { candidateId: string };
   if (input.audience === 'hiring_manager') {
@@ -168,6 +170,7 @@ export async function redeemMagicLink(input: {
   if (agency.status === 'suspended' || agency.status === 'closed') {
     throw new ApiError('agency_suspended', 'This agency is not active', { status: 403 });
   }
+  if (!(await isFeatureEnabled(agency.id, 'portals'))) throw notFound('Link');
   const now = input.now ?? new Date();
   return withAgency(agency.id, async (tx) => {
     const link = await tx.magicLink.findUnique({
@@ -214,6 +217,7 @@ export async function requestRelogin(input: {
 }): Promise<PortalLink | null> {
   const agency = await getAgencyByRef(input.agencySlug);
   if (!agency || agency.status === 'suspended' || agency.status === 'closed') return null;
+  if (!(await isFeatureEnabled(agency.id, 'portals'))) return null;
   const now = input.now ?? new Date();
   return withAgency(agency.id, async (tx) => {
     const user = await tx.portalUser.findUnique({

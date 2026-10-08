@@ -24,6 +24,24 @@ export interface AuthDeps {
   loadMembership(agencyId: string, userId: string): Promise<Membership | null>;
   mfaEnforcement(): MfaEnforcement;
   log(message: string, data: Record<string, unknown>): void;
+  /** The active support grant of a platform administrator for an agency, if any (FR-TEN-07). */
+  loadSupportGrant(agencyId: string, userId: string): Promise<SupportGrant | null>;
+  /** Method and path of the request being served; null when unknown (then support access is refused). */
+  requestInfo(): Promise<{ method: string; path: string } | null>;
+  /** Writes the platform audit entry and the agency activity entry for one read under a grant. */
+  recordSupportView(input: {
+    agencyId: string;
+    adminId: string;
+    grantId: string;
+    method: string;
+    path: string;
+  }): Promise<void>;
+}
+
+/** A platform administrator's approved, unexpired, unrevoked grant for one agency. */
+export interface SupportGrant {
+  id: string;
+  expiresAt: Date;
 }
 
 export interface AgencyAuth {
@@ -31,7 +49,13 @@ export interface AgencyAuth {
   agency: AgencyRef;
   role: AgencyRole;
   userId: string;
+  /** Set when a platform administrator is looking in under a support grant (read-only, FR-ADM-07). */
+  support?: SupportGrant;
 }
+
+/** Support access reads like a lead (sees all positions) but can never change anything or reach admin pages. */
+const SUPPORT_ROLE: AgencyRole = 'lead';
+const SUPPORT_METHODS = ['GET', 'HEAD'];
 
 export interface PlatformAdminAuth {
   actor: PlatformAdminActor;
@@ -80,7 +104,7 @@ export function createAuthorizers(deps: AuthDeps) {
     const agency = await deps.getAgency(agencyRef);
     if (!agency) throw notFound('Agency');
     const membership = await deps.loadMembership(agency.id, session.userId);
-    if (!membership?.active) throw notFound('Agency');
+    if (!membership?.active) return requireSupport(agency, session, options);
 
     if (agency.status === 'suspended' || agency.status === 'closed') {
       throw new ApiError('agency_suspended', 'This agency is not active', { status: 403 });
@@ -92,6 +116,44 @@ export function createAuthorizers(deps: AuthDeps) {
       agency,
       role: membership.role,
       userId: session.userId,
+    };
+  }
+
+  /**
+   * A platform administrator who is not a member gets in only under an active support grant, and
+   * only to read: any method but GET or HEAD is refused, the read is logged in both logs before it is
+   * served, and a request whose method is unknown is refused (fail closed). Everyone else gets 404.
+   */
+  async function requireSupport(
+    agency: AgencyRef,
+    session: SessionInfo,
+    options: AgencyOptions,
+  ): Promise<AgencyAuth> {
+    const user = await deps.getUser(session.userId);
+    if (!user?.platformRole) throw notFound('Agency');
+    const grant = await deps.loadSupportGrant(agency.id, user.id);
+    if (!grant) throw notFound('Agency');
+    if (agency.status === 'suspended' || agency.status === 'closed') {
+      throw new ApiError('agency_suspended', 'This agency is not active', { status: 403 });
+    }
+    const request = await deps.requestInfo();
+    if (!request || !SUPPORT_METHODS.includes(request.method.toUpperCase())) {
+      throw new ApiError('support_read_only', 'Support access is read-only', { status: 403 });
+    }
+    if (options.roles && !options.roles.includes(SUPPORT_ROLE)) throw forbidden();
+    await deps.recordSupportView({
+      agencyId: agency.id,
+      adminId: user.id,
+      grantId: grant.id,
+      method: request.method.toUpperCase(),
+      path: request.path,
+    });
+    return {
+      actor: { kind: 'agency', userId: user.id, agencyId: agency.id, role: SUPPORT_ROLE },
+      agency,
+      role: SUPPORT_ROLE,
+      userId: user.id,
+      support: grant,
     };
   }
 

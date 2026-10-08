@@ -12,5 +12,11 @@
   "suspended": {
     "title": "Workspace suspended",
     "body": "This workspace has been suspended, so it cannot be opened right now. Your data has not been changed. Contact your agency administrator or EaseMuse support."
+  },
+  "support": {
+    "label": "Support access",
+    "title": "You are viewing {agency} as Team of Wakers support. Read-only.",
+    "detail": "Access ends {until}. Every page you open is recorded in the agency's activity log.",
+    "exit": "Leave this workspace"
   }
 }

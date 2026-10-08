@@ -5,16 +5,19 @@ import type { ReactNode } from 'react';
 import { GlobalSearch } from '@/components/search/global-search';
 import { AgencySwitcher, type AgencyOption } from './agency-switcher';
 import { Nav } from './nav';
+import { SupportBanner } from './support-banner';
 
 export interface AppShellProps {
   agencySlug: string;
   agencies: AgencyOption[];
   userName: string;
+  /** Set while a platform administrator looks in under a support grant (read-only, FR-ADM-07). */
+  support?: { agencyName: string; expiresAt: string; exitHref: string } | undefined;
   children: ReactNode;
 }
 
 /** Workbench frame: skip link, header (brand, agency switcher, user), side navigation, main content. */
-export function AppShell({ agencySlug, agencies, userName, children }: AppShellProps) {
+export function AppShell({ agencySlug, agencies, userName, support, children }: AppShellProps) {
   const common = useTranslations('common');
   const t = useTranslations('workbench');
   return (
@@ -25,6 +28,7 @@ export function AppShell({ agencySlug, agencies, userName, children }: AppShellP
       >
         {t('skipToContent')}
       </a>
+      {support ? <SupportBanner {...support} /> : null}
       <header className="flex flex-wrap items-center gap-4 border-b border-border px-4 py-2">
         <span className="font-semibold">{common('appName')}</span>
         <AgencySwitcher agencies={agencies} currentSlug={agencySlug} />

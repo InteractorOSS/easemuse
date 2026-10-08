@@ -7,6 +7,8 @@ import { getEnv } from '@/lib/env';
 import { ApiError, notFound } from '@/lib/http/errors';
 import { decodeCursor, toPage } from '@/lib/http/pagination';
 import { createOutboxMessage, dispatchOutboxMessage } from '@/server/messaging/outbox';
+import { assertSeatAvailable } from '@/server/billing/service';
+import { loadBrand } from '@/server/branding/brand';
 import { renderMemberInviteEmail } from '@/server/messaging/templates';
 import { hashToken } from './invites';
 import { INVITE_TTL_DAYS, inviteExpiry, newInviteToken } from './tokens';
@@ -88,6 +90,8 @@ export async function updateMember(
 
       const newRole = input.role ?? target.role;
       const newActive = input.active ?? target.active;
+      // Switching a member back on takes a seat again.
+      if (newActive && !target.active) await assertSeatAvailable(tx, actor.agencyId);
       const losesAdmin =
         target.role === 'admin' && target.active && (newRole !== 'admin' || !newActive);
       if (losesAdmin) {
@@ -169,7 +173,11 @@ export async function createInvite(
   ]);
   const token = newInviteToken();
   const expiresAt = inviteExpiry();
-  const acceptUrl = `${getEnv().APP_URL.replace(/\/+$/, '')}/invite/${agency.slug}?token=${token}`;
+  const baseUrl = getEnv().APP_URL.replace(/\/+$/, '');
+  const acceptUrl = `${baseUrl}/invite/${agency.slug}?token=${token}`;
+  const brand = await withAgency(actor.agencyId, (tx) => loadBrand(tx, actor.agencyId, baseUrl), {
+    userId: actor.userId,
+  });
   const mail = await renderMemberInviteEmail({
     locale: resolveLocale({ agencyLocale }),
     agencyName: agency.name,
@@ -177,6 +185,7 @@ export async function createInvite(
     role: input.role,
     acceptUrl,
     days: INVITE_TTL_DAYS,
+    brand,
   });
 
   const { invite, outboxId } = await withAgency(
@@ -202,6 +211,7 @@ export async function createInvite(
           { status: 409 },
         );
 
+      await assertSeatAvailable(tx, actor.agencyId);
       const created = await tx.memberInvite.create({
         data: {
           agencyId: actor.agencyId,

@@ -4,7 +4,10 @@
     "label": "Admin navigation",
     "agencies": "Agencies",
     "usage": "AI usage",
+    "health": "System health",
+    "config": "Configuration",
     "audit": "Audit log",
+    "deletions": "Deletions",
     "admins": "Administrators",
     "settings": "Settings"
   },
@@ -75,6 +78,75 @@
         "saved": "Budget saved.",
         "invalid": "Enter a number from 0 to 1,000,000."
       }
+    },
+    "support": {
+      "title": "Support access",
+      "intro": "You cannot see this agency's data unless its admin approves a request. Access is read-only, limited to the hours you ask for and every page you open is logged.",
+      "empty": "No requests yet.",
+      "status": {
+        "pending": "Waiting for the agency admin",
+        "active": "Access open",
+        "expired": "Expired",
+        "denied": "Denied",
+        "revoked": "Ended",
+        "lapsed": "Not answered in time"
+      },
+      "until": "Ends {when}",
+      "open": "Open the workspace",
+      "end": "End access",
+      "withdraw": "Withdraw request",
+      "reason": "Why do you need to look?",
+      "reasonHint": "The agency admin reads this before deciding.",
+      "reasonError": "Say why, in at least 10 characters.",
+      "hours": "How long",
+      "hoursOption": "{hours, plural, one {# hour} other {# hours}}",
+      "request": "Ask the agency admin",
+      "requested": "Request sent to the agency admins.",
+      "requestFailed": "The request could not be sent. You may already have an open one.",
+      "ended": "Done.",
+      "auditLink": "Open the audit log"
+    },
+    "deletion": {
+      "title": "Delete this agency",
+      "intro": "At contract end an owner or admin asks for the agency's data to be deleted, and a different owner or admin approves. Both type the agency's URL name. Everything is removed for good: all records, files and the agency itself. A record of the deletion stays here. Its admins can download their data first (Settings, Data export).",
+      "status": {
+        "requested": "Waiting for a second person",
+        "approved": "Approved, starting",
+        "running": "Deleting",
+        "completed": "Deleted",
+        "failed": "Failed",
+        "cancelled": "Cancelled"
+      },
+      "requestedBy": "Asked by {who} on {when}",
+      "typeName": "Type {slug} to confirm",
+      "request": "Ask for deletion",
+      "approve": "Approve and delete everything",
+      "cancel": "Cancel",
+      "waitingForSecond": "You asked for this deletion. A different owner or admin has to approve it.",
+      "running": "Deleting. {rows} rows removed so far. This page updates by itself.",
+      "runFailed": "The deletion stopped with an error. Nothing more is removed until someone asks again; what was already removed stays removed.",
+      "requested": "Deletion requested.",
+      "approved": "Approved. The deletion has started.",
+      "cancelled": "Deletion cancelled.",
+      "failed": "This did not work. Check the name you typed, and that you are not the person who asked."
+    },
+    "features": {
+      "title": "Features",
+      "intro": "Switch features on or off for this agency. Each change is logged here and in the agency's activity log.",
+      "saved": "Saved.",
+      "failed": "This could not be saved."
+    },
+    "billing": {
+      "title": "Plan and billing",
+      "plan": "Plan",
+      "choose": "Choose a plan",
+      "assign": "Put on this plan",
+      "refresh": "Read again from Billing",
+      "assigned": "The agency is on the plan.",
+      "refreshed": "Updated from Billing.",
+      "failed": "This did not work. Billing may be unreachable.",
+      "changeInBilling": "This agency already has a subscription on another plan. Change it in Billing Server.",
+      "plansUnavailable": "The plan list could not be loaded."
     }
   },
   "errors": {
@@ -221,6 +293,107 @@
       "no_credit": "AI calls are failing: the Anthropic account has run out of credit. Last seen {date} ({count, plural, one {# failed call} other {# failed calls}}). Add credit in the Anthropic console. This warning clears after the next AI call that works.",
       "invalid_key": "AI calls are failing: Anthropic did not accept the key. Last seen {date} ({count, plural, one {# failed call} other {# failed calls}}). Enter a new key above.",
       "no_key": "AI calls are failing: no Anthropic key is set. Last seen {date} ({count, plural, one {# failed call} other {# failed calls}}). Enter a key above."
+    }
+  },
+  "deletions": {
+    "title": "Deleted agencies",
+    "intro": "The permanent record of agencies deleted at contract end. It holds no agency content.",
+    "empty": "No agency has been deleted.",
+    "columns": {
+      "agency": "Agency",
+      "status": "Status",
+      "requestedBy": "Asked by",
+      "approvedBy": "Approved by",
+      "finished": "Finished",
+      "rows": "Rows removed"
+    },
+    "status": {
+      "requested": "Waiting for a second person",
+      "approved": "Approved",
+      "running": "Deleting",
+      "completed": "Deleted",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "health": {
+    "title": "System health",
+    "intro": "Job queues, mail that did not go out, and AI errors and refusals, per agency. Counts and ids only: nothing a candidate or client wrote is shown here.",
+    "window": "Period",
+    "windowOption": "{hours, plural, one {Last hour} other {Last # hours}}",
+    "generated": "Updated {when}. The page refreshes by itself.",
+    "queues": {
+      "title": "Job queues",
+      "empty": "No jobs yet.",
+      "columns": {
+        "queue": "Queue",
+        "queued": "Waiting",
+        "running": "Running",
+        "succeeded": "Done",
+        "failed": "Failed",
+        "oldest": "Oldest waiting since"
+      }
+    },
+    "agencies": {
+      "title": "Agencies",
+      "empty": "No active agencies.",
+      "attention": "Needs a look",
+      "columns": {
+        "agency": "Agency",
+        "jobsFailed": "Failed jobs",
+        "mailFailed": "Mail failed or bounced",
+        "mailStuck": "Mail stuck",
+        "generations": "AI drafts",
+        "errorRate": "AI error rate",
+        "refusalRate": "AI refusal rate"
+      }
+    },
+    "failed": {
+      "title": "Latest failed jobs",
+      "intro": "Use the id to find the run in the logs.",
+      "empty": "No failed jobs in this period.",
+      "system": "Platform",
+      "columns": {
+        "when": "When",
+        "job": "Job",
+        "agency": "Agency",
+        "id": "Id"
+      }
+    }
+  },
+  "config": {
+    "title": "Platform configuration",
+    "routing": {
+      "title": "AI routing and prompt versions",
+      "intro": "Which model and effort each AI capability uses, and the version of its prompt. These live in the code: changing one is a deploy that needs a passing evaluation run first (model change control), so this table is read only.",
+      "noPrompt": "Not built yet",
+      "columns": {
+        "code": "Capability",
+        "purpose": "Purpose",
+        "model": "Model",
+        "effort": "Effort",
+        "prompt": "Prompt version",
+        "maxTokens": "Output limit"
+      }
+    },
+    "flags": {
+      "title": "Feature flags",
+      "intro": "Switched for one agency at a time on that agency's page. Every flag is checked by the feature it names.",
+      "onByDefault": "On by default.",
+      "offByDefault": "Off by default.",
+      "names": {
+        "portals": "Portals",
+        "email_sending": "Sending email"
+      },
+      "about": {
+        "portals": "Hiring manager and candidate portals: invitations, shares and the portal pages.",
+        "email_sending": "Sending email from the product. Off keeps copy and mark as sent working."
+      }
+    },
+    "defaults": {
+      "title": "New agency defaults",
+      "formTitle": "Settings new agencies start from",
+      "intro": "A new agency is created with these settings. Agencies that already exist keep their own, and each agency's admin can change theirs. Saved changes are logged."
     }
   }
 }

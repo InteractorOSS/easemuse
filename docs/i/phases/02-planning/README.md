@@ -21,26 +21,34 @@ Typical: 1-2 weeks (scale based on project complexity)
 ## Deliverables
 
 ### 1. Architecture Design Document
+
 Template: [architecture-template.md](./architecture-template.md)
+
 - System overview
 - Component design
 - Data model
 - API contracts
 
 ### 2. Task Breakdown
+
 Template: [task-breakdown.md](./task-breakdown.md)
+
 - Feature decomposition
 - Task dependencies
 - Priority assignment
 
 ### 3. Risk Assessment
+
 Template: [risk-assessment.md](./risk-assessment.md)
+
 - Technical risks
 - Mitigation strategies
 - Contingency plans
 
 ### 4. Architecture Decision Records (ADRs)
+
 Template: [../../templates/adr-template.md](../../templates/adr-template.md)
+
 - Technology choices
 - Design patterns
 - Trade-off analysis
@@ -100,6 +108,7 @@ Template: [../../templates/adr-template.md](../../templates/adr-template.md)
 ## Checklist
 
 ### Architecture Design
+
 - [ ] System architecture defined
 - [ ] Component diagram created
 - [ ] Data model designed
@@ -108,6 +117,7 @@ Template: [../../templates/adr-template.md](../../templates/adr-template.md)
 - [ ] Security considerations addressed
 
 ### Technology Selection
+
 - [ ] Technology stack decided
 - [ ] Framework choices documented
 - [ ] Infrastructure requirements defined
@@ -115,6 +125,7 @@ Template: [../../templates/adr-template.md](../../templates/adr-template.md)
 - [ ] ADRs created for major decisions
 
 ### Task Breakdown
+
 - [ ] Features broken into tasks
 - [ ] Dependencies identified
 - [ ] Priority assigned
@@ -122,6 +133,7 @@ Template: [../../templates/adr-template.md](../../templates/adr-template.md)
 - [ ] Sprint/milestone planning done
 
 ### Risk Assessment
+
 - [ ] Technical risks identified
 - [ ] Business risks identified
 - [ ] Mitigation strategies defined
@@ -129,6 +141,7 @@ Template: [../../templates/adr-template.md](../../templates/adr-template.md)
 - [ ] Risk owners assigned
 
 ### Documentation
+
 - [ ] Architecture document complete
 - [ ] ADRs written
 - [ ] Design decisions recorded

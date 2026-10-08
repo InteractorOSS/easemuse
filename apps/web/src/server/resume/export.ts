@@ -117,6 +117,9 @@ export async function exportResumeDocx(
   const bytes = await buildResumeDocx({
     content,
     branding: source.branding,
+    logo: source.logo
+      ? { bytes: source.logo.bytes, name: source.branding.displayName ?? '' }
+      : null,
     labels: messages.pipeline.resume,
   });
   const base = content.header.name ?? 'resume';

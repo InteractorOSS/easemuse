@@ -16,6 +16,7 @@ import type { ScopedTx } from '@/lib/db';
 import { ApiError, forbidden, notFound } from '@/lib/http/errors';
 import { logActivity } from '@/server/activity/service';
 import { readApproved, readApprovedVersionById } from '@/server/artifacts/service';
+import { assertFeature } from '@/server/platform/features';
 import { requireEntry } from '@/server/pipeline/service';
 import { requirePosition } from '@/server/positions/service';
 import { getSubmissionOverview, recordSubmission } from '@/server/submission/submit';
@@ -225,6 +226,7 @@ export async function publishShare(
   input: PublishShareInput,
   now: Date = new Date(),
 ): Promise<ShareView> {
+  await assertFeature(tx, actor.agencyId, 'portals');
   const audience = SHARE_AUDIENCE[input.kind];
   const user = await loadPortalUser(tx, input.portalUserId, audience);
   let snapshot: PortalSnapshot;

@@ -110,6 +110,9 @@ export async function exportDocx(
     subtitle: context.position ? `${context.position.client} · ${context.position.location}` : null,
     agencyName: context.agency,
     branding,
+    logo: source.logo
+      ? { bytes: source.logo.bytes, name: branding.displayName ?? context.agency ?? '' }
+      : null,
     model: buildJdDocumentModel(source.version.content, {
       section: (key) => messages.positions.jdSections[key],
       category: (c) => messages.positions.categories[c],

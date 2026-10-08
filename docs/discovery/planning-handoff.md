@@ -1,22 +1,22 @@
 # Planning Handoff
 
-| Field | Value |
-|-------|-------|
-| **Purpose** | Starting material for Phase 2 (architecture document, task breakdown, ADRs, risk register) |
-| **Status** | v0.2 (2026-10-06): multi-tenant SaaS, HM and candidate portals, in-app email. Proposals here are for Planning to confirm or change |
-| **Date** | 2026-10-06 |
+| Field       | Value                                                                                                                              |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Purpose** | Starting material for Phase 2 (architecture document, task breakdown, ADRs, risk register)                                         |
+| **Status**  | v0.2 (2026-10-06): multi-tenant SaaS, HM and candidate portals, in-app email. Proposals here are for Planning to confirm or change |
+| **Date**    | 2026-10-06                                                                                                                         |
 
 ---
 
 ## 1. Inputs for Planning
 
-| Planning deliverable | Start from |
-|---------------------|-----------|
-| Architecture design | §2 domain model, §3 state machine, §4 AI capability list, [research-notes.md §2](./research-notes.md#2-technical-feasibility) |
-| Technology ADRs | [requirements.md C5](./requirements.md#constraints) (stack fixed), §7 ADR list |
-| Task breakdown | [user-stories.md](./user-stories.md) backlog + §5 release slices |
-| Risk register | [research-notes.md §4](./research-notes.md#4-risks-surfaced-during-discovery) R1–R14 |
-| Test plan | NFR-AI01–05 (AI eval set), Given/When/Then scenarios in user stories |
+| Planning deliverable | Start from                                                                                                                    |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Architecture design  | §2 domain model, §3 state machine, §4 AI capability list, [research-notes.md §2](./research-notes.md#2-technical-feasibility) |
+| Technology ADRs      | [requirements.md C5](./requirements.md#constraints) (stack fixed), §7 ADR list                                                |
+| Task breakdown       | [user-stories.md](./user-stories.md) backlog + §5 release slices                                                              |
+| Risk register        | [research-notes.md §4](./research-notes.md#4-risks-surfaced-during-discovery) R1–R14                                          |
+| Test plan            | NFR-AI01–05 (AI eval set), Given/When/Then scenarios in user stories                                                          |
 
 ---
 
@@ -73,6 +73,7 @@ Team? (optional, per tenant)
 ```
 
 Key modeling points for the architecture:
+
 - **PipelineEntry** (candidate × position) holds status and most per-search data. Candidate-level data (profile, documents) is shared across positions.
 - **Approved vs draft** must be a first-class concept: every AI-touched artifact has versions and an approval pointer (FR-AI-02/04).
 - Match **overall score is derived** (weighted sum in code) from criterion scores; store criterion inputs so it can be recomputed when weights change.
@@ -114,6 +115,7 @@ Any non-terminal state ─► WITHDRAWN (candidate) | CLOSED (position filled/ca
 ```
 
 Rules:
+
 - Every transition is a **recruiter action** (DP-1/DP-2); none are triggered by AI results.
 - Some transitions have guards that **warn or block** (configurable per tenant): Sourcing requires JD approval (FR-INT-10, from HM portal or recorded); Submit requires candidate resume approval (FR-RES-03), **candidate consent for that client** (FR-CDP-03) and a written Recruiter Assessment (US-801).
 - HM portal decisions (interview / hold / reject) arrive as **proposed transitions** the recruiter always confirms (FR-HMP-05, DP-1).
@@ -127,28 +129,28 @@ Position states: `DRAFT → INTAKE → SOURCING → INTERVIEWING → OFFER → F
 
 All recruiter-triggered, draft output, provenance recorded. "Schema" = zod schema shared by AI output, form and API.
 
-| # | Capability | Trigger (UI) | Inputs | Output schema | Sync / job | FR |
-|---|-----------|--------------|--------|---------------|-----------|----|
-| A1 | JD structuring + requirement categories | Structure JD | Original JD text, position fields | StructuredJD, Requirement[] | Sync (stream) | INT-04/05 |
-| A2 | Intake question list | Prepare intake questions | StructuredJD, missing items | Question[] | Sync | INT-06 |
-| A3 | Market benchmark + JD improvement | Benchmark | Position, StructuredJD, **LLM web search** results, agency's past positions | BenchmarkReport (web sources and internal records labelled separately), Suggestion[] | Job | INT-07 |
-| A4 | Improved JD draft | Improve JD | Approved structure, accepted suggestions | JDDocument | Sync | INT-08 |
-| A5 | Success profile | Create success profile | Approved JD, IntakeRecord | SuccessProfile | Sync | INT-11 |
-| A6 | Search criteria sheet | Search criteria | SuccessProfile | SearchCriteria | Sync | SRC-01 |
-| A7 | Profile structuring | On upload (recruiter action) | Resume text, source | CandidateProfile | Sync / job for bulk | SRC-03/10 |
-| A8 | Similar candidates | Find in my pool | SuccessProfile embedding, pool | RankedCandidate[] with reasons | Job | SRC-06 |
-| A9 | Candidate portfolio | Check open positions | Profile, open SuccessProfiles | PortfolioFit[] | Job | SRC-07 |
-| A10 | Match analysis | Analyze (1..N) | Approved profile, SuccessProfile, weights | MatchAnalysis (criteria, evidence, gaps, to-confirm) | Job for N > 1 | MAT-02 |
-| A11 | Screening pre-fill | Pre-fill screening | Profile | ScreeningDraft | Sync | SCR-03 |
-| A12 | Outreach message | Draft message | Profile, SuccessProfile, channel, touch #, toggles, template | OutreachDraft | Sync (stream) | OUT-01/02 |
-| A13 | Call question list | Call questions | Profile, MatchAnalysis to-confirm items | Question[] | Sync | QUA-01 |
-| A14 | Notes → qualification | Structure notes | Raw notes | QualificationRecord | Sync | QUA-03 |
-| A15 | Tailored resume | Tailor resume | Original resume, approved profile, SuccessProfile | TailoredResume + fact-check report | Sync (stream) | RES-01 |
-| A16 | Submission report | Draft report | Profile, MatchAnalysis, Qualification, TailoredResume | SubmissionReport (sections 1–13) | Sync (stream) | SUB-01 |
-| A17 | Feedback structuring | Structure feedback | Pasted feedback text | Feedback | Sync | IVW-04 |
-| A18 | Pattern summary | Summarize history | Past PipelineEntries, Feedback for client/role | PatternSummary with record links | Job | KNW-03 |
-| X1 | Fact check (internal step) | Runs inside A15/A16 | Generated text, approved profile | FactCheckWarning[] | Inline | AI-06 |
-| X2 | Embeddings (internal) | On approval of profile / success profile | Approved text | vector | Job | SRC-06/08 |
+| #   | Capability                              | Trigger (UI)                             | Inputs                                                                      | Output schema                                                                        | Sync / job          | FR        |
+| --- | --------------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------- | --------- |
+| A1  | JD structuring + requirement categories | Structure JD                             | Original JD text, position fields                                           | StructuredJD, Requirement[]                                                          | Sync (stream)       | INT-04/05 |
+| A2  | Intake question list                    | Prepare intake questions                 | StructuredJD, missing items                                                 | Question[]                                                                           | Sync                | INT-06    |
+| A3  | Market benchmark + JD improvement       | Benchmark                                | Position, StructuredJD, **LLM web search** results, agency's past positions | BenchmarkReport (web sources and internal records labelled separately), Suggestion[] | Job                 | INT-07    |
+| A4  | Improved JD draft                       | Improve JD                               | Approved structure, accepted suggestions                                    | JDDocument                                                                           | Sync                | INT-08    |
+| A5  | Success profile                         | Create success profile                   | Approved JD, IntakeRecord                                                   | SuccessProfile                                                                       | Sync                | INT-11    |
+| A6  | Search criteria sheet                   | Search criteria                          | SuccessProfile                                                              | SearchCriteria                                                                       | Sync                | SRC-01    |
+| A7  | Profile structuring                     | On upload (recruiter action)             | Resume text, source                                                         | CandidateProfile                                                                     | Sync / job for bulk | SRC-03/10 |
+| A8  | Similar candidates                      | Find in my pool                          | SuccessProfile embedding, pool                                              | RankedCandidate[] with reasons                                                       | Job                 | SRC-06    |
+| A9  | Candidate portfolio                     | Check open positions                     | Profile, open SuccessProfiles                                               | PortfolioFit[]                                                                       | Job                 | SRC-07    |
+| A10 | Match analysis                          | Analyze (1..N)                           | Approved profile, SuccessProfile, weights                                   | MatchAnalysis (criteria, evidence, gaps, to-confirm)                                 | Job for N > 1       | MAT-02    |
+| A11 | Screening pre-fill                      | Pre-fill screening                       | Profile                                                                     | ScreeningDraft                                                                       | Sync                | SCR-03    |
+| A12 | Outreach message                        | Draft message                            | Profile, SuccessProfile, channel, touch #, toggles, template                | OutreachDraft                                                                        | Sync (stream)       | OUT-01/02 |
+| A13 | Call question list                      | Call questions                           | Profile, MatchAnalysis to-confirm items                                     | Question[]                                                                           | Sync                | QUA-01    |
+| A14 | Notes → qualification                   | Structure notes                          | Raw notes                                                                   | QualificationRecord                                                                  | Sync                | QUA-03    |
+| A15 | Tailored resume                         | Tailor resume                            | Original resume, approved profile, SuccessProfile                           | TailoredResume + fact-check report                                                   | Sync (stream)       | RES-01    |
+| A16 | Submission report                       | Draft report                             | Profile, MatchAnalysis, Qualification, TailoredResume                       | SubmissionReport (sections 1–13)                                                     | Sync (stream)       | SUB-01    |
+| A17 | Feedback structuring                    | Structure feedback                       | Pasted feedback text                                                        | Feedback                                                                             | Sync                | IVW-04    |
+| A18 | Pattern summary                         | Summarize history                        | Past PipelineEntries, Feedback for client/role                              | PatternSummary with record links                                                     | Job                 | KNW-03    |
+| X1  | Fact check (internal step)              | Runs inside A15/A16                      | Generated text, approved profile                                            | FactCheckWarning[]                                                                   | Inline              | AI-06     |
+| X2  | Embeddings (internal)                   | On approval of profile / success profile | Approved text                                                               | vector                                                                               | Job                 | SRC-06/08 |
 
 Note: X2 runs automatically after a recruiter approves something. It is indexing, not an AI decision, so it does not conflict with DP-2. Planning should confirm this reading with the product owner.
 
@@ -159,6 +161,7 @@ Note: X2 runs automatically after a recruiter approves something. It is indexing
 Goal: one complete recruiter loop early, built **multi-tenant from day one** (retrofitting tenancy is expensive and risky), then portals, then depth. Team of Wakers' internal use is tenant #1 (Q-29). To confirm with the product owner.
 
 ### Release 1: Multi-tenant core loop (intake → submission), internal use as tenant #1
+
 - **E13 foundation**: tenant isolation, workspace creation by platform administrator, users/roles/defaults (US-1301…1303), AI usage metering and limits (US-1304)
 - **E16 platform admin `/admin`**: access, agencies, platform admins, usage and budgets, audit log (US-1601…1605)
 - E0 platform & AI framework (US-001…008)
@@ -175,6 +178,7 @@ Goal: one complete recruiter loop early, built **multi-tenant from day one** (re
 Exit: a Team of Wakers recruiter (internal use) runs a real search intake → submission; isolation tests pass; AI eval set meets NFR-AI02/03.
 
 ### Release 2: Portals + through to start date (first external agencies)
+
 - **E14 HM portal** (US-1401, 1402, 1404, 1405) and **E15 candidate portal** (US-1501…1503, 1505, 1507)
 - E9 feedback (US-902…903), E10 reminders to start (US-1002)
 - E11 KPI dashboard (US-1101…1102)
@@ -186,6 +190,7 @@ Exit: a Team of Wakers recruiter (internal use) runs a real search intake → su
 - Security: pen test, DPA/terms ready before first external customer
 
 ### Release 3: Talent pool intelligence, reuse, benchmarking
+
 - E2 similar candidates, portfolio (US-205…206)
 - E12 client history and pattern reports (US-1201…1202)
 - E1 market benchmark with AI web search (US-108)
@@ -198,20 +203,20 @@ Exit: a Team of Wakers recruiter (internal use) runs a real search intake → su
 
 Computed from pipeline transition timestamps (§3). Confirm with recruiter lead.
 
-| KPI | Formula |
-|-----|---------|
-| Time-to-Fill | Days from position → SOURCING (or opened date) to ACCEPTED (offer accepted). Median per period |
-| Time-to-Interview | Days from SUBMITTED to first interview date, per pipeline entry. Median |
-| Outreach Response Rate | Entries with any response ÷ entries with ≥ 1 sent touch |
-| Candidate Conversion Rate | Entries reaching stage N+1 ÷ entries reaching stage N (shown per stage) |
-| Submission-to-Interview | Entries with ≥ 1 interview ÷ entries SUBMITTED |
-| Interview-to-Offer | Entries reaching OFFER ÷ entries with ≥ 1 interview |
-| Offer Acceptance Rate | ACCEPTED ÷ OFFER |
-| Interview-to-Hire | STARTED ÷ entries with ≥ 1 interview. "Hire" means the candidate started (brief §12: the recruiter's job runs to the start date). Time-to-Fill ends at ACCEPTED, the industry convention |
-| Source-to-Hire | Per source: STARTED ÷ candidates added from that source |
-| Positions per recruiter (DP-5) | Count of positions in SOURCING…OFFER owned by recruiter, weekly average |
-| Time per position (DP-5) | Recruiter hours (time study) or system proxy (active days) per filled position |
-| Portal adoption | Approvals, submission reviews and feedback done in portals ÷ all of them |
+| KPI                            | Formula                                                                                                                                                                                  |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Time-to-Fill                   | Days from position → SOURCING (or opened date) to ACCEPTED (offer accepted). Median per period                                                                                           |
+| Time-to-Interview              | Days from SUBMITTED to first interview date, per pipeline entry. Median                                                                                                                  |
+| Outreach Response Rate         | Entries with any response ÷ entries with ≥ 1 sent touch                                                                                                                                  |
+| Candidate Conversion Rate      | Entries reaching stage N+1 ÷ entries reaching stage N (shown per stage)                                                                                                                  |
+| Submission-to-Interview        | Entries with ≥ 1 interview ÷ entries SUBMITTED                                                                                                                                           |
+| Interview-to-Offer             | Entries reaching OFFER ÷ entries with ≥ 1 interview                                                                                                                                      |
+| Offer Acceptance Rate          | ACCEPTED ÷ OFFER                                                                                                                                                                         |
+| Interview-to-Hire              | STARTED ÷ entries with ≥ 1 interview. "Hire" means the candidate started (brief §12: the recruiter's job runs to the start date). Time-to-Fill ends at ACCEPTED, the industry convention |
+| Source-to-Hire                 | Per source: STARTED ÷ candidates added from that source                                                                                                                                  |
+| Positions per recruiter (DP-5) | Count of positions in SOURCING…OFFER owned by recruiter, weekly average                                                                                                                  |
+| Time per position (DP-5)       | Recruiter hours (time study) or system proxy (active days) per filled position                                                                                                           |
+| Portal adoption                | Approvals, submission reviews and feedback done in portals ÷ all of them                                                                                                                 |
 
 ---
 

@@ -24,12 +24,25 @@ import { useToast } from '@/components/ui/toast';
 import { apiFetch } from '@/lib/api-client';
 
 /** Settings → Defaults: matching weights, outreach timing, guard rules, rejection reasons, visibility, language. */
-export function DefaultsForm({ agencyId, canEdit }: { agencyId: string; canEdit: boolean }) {
+export function DefaultsForm({
+  agencyId,
+  canEdit,
+  endpoint,
+  title,
+  intro,
+}: {
+  agencyId: string;
+  canEdit: boolean;
+  /** The platform's "settings new agencies start from" use the same form with their own endpoint and words. */
+  endpoint?: string;
+  title?: string;
+  intro?: string;
+}) {
   const t = useTranslations('settings.defaults');
   const states = useTranslations('common.states');
-  const path = `/api/v1/agencies/${agencyId}/settings`;
+  const path = endpoint ?? `/api/v1/agencies/${agencyId}/settings`;
   const query = useQuery({
-    queryKey: ['settings', agencyId],
+    queryKey: ['settings', endpoint ?? agencyId],
     queryFn: ({ signal }) => apiFetch<AgencySettings>(path, { signal }),
   });
 
@@ -38,27 +51,30 @@ export function DefaultsForm({ agencyId, canEdit }: { agencyId: string; canEdit:
   return (
     <Form
       key={JSON.stringify(query.data.data)}
-      agencyId={agencyId}
+      scopeKey={endpoint ?? agencyId}
       initial={query.data.data}
       canEdit={canEdit}
       path={path}
-      title={t('title')}
+      title={title ?? t('title')}
+      intro={intro ?? t('intro')}
     />
   );
 }
 
 function Form({
-  agencyId,
+  scopeKey,
   initial,
   canEdit,
   path,
   title,
+  intro,
 }: {
-  agencyId: string;
+  scopeKey: string;
   initial: AgencySettings;
   canEdit: boolean;
   path: string;
   title: string;
+  intro: string;
 }) {
   const t = useTranslations('settings.defaults');
   const { toast } = useToast();
@@ -87,7 +103,7 @@ function Form({
     mutationFn: (body: unknown) => apiFetch(path, { method: 'PATCH', body }),
     onSuccess: async () => {
       toast({ title: t('saved') });
-      await queryClient.invalidateQueries({ queryKey: ['settings', agencyId] });
+      await queryClient.invalidateQueries({ queryKey: ['settings', scopeKey] });
     },
     onError: () => setErrors({ form: t('failed') }),
   });
@@ -137,7 +153,7 @@ function Form({
     >
       <div>
         <h1 className="text-2xl font-semibold">{title}</h1>
-        <p className="mt-1 text-sm text-muted">{t('intro')}</p>
+        <p className="mt-1 text-sm text-muted">{intro}</p>
         {!canEdit ? <p className="mt-1 text-sm">{t('readOnly')}</p> : null}
       </div>
 

@@ -313,3 +313,13 @@ export async function getAgencyPortalInfo(slug: string) {
     select: { id: true, slug: true, name: true, status: true, branding: true },
   });
 }
+
+/** The raw feature flags of one agency (a platform column), for pages and sign-in that have no transaction. */
+export async function getFeatureFlagsRaw(agencyId: string): Promise<unknown> {
+  const { prisma } = getDbHandle();
+  const row = await prisma.agency.findUnique({
+    where: { id: agencyId },
+    select: { featureFlags: true },
+  });
+  return row?.featureFlags ?? {};
+}

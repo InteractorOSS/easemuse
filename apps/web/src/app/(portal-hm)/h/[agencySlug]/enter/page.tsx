@@ -11,6 +11,7 @@ export default async function EnterPage({ params }: { params: Promise<{ agencySl
     <PortalShell
       agencyName={agency.branding.displayName ?? agency.name}
       color={agency.branding.primaryColor}
+      logoUrl={agency.logoUrl}
       slug={agencySlug}
       prefix="h"
       signedIn={false}

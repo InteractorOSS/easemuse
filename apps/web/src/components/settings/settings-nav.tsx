@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
-/** Sections of Settings the person may open: members for admins and leads, usage for admins only. */
+/** Sections of Settings the person may open: members for admins and leads, branding and usage for admins only. */
 export function SettingsNav({
   agencySlug,
   role,
@@ -20,8 +20,17 @@ export function SettingsNav({
   const items = [
     ...(role !== 'recruiter' ? [{ key: 'members' as const }] : []),
     { key: 'defaults' as const },
+    ...(role === 'admin' ? [{ key: 'branding' as const }] : []),
     ...(role !== 'recruiter' ? [{ key: 'privacy' as const }] : []),
-    ...(role === 'admin' ? [{ key: 'usage' as const }, { key: 'outbox' as const }] : []),
+    ...(role === 'admin'
+      ? [
+          { key: 'plan' as const },
+          { key: 'usage' as const },
+          { key: 'outbox' as const },
+          { key: 'support' as const },
+          { key: 'export' as const },
+        ]
+      : []),
   ];
   return (
     <nav aria-label={t('label')} className="flex flex-wrap gap-1 border-b border-border">

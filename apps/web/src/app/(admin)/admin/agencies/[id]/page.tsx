@@ -7,6 +7,10 @@ export default async function AgencyDetailPage({ params }: { params: Promise<{ i
   const { id } = await params;
   const { actor } = await platformAdminAccess();
   return (
-    <AgencyDetailView agencyId={id} canWrite={actor.role === 'owner' || actor.role === 'admin'} />
+    <AgencyDetailView
+      agencyId={id}
+      canWrite={actor.role === 'owner' || actor.role === 'admin'}
+      userId={actor.userId}
+    />
   );
 }

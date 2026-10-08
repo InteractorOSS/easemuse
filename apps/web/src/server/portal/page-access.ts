@@ -6,11 +6,20 @@ import { cache } from 'react';
 import { parseBranding, type AgencyBranding, type PortalAudienceValue } from '@easemuse/core';
 import { getAgencyPortalInfo, withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
+import { logoPath } from '@/server/branding/brand';
+import { isFeatureEnabled } from '@/server/platform/features';
 import { PORTAL_PREFIX } from './links';
 import { PORTAL_COOKIE, verifyPortalSession } from './session';
 
 export interface PortalPageAccess {
-  agency: { id: string; slug: string; name: string; branding: AgencyBranding };
+  agency: {
+    id: string;
+    slug: string;
+    name: string;
+    branding: AgencyBranding;
+    /** Root-relative address of the public logo route, or null (FR-TEN-04). */
+    logoUrl: string | null;
+  };
   portalUserId: string;
   audience: PortalAudienceValue;
 }
@@ -19,11 +28,14 @@ export interface PortalPageAccess {
 export const portalAgency = cache(async (slug: string) => {
   const agency = await getAgencyPortalInfo(slug);
   if (!agency || agency.status === 'suspended' || agency.status === 'closed') notFound();
+  if (!(await isFeatureEnabled(agency.id, 'portals'))) notFound();
+  const branding = parseBranding(agency.branding);
   return {
     id: agency.id,
     slug: agency.slug,
     name: agency.name,
-    branding: parseBranding(agency.branding),
+    branding,
+    logoUrl: branding.logoFileId ? logoPath(agency.slug, branding.logoFileId) : null,
   };
 });
 

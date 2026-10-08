@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 export function PortalShell({
   agencyName,
   color,
+  logoUrl,
   slug,
   prefix,
   signedIn,
@@ -21,6 +22,8 @@ export function PortalShell({
 }: {
   agencyName: string;
   color: string;
+  /** The agency logo (FR-TEN-04); the name beside it already says who it is, so the image is decorative. */
+  logoUrl?: string | null;
   slug: string;
   prefix: 'h' | 'c';
   signedIn: boolean;
@@ -45,9 +48,13 @@ export function PortalShell({
         <div className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-4 gap-y-2">
           <Link
             href={`/${prefix}/${slug}`}
-            className="text-lg font-semibold"
+            className="flex items-center gap-3 text-lg font-semibold"
             style={{ color: 'var(--brand)' }}
           >
+            {logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element -- the logo is a stored image served by our own route
+              <img src={logoUrl} alt="" className="max-h-10 max-w-32 object-contain" />
+            ) : null}
             {agencyName}
           </Link>
           <nav className="ml-auto flex flex-wrap items-center gap-3 text-sm">

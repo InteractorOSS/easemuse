@@ -1,12 +1,13 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 // route-audience: agency
-import { invitePortalUserInputSchema } from '@easemuse/core';
+import { invitePortalUserInputSchema, portalDirectoryQuerySchema } from '@easemuse/core';
 import { authorizeAgency } from '@/lib/auth/authorize';
 import { getAgencyDefaultLocale, withAgency } from '@/lib/db';
 import { getEnv } from '@/lib/env';
-import { created, handleRoute } from '@/lib/http/responses';
-import { parseBody } from '@/lib/http/validation';
+import { created, handleRoute, ok } from '@/lib/http/responses';
+import { parseBody, parseQuery } from '@/lib/http/validation';
+import { listDirectory } from '@/server/portal/directory';
 import { dispatchOutboxMessage } from '@/server/messaging/outbox';
 import { invitePortalUser } from '@/server/portal/identity';
 import { emailPortalLink } from '@/server/portal/links';
@@ -47,5 +48,23 @@ export async function POST(
       requestedById: authed.userId,
     });
     return created({ portalUserId: sent.portalUserId, expiresAt: sent.expiresAt });
+  });
+}
+
+/** The client's contacts (`?clientId=`) or one candidate (`?candidateId=`) with whether they already have portal access. */
+export async function GET(
+  req: Request,
+  ctx: { params: Promise<{ agencyId: string }> },
+): Promise<Response> {
+  return handleRoute(async () => {
+    const { agencyId } = await ctx.params;
+    const authed = await authorizeAgency(agencyId);
+    if (authed instanceof Response) return authed;
+    const query = parseQuery(req, portalDirectoryQuerySchema);
+    return ok(
+      await withAgency(authed.agency.id, (tx) => listDirectory(tx, query), {
+        userId: authed.userId,
+      }),
+    );
   });
 }

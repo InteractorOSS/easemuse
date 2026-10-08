@@ -329,8 +329,10 @@ vi.mock('@/server/ai/key-check', () => ({
 }));
 vi.mock('@/server/portal/publish', () => ({
   publishShare: async () => ({ id: 'sh1' }),
+  listSharesFor: async () => [],
   revokeShare: async () => undefined,
 }));
+vi.mock('@/server/portal/directory', () => ({ listDirectory: async () => [] }));
 vi.mock('@/server/portal/proposals', () => ({
   listOpenProposals: async () => [],
   resolveProposal: async () => undefined,
@@ -499,7 +501,10 @@ import {
   GET as prefillGet,
   POST as prefillPost,
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/screening/prefill/route';
-import { POST as portalInvitePost } from './v1/agencies/[agencyId]/portal-users/route';
+import {
+  GET as portalDirectoryGet,
+  POST as portalInvitePost,
+} from './v1/agencies/[agencyId]/portal-users/route';
 import { POST as portalDisablePost } from './v1/agencies/[agencyId]/portal-users/[portalUserId]/disable/route';
 import {
   DELETE as anthropicDelete,
@@ -507,7 +512,10 @@ import {
   PUT as anthropicPut,
 } from './admin/v1/settings/anthropic/route';
 import { POST as anthropicTestPost } from './admin/v1/settings/anthropic/test/route';
-import { POST as portalSharePost } from './v1/agencies/[agencyId]/portal-shares/route';
+import {
+  GET as portalSharesGet,
+  POST as portalSharePost,
+} from './v1/agencies/[agencyId]/portal-shares/route';
 import { DELETE as portalShareDelete } from './v1/agencies/[agencyId]/portal-shares/[shareId]/route';
 import { GET as proposalsGet } from './v1/agencies/[agencyId]/proposed-transitions/route';
 import { POST as proposalResolvePost } from './v1/agencies/[agencyId]/proposed-transitions/[proposalId]/resolve/route';
@@ -1529,6 +1537,30 @@ const endpoints: Endpoint[] = [
     allowed: AGENCY_ALL,
     call: () =>
       proposalResolvePost(new Request('http://x.test/', json({ accept: false })), agencyParams),
+  },
+  {
+    name: 'GET portal directory',
+    file: 'v1/agencies/[agencyId]/portal-users/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      portalDirectoryGet(
+        new Request('http://x.test/?positionId=11111111-1111-4111-8111-111111111111'),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET portal shares',
+    file: 'v1/agencies/[agencyId]/portal-shares/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      portalSharesGet(
+        new Request(
+          'http://x.test/?kind=submission&subjectId=11111111-1111-4111-8111-111111111111',
+        ),
+        agencyParams,
+      ),
   },
   {
     name: 'GET screening',

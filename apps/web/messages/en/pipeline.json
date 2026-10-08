@@ -667,5 +667,39 @@
     "outcomeSaved": "Outcome recorded",
     "error": "Could not save. Try again.",
     "noOutcome": "No outcome yet."
+  },
+  "portalAdmin": {
+    "title": "Portal access",
+    "hint": "Share approved items through the portal. People sign in with a link sent to the email on file; no account is needed.",
+    "jdTitle": "Send to the hiring manager for approval",
+    "submissionTitle": "Share with the hiring manager",
+    "resumeTitle": "Send the resume to the candidate for approval",
+    "noEmail": "No email on file",
+    "invite": "Invite",
+    "invited": "Has access",
+    "disabled": "Access turned off",
+    "share": "Share",
+    "shareAgain": "Share again",
+    "sharedOn": "Shared {date}",
+    "revoke": "Stop sharing",
+    "revoked": "Stopped sharing",
+    "invitedToast": "Invitation sent",
+    "sharedToast": "Shared",
+    "none": "No contacts for this client yet.",
+    "error": "Could not do that. Try again.",
+    "contact": "{name}, {title}",
+    "proposals": "Hiring manager's proposals",
+    "proposalLine": "{who} proposes: {state}",
+    "proposalReason": "Reason: {reason}",
+    "accept": "Accept and move",
+    "decline": "Decline",
+    "reasonCode": "Reason for the rejection",
+    "resolved": "Answered",
+    "states": {
+      "interviewing": "interview",
+      "on_hold": "hold",
+      "client_rejected": "reject",
+      "rejected": "reject"
+    }
   }
 }

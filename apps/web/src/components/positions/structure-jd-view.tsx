@@ -11,6 +11,7 @@ import { useAiRun } from '@/components/artifacts/use-ai-run';
 import { Button } from '@/components/ui/button';
 import { apiFetch } from '@/lib/api-client';
 import type { RequirementView } from '@/server/positions/structured-jd';
+import { PortalSharing } from '@/components/pipeline/portal-sharing';
 import { JdExportPanel } from './jd-export-panel';
 import { StructuredJdEditor } from './structured-jd-editor';
 
@@ -32,6 +33,7 @@ export function StructureJdView({
 }) {
   const t = useTranslations('positions.structure');
   const categories = useTranslations('positions.categories');
+  const portal = useTranslations('pipeline.portalAdmin');
   const states = useTranslations('common.states');
   const queryClient = useQueryClient();
   const key = ['structured-jd', agencyId, positionId];
@@ -81,7 +83,15 @@ export function StructureJdView({
       ) : null}
 
       {overview?.approvedVersionId ? (
-        <JdExportPanel agencyId={agencyId} positionId={positionId} />
+        <>
+          <JdExportPanel agencyId={agencyId} positionId={positionId} />
+          <PortalSharing
+            agencyId={agencyId}
+            target={{ positionId }}
+            subject={{ kind: 'jd_for_approval', subjectId: positionId }}
+            heading={portal('jdTitle')}
+          />
+        </>
       ) : null}
 
       {overview ? (

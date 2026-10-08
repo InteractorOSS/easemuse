@@ -17,6 +17,8 @@ import type { AnalysisDetail } from '@/server/matching/detail';
 import type { AnalysisView } from '@/server/matching/overrides';
 import type { PipelineEntryView } from '@/server/pipeline/service';
 import { InterviewPanel } from './interview-panel';
+import { PortalSharing } from './portal-sharing';
+import { ProposalsPanel } from './proposals-panel';
 import { OfferPanel } from './offer-panel';
 import { SubmissionPanel } from './submission-panel';
 import { ReportPanel } from './report-panel';
@@ -41,6 +43,7 @@ export function AnalysisView({
   entryId: string;
 }) {
   const t = useTranslations('pipeline.analysis');
+  const portalT = useTranslations('pipeline.portalAdmin');
   const states = useTranslations('pipeline.states');
   const common = useTranslations('common.states');
   const { toast } = useToast();
@@ -143,6 +146,28 @@ export function AnalysisView({
       {['offer', 'accepted', 'started', 'declined', 'reneged'].includes(e.state) ? (
         <OfferPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
       ) : null}
+
+      {['qualified', 'resume_ready', 'candidate_approved'].includes(e.state) ? (
+        <PortalSharing
+          agencyId={agencyId}
+          target={{ candidateId: e.candidateId }}
+          subject={{ kind: 'tailored_resume', subjectId: entryId }}
+          heading={portalT('resumeTitle')}
+          onChanged={refresh}
+        />
+      ) : null}
+
+      {['candidate_approved', 'submitted', 'interviewing', 'on_hold', 'offer'].includes(e.state) ? (
+        <PortalSharing
+          agencyId={agencyId}
+          target={{ entryId }}
+          subject={{ kind: 'submission', subjectId: entryId }}
+          heading={portalT('submissionTitle')}
+          onChanged={refresh}
+        />
+      ) : null}
+
+      <ProposalsPanel agencyId={agencyId} entryId={entryId} onChanged={refresh} />
 
       <section aria-labelledby="analyze-heading" className="flex max-w-2xl flex-col gap-2">
         <h2 id="analyze-heading" className="text-lg font-semibold">

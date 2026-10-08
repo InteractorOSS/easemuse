@@ -1,7 +1,7 @@
 {
   "title": "EaseMuse",
   "subtitle": "AI-assisted recruiter workbench",
-  "signIn": "Sign in with Interactor",
+  "signIn": "Sign in",
   "signOut": "Sign out",
   "noWorkspaceTitle": "You're not in a workspace yet",
   "noWorkspaceBody": "EaseMuse workspaces are invitation-only. Ask an administrator at your agency to invite you, then open the link in the invitation email.",

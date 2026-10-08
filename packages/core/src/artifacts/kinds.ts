@@ -5,6 +5,7 @@ import { callQuestionsContentSchema } from './call-questions';
 import { candidateProfileContentSchema } from './candidate-profile';
 import { matchAnalysisContentSchema } from './match-analysis';
 import { intakeQuestionsContentSchema } from './intake-questions';
+import { interviewFeedbackContentSchema } from './interview-feedback';
 import { outreachMessageContentSchema } from './outreach-message';
 import { qualificationContentSchema } from './qualification';
 import { tailoredResumeContentSchema } from './tailored-resume';
@@ -131,7 +132,9 @@ export const ARTIFACT_KIND_SPECS: Record<ArtifactKind, ArtifactKindSpec> = {
     requiredOnApprove: ['recruiterAssessment'],
     factCheckRequired: true,
   }),
-  interview_feedback: spec('interview_feedback', 'interview'),
+  interview_feedback: spec('interview_feedback', 'interview', {
+    schema: interviewFeedbackContentSchema as unknown as z.ZodType<Record<string, unknown>>,
+  }),
   pattern_summary: spec('pattern_summary', 'position'),
   similar_candidates: spec('similar_candidates', 'position'),
   portfolio_fit: spec('portfolio_fit', 'candidate'),

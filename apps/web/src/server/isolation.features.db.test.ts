@@ -22,6 +22,7 @@ import {
   recordFeedback,
   updateInterview,
 } from '@/server/interviews/service';
+import { getFeedbackDraft, planFeedbackDraft } from '@/server/interviews/feedback-draft';
 import { getOffer, recordOutcome, saveOffer } from '@/server/offers/service';
 import {
   getOutreach,
@@ -194,6 +195,17 @@ describe.skipIf(!dbAvailable())('tenant isolation: pipeline features', () => {
           recordFeedback(tx, actorA, entry(), guid, {
             fromRole: 'hm',
             ratings: { technicalFit: 'gap' },
+          }),
+        ),
+    ],
+    ['interviews: feedback draft', () => asA((tx) => getFeedbackDraft(tx, actorA, entry(), guid))],
+    [
+      'interviews: structure feedback',
+      () =>
+        asA((tx) =>
+          planFeedbackDraft(tx, actorA, entry(), guid, {
+            fromRole: 'hm',
+            email: 'Strong on leadership, weak on industry.',
           }),
         ),
     ],

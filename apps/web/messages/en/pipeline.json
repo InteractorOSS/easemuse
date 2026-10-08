@@ -613,7 +613,19 @@
     "feedbackLine": "{from}",
     "saved": "Saved",
     "error": "Could not save. Try again.",
-    "rating": "{criterion}"
+    "rating": "{criterion}",
+    "fromEmail": {
+      "title": "Or paste the feedback email",
+      "hint": "A draft of the five ratings and the comments is made from the text. Names and contact details are not sent. Nothing is recorded until you have checked and confirmed each rating.",
+      "paste": "Feedback text",
+      "structure": "Make a draft",
+      "draftTitle": "Draft from the email",
+      "evidence": "From the text: {quote}",
+      "confirm": "Confirmed",
+      "confirmRating": "Confirm {criterion}",
+      "unconfirmed": "Check each rating against the email and confirm it, then approve the draft to record the feedback.",
+      "sourceTitle": "The pasted text"
+    }
   },
   "offer": {
     "title": "Offer and closing",

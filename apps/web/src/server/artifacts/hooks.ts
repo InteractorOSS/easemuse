@@ -1,7 +1,10 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 import {
+  FEEDBACK_CRITERIA,
   candidateFieldsFromProfile,
+  interviewFeedbackContentSchema,
+  unconfirmedFeedbackCriteria,
   qualificationContentSchema,
   tailoredResumeContentSchema,
   unconfirmedTopics,
@@ -89,6 +92,43 @@ const BUILT_IN: Partial<Record<ArtifactKind, Hook>> = {
       where: { entryId: subject.id },
       create: { agencyId, entryId: subject.id, artifactId: version!.artifactId },
       update: { artifactId: version!.artifactId },
+    });
+  },
+  interview_feedback: async (tx, { agencyId, subject, versionId }) => {
+    // Approving the draft is the recruiter's confirmation of each rating (FR-IVW-04); it records the
+    // feedback of the round, once per version.
+    const version = await tx.artifactVersion.findUnique({
+      where: { id: versionId },
+      select: { content: true },
+    });
+    const content = interviewFeedbackContentSchema.parse(version?.content);
+    const open = unconfirmedFeedbackCriteria(content);
+    if (open.length > 0) {
+      throw new ApiError('fields_unconfirmed', 'Confirm each rating first', {
+        status: 409,
+        fields: Object.fromEntries(open.map((k) => [k, 'Confirm this rating'])),
+      });
+    }
+    const rated = FEEDBACK_CRITERIA.some((k) => content.ratings[k].rating !== null);
+    if (!rated && content.comments.trim() === '') {
+      throw new ApiError('invalid_input', 'Give at least one rating or a comment', {
+        status: 422,
+        fields: { comments: 'Give at least one rating or a comment' },
+      });
+    }
+    if (!(await tx.interview.findUnique({ where: { id: subject.id }, select: { id: true } })))
+      return;
+    if (await tx.interviewFeedback.findUnique({ where: { artifactVersionId: versionId } })) return;
+    await tx.interviewFeedback.create({
+      data: {
+        agencyId,
+        interviewId: subject.id,
+        fromRole: content.fromRole,
+        source: 'recorded_by_recruiter',
+        comments: content.comments.trim() || null,
+        artifactVersionId: versionId,
+        ...Object.fromEntries(FEEDBACK_CRITERIA.map((k) => [k, content.ratings[k].rating])),
+      },
     });
   },
   submission_report: async (tx, { agencyId, subject, versionId }) => {

@@ -207,3 +207,22 @@ export function redactText(text: string): Redacted<string> {
     removed: [...removed],
   };
 }
+
+const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
+// A run of 8 or more digits that may carry spaces, dots, dashes, parentheses and a leading plus.
+const PHONE = /(?<![\d])\+?\(?\d[\d\s().-]{6,}\d(?![\d])/g;
+
+/**
+ * Replaces email addresses and phone numbers in free text, for notes and pasted emails that go to a
+ * model (names and contact details never do, FR-AI-09). Dates and short numbers such as "180-190k"
+ * are left alone.
+ */
+export function scrubContactDetails(text: string): string {
+  return text.replace(EMAIL, '[email]').replace(PHONE, (match) => {
+    const digits = match.replace(/\D/g, '');
+    const isDate =
+      /^\d{4}[-./]\d{1,2}[-./]\d{1,2}$/.test(match) ||
+      /^\d{1,2}[-./]\d{1,2}[-./]\d{4}$/.test(match);
+    return digits.length >= 8 && !isDate ? '[phone]' : match;
+  });
+}

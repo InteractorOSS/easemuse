@@ -3,6 +3,7 @@
 import type { PromptRegistry } from '../prompts';
 import { callQuestionsPrompt } from './call-questions';
 import { factCheckVerifierPrompt } from './factcheck';
+import { feedbackStructurePrompt } from './feedback-structure';
 import { intakeQuestionsPrompt } from './intake-questions';
 import { jdStructurePrompt } from './jd-structure';
 import { matchAnalyzePrompt } from './match-analyze';
@@ -30,4 +31,5 @@ export function registerBuiltInPrompts(registry: PromptRegistry): void {
   registry.register(resumeTailorPrompt);
   registry.register(reportDraftPrompt);
   registry.register(screeningPrefillPrompt);
+  registry.register(feedbackStructurePrompt);
 }

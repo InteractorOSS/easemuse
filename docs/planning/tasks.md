@@ -294,7 +294,7 @@ Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some 
 | ID | Task | Est | Status | Refs |
 |----|------|-----|--------|------|
 | T-9-02 | Interview feedback entered by the HM or recruiter | 4 | Done | US-902 (inside T-9-01 and T-14-03) |
-| T-9-03 | Prompt A17: pasted feedback email to the five ratings and comments, recruiter confirms each | 5 | | US-903, FR-IVW-04 |
+| T-9-03 | Prompt A17: pasted feedback email to the five ratings and comments, recruiter confirms each | 5 | Done | US-903, FR-IVW-04 |
 | T-10-02 | Reminders until the start date; the placement closes only on "started" | 4 | Done | US-1002, FR-OFF-02 |
 
 ### E11: Analytics (session A)

@@ -772,6 +772,7 @@ model InterviewFeedback {
   communication      FeedbackRating?
   culturalFit        FeedbackRating?
   industryExperience FeedbackRating?
+  artifactVersionId  String?         @unique @db.Uuid // the approved A17 draft this came from (T-9-03)
   comments           String?
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt

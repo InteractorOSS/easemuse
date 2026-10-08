@@ -232,6 +232,11 @@ vi.mock('@/server/qualification/service', () => ({
   planCallQuestions: async () => ({}),
   generateCallQuestions: async () => ({}),
 }));
+vi.mock('@/server/interviews/feedback-draft', () => ({
+  getFeedbackDraft: async () => null,
+  planFeedbackDraft: async () => ({}),
+  generateFeedbackDraft: async () => ({}),
+}));
 vi.mock('@/server/resume/tailor', () => ({
   getTailoredResume: async () => ({}),
   planTailoredResume: async () => ({}),
@@ -490,6 +495,8 @@ import {
 } from './v1/agencies/[agencyId]/pipeline/[entryId]/interviews/route';
 import { PATCH as interviewPatch } from './v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/route';
 import { POST as feedbackPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/feedback/route';
+import { POST as feedbackStructurePost } from './v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/feedback/structure/route';
+import { GET as feedbackDraftGet } from './v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/feedback/draft/route';
 import {
   GET as offerGet,
   PUT as offerPut,
@@ -1385,6 +1392,27 @@ const endpoints: Endpoint[] = [
         new Request('http://x.test/', { ...json({ status: 'completed' }), method: 'PATCH' }),
         agencyParams,
       ),
+  },
+  {
+    name: 'POST interview feedback structure',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/feedback/structure/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      feedbackStructurePost(
+        new Request(
+          'http://x.test/',
+          json({ fromRole: 'hm', email: 'Strong on leadership, weaker on industry experience.' }),
+        ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'GET interview feedback draft',
+    file: 'v1/agencies/[agencyId]/pipeline/[entryId]/interviews/[interviewId]/feedback/draft/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => feedbackDraftGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'POST interview feedback',

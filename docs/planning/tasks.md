@@ -271,29 +271,104 @@ F-01 → F-05 → F-06 → F-07 (RLS spike) → F-08 → F-09 → F-12 ──┬
 
 ---
 
-## Release 2: portals, through to start date, KPIs, billing (story level)
+## Release 2: portals, through to start date, KPIs, billing
 
-| Story | Epic | Notes for breakdown |
-|-------|------|---------------------|
-| US-1401, 1402, 1404, 1405 | E14 HM portal | ADR-002 portal auth, ADR-003 publish/snapshots, ProposedTransition resolution UI |
-| US-1501…1503, 1505, 1507 | E15 Candidate portal | Consent via portal, privacy requests, status snapshots |
-| US-902, 903 | E9 Feedback | Structured HM feedback (also from portal), A17 |
-| US-1002 | E10 Reminders to start | Maintenance jobs, tasks |
-| US-1101, 1102 | E11 KPIs | Formulas in planning-handoff §6 from `PipelineTransition` |
-| US-1606, FR-ADM-07…10 | E16 `/admin` release 2 | Support access (with US-1305), plans/billing, tenant export/deletion with two-person approval, system health, platform configuration |
-| US-1305…1308 | E13 Commercial | Platform admin section (`/admin`), support grants, branding, tenant export, Billing Server; tenant deletion job with table-coverage guard test (ADR-016) |
-| FR-OUT-06 | E5 Outreach templates | `OutreachTemplate` model, template picker in composer |
-| US-505 | E5 Real mail provider | Interactor credentials + webhooks (ADR-009, 014) |
-| US-305, US-803 | E3/E8 | Stale analysis, duplicate submission guard |
-| FR-SRC-09 (tags/notes), FR-SRC-10, Q-10 | E2 | Tags, bulk upload, CSV/ATS import |
-| Security | — | Pen test, DPA/terms, sub-processor list before first external agency |
+Broken down 2026-10-07. Status: **Done** = built and tested, **Partial** = some of it exists (see the note), blank = open. Ideal hours as in release 1. Sessions: A = finish release 1 and the rest of release 2 that is not commercial, B = commercial, C and D = release 3 (see `session-prompts.md`).
 
-## Release 3: pool intelligence, reuse, benchmarking (story level)
+### E14 / E15: Portals (session A, mostly done)
 
-| Story | Epic | Notes |
-|-------|------|-------|
-| US-205, 206 | E2 | Voyage embeddings (ADR-008), similar candidates, portfolio |
-| US-1201, 1202 | E12 | Client history, pattern reports (all 7 §14 questions), A18 |
-| US-108 | E1 | Benchmark: web search two-step + own data (ADR-005) |
-| US-1403, 1406, 1504 | E14/E15 | HM online intake, interview slots, candidate self-updates |
-| Could items | — | SMS, calendar, call transcripts (Q-20) |
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-14-01 | Portal identity: invite, single-use magic link, re-login, `em_portal` session, `authorizePortal` | 8 | Done | ADR-002, US-1401, US-1501 |
+| T-14-02 | Publish service: whitelisted snapshots, replace on new share, revoke, files only if listed, import-boundary guard | 8 | Done | ADR-003, FR-HMP-04 |
+| T-14-03 | HM actions: approve JD / request changes, proposals (recruiter resolves), feedback | 7 | Done | US-1402, 1405 |
+| T-14-04 | HM portal pages (enter, list, JD, submission) and candidate portal pages (resume, consent, data requests), agency colour, axe | 8 | Done | FR-HMP-07, FR-CDP-07 |
+| T-14-05 | Recruiter side: invite, share, withdraw, answer proposals | 6 | Done | US-1401 |
+| T-14-06 | Agency logo in the portal header and in emails (needs T-13-06) | 3 | | FR-TEN-04 |
+| T-15-01 | Candidate status share (`status` snapshot, level chosen by the agency, refreshed on stage changes) | 5 | | US-1505, FR-CDP-05 |
+| T-14-07 | Portal notifications: email the person when something is shared or when the recruiter answers (outbox, localized) | 4 | | US-1404 |
+| T-14-08 | Portal adoption KPI (approvals, reviews and feedback done in portals ÷ all) | 2 | | planning-handoff section 6 |
+
+### E9 / E10: Feedback and reminders (session A)
+
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-9-02 | Interview feedback entered by the HM or recruiter | 4 | Done | US-902 (inside T-9-01 and T-14-03) |
+| T-9-03 | Prompt A17: pasted feedback email to the five ratings and comments, recruiter confirms each | 5 | | US-903, FR-IVW-04 |
+| T-10-02 | Reminders until the start date; the placement closes only on "started" | 4 | Done | US-1002, FR-OFF-02 |
+
+### E11: Analytics (session A)
+
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-11-01 | KPI queries from `PipelineTransition`, `OutreachTouch`, `Interview`, `Offer` (the 9 KPIs, formulas of section 6), with date, client, position and recruiter filters; unit tests on a seeded history | 8 | | US-1101, FR-ANA-01 |
+| T-11-02 | Source table: added, contacted, submitted, interviewed, offered, hired per source, with stage conversion | 5 | | FR-ANA-02 |
+| T-11-03 | Capacity panel: positions per recruiter (weekly average), median time per position | 4 | | FR-ANA-03, DP-5 |
+| T-11-04 | Analytics page: KPI cards with the formula on hover, filters, source table, capacity panel; axe | 7 | | US-1101 |
+| T-11-05 | CSV export of every table with the same filters | 3 | | US-1102, FR-ANA-04 |
+
+### E3 / E8 / E2 / E5 leftovers (session A)
+
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-3-12 | Stale analysis: marker and one-click re-analysis on the analysis page and the dashboard | 3 | Partial: hooks set `stale`, the page shows it; no re-analyse button | US-305, FR-MAT-07 |
+| T-8-05 | Duplicate-submission guard (earlier submission shown, reason required) | 3 | Done | US-803, FR-SUB-04 |
+| T-2-13 | Tags and notes on candidates: edit UI, filter by tag (filter exists) | 4 | Partial: tags stored, shown and filterable; no editing, no notes | FR-SRC-09 |
+| T-2-14 | Bulk resume upload (about 20 files) creating drafts to review | 6 | | FR-SRC-10 |
+| T-2-15 | CSV candidate import with column mapping (ATS exports) | 6 | | Q-10 |
+| T-5-11 | Outreach templates per recruiter and client, picker in the composer | 6 | | FR-OUT-06 |
+| T-5-02 | SMTP transport and per-agency selection | 5 | Postponed by the product owner | ADR-009 |
+| T-5-12 | Real mail provider with reply sync (Interactor credentials and webhooks), replies stop the sequence | 8 | | US-505, FR-MSG-04, ADR-014 |
+| T-QA-06 | Playwright happy path (needs a test sign-in and an AI stub) | 8 | Partial: the loop is covered at service level (`happy-path.db.test.ts`) | Release 1 exit |
+| T-QA-09 | Run the AI evals against the live model and record the results (A1, A7, A10, stability, bias) | 3 | Partial: A7, A10 and bias run on 2026-10-07; A1 and stability wait for credit | NFR-AI01..05 |
+
+### E13 / E16: Commercial and platform (session B)
+
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-13-06 | Agency branding: logo upload, colour, display name (settings page and API); used by PDFs, portals and emails | 6 | Partial: stored and read by documents and portals, no editing UI | US-1306, FR-TEN-04 |
+| T-13-07 | Support access: an agency admin grants a time-limited read-only view; banner; every view in both logs | 8 | | US-1305, FR-ADM-07, FR-TEN-07 |
+| T-13-08 | Plans, seats and usage through the Interactor Billing Server (client, plan assignment, admin view of plan, seats and invoices) | 10 | | US-1308, FR-TEN-05, ADR-013 |
+| T-13-09 | Tenant export (full ZIP, admin) | 5 | | US-1307, FR-TEN-06 |
+| T-13-10 | Tenant deletion: per-table job in dependency order, typed confirmation, second owner's approval, guard test that every `agencyId` table is in the job | 8 | | US-1307, FR-ADM-08, ADR-016 |
+| T-16-01 | System health: queues and failures, outbox failures, AI error and refusal rates per agency, no content | 5 | | US-1606, FR-ADM-09 |
+| T-16-02 | Platform configuration: view routing table and prompt versions, default templates, per-agency feature flags, changes logged | 6 | Partial: the Anthropic key is manageable in `/admin/settings` | FR-ADM-10 |
+| T-SEC-01 | Pen test, DPA and terms, sub-processor list before the first external agency | 8 | | TR-005 |
+
+## Release 3: pool intelligence, reuse, benchmarking
+
+Broken down 2026-10-07. Sessions C (reuse and history, the brief's section 14) and D (intelligence: embeddings, benchmark).
+
+### E12: Experience reuse (session C)
+
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-12-01 | Client history read model: past positions, submitted candidates, interview outcomes, aggregated HM feedback by criterion, hires | 7 | | US-1201, FR-KNW-01 |
+| T-12-02 | "What has this client liked before?" page on the position | 5 | | US-1201 |
+| T-12-03 | Pattern reports for the seven section 14 questions (interview and hire profiles, quality by source, JD response, drop-off, HM preferences, job-related characteristics of hires), with counts shown | 8 | | US-1202, FR-KNW-02 |
+| T-12-04 | Prompt A18: AI summary of patterns for a client, every statement linked to the records behind it, fact-checked | 8 | | FR-KNW-03 |
+| T-12-05 | Guardrails: no protected characteristics in any pattern, small-sample warning, eval cases | 4 | | NFR-AI04 |
+
+### E14 / E15: Portal extras (session C)
+
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-14-09 | HM answers the intake questionnaire online (answers land as "from HM", proposed until accepted) | 6 | | US-1403, FR-HMP-03 |
+| T-14-10 | HM proposes up to 5 interview slots; recruiter confirms one and the round is created | 6 | | US-1406, FR-HMP-06 |
+| T-15-02 | Candidate updates contact details, availability, compensation, work authorization (arrives as proposals) | 6 | | US-1504, FR-CDP-04 |
+
+### E2 / E1: Pool intelligence and benchmark (session D)
+
+| ID | Task | Est | Status | Refs |
+|----|------|-----|--------|------|
+| T-2-16 | Voyage client in the AI gateway, `ProfileEmbedding` indexing job on profile approval, cost metering | 6 | | ADR-008 |
+| T-2-17 | "Find in my pool": up to 25 candidates for a success profile, with one-line reasons; nothing added until the recruiter adds | 7 | | US-205 |
+| T-2-18 | "Check open positions" for a candidate: Strong, Moderate or Low fit per open position with reasons | 6 | | US-206 |
+| T-1-15 | Benchmark: web search step and own-data step (two-step), items with source URL and date, "Our data" separate from "Web", no paid sources | 10 | | US-108, ADR-005 |
+| T-1-16 | Benchmark report UI: accept suggested JD changes one by one | 6 | | US-108 |
+
+### Could items (not planned)
+
+SMS, calendar integration, call transcripts (Q-20, FR-QUA-04, FR-IVW-05), Korean UI and region (ADR-015), mobile app (ADR-017).
+
+**Release 2 and 3 estimate:** 236 ideal hours for the tasks not marked Done (a Partial task is counted at its full size), and 48 hours already done.

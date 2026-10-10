@@ -6,7 +6,10 @@ import { expectNoA11yViolations } from '@/test/a11y';
 import { renderWithIntl } from '@/test/render';
 import { PortalShell } from './portal-shell';
 
-vi.mock('next/navigation', () => ({ useRouter: () => ({ replace: vi.fn(), refresh: vi.fn() }) }));
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ replace: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => '/c/acme',
+}));
 
 describe('PortalShell branding (T-14-06, FR-CDP-07)', () => {
   const props = { agencyName: 'Acme Search', color: '#1d4ed8', slug: 'acme', prefix: 'c' as const };

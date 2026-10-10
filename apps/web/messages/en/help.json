@@ -1,0 +1,481 @@
+{
+  "link": "Help",
+  "breadcrumb": "Help navigation",
+  "allTopics": "All help topics",
+  "basedOn": "Based on section {section} of the product brief.",
+  "next": "Next: {title}",
+  "backToPortal": "Back to your page",
+  "recruiterTitle": "Help for recruiters and agency admins",
+  "recruiterIntro": "These guides follow the recruiting process from the first client call to the candidate starting. Start with the five rules that apply everywhere.",
+  "hiring_managerTitle": "Help for hiring managers",
+  "hiring_managerIntro": "How to use the page your recruiter shares with you.",
+  "candidateTitle": "Help for candidates",
+  "candidateIntro": "How to use the page your recruiter shares with you, and how your data is handled.",
+  "adminTitle": "Help for platform administrators",
+  "adminIntro": "How to run the platform: agencies, usage, configuration and the audit trail.",
+  "recruiter": {
+    "principles": {
+      "title": "The five rules behind everything in EaseMuse",
+      "summary": "EaseMuse supports your work as a recruiter. It does not do the recruiting for you. These rules explain what the AI will and will not do.",
+      "blocks": {
+        "p1": "EaseMuse is designed so that you stay in charge of every decision. Five rules apply to every page, every button and every AI feature.",
+        "h1": "1. The recruiter decides, the AI assists",
+        "p2": "You find candidates, choose who to screen, contact and recommend, and talk to the client. The AI reads, sorts, compares and drafts documents so that you have more time for conversations and judgment. It never decides who is a good candidate.",
+        "h2": "2. The AI runs only when you ask",
+        "p3": "Every AI feature starts with a button that you press: Structure JD, Analyze, Write a draft, Prepare resume and so on. The AI never searches for candidates on its own, never sends a message, never moves a candidate to another stage and never rejects anyone. The only thing that happens without a click is indexing a profile you have just approved, so that Find in my pool can compare it.",
+        "h3": "3. AI output is a draft until a person approves it",
+        "p4": "Everything the AI writes is labelled AI draft. You can edit it, save your edit as a new version, then Approve it or Discard it. Only approved text is used by later steps, shared in a portal or put in a PDF. If a draft contains a claim that the source material does not support, the fact-check panel asks you to fix the text or confirm the claim, with a reason, before you can approve.",
+        "h4": "4. The match score is a reference",
+        "p5": "The match score only helps you choose the order in which to look at candidates. Nobody is hidden, filtered out or rejected because of a score. You can move any candidate forward or put them on hold whatever the number says. You can change a score with a written reason, and the original computed score stays visible next to your change. Your agency admin can also switch on explain-only mode, which hides the numbers and keeps the written reasoning.",
+        "h5": "5. Resume facts are never changed",
+        "p6": "When the AI prepares a tailored resume it may reword and reorder, but employers, titles, dates and degrees come from the confirmed profile and are never changed or exaggerated. The original resume file is always kept and never overwritten. The candidate approves the final version before it goes to a client.",
+        "note1": "Where the brief says this: section 1.1 (design principles). If you see EaseMuse behave in a way that breaks one of these rules, please tell your agency admin."
+      }
+    },
+    "getting-started": {
+      "title": "Getting started: signing in, your tasks and finding things",
+      "summary": "How you sign in, how the workbench is laid out, and where your reminders and search live.",
+      "blocks": {
+        "h1": "Signing in",
+        "p1": "You sign in with Interactor. There are no separate passwords. To join an agency you need an invitation from your agency admin: open the invitation link, sign in with the email address that was invited, and choose Accept invitation. The link works once and for that address only.",
+        "h2": "The workbench",
+        "li1": "Use the menu on the left: My tasks, Positions, Candidates, Clients, Analytics and Settings.",
+        "li2": "The header holds the agency switcher (if you belong to more than one agency), search, Help, and sign out.",
+        "li3": "Search finds clients, positions and candidates by name.",
+        "h3": "My tasks",
+        "p2": "My tasks lists reminders that only you can see: follow-ups that are due, interviews, offer steps, approvals that arrived, proposals to prepare and replies to read. Filter by Today, Upcoming or All open. Mark a task Done or Snooze it (until tomorrow, for 3 days or for a week). A task never acts on its own, it only reminds you.",
+        "h4": "What you see depends on your role",
+        "li4": "Recruiter: works on their own positions and candidates.",
+        "li5": "Lead: can edit and move anything and assign position owners.",
+        "li6": "Agency admin: everything a lead can do, plus members, branding, defaults, plan, usage and data export in Settings.",
+        "p3": "The rest of this guide follows the recruiting process from the first call with a client to the day the candidate starts. Read The five rules behind everything in EaseMuse first if you have not yet."
+      }
+    },
+    "client-intake": {
+      "title": "Client intake and the job description",
+      "summary": "Register the client and position, add the client's job description, and let AI draft a structured version that you review and approve.",
+      "blocks": {
+        "h1": "Register the client",
+        "ol1": "Open Clients and choose New client. Enter the company name and create it.",
+        "ol2": "Add contacts (name, job title, email, phone). Contacts are the people you deal with at the client, including hiring managers. A contact who is a hiring manager or has portal access cannot be removed.",
+        "p1": "Archive a client you no longer work with. Archived clients can be restored.",
+        "h2": "Create the position",
+        "ol3": "Open Positions and choose New position, then choose the client.",
+        "ol4": "Fill in the job title, location, department, who it reports to, work arrangement, pay range, required experience, required skills, hiring timeline, number of openings and visa or work authorization needs.",
+        "ol5": "Choose Create position. You become its owner.",
+        "p2": "A position moves through the statuses Draft, Intake, Sourcing, Interviewing, Offer and Filled, and can be put On hold or Cancelled (both need a reason). Moving out of preparation is blocked until the hiring manager has approved the job description, unless your admin has set that rule to warn only.",
+        "h3": "Add the client's job description",
+        "p3": "On the position page, under Original job description, upload a PDF, Word or text file (up to 10 MB) or paste the text. If a file cannot be read, paste the text instead. If it was read from page images, check it against the original.",
+        "h4": "Let AI structure it, then review",
+        "ol6": "Open Structure the JD and choose Structure JD. The AI drafts 13 sections: summary, responsibilities, required and preferred qualifications, core competencies, technical skills, industry experience, leadership, years of experience, education, location, compensation and work authorization.",
+        "ol7": "Sections the original does not cover are marked Missing, ask the hiring manager. Collect these in your intake call.",
+        "ol8": "Each requirement gets a category: Must-have, Preferred, Nice-to-have or Disqualifying. Change categories, reorder, add or remove requirements.",
+        "ol9": "Choose Approve when you agree with it. Download it as a Word file or create a PDF if you need one.",
+        "note1": "The structured JD is an AI draft. Nothing downstream uses it until you approve it. Later steps such as intake questions and the success profile need the approved version."
+      }
+    },
+    "benchmarking": {
+      "title": "Market benchmarking",
+      "summary": "On request, compare the position with similar ones to find gaps in the job description.",
+      "blocks": {
+        "p1": "Benchmarking helps you see what similar positions usually ask for, so you can improve the client's job description. It runs only when you press the button.",
+        "ol1": "On the position page open Market benchmark and choose Run the benchmark.",
+        "ol2": "The report compares the position with two sources. Our data: your agency's own earlier positions with similar titles. Web: public web pages only, with no paid sources. Each web finding shows the page it came from and when it was read. Findings without a source page are dropped.",
+        "ol3": "Findings are grouped as job title, responsibility, skill, experience, industry, education, compensation and location. Remove any finding you do not trust, then approve the report.",
+        "ol4": "After approval you can see Suggested changes to the job description. Accept or reject each one. Accepting writes a new draft of the structured JD, which you still need to review and approve on the Structure the JD page.",
+        "note1": "Web search can be switched off on a server. If so the page says that the benchmark uses your own data only. There is no separate one-click improved JD yet: you build the improved version by accepting suggestions.",
+        "p2": "Run it again at any time if the position changes."
+      }
+    },
+    "hm-validation": {
+      "title": "Hiring manager validation and the success profile",
+      "summary": "Prepare intake questions, record what the hiring manager tells you, get the job description approved and write the candidate success profile.",
+      "blocks": {
+        "h1": "1. Intake questions",
+        "p1": "With the structured JD approved, open Write intake questions. The AI drafts questions: first the gaps it found in the JD, then ten standard topics (business reason, key challenges, expected results after 6 months and 1 year, must-have and preferred experience, conditions you will not consider, organisation, compensation, interview process, timeline). Edit them, then copy or download the list for your call.",
+        "h2": "2. Record the intake",
+        "p2": "The Hiring manager intake panel is for what the hiring manager tells you. Nothing there is filled in by AI. Fill in the topics and the interview stages, then choose Save intake.",
+        "p3": "You can also send the questionnaire to the hiring manager online. Their answers arrive as proposals. For each topic you choose Accept, Accept and replace mine, or Decline. Nothing in your intake changes until you decide.",
+        "h3": "3. Get the job description approved",
+        "li1": "Record the hiring manager's decision yourself (Approved or Changes requested, who told you, how and when), or",
+        "li2": "Send the JD to the hiring manager from Portal access. They see it in their portal and choose Approve or Request changes. If the JD changes afterwards, you need a new approval.",
+        "h4": "4. Write the success profile",
+        "p4": "Open Write the success profile and choose Write success profile. The AI combines the approved JD and your intake notes into a summary, criteria (each marked as coming from the job description or the intake), expectations for 6 months and 1 year, and key challenges. Edit and confirm it. Matching needs a confirmed profile.",
+        "note1": "If the hiring manager has not approved the job description, the page warns you. Depending on your agency's rules you either cannot continue or can continue by giving a reason."
+      }
+    },
+    "sourcing": {
+      "title": "Sourcing candidates and the talent pool",
+      "summary": "You search outside EaseMuse. Register the people you find, let AI structure their profiles, and reuse your pool.",
+      "blocks": {
+        "h1": "Search criteria",
+        "p1": "Open Write search criteria on the position and choose it to get a sheet built from the confirmed success profile: job titles, skills, industries, companies, geography, education, seniority, leadership and a keyword search string. Copy it into LinkedIn or any other source. EaseMuse does not search external sites for you.",
+        "h2": "Register a candidate",
+        "ol1": "Open Candidates, then Add candidate.",
+        "ol2": "Say where you found them (LinkedIn, Referral, Direct sourcing, Database, Networking, Other) and add the profile link if you have one.",
+        "ol3": "Upload their resume (PDF, Word or text, up to 10 MB) or paste the text, then choose Add and read.",
+        "ol4": "On the review page the AI drafts a structured profile: current role, career history, skills, industries, leadership, achievements, location, work authorization, compensation expectation, possible motivation and possible concerns. Items the AI inferred are tagged AI inference.",
+        "ol5": "Check and edit the profile. EaseMuse also checks for duplicates by email, phone, profile link, or similar name and employer. Merge, link and keep separate, or create anyway with a reason.",
+        "ol6": "Choose Confirm candidate. Nothing is a candidate until you confirm.",
+        "p2": "Use Add several resumes for up to 20 files at once (each still needs its own review) or Import from a CSV for up to 2,000 rows. A CSV import skips people who are already in your agency.",
+        "h3": "The talent pool",
+        "li1": "Candidates lists and searches everyone in your agency by name, title, skill, company or profile text, with filters for skills, location, seniority, experience and tags.",
+        "li2": "On a position, Find in my pool compares your pool with the confirmed success profile and lists candidates that may fit, with a reference similarity. Choose Add to this position to bring one in. Nobody is added automatically.",
+        "li3": "On a candidate, Check open positions shows how they might fit your open positions (strong, moderate or low). Use it to reuse people you already know.",
+        "h4": "Candidate page",
+        "p3": "A candidate page keeps the original files, the positions they are in, tags, private notes, a timeline and a Do not contact switch. Do not contact blocks outreach drafting and sending.",
+        "note1": "Find in my pool compares by meaning when the platform's embedding key is set up, and by keywords otherwise. The page tells you which."
+      }
+    },
+    "matching": {
+      "title": "Matching: the candidate board and match analysis",
+      "summary": "Add candidates to a position, ask for an analysis, and use the results to decide what to review first.",
+      "blocks": {
+        "h1": "Put candidates on a position",
+        "p1": "Open Candidates in this position. Choose Add from your database or Add a new candidate. New entries start as Sourced.",
+        "h2": "Ask for a match analysis",
+        "p2": "The analysis needs both the candidate's confirmed profile and the position's confirmed success profile. Open the candidate in the position and choose Analyze, or select several candidates on the board and choose Analyze selected (1 to 50 at a time).",
+        "p3": "The result compares seven criteria with weights that add up to 100: core competencies 40, relevant experience 20, industry or functional experience 15, career level 10, location and work arrangement 5, education and certification 5, and compensation and other requirements 5. Each criterion has a level (Strong, Partial, Gap, Unknown), evidence quoted from the profile or marked Inferred, and points to confirm.",
+        "p4": "You also see an overall score, Strong match, Potential gaps, what to confirm with the candidate, and whether each must-have is met, not met or unknown and whether a disqualifying factor applies. A status only informs you. Nobody is excluded because of it.",
+        "h3": "Your judgment",
+        "li1": "Write the Recruiter assessment yourself. The AI never fills it in.",
+        "li2": "Use Change the score to override the overall score or a criterion, with a reason. The computed score stays visible and every change is recorded. Remove the change to go back.",
+        "li3": "Choose Mark reviewed when you have read the analysis. Later steps use only reviewed analyses.",
+        "li4": "Change the weights for a position under Matching weights on the position page. Scores are recomputed without asking the AI again. The agency default is in Settings, Defaults.",
+        "h4": "The review board",
+        "p5": "The board shows each candidate's overall, core, experience, industry, location and pay scores, must-haves, risks and gaps, your assessment and status. Sort by the suggested review order, name or status. You can move a candidate up or down yourself, and go back to the suggested order. Badges tell you when an analysis is missing, edited by you, out of date (the profile changed) or reviewed.",
+        "note1": "The suggested order puts your manual order first, then the highest scores, then candidates not yet analyzed. It is a reading order, not a ranking of who should be hired."
+      }
+    },
+    "screening": {
+      "title": "Screening and assessment",
+      "summary": "Read the candidate yourself, use the optional checklist and decide whether they continue.",
+      "blocks": {
+        "p1": "Screening is your professional judgment. Use the match analysis as input, not as the answer.",
+        "h1": "The screening checklist",
+        "p2": "On the candidate page in the position, the Screening panel has 14 items: career consistency, job changes, employment gaps, actual scope of responsibility, team size, reporting structure, relevant accomplishments, technical competency, leadership competency, compensation expectation, location, work authorization, relocation possibility and career motivation. Rate each one (Strong, Adequate, Concern or Not rated) and add notes, then choose Save screening. The checklist is optional.",
+        "p3": "Suggest from the profile gives you an AI draft of suggestions. Nothing is saved until you choose Use (or Use all suggestions) and save the checklist.",
+        "h2": "Classify the candidate",
+        "p4": "Choose Set classification: Priority, Potential, Hold or Not qualified. Not qualified needs a reason. Only Priority and Potential candidates continue to outreach, and EaseMuse enforces this.",
+        "h3": "Stages",
+        "p5": "Every candidate on a position has a stage. Use the Move to control to change it. The main path is Sourced, Reviewed, Screened, Contacting, Interested, Qualified, Resume ready, Candidate approved, Submitted, Interviewing, Offer, Accepted and Started. Branches include No response, Not interested, Client rejected, Rejected, On hold, Declined, Reneged, Withdrawn and Closed. Some moves need a reason from your agency's list or a note. Only the position owner, a lead or an admin can move a candidate.",
+        "note1": "Your agency admin decides whether four important rules block you or only warn you (for example, submitting without the candidate's approved resume). If a rule only warns, you can go ahead anyway by giving a reason, which is logged."
+      }
+    },
+    "outreach": {
+      "title": "Outreach",
+      "summary": "Plan up to three touches, let AI draft each message, then edit, approve and send them yourself.",
+      "blocks": {
+        "h1": "Plan the touches",
+        "p1": "For a Priority or Potential candidate, open the Outreach panel. Pick one channel (LinkedIn, Email, Text message or Phone call) and the gaps in days between touches, then choose Plan touches. The three touches are Initial introduction, Follow-up and Final follow-up. The defaults are 4 and 7 days and can be changed in Settings, Defaults.",
+        "h2": "Write and approve each message",
+        "ol1": "Choose Write a draft. Choose what to include: main appeal of the role, company and opportunity, career growth, role impact, compensation, location and work arrangement, next step. You can start from a message template.",
+        "ol2": "Edit the draft. The AI does not see the candidate's name or contact details. Placeholders like first name and recruiter name are filled in when you send or copy.",
+        "ol3": "Approve the message. A message cannot be sent until it is approved.",
+        "h3": "Send it yourself",
+        "li1": "Email: choose Send email. The message goes to the outbox and is sent with an unsubscribe footer. People who opted out or bounced are skipped. Test mode only keeps messages in the outbox.",
+        "li2": "LinkedIn, text and phone: choose Copy message, send it yourself, then Mark as sent.",
+        "p2": "EaseMuse reminds you when the next touch is due with a task. It never sends a follow-up on its own.",
+        "h4": "Record the answer",
+        "p3": "Record what the candidate said: Interested, Not interested, Not now, Referred someone else, No answer or Replied. A reply cancels the touches not yet sent. Interested moves the candidate to Interested. Not interested needs a reason. If your agency connects mailboxes, replies are noticed and a Reply to read task appears, but nothing is changed for you.",
+        "note1": "Do not contact blocks drafting and sending. A warning appears if someone at your agency contacted the candidate recently (30 days by default)."
+      }
+    },
+    "qualification": {
+      "title": "Candidate qualification",
+      "summary": "Prepare questions, talk to the candidate yourself, and record what you learned.",
+      "blocks": {
+        "ol1": "Open the Qualification call panel and choose Write call questions. The AI prepares questions on interest level, motivation, reason for moving, job satisfaction, compensation, location and relocation, work authorization, availability, interview availability, other processes, decision factors, counteroffer risk, plus open points from the match analysis. Edit the list and copy it.",
+        "ol2": "Have the call yourself.",
+        "ol3": "Paste your call notes into Call notes and choose Structure notes. The candidate's name is removed before the AI reads them. Or choose Fill in by hand.",
+        "ol4": "For each topic check what the candidate said and set the level (High, Medium, Low or Not rated). Anything marked Inferred from the notes needs your check. Tick Confirmed for each filled field, then approve.",
+        "p1": "The approved qualification goes into the submission report. A report cannot be drafted without a confirmed qualification and a reviewed match analysis."
+      }
+    },
+    "resume-approval": {
+      "title": "Tailored resume and candidate approval",
+      "summary": "Prepare a resume tuned to the position without changing any facts, and get the candidate's approval before it goes to the client.",
+      "blocks": {
+        "h1": "Prepare the resume",
+        "p1": "Once the candidate is Qualified, open the Tailored resume panel and choose Prepare resume. You can ask for a blind resume without name and contact details. The AI emphasizes relevant experience, achievements, leadership scope, industry experience and technical skills by rewording and reordering.",
+        "p2": "Facts stay as they are: employers, titles, dates and degrees come from the confirmed profile. The editor shows the original wording beside the tailored bullets. Choose Check facts again, resolve every unsupported claim, edit as needed and approve. The original file stays in Original files and is never overwritten.",
+        "h2": "Candidate approval",
+        "li1": "Send the resume from Portal access. The candidate sees Your resume for the position and chooses to approve or ask for changes.",
+        "li2": "Or record the decision yourself (Approved or Changes requested, how they told you, when). If the resume changes afterwards the decision is marked as applying to an earlier version.",
+        "h3": "Consent",
+        "p3": "Record the candidate's consent to submit to this client under Consent to submit. The candidate can also give or withdraw consent in their portal. The latest decision for each client counts, and a withdrawal blocks submission.",
+        "note1": "The candidate must approve before the resume goes to the hiring manager. Export a Word file or a PDF from the same panel."
+      }
+    },
+    "submission": {
+      "title": "Submission report and submitting a candidate",
+      "summary": "Draft the report, write your own assessment, and record the submission to the hiring manager.",
+      "blocks": {
+        "h1": "The submission report",
+        "p1": "Choose Draft report. The AI drafts sections 1 to 13 from confirmed data: candidate overview, current position, career summary, key qualifications, relevant achievements, job description match, reasons for recommendation, potential concerns and gaps, compensation expectation, location and relocation, work authorization, candidate motivation and interview availability. Section 14, Recruiter's assessment, is yours alone. The AI never writes it and you cannot approve the report while it is empty.",
+        "p2": "Resolve any fact-check warnings, edit, and approve. Choose Create PDF to produce a document with your agency's branding from exactly the approved text.",
+        "h2": "Before you submit",
+        "p3": "Submit to the client shows a checklist: report approved, report PDF created, tailored resume approved, resume PDF created. Your agency's rules may also require the candidate's consent for this client.",
+        "ol1": "Choose who it goes to (the client contact), how (Portal, Email or Other) and the date.",
+        "ol2": "Choose Record submission. The exact versions are kept with the record. EaseMuse warns if you already submitted this candidate to the same client.",
+        "ol3": "To let the hiring manager read it in their portal, use Share with the hiring manager under Portal access. They see the report and PDFs. They never see the match score, where you found the candidate, your notes or unapproved drafts.",
+        "note1": "Recording a submission does not send an email. Use the portal share or send the PDF yourself."
+      }
+    },
+    "interviews": {
+      "title": "Interviews and feedback",
+      "summary": "Track interview rounds and keep structured feedback from the hiring manager and the candidate.",
+      "blocks": {
+        "h1": "Rounds",
+        "p1": "In the Interviews panel choose Add a round and enter the round, date and time, format and interviewers. Adding the first round moves a submitted candidate to Interviewing. A round with a date creates a reminder task. A round can be Scheduled, Completed, Cancelled or No-show. EaseMuse does not book calendars or send invitations, you keep those in your own tools.",
+        "h2": "What the hiring manager can send",
+        "li1": "A decision: Interview, Hold or Reject. It reaches you as a proposal. Choose Accept and move, or Decline.",
+        "li2": "Interview times: up to five. Choose a time and Confirm this time, or Decline all times. Nothing is booked until you do.",
+        "li3": "Interview feedback on the five criteria.",
+        "h3": "Feedback",
+        "p2": "Save feedback from the hiring manager or the candidate separately. Rate technical fit, leadership fit, communication, cultural fit and industry experience (Strong, Moderate, Gap or Not rated) and add comments. If the feedback arrived by email, paste it and the AI drafts the ratings for you to confirm one by one.",
+        "p3": "Feedback accumulates and appears in What has this client liked before? on the client's other positions.",
+        "p4": "Use the stage control to put a candidate on hold, reject (with a reason) or move to Offer."
+      }
+    },
+    "offer": {
+      "title": "Offer and closing",
+      "summary": "Track the offer through to the actual start date.",
+      "blocks": {
+        "p1": "Your role does not end when the offer is accepted. It ends when the candidate starts. The Offer and closing panel tracks nine steps, each with a status (Not started, In progress, Done), a date and notes: offer preparation, compensation discussion, candidate expectation, counteroffer risk, resignation timing, start date, offer acceptance, pre-employment process and onboarding.",
+        "li1": "Set counteroffer risk (Low, Medium, High or Not assessed), the resignation date and the start date, then choose Save offer.",
+        "li2": "Record the outcome: Accepted, Declined, Reneged or Started, with a date, a reason and what happened.",
+        "li3": "Reminder tasks keep coming until each step is done.",
+        "note1": "EaseMuse tracks the offer, it does not write offer letters."
+      }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "summary": "See your own recruiting results: speed, response, conversion and the sources that work.",
+      "blocks": {
+        "p1": "Open Analytics. The range starts at the last 90 days. Filter by dates, client and position. Leads and admins can also pick a recruiter. A recruiter sees only their own figures.",
+        "h1": "Key figures",
+        "li1": "Time-to-fill and time-to-interview (median days)",
+        "li2": "Outreach response rate",
+        "li3": "Submission-to-interview, interview-to-offer, offer acceptance and interview-to-hire",
+        "li4": "Source-to-hire",
+        "p2": "Point at the question mark beside a figure to see its formula. A hire means the candidate started.",
+        "h2": "Other views",
+        "li5": "Candidate conversion by stage, from Added through Started.",
+        "li6": "Results by source: LinkedIn, Employee referral, Direct sourcing, Recruiting database, Networking and Other.",
+        "li7": "Recruiter capacity: positions per week and median active days per position.",
+        "p3": "Each table can be downloaded as CSV. Where there is not enough data you see No data yet."
+      }
+    },
+    "experience": {
+      "title": "Reusing your experience",
+      "summary": "Look back at what a client liked before, and what has worked for you, without any automatic learning.",
+      "blocks": {
+        "p1": "Open a position and choose What has this client liked before? It reads only your agency's own records. It is not a score or a recommendation.",
+        "h1": "History",
+        "p2": "Counts of positions, candidates put forward, interviews and hires for this client, outcome of each position, how the hiring managers rated candidates, and why they turned candidates down. You can search it.",
+        "h2": "Patterns",
+        "p3": "Choose this client or every client you can see. Seven reports answer questions such as which profiles lead to interviews, which lead to hires, which sources bring quality candidates, where candidates drop out and what hiring managers prefer. Each row shows how many records it is based on, with a warning when there are few. Values that describe protected characteristics are left out.",
+        "h3": "AI summary",
+        "p4": "Choose Write a draft summary. The AI sees only counts, never names, contact details or comments. Each sentence links to its records. It stays a draft until you approve it.",
+        "note1": "Nothing here learns on its own or ranks candidates. It just keeps your experience and clients' feedback from disappearing."
+      }
+    },
+    "agency-admin": {
+      "title": "Agency settings for admins and leads",
+      "summary": "Members, defaults, templates, mailbox, branding, privacy requests, plan, usage, outbox, support access and data export.",
+      "blocks": {
+        "p1": "Settings has sections that depend on your role. Recruiters see Defaults (read only), Message templates and My mailbox. Leads also see Members (view) and record privacy requests. Admins see everything.",
+        "h1": "Members (admins)",
+        "p2": "Choose Invite member, enter an email and a role (Agency admin, Lead or Recruiter), and choose Send invitation. A dialog shows a one-time link to copy and send. If outgoing email is set up they also get it by email. You can Deactivate and Reactivate members, change roles and revoke pending invitations. Open invitations hold a seat. An agency always needs at least one active admin.",
+        "h2": "Defaults (admins)",
+        "li1": "Matching weights, outreach timing and rejection reasons.",
+        "li2": "The four rules before important steps, each set to Block or Warn.",
+        "li3": "Which positions recruiters can see, the default language (English or Korean), and explain-only mode that hides scores.",
+        "li4": "What candidates see of their applications in their portal. Nobody ever sees client feedback, rejection reasons or scores.",
+        "li5": "How email is sent: test mode, the platform mail service or each recruiter's connected mailbox.",
+        "h3": "Message templates and My mailbox",
+        "p3": "Templates are reusable outreach messages for LinkedIn, email, text or a phone script. Leads and admins can share them with the whole agency. My mailbox connects Gmail or Microsoft 365 for sending and noticing replies, only when the agency uses connected mailboxes.",
+        "h4": "Branding (admins)",
+        "p4": "Set the name shown to clients and candidates, a colour and a logo (PNG or JPEG, up to 512 KB). It applies to PDFs, Word files, portals and emails.",
+        "h5": "Privacy requests",
+        "p5": "Record a candidate's request for a copy of their data or for deletion. It is due within 45 days. Admins build the export, delete the data or decline. Deletion removes personal data and cannot be undone. Candidates can also raise requests in their portal.",
+        "h6": "Plan, AI usage, outbox, support access and data export (admins)",
+        "li6": "Plan and seats: seats in use and invoices.",
+        "li7": "AI usage: cost this month and the budget state. When the budget is used AI drafting pauses and everything else keeps working.",
+        "li8": "Outbox: every email sent or captured, with its status.",
+        "li9": "Support access: approve, deny or end a read-only request from platform support. You can see what support looked at.",
+        "li10": "Data export: a ZIP of all your data."
+      }
+    }
+  },
+  "hiring_manager": {
+    "getting-started": {
+      "title": "Opening your page",
+      "summary": "How the secure link works, how long it lasts and what to do if it stops working.",
+      "blocks": {
+        "p1": "You do not need an account or a password. Your recruiter sends you a secure link by email with the button Open my page.",
+        "li1": "The first link works once and lasts 7 days.",
+        "li2": "Your session ends after 12 hours. If the link has expired or was already used, type your email address on the page and choose Send me a new link. The new link works for 15 minutes.",
+        "li3": "If the email address is not recognised, nothing is revealed. Ask your recruiter to check which address they invited.",
+        "li4": "Choose Sign out when you are on a shared computer.",
+        "p2": "Your page lists what your recruiter shared with you under For your review: a job description, candidates and questions about the role."
+      }
+    },
+    "reviewing": {
+      "title": "Reviewing a job description, questions and candidates",
+      "summary": "What you can read and what you can send back to your recruiter.",
+      "blocks": {
+        "h1": "Job description",
+        "p1": "Read the sections and requirements, which are marked Must have, Preferred, Nice to have or Deal-breaker. Choose Approve, or Request changes with comments. If the recruiter updates the job description while you read it, choose Reload to see the newest version.",
+        "h2": "Questions about the role",
+        "p2": "Answer the intake topics, for example why the role is needed, what the person should solve in the first months, must-have experience and the interview process, then choose Send my answers. Your recruiter reviews each answer and decides what to take over.",
+        "h3": "Candidate",
+        "p3": "Open a candidate to read the submission report with its sections, including your recruiter's own assessment, and download the report and resume as PDFs. You do not see match scores or the recruiter's private notes.",
+        "p4": "Under Your decision choose Interview, Hold or Reject (a reason is needed for Reject) and Send decision. Your recruiter confirms the next step with you.",
+        "note1": "Everything you send is a proposal to your recruiter. Nothing moves a candidate on its own. Emails from EaseMuse tell you that something is waiting without giving details."
+      }
+    },
+    "interviews": {
+      "title": "Interview times and feedback",
+      "summary": "Offer interview times and give structured feedback after an interview.",
+      "blocks": {
+        "h1": "Offer interview times",
+        "ol1": "Open the candidate and find Offer interview times.",
+        "ol2": "Add up to five times, and optionally a round name, format and note.",
+        "ol3": "Choose Send these times. Your recruiter picks one and confirms it with the candidate. Nothing is booked until they do.",
+        "h2": "Interview feedback",
+        "p1": "After an interview, rate the candidate on technical fit, leadership fit, communication, cultural fit and industry experience (Strong, Moderate, Gap or Not rated), add comments and choose Send feedback. Feedback applies to the most recent interview round. If there is no round yet, ask your recruiter to add one.",
+        "p2": "Your feedback helps your recruiter in future searches for your company."
+      }
+    },
+    "privacy": {
+      "title": "Your privacy and what the portal shows",
+      "summary": "What is shared with you and what is kept private.",
+      "blocks": {
+        "p1": "The portal shows only what your recruiter chose to share with you. Each share is a snapshot that the agency prepared.",
+        "li1": "You never see match scores, how the recruiter found the candidate, their private notes or drafts that have not been approved.",
+        "li2": "Your recruiter normally records the candidate's consent to be submitted to your company before sharing their details.",
+        "li3": "Your recruiter can stop sharing at any time.",
+        "p2": "Ask your recruiter if you want to know how your own data is handled or to have it removed."
+      }
+    }
+  },
+  "candidate": {
+    "getting-started": {
+      "title": "Opening your page",
+      "summary": "How the secure link works and what you can do here.",
+      "blocks": {
+        "p1": "You do not need an account or a password. Your recruiter sends you a secure link by email with the button Open my page.",
+        "li1": "The first link works once and lasts 7 days.",
+        "li2": "Your session ends after 12 hours. If the link has expired or was used, type your email on the page and choose Send me a new link. It works for 15 minutes.",
+        "li3": "Choose Sign out when you finish, especially on a shared computer.",
+        "p2": "Your page shows what your recruiter shared with you, such as your resume to approve and the status of your application. You can also update your details, manage your consent and ask about your data."
+      }
+    },
+    "profile": {
+      "title": "Your resume, your details and your status",
+      "summary": "Check and approve your resume before it goes to a company, and keep your details up to date.",
+      "blocks": {
+        "h1": "Approve your resume",
+        "p1": "Your recruiter prepares a version of your resume for a position. Open Your resume for the position. It is the version they plan to send to the company. Check that every line is true, then choose Approve, or ask for changes with a comment. Your recruiter does not change your facts: the recruiter may only reword and reorder.",
+        "h2": "Your details",
+        "p2": "Open My details to suggest a change to your email, phone, when you could start, the compensation you expect or your work authorization, then choose Send to my recruiter. Nothing changes until your recruiter accepts it. You can see whether it is waiting, accepted or not used.",
+        "h3": "Your application status",
+        "p3": "Your application status shows the position, the employer, where it stands (for example sent to the employer, interviewing, offer or no longer in process) and since when. How much detail you see is set by the agency. You never see feedback from the company, reasons for rejection or scores."
+      }
+    },
+    "consent": {
+      "title": "Consent to share your details",
+      "summary": "You decide which company may receive your details.",
+      "blocks": {
+        "p1": "We only send your details to a company with your permission. Open Consent to see each company with a button to Give consent or Withdraw consent.",
+        "li1": "You can give or withdraw at any time. The latest choice for each company counts.",
+        "li2": "If you withdraw, your recruiter cannot submit you to that company.",
+        "p2": "Your recruiter can also record your consent after talking to you, and you can check it here."
+      }
+    },
+    "privacy": {
+      "title": "Your data",
+      "summary": "Ask for a copy of your data or ask for it to be deleted.",
+      "blocks": {
+        "p1": "Open Your data. Choose Send me a copy of my data or Delete my data, add a note if you like and choose Send request.",
+        "li1": "The agency must answer within 45 days.",
+        "li2": "If you already have an open request, you cannot send a duplicate.",
+        "li3": "Deleting removes your personal data and files. It cannot be undone.",
+        "p2": "You can also ask your recruiter directly."
+      }
+    }
+  },
+  "admin": {
+    "overview": {
+      "title": "Platform administration overview",
+      "summary": "What the three platform roles can do and how /admin is protected.",
+      "blocks": {
+        "p1": "/admin is for platform administrators only. Anyone without a platform role sees the same page not found as for any other missing page.",
+        "li1": "Owner: everything, including administrators and the AI keys.",
+        "li2": "Admin: agencies, usage, health, configuration, audit and deletions.",
+        "li3": "Support: read-only views and support access to an agency when its admin approves.",
+        "p2": "Use the menu on the left: Agencies, AI usage, System health, Configuration, Audit log, Deletions, Administrators and Settings. Deletions is not shown to support staff and Administrators only to owners.",
+        "note1": "You cannot see an agency's candidates or clients unless its admin approves a support request."
+      }
+    },
+    "agencies": {
+      "title": "Agencies",
+      "summary": "Create agencies, suspend them, set budgets and features, and handle support access and deletion.",
+      "blocks": {
+        "h1": "Create an agency",
+        "p1": "Choose Create agency, enter the name, URL name, the first admin's email and the region. You get an invitation link for the first admin to send.",
+        "h2": "Agency page",
+        "li1": "Suspend or Reactivate with a reason. Suspended agencies show Workspace suspended to their users and background jobs are skipped. Data is not touched.",
+        "li2": "Monthly AI budget: a limit in USD, what has been spent, and Remove limit.",
+        "li3": "Features: Portals and Sending email.",
+        "li4": "Plan and billing: put the agency on a plan or read it again from Billing.",
+        "li5": "Support access: Ask the agency admin with a reason (at least 10 characters) and hours. You can Open the workspace, read-only, while the grant is active.",
+        "li6": "Delete this agency: one owner or admin asks and a different one approves, and both type the agency's URL name. Deletion is permanent and a deletion record stays."
+      }
+    },
+    "monitoring": {
+      "title": "AI usage and system health",
+      "summary": "Watch cost, queues and failures without seeing anyone's content.",
+      "blocks": {
+        "p1": "AI usage shows calls, tokens and cost for a date range, grouped by agency, purpose, model or day.",
+        "p2": "System health shows job queues, mail failures and AI error and refusal rates per agency. It shows counts and ids only, never candidate or client content. The page refreshes itself.",
+        "note1": "When the monthly AI budget of an agency is used, AI drafting pauses for that agency and everything else keeps working."
+      }
+    },
+    "configuration": {
+      "title": "Configuration and keys",
+      "summary": "Feature flags, defaults for new agencies and the AI provider keys.",
+      "blocks": {
+        "h1": "Configuration",
+        "li1": "The table of AI routing and prompt versions per capability is read only. Changing it needs a code deploy.",
+        "li2": "Feature flags show their defaults. Portals and Sending email are on by default.",
+        "li3": "Settings new agencies start from only affect agencies created afterwards.",
+        "h2": "Settings (owners)",
+        "p1": "Enter the Anthropic API key and the Voyage AI API key, each with Save key, Test the key and Remove the stored key. Keys are stored encrypted and never shown again. A key saved here overrides the server environment.",
+        "li4": "Without the Anthropic key none of the AI drafting features run.",
+        "li5": "Without the Voyage key Find in my pool compares by keywords only.",
+        "li6": "A warning appears when AI calls fail because of credit or key problems."
+      }
+    },
+    "audit-and-deletions": {
+      "title": "Audit log and deletions",
+      "summary": "The permanent record of what administrators did.",
+      "blocks": {
+        "p1": "Audit log lists when, who, which action, which agency and which target. Filter with Action starts with.",
+        "p2": "Deletions is the permanent record of deleted agencies. It holds no agency content. Support staff do not see it."
+      }
+    },
+    "admins": {
+      "title": "Administrators",
+      "summary": "Invite, change and remove platform administrators (owners only).",
+      "blocks": {
+        "ol1": "Choose Invite administrator and enter an email and a role.",
+        "ol2": "They open the invitation link and accept it at Join the platform administrators.",
+        "ol3": "Change a role or choose Remove at any time.",
+        "p1": "The platform always needs at least one owner."
+      }
+    }
+  }
+}

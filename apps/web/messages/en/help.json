@@ -135,7 +135,7 @@
         "p1": "Open Candidates in this position. Choose Add from your database or Add a new candidate. New entries start as Sourced.",
         "h2": "Ask for a match analysis",
         "p2": "The analysis needs both the candidate's confirmed profile and the position's confirmed success profile. Open the candidate in the position and choose Analyze, or select several candidates on the board and choose Analyze selected (1 to 50 at a time).",
-        "p3": "The result compares seven criteria with weights that add up to 100: core competencies 40, relevant experience 20, industry or functional experience 15, career level 10, location and work arrangement 5, education and certification 5, and compensation and other requirements 5. Each criterion has a level (Strong, Partial, Gap, Unknown), evidence quoted from the profile or marked Inferred, and points to confirm.",
+        "p3": "The result compares seven criteria. The default weights add up to 100 (your agency or this position can change them, see below): core competencies 40, relevant experience 20, industry or functional experience 15, career level 10, location and work arrangement 5, education and certification 5, and compensation and other requirements 5. Each criterion has a level (Strong, Partial, Gap, Unknown), evidence quoted from the profile or marked Inferred, and points to confirm.",
         "p4": "You also see an overall score, Strong match, Potential gaps, what to confirm with the candidate, and whether each must-have is met, not met or unknown and whether a disqualifying factor applies. A status only informs you. Nobody is excluded because of it.",
         "h3": "Your judgment",
         "li1": "Write the Recruiter assessment yourself. The AI never fills it in.",

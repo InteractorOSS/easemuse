@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
+import { PageHelpLink } from '@/components/help/help-link';
 import { cn } from '@/lib/utils';
 
 export interface AdminShellProps {
@@ -34,8 +35,11 @@ export function AdminShell({ userName, role, children }: AdminShellProps) {
       <header className="flex flex-wrap items-center gap-4 border-b border-border px-4 py-2">
         <span className="font-semibold">{common('appName')}</span>
         <span className="rounded-sm bg-surface px-2 py-0.5 text-xs font-medium">{t('title')}</span>
-        <div className="ml-auto text-sm text-muted">
-          {t('signedInAs', { name: userName, role: t(`roles.${role}`) })}
+        <div className="ml-auto flex items-center gap-3 text-sm">
+          <PageHelpLink />
+          <span className="text-muted">
+            {t('signedInAs', { name: userName, role: t(`roles.${role}`) })}
+          </span>
         </div>
       </header>
       <div className="flex flex-1 flex-col md:flex-row">

@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { PageHelpLink } from '@/components/help/help-link';
 import { Button } from '@/components/ui/button';
 
 /** Frame of the portals: agency name and colour, a way back to the list, and sign out. Reads well at 360 px. */
@@ -58,6 +59,7 @@ export function PortalShell({
             {agencyName}
           </Link>
           <nav className="ml-auto flex flex-wrap items-center gap-3 text-sm">
+            <PageHelpLink />
             {signedIn
               ? (links ?? []).map((l) => (
                   <Link key={l.href} href={l.href} className="underline">

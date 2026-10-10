@@ -1,0 +1,41 @@
+# pm-agent.yaml: how Interactor Build's agents set up, check and test EaseMuse.
+#
+# Build's server parses this file (product-manager: apps/web/src/lib/agent/manifest.ts) and the
+# agent runs each command with `sh -c` at the repository root. It mirrors .github/workflows/ci.yml:
+# Postgres 16 with pgvector and Redis, the test database setup, Prisma codegen, then the checks.
+
+install:
+  - pnpm install --frozen-lockfile
+
+# The agent's bundled Postgres (with pgvector) and Redis on their default ports. The agent exports
+# PGHOST, PGPORT, PGUSER and REDIS_URL; the commands below fall back to the local defaults.
+services:
+  - { name: postgres }
+  - { name: redis }
+
+# Creates the app and data-rights roles and the easemuse_test database with the vector extension.
+# Idempotent, so it is safe to run before every task.
+prepare:
+  - PG_ADMIN_URL="postgresql://${PGUSER:-postgres}@${PGHOST:-127.0.0.1}:${PGPORT:-5432}/postgres" bash scripts/db/setup-dev.sh --test-only
+
+generate:
+  - DATABASE_URL="postgresql://easemuse_app:easemuse_app@${PGHOST:-127.0.0.1}:${PGPORT:-5432}/easemuse_test" pnpm db:generate
+
+test:
+  - REQUIRE_DB=1 TEST_DATABASE_ADMIN_URL="postgresql://${PGUSER:-postgres}@${PGHOST:-127.0.0.1}:${PGPORT:-5432}/easemuse_test" TEST_DATABASE_URL="postgresql://easemuse_app:easemuse_app@${PGHOST:-127.0.0.1}:${PGPORT:-5432}/easemuse_test" TEST_DATARIGHTS_DATABASE_URL="postgresql://easemuse_datarights:easemuse_datarights@${PGHOST:-127.0.0.1}:${PGPORT:-5432}/easemuse_test" TEST_REDIS_URL="${REDIS_URL:-redis://127.0.0.1:6379}" pnpm test
+
+lint:
+  - pnpm format:check
+  - pnpm lint:headers
+  - pnpm lint
+
+typecheck:
+  - pnpm typecheck
+
+cycles:
+  - pnpm check:cycles
+
+cleanup:
+  preserve:
+    - node_modules
+    - .pnpm-store

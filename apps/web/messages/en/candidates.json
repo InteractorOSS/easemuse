@@ -124,6 +124,16 @@
       "removeLabel": "Remove job",
       "add": "Add job"
     },
+    "education": {
+      "title": "Education",
+      "none": "No education found in the file.",
+      "school": "School of entry {n}",
+      "degree": "Degree of entry {n}",
+      "year": "Year of entry {n}",
+      "remove": "Remove education entry {n}",
+      "removeLabel": "Remove entry",
+      "add": "Add education"
+    },
     "lists": {
       "coreSkills": "Core skills",
       "industryExperience": "Industry experience",

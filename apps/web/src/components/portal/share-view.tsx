@@ -454,12 +454,15 @@ function HmDecisionForm({ base, shareId }: { base: string; shareId: string }) {
           </option>
         ))}
       </SelectField>
-      {decision !== 'interview' ? (
+      {decision !== 'interview' && decision !== 'offer' ? (
         <TextField label={t('reason')} value={reason} onChange={(e) => setReason(e.target.value)} />
       ) : null}
       <div>
         <Button
-          disabled={send.isPending || (decision !== 'interview' && reason.trim().length < 3)}
+          disabled={
+            send.isPending ||
+            (decision !== 'interview' && decision !== 'offer' && reason.trim().length < 3)
+          }
           onClick={() => send.mutate()}
         >
           {t('send')}

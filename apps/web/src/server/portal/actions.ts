@@ -233,16 +233,17 @@ export async function decideResume(
 
 const PROPOSAL: Record<
   string,
-  Record<string, 'interviewing' | 'on_hold' | 'client_rejected' | 'rejected'>
+  Record<string, 'interviewing' | 'offer' | 'on_hold' | 'client_rejected' | 'rejected'>
 > = {
   interview: { submitted: 'interviewing', on_hold: 'interviewing' },
+  offer: { interviewing: 'offer' },
   hold: { interviewing: 'on_hold' },
   reject: { submitted: 'client_rejected', interviewing: 'rejected' },
 };
 
 /**
- * The hiring manager's decision on a submitted candidate (US-1405, FR-HMP-05): interview, hold or
- * reject with a reason. It is stored as a PROPOSAL; the pipeline does not move until the recruiter
+ * The hiring manager's decision on a submitted candidate (US-1405, FR-HMP-05): interview, select for offer,
+ * hold or reject with a reason. It is stored as a PROPOSAL; the pipeline does not move until the recruiter
  * confirms it, always.
  */
 export async function proposeDecision(

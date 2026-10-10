@@ -142,6 +142,48 @@
             "command": "echo 'PROJECT_ROOT='$(pwd) >> $CLAUDE_ENV_FILE 2>/dev/null || true"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v ibuild >/dev/null 2>&1 && ibuild bridge-hook SessionStart || exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v ibuild >/dev/null 2>&1 && ibuild bridge-hook UserPromptSubmit || exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v ibuild >/dev/null 2>&1 && ibuild bridge-hook Stop || exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v ibuild >/dev/null 2>&1 && ibuild bridge-hook SessionEnd || exit 0",
+            "timeout": 10
+          }
+        ]
       }
     ]
   },

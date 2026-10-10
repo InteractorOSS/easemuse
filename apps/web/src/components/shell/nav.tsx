@@ -7,7 +7,15 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
-const ITEMS = ['tasks', 'positions', 'candidates', 'clients', 'analytics', 'settings'] as const;
+const ITEMS = [
+  'home',
+  'tasks',
+  'positions',
+  'candidates',
+  'clients',
+  'analytics',
+  'settings',
+] as const;
 
 /** Main navigation for one agency's workbench. The current page is marked with aria-current. */
 export function Nav({ agencySlug }: { agencySlug: string }) {
@@ -16,8 +24,9 @@ export function Nav({ agencySlug }: { agencySlug: string }) {
   return (
     <nav aria-label={t('label')} className="flex flex-col gap-1 p-3">
       {ITEMS.map((item) => {
-        const href = `/a/${agencySlug}/${item}`;
-        const current = pathname === href || pathname.startsWith(`${href}/`);
+        const href = item === 'home' ? `/a/${agencySlug}` : `/a/${agencySlug}/${item}`;
+        // Home is the agency root, so it is current only on that exact page.
+        const current = pathname === href || (item !== 'home' && pathname.startsWith(`${href}/`));
         return (
           <Link
             key={item}

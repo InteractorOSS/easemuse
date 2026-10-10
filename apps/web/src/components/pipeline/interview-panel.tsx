@@ -17,7 +17,12 @@ import { FeedbackFromEmail } from './feedback-from-email';
 import { SelectField, TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
+import { dateTimeAsInstant, localDateTime } from '@/lib/dates';
 import type { InterviewView } from '@/server/interviews/service';
+
+const MAX_ROUND_NAME = 120;
+const MAX_FORMAT = 60;
+const MAX_INTERVIEWERS = 10;
 
 const lines = (value: string) =>
   value
@@ -81,6 +86,7 @@ export function InterviewPanel({
               </p>
             ) : null}
             <RoundStatus url={url} round={r} onSaved={refresh} />
+            <EditRound url={url} round={r} onSaved={refresh} />
             <Feedback agencyId={agencyId} url={url} round={r} onSaved={refresh} />
           </li>
         ))}
@@ -120,6 +126,135 @@ function RoundStatus({
         ))}
       </SelectField>
     </div>
+  );
+}
+
+/** Rename, reschedule or change the format and interviewers of a round (FR-IVW-01). */
+function EditRound({
+  url,
+  round,
+  onSaved,
+}: {
+  url: string;
+  round: InterviewView;
+  onSaved: () => void | Promise<void>;
+}) {
+  const t = useTranslations('pipeline.interviews');
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const initial = () => ({
+    roundName: round.roundName,
+    scheduledAt: round.scheduledAt ? localDateTime(new Date(round.scheduledAt)) : '',
+    format: round.format ?? '',
+    interviewers: round.interviewers.join('\n'),
+  });
+  const [form, setForm] = useState(initial);
+  const people = lines(form.interviewers);
+  const save = useMutation({
+    mutationFn: (body: Record<string, unknown>) =>
+      apiFetch(`${url}/${round.id}`, { method: 'PATCH', body }),
+    onSuccess: async () => {
+      setOpen(false);
+      setError(null);
+      toast({ title: t('saved') });
+      await onSaved();
+    },
+    onError: (e) => setError(e instanceof ApiClientError ? e.message : t('error')),
+  });
+
+  if (!open) {
+    return (
+      <div>
+        <Button
+          variant="secondary"
+          size="sm"
+          aria-label={t('editRound', { name: round.roundName })}
+          onClick={() => {
+            setForm(initial());
+            setError(null);
+            setOpen(true);
+          }}
+        >
+          {t('edit')}
+        </Button>
+      </div>
+    );
+  }
+
+  const scheduledAt = dateTimeAsInstant(form.scheduledAt);
+  const problem =
+    form.roundName.trim() === ''
+      ? t('errors.roundName')
+      : form.roundName.trim().length > MAX_ROUND_NAME
+        ? t('errors.roundNameLong', { max: MAX_ROUND_NAME })
+        : form.scheduledAt && !scheduledAt
+          ? t('errors.date')
+          : form.format.trim().length > MAX_FORMAT
+            ? t('errors.formatLong', { max: MAX_FORMAT })
+            : people.length > MAX_INTERVIEWERS
+              ? t('errors.tooManyInterviewers', { max: MAX_INTERVIEWERS })
+              : null;
+  const id = `edit-${round.id}`;
+
+  return (
+    <fieldset className="flex max-w-md flex-col gap-2 rounded-2xl border border-border p-3">
+      <legend className="px-1 font-medium">{t('editTitle', { name: round.roundName })}</legend>
+      <TextField
+        label={t('roundName')}
+        value={form.roundName}
+        onChange={(e) => setForm((f) => ({ ...f, roundName: e.target.value }))}
+      />
+      <TextField
+        label={t('scheduledAt')}
+        type="datetime-local"
+        value={form.scheduledAt}
+        onChange={(e) => setForm((f) => ({ ...f, scheduledAt: e.target.value }))}
+      />
+      <TextField
+        label={t('format')}
+        hint={t('formatHint')}
+        value={form.format}
+        onChange={(e) => setForm((f) => ({ ...f, format: e.target.value }))}
+      />
+      <div className="flex flex-col gap-1">
+        <label htmlFor={id} className="text-sm font-medium">
+          {t('interviewers')}
+        </label>
+        <textarea
+          id={id}
+          rows={2}
+          value={form.interviewers}
+          onChange={(e) => setForm((f) => ({ ...f, interviewers: e.target.value }))}
+          className="rounded-md border border-border bg-background p-2 text-sm"
+        />
+        <p className="text-xs text-muted">{t('interviewersHint')}</p>
+      </div>
+      {problem || error ? (
+        <p role="alert" className="text-sm text-danger">
+          {problem ?? error}
+        </p>
+      ) : null}
+      <div className="flex gap-2">
+        <Button
+          size="sm"
+          disabled={save.isPending || problem !== null}
+          onClick={() =>
+            save.mutate({
+              roundName: form.roundName.trim(),
+              scheduledAt,
+              format: form.format.trim() || null,
+              interviewers: people,
+            })
+          }
+        >
+          {t('saveRound')}
+        </Button>
+        <Button variant="ghost" size="sm" disabled={save.isPending} onClick={() => setOpen(false)}>
+          {t('cancel')}
+        </Button>
+      </div>
+    </fieldset>
   );
 }
 
@@ -259,7 +394,7 @@ function AddRound({ url, onSaved }: { url: string; onSaved: () => void | Promise
       apiFetch(url, {
         body: {
           roundName: form.roundName.trim(),
-          scheduledAt: form.scheduledAt ? new Date(form.scheduledAt).toISOString() : null,
+          scheduledAt: dateTimeAsInstant(form.scheduledAt),
           format: form.format.trim() || null,
           interviewers: lines(form.interviewers),
         },

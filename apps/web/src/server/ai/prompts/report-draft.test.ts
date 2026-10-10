@@ -5,6 +5,7 @@ import {
   NOT_CONFIRMED,
   REPORT_SECTIONS,
   submissionReportContentSchema,
+  submissionReportText,
   qualificationContentSchema,
 } from '@easemuse/core';
 import { missingSections, reportDraftPrompt, type ReportDraftInput } from './report-draft';
@@ -77,5 +78,31 @@ describe('submission report prompt (A16)', () => {
     expect(content.jdMatch).toBe('text jdMatch');
     expect(content.missingInputs).toEqual(['qualification']);
     expect(content.recruiterAssessment).toBe('');
+    expect(content.qualificationSummary).toEqual([]);
+  });
+
+  it('copies the filled qualification topics by code and keeps them out of the fact-checked text', () => {
+    const input = base({
+      qualification: qualificationContentSchema.parse({
+        fields: {
+          interest: { value: 'Keen', level: 'high', confirmed: true },
+          counterofferRisk: { value: '', level: 'low', confirmed: true },
+          otherProcesses: { value: 'Two final rounds', confirmed: true },
+        },
+      }).fields,
+    });
+    const content = submissionReportContentSchema.parse(reportDraftPrompt.toContent!(model, input));
+    expect(content.qualificationSummary).toEqual([
+      { topic: 'interest', value: 'Keen', level: 'high' },
+      { topic: 'otherProcesses', value: 'Two final rounds', level: null },
+      { topic: 'counterofferRisk', value: '', level: 'low' },
+    ]);
+    expect(submissionReportText(content)).not.toContain('Two final rounds');
+  });
+
+  it('still parses an older report version without the summary', () => {
+    const old: Record<string, unknown> = { ...submissionReportContentSchema.parse({}) };
+    delete old.qualificationSummary;
+    expect(submissionReportContentSchema.parse(old).qualificationSummary).toEqual([]);
   });
 });

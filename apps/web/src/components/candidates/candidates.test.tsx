@@ -100,7 +100,7 @@ const emptyProfile = (): Record<string, unknown> => ({
       summary: 'Led payroll',
     },
   ],
-  education: [],
+  education: [{ school: 'Seoul National University', degree: 'BA Business', year: '2008' }],
   coreSkills: ['payroll'],
   industryExperience: [],
   technicalSkills: ['Workday'],
@@ -180,6 +180,27 @@ describe('CandidateProfileEditor', () => {
     expect((spy.mock.lastCall![0].careerHistory as unknown[]).length).toBe(1);
   });
 
+  it('shows, edits, adds and removes education entries', async () => {
+    const spy = vi.fn();
+    const user = userEvent.setup();
+    renderApp(<Harness spy={spy} />);
+    expect((screen.getByLabelText('School of entry 1') as HTMLInputElement).value).toBe(
+      'Seoul National University',
+    );
+    await user.clear(screen.getByLabelText('Year of entry 1'));
+    expect((spy.mock.lastCall![0].education as { year: string | null }[])[0]!.year).toBeNull();
+    await user.type(screen.getByLabelText('Degree of entry 1'), ' (hons)');
+    expect((spy.mock.lastCall![0].education as { degree: string }[])[0]!.degree).toBe(
+      'BA Business (hons)',
+    );
+    await user.click(screen.getByRole('button', { name: 'Add education' }));
+    expect(spy.mock.lastCall![0].education as unknown[]).toHaveLength(2);
+    await user.click(screen.getByRole('button', { name: 'Remove education entry 2' }));
+    await user.click(screen.getByRole('button', { name: 'Remove education entry 1' }));
+    expect(spy.mock.lastCall![0].education).toEqual([]);
+    expect(screen.getByText('No education found in the file.')).toBeTruthy();
+  });
+
   it('edits skills one per line', async () => {
     const spy = vi.fn();
     const user = userEvent.setup();
@@ -201,6 +222,8 @@ describe('CandidateProfileEditor', () => {
     renderApp(<Harness spy={vi.fn()} readOnly />);
     expect((screen.getByLabelText('Name') as HTMLInputElement).readOnly).toBe(true);
     expect(screen.queryByRole('button', { name: 'Add job' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Add education' })).toBeNull();
+    expect((screen.getByLabelText('School of entry 1') as HTMLInputElement).readOnly).toBe(true);
   });
 });
 

@@ -238,6 +238,21 @@ describe('the list and the shares', () => {
     expect(stub.calls.at(-1)!.body).toEqual({ decision: 'interview' });
   });
 
+  it('a hiring manager can propose selecting a candidate for an offer without giving a reason', async () => {
+    const stub = stubApi({
+      [`GET ${api}/shares/s2`]: () => json(submission),
+      [`POST ${api}/shares/s2/decision`]: () => json({ id: 'p2' }, 201),
+    });
+    vi.stubGlobal('fetch', stub.impl);
+    renderApp(<ShareView slug="acme" prefix="h" shareId="s2" />);
+    await screen.findByRole('heading', { name: 'Alex Kim' });
+    await userEvent.selectOptions(screen.getByLabelText('Your decision'), 'offer');
+    expect(screen.queryByLabelText('Reason')).toBeNull();
+    await userEvent.click(screen.getByRole('button', { name: 'Send decision' }));
+    expect((await screen.findAllByText(/recruiter will confirm/)).length).toBeGreaterThan(0);
+    expect(stub.calls.at(-1)!.body).toEqual({ decision: 'offer' });
+  });
+
   it('a candidate sees their own resume and can ask for changes', async () => {
     const stub = stubApi({
       [`GET ${api}/shares/s3`]: () => json(resume),

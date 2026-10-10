@@ -936,3 +936,21 @@ No `ibuild` on this machine (or an older binary without `engine`)? Install or
 update it per this repo's Build setup (brew/winget/curl installer) — or just use the
 web UI / GitHub issue path above, which always works.
 <!-- END INTERACTOR ENGINE WORKFLOW -->
+
+<!-- BEGIN INTERACTOR BUILD IMPORT (managed by ibuild — edits inside this block are overwritten) -->
+Interactor Build keeps this repo's working brief — how goals, branches and pull requests
+work here — in `.build/CLAUDE.md`, and Claude Code only loads the repo-root CLAUDE.md on its
+own, so the line below pulls it in. To stop ibuild managing this, delete this whole block
+and leave `<!-- ibuild:root-import: off -->` somewhere in this file; it will not come back.
+
+@.build/CLAUDE.md
+<!-- END INTERACTOR BUILD IMPORT -->
+
+<!-- BEGIN INTERACTOR RULES IMPORT (managed by ibuild — edits inside this block are overwritten) -->
+This repo's standing rules for AI sessions live in `.build/RULES.md`, and Claude
+Code only auto-loads the repo-root CLAUDE.md, so the line below pulls it in. To stop this
+being managed, delete this whole block and leave `<!-- ibuild:rules-import: off -->` somewhere
+in this file; it will not come back.
+
+@.build/RULES.md
+<!-- END INTERACTOR RULES IMPORT -->

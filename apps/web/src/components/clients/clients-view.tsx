@@ -106,6 +106,7 @@ export function ClientsView({
                     <span className="ml-2 text-sm text-muted">{t('archivedBadge')}</span>
                   ) : null}
                 </h2>
+                {client.description ? <p className="text-sm">{client.description}</p> : null}
                 <p className="text-sm text-muted">
                   {t('positions', { count: client.positionCount })}
                 </p>
@@ -147,13 +148,13 @@ function NewClientDialog({
   const [error, setError] = useState<string | null>(null);
   const form = useForm<ClientForm>({
     resolver: zodResolver(clientInputSchema),
-    defaultValues: { name: '' },
+    defaultValues: { name: '', description: '' },
   });
   const create = useMutation({
     mutationFn: (input: ClientForm) =>
       apiFetch<{ client: ClientView; similar: { id: string; name: string }[] }>(
         `/api/v1/agencies/${agencyId}/clients`,
-        { body: input },
+        { body: input.description?.trim() ? input : { name: input.name } },
       ),
     onSuccess: async (res) => {
       form.reset();
@@ -190,6 +191,13 @@ function NewClientDialog({
             autoComplete="off"
             error={form.formState.errors.name?.message}
             {...form.register('name')}
+          />
+          <TextField
+            label={t('companyDescription')}
+            hint={t('companyDescriptionHint')}
+            autoComplete="off"
+            error={form.formState.errors.description?.message}
+            {...form.register('description')}
           />
           {error ? (
             <p role="alert" className="text-sm text-danger">

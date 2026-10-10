@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderApp, stubApi } from '@/test/render';
 import { AddCandidatePanel } from './add-candidate-panel';
 import { BatchProgress } from './batch-progress';
+import { InterviewPanel } from './interview-panel';
 import { ReviewBoard } from './review-board';
 import { TransitionControl } from './transition-control';
 
@@ -547,5 +548,84 @@ describe('ReviewBoard', () => {
     serve([]);
     board();
     expect(await screen.findByText(/No candidates yet/)).toBeTruthy();
+  });
+});
+
+describe('InterviewPanel round editing', () => {
+  const when = new Date(2026, 9, 21, 14, 30);
+  const round = {
+    id: 'r1',
+    roundName: 'First round',
+    scheduledAt: when.toISOString(),
+    format: 'video',
+    interviewers: ['Ms. Park'],
+    status: 'scheduled',
+    feedback: [],
+  };
+  const interviews = `${api}/pipeline/e1/interviews`;
+  const panel = (patch: () => Response = () => json({ data: round })) => {
+    const stub = stubApi({
+      [`GET ${interviews}`]: () => json({ data: [round] }),
+      [`GET ${api}/pipeline/e1`]: () => json({ data: {} }),
+      [`PATCH ${interviews}/r1`]: patch,
+    });
+    vi.stubGlobal('fetch', stub.impl);
+    const onChanged = vi.fn();
+    renderApp(<InterviewPanel agencyId="a1" entryId="e1" onChanged={onChanged} />);
+    return { stub, onChanged };
+  };
+
+  const form = () => within(screen.getByRole('group', { name: 'Edit First round' }));
+
+  it('prefills the form with the local time and sends the changes through PATCH', async () => {
+    const { stub, onChanged } = panel();
+    const user = userEvent.setup();
+    await user.click(await screen.findByRole('button', { name: 'Edit round First round' }));
+    const date = form().getByLabelText('Date and time') as HTMLInputElement;
+    expect(date.value).toBe('2026-10-21T14:30');
+    const name = form().getByLabelText('Round');
+    await user.clear(name);
+    await user.type(name, 'Final round');
+    await user.clear(date);
+    await user.type(date, '2026-10-22T09:15');
+    const people = form().getByLabelText('Interviewers');
+    await user.type(people, '{enter}Mr. Lee');
+    await user.click(screen.getByRole('button', { name: 'Save changes' }));
+    await waitFor(() => expect(onChanged).toHaveBeenCalled());
+    expect(stub.calls.find((c) => c.method === 'PATCH')!.body).toEqual({
+      roundName: 'Final round',
+      scheduledAt: new Date(2026, 9, 22, 9, 15).toISOString(),
+      format: 'video',
+      interviewers: ['Ms. Park', 'Mr. Lee'],
+    });
+  });
+
+  it('clears the date and format with null, and blocks an empty round name', async () => {
+    const { stub } = panel();
+    const user = userEvent.setup();
+    await user.click(await screen.findByRole('button', { name: 'Edit round First round' }));
+    await user.clear(form().getByLabelText('Date and time'));
+    await user.clear(form().getByLabelText('Format'));
+    await user.click(screen.getByRole('button', { name: 'Save changes' }));
+    await waitFor(() => expect(stub.calls.some((c) => c.method === 'PATCH')).toBe(true));
+    expect(stub.calls.find((c) => c.method === 'PATCH')!.body).toMatchObject({
+      scheduledAt: null,
+      format: null,
+    });
+    await user.click(screen.getByRole('button', { name: 'Edit round First round' }));
+    await user.clear(form().getByLabelText('Round'));
+    expect(screen.getByText('Give the round a name.')).toBeTruthy();
+    expect(
+      (screen.getByRole('button', { name: 'Save changes' }) as HTMLButtonElement).disabled,
+    ).toBe(true);
+  });
+
+  it('shows the server error and keeps the form open', async () => {
+    panel(() => json({ error: { code: 'invalid', message: 'Round name is taken' } }, 400));
+    const user = userEvent.setup();
+    await user.click(await screen.findByRole('button', { name: 'Edit round First round' }));
+    await user.click(screen.getByRole('button', { name: 'Save changes' }));
+    expect(await screen.findByText('Round name is taken')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Save changes' })).toBeTruthy();
   });
 });

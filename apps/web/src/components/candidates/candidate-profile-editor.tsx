@@ -15,6 +15,9 @@ import {
 import type { ContentEditorProps } from '@/components/artifacts/types';
 import { Button } from '@/components/ui/button';
 
+/** The profile schema allows at most this many education entries. */
+const MAX_EDUCATION = 15;
+
 const control = 'rounded-md border border-border bg-background p-2 text-sm';
 
 /** The candidate profile as a form (US-202, brief 4.2): every field editable, inference labelled. */
@@ -263,6 +266,81 @@ export function CandidateProfileEditor({ content, onChange, readOnly }: ContentE
               }
             >
               {t('career.add')}
+            </Button>
+          </div>
+        )}
+      </section>
+
+      <section aria-labelledby="pf-education" className="flex flex-col gap-3">
+        <h3 id="pf-education" className="font-medium">
+          {t('education.title')}
+        </h3>
+        {p.education.length === 0 ? (
+          <p className="text-sm text-muted">{t('education.none')}</p>
+        ) : null}
+        <ul className="flex flex-col gap-3">
+          {p.education.map((entry, index) => {
+            const set = (patch: Partial<typeof entry>) =>
+              emit({
+                ...p,
+                education: p.education.map((e, i) => (i === index ? { ...e, ...patch } : e)),
+              });
+            return (
+              <li key={index} className="flex flex-col gap-2 rounded-2xl border border-border p-3">
+                <div className="grid gap-2 sm:grid-cols-3">
+                  <input
+                    aria-label={t('education.school', { n: index + 1 })}
+                    readOnly={readOnly}
+                    maxLength={160}
+                    value={entry.school}
+                    onChange={(e) => set({ school: e.target.value })}
+                    className={control}
+                  />
+                  <input
+                    aria-label={t('education.degree', { n: index + 1 })}
+                    readOnly={readOnly}
+                    maxLength={160}
+                    value={entry.degree}
+                    onChange={(e) => set({ degree: e.target.value })}
+                    className={control}
+                  />
+                  <input
+                    aria-label={t('education.year', { n: index + 1 })}
+                    readOnly={readOnly}
+                    maxLength={20}
+                    value={entry.year ?? ''}
+                    onChange={(e) => set({ year: e.target.value || null })}
+                    className={control}
+                  />
+                </div>
+                {readOnly ? null : (
+                  <div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      aria-label={t('education.remove', { n: index + 1 })}
+                      onClick={() =>
+                        emit({ ...p, education: p.education.filter((_, i) => i !== index) })
+                      }
+                    >
+                      {t('education.removeLabel')}
+                    </Button>
+                  </div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+        {readOnly || p.education.length >= MAX_EDUCATION ? null : (
+          <div>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() =>
+                emit({ ...p, education: [...p.education, { school: '', degree: '', year: null }] })
+              }
+            >
+              {t('education.add')}
             </Button>
           </div>
         )}

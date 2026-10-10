@@ -51,6 +51,12 @@
       "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
       "description": "Browser automation for testing",
       "disabled": true
+    },
+    "pm-bridge": {
+      "type": "stdio",
+      "command": "ibuild",
+      "args": ["bridge"],
+      "timeout": 660000
     }
   }
 }

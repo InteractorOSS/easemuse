@@ -1,0 +1,52 @@
+{
+  "workflow_version": "4.6.0",
+  "package_manager": "pnpm",
+  "test_command": "pnpm test",
+  "typecheck_command": "pnpm run typecheck",
+  "lint_command": "pnpm run lint",
+  "coverage": {
+    "line_threshold": 80,
+    "branch_threshold": 70,
+    "tool": "v8"
+  },
+  "security": {
+    "block_severity": "high",
+    "warn_severity": "moderate",
+    "enabled_tools": [
+      "osv-scanner",
+      "gitleaks",
+      "semgrep"
+    ]
+  },
+  "deploy": {
+    "staging": {
+      "strategy": "ci-on-main",
+      "smoke_test_grep": "@smoke"
+    },
+    "production": {
+      "strategy": "manual-promote",
+      "tagging": "semver",
+      "rollback_window_hours": 24,
+      "cooldown_hours": 1
+    }
+  },
+  "e2e": {
+    "server_command": "",
+    "base_url": "http://localhost:4025",
+    "ui_paths": [
+      "src/app",
+      "src/components",
+      "src/styles"
+    ]
+  },
+  "mirrors": {
+    "agents_md": true,
+    "claude": true,
+    "cursor": true,
+    "copilot": true
+  },
+  "worktree_root": "sibling",
+  "merge_method": "merge",
+  "report_issues": true,
+  "report_issues_local_copy": true
+}

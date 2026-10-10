@@ -9,6 +9,7 @@ import type { ContentEditorProps } from '@/components/artifacts/types';
 /** The submission report as 14 text boxes; section 14 is the recruiter's own (brief 10, US-801). */
 export function ReportEditor({ content, onChange, readOnly }: ContentEditorProps) {
   const t = useTranslations('pipeline.report');
+  const tq = useTranslations('pipeline.qualification');
   const parsed = submissionReportContentSchema.safeParse(content);
   if (!parsed.success) return null;
   // Edit the raw content so typed spaces are kept; the parsed copy is only for reading.
@@ -26,6 +27,29 @@ export function ReportEditor({ content, onChange, readOnly }: ContentEditorProps
               .join(', '),
           })}
         </p>
+      ) : null}
+      {parsed.data.qualificationSummary.length > 0 ? (
+        <section
+          aria-labelledby="report-qualification-summary"
+          className="flex flex-col gap-1 rounded-2xl border border-border p-3"
+        >
+          <h3 id="report-qualification-summary" className="text-sm font-semibold">
+            {t('qualificationSummary')}
+          </h3>
+          <p className="text-xs text-muted">{t('qualificationSummaryHint')}</p>
+          <dl className="grid gap-x-3 gap-y-1 text-sm sm:grid-cols-[14rem_1fr]">
+            {parsed.data.qualificationSummary.map((item) => (
+              <div key={item.topic} className="contents">
+                <dt className="font-medium">{tq(`topics.${item.topic}`)}</dt>
+                <dd>
+                  {[item.value, item.level ? tq(`levels.${item.level}`) : null]
+                    .filter(Boolean)
+                    .join(' · ')}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       ) : null}
       {REPORT_SECTIONS.map((key) => (
         <div key={key} className="flex flex-col gap-1">

@@ -12,7 +12,7 @@ export const portalDecisionInputSchema = z.object({
 export type PortalDecisionInput = z.infer<typeof portalDecisionInputSchema>;
 
 /** What a hiring manager can propose about a submitted candidate (FR-HMP-05). The recruiter confirms. */
-export const HM_DECISIONS = ['interview', 'hold', 'reject'] as const;
+export const HM_DECISIONS = ['interview', 'offer', 'hold', 'reject'] as const;
 export type HmDecision = (typeof HM_DECISIONS)[number];
 
 export const hmDecisionInputSchema = z
@@ -20,7 +20,7 @@ export const hmDecisionInputSchema = z
     decision: z.enum(HM_DECISIONS),
     reason: z.string().trim().min(3).max(500).optional(),
   })
-  .refine((v) => v.decision === 'interview' || Boolean(v.reason), {
+  .refine((v) => v.decision === 'interview' || v.decision === 'offer' || Boolean(v.reason), {
     message: 'Say why',
     path: ['reason'],
   });

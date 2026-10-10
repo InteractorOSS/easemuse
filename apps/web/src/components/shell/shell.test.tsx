@@ -26,6 +26,7 @@ describe('Nav', () => {
     const nav = screen.getByRole('navigation', { name: 'Main navigation' });
     const links = within(nav).getAllByRole('link');
     expect(links.map((l) => l.getAttribute('href'))).toEqual([
+      '/a/acme',
       '/a/acme/tasks',
       '/a/acme/positions',
       '/a/acme/candidates',
@@ -39,6 +40,18 @@ describe('Nav', () => {
     expect(
       within(nav).getByRole('link', { name: 'Clients' }).getAttribute('aria-current'),
     ).toBeNull();
+  });
+
+  it('marks Today current on the agency home page', () => {
+    pathname = '/a/acme';
+    renderWithIntl(<Nav agencySlug="acme" />);
+    expect(screen.getByRole('link', { name: 'Today' }).getAttribute('aria-current')).toBe('page');
+    expect(screen.getByRole('link', { name: 'My tasks' }).getAttribute('aria-current')).toBeNull();
+  });
+
+  it('does not keep Today current on other pages', () => {
+    renderWithIntl(<Nav agencySlug="acme" />);
+    expect(screen.getByRole('link', { name: 'Today' }).getAttribute('aria-current')).toBeNull();
   });
 
   it('keeps a parent item current on nested pages', () => {

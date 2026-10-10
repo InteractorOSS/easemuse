@@ -172,6 +172,7 @@
     "basis": "Compared the profile and success profile as confirmed when this analysis ran.",
     "criteriaTitle": "Criteria",
     "score": "Score {score}",
+    "weight": "Weight {weight}%",
     "computedScore": "computed {score}",
     "evidence": "Evidence",
     "inferred": "Inferred (no quote): {rationale}",
@@ -525,6 +526,8 @@
       "motivation": "12. Candidate motivation",
       "interviewAvailability": "13. Interview availability"
     },
+    "qualificationSummary": "Qualification summary (confirmed on the call)",
+    "qualificationSummaryHint": "Copied by the system from the confirmed qualification record. It is not written by the AI and is included in the PDF.",
     "assessment": "14. Recruiter's assessment",
     "assessmentHint": "Write this yourself. The AI never writes it, and the report cannot be approved while it is empty.",
     "printTitle": "Candidate Submission Report",
@@ -591,6 +594,18 @@
     "interviewers": "Interviewers",
     "interviewersHint": "One per line",
     "addRound": "Add round",
+    "edit": "Edit round",
+    "editRound": "Edit round {name}",
+    "editTitle": "Edit {name}",
+    "saveRound": "Save changes",
+    "cancel": "Cancel",
+    "errors": {
+      "roundName": "Give the round a name.",
+      "roundNameLong": "The round name can be at most {max} characters.",
+      "date": "That date and time is not valid.",
+      "formatLong": "The format can be at most {max} characters.",
+      "tooManyInterviewers": "At most {max} interviewers."
+    },
     "none": "No rounds yet.",
     "status": {
       "scheduled": "Scheduled",
@@ -722,6 +737,7 @@
     "resolved": "Answered",
     "states": {
       "interviewing": "interview",
+      "offer": "select for offer",
       "on_hold": "hold",
       "client_rejected": "reject",
       "rejected": "reject"

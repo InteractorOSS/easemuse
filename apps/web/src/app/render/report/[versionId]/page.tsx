@@ -47,6 +47,7 @@ export default async function PrintReportPage({
   });
   if (!source) notFound();
   const t = await getTranslations('pipeline.report');
+  const tq = await getTranslations('pipeline.qualification');
   const content = submissionReportContentSchema.parse(source.version.content);
   const { branding, context } = source;
 
@@ -84,6 +85,23 @@ export default async function PrintReportPage({
           <p className="whitespace-pre-wrap">{content[key]}</p>
         </section>
       ))}
+      {content.qualificationSummary.length > 0 ? (
+        <section className="mb-4 break-inside-avoid">
+          <h2 className="text-base font-semibold" style={{ color: 'var(--brand)' }}>
+            {t('qualificationSummary')}
+          </h2>
+          <ul className="list-none p-0">
+            {content.qualificationSummary.map((item) => (
+              <li key={item.topic}>
+                <span className="font-semibold">{`${tq(`topics.${item.topic}`)}: `}</span>
+                {[item.value, item.level ? tq(`levels.${item.level}`) : null]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
       <section className="mb-4 break-inside-avoid">
         <h2 className="text-base font-semibold" style={{ color: 'var(--brand)' }}>
           {t('assessment')}

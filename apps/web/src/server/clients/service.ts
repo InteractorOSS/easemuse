@@ -24,6 +24,7 @@ export interface ContactView {
 export interface ClientView {
   id: string;
   name: string;
+  description: string | null;
   archivedAt: Date | null;
   createdAt: Date;
   contacts: ContactView[];
@@ -35,6 +36,7 @@ const contactSelect = { id: true, name: true, title: true, email: true, phone: t
 const clientSelect = {
   id: true,
   name: true,
+  description: true,
   archivedAt: true,
   createdAt: true,
   contacts: { select: contactSelect, orderBy: [{ name: 'asc' }, { id: 'asc' }] },
@@ -92,7 +94,7 @@ export async function createClient(
   const existing = await tx.client.findMany({ select: { id: true, name: true } });
   const similar = existing.filter((c) => normalizeName(c.name) === wanted);
   const row = await tx.client.create({
-    data: { agencyId: actor.agencyId, name: input.name },
+    data: { agencyId: actor.agencyId, name: input.name, description: input.description ?? null },
     select: clientSelect,
   });
   await logActivity(tx, {
@@ -120,6 +122,7 @@ export async function updateClient(
     where: { id: clientId },
     data: {
       ...(patch.name !== undefined ? { name: patch.name } : {}),
+      ...(patch.description !== undefined ? { description: patch.description } : {}),
       ...(patch.archived !== undefined
         ? { archivedAt: patch.archived ? (current.archivedAt ?? new Date()) : null }
         : {}),

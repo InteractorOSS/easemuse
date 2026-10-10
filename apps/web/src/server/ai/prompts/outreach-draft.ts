@@ -39,6 +39,8 @@ export interface OutreachDraftInput {
     workArrangement: string | null;
     compensation: string | null;
   };
+  /** The hiring company, for the "company and business opportunity" element. */
+  client: { name: string; description: string | null };
   /** What earlier touches said, oldest first (follow-ups must add something new). */
   earlier: string[];
   /** A template of the recruiter's or the agency's to start from (T-5-11). */
@@ -53,7 +55,8 @@ const TOUCH_GOAL: Record<1 | 2 | 3, string> = {
 
 const ELEMENT_RULE: Record<(typeof OUTREACH_ELEMENTS)[number], string> = {
   keyAppeal: 'the main appeal of the role',
-  company: 'the company and business opportunity',
+  company:
+    'the company and business opportunity, using only the company name and description given; if no description is given, name the company and do not describe its business',
   growth: 'the career growth opportunity',
   impact: 'the impact the person would have in the role',
   compensation: 'compensation',
@@ -77,7 +80,7 @@ Rules:
 
 export const outreachDraftPrompt: PromptModule<OutreachDraftInput, OutreachModelOutput> = {
   purpose: 'outreach.draft',
-  version: 'outreach-draft-v2',
+  version: 'outreach-draft-v3',
   schema: outreachModelOutputSchema,
   buildPrompt(input) {
     const c = input.candidate;
@@ -94,6 +97,8 @@ export const outreachDraftPrompt: PromptModule<OutreachDraftInput, OutreachModel
       .filter(Boolean)
       .join('\n');
     const role = [
+      `Company: ${input.client.name}`,
+      input.client.description ? `About the company: ${input.client.description}` : null,
       `Title: ${input.position.title}`,
       `Location: ${input.position.location}${input.position.workArrangement ? ` (${input.position.workArrangement})` : ''}`,
       input.position.compensation ? `Compensation: ${input.position.compensation}` : null,

@@ -32,24 +32,18 @@ function serve(
   );
   return uploads;
 }
-const view = () =>
-  renderApp(<PositionIntake agencyId="a1" agencySlug="acme" positionId="p1" />);
+const view = () => renderApp(<PositionIntake agencyId="a1" agencySlug="acme" positionId="p1" />);
+const ready = {
+  candidateId: 'c9',
+  filename: 'alex.pdf',
+  createdAt: '2026-10-13T00:00:00.000Z',
+  state: 'ready',
+};
 
 describe('PositionIntake (G#9)', () => {
   it('uploads the chosen files for this position, with each profile link', async () => {
     let uploaded = false;
-    const uploads = serve(() =>
-      uploaded
-        ? [
-            {
-              candidateId: 'c9',
-              filename: 'alex.pdf',
-              createdAt: '2026-10-13T00:00:00.000Z',
-              state: 'ready',
-            },
-          ]
-        : [],
-    );
+    const uploads = serve(() => (uploaded ? [ready] : []));
     const user = userEvent.setup();
     view();
     expect(await screen.findByText('No uploaded resume is waiting for review.')).toBeTruthy();
@@ -70,9 +64,8 @@ describe('PositionIntake (G#9)', () => {
 
     const row = (await screen.findByRole('rowheader', { name: 'alex.pdf' })).closest('tr')!;
     expect(within(row).getByText('Ready to review')).toBeTruthy();
-    expect(
-      within(row).getByRole('link', { name: 'Review alex.pdf' }).getAttribute('href'),
-    ).toBe('/a/acme/candidates/c9/review');
+    const link = within(row).getByRole('link', { name: 'Review alex.pdf' });
+    expect(link.getAttribute('href')).toBe('/a/acme/candidates/c9/review');
   });
 
   it('keeps at most 10 files and says so', async () => {

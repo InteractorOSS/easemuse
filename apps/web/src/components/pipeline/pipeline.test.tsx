@@ -330,7 +330,7 @@ describe('ReviewBoard', () => {
       [`GET ${pos}/intake-drafts`]: () => json({ data: [] }),
       ...extra,
     });
-  const board =(role: 'admin' | 'lead' | 'recruiter' = 'recruiter', userId = 'u1') =>
+  const board = (role: 'admin' | 'lead' | 'recruiter' = 'recruiter', userId = 'u1') =>
     renderApp(
       <ReviewBoard agencyId="a1" agencySlug="acme" positionId="p1" viewer={{ userId, role }} />,
     );

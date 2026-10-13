@@ -12,7 +12,14 @@ export const CANDIDATE_SOURCES = [
 ] as const;
 export type CandidateSourceValue = (typeof CANDIDATE_SOURCES)[number];
 
-/** `POST /candidates/intake`: the source and optional profile link, plus the resume file or pasted text. */
+/** Most resumes one position upload takes at a time (G#9). */
+export const POSITION_INTAKE_MAX_FILES = 10;
+
+/**
+ * `POST /candidates/intake`: the source and optional profile link, plus the resume file or pasted
+ * text. `positionId` marks the position the resume was uploaded for (G#9); the draft is still only
+ * a draft, and nothing is added to the position until the recruiter confirms.
+ */
 export const candidateIntakeSchema = z.object({
   source: z.enum(CANDIDATE_SOURCES),
   profileUrl: z
@@ -20,6 +27,10 @@ export const candidateIntakeSchema = z.object({
     .trim()
     .max(500)
     .url()
+    .or(z.literal('').transform(() => undefined))
+    .optional(),
+  positionId: z
+    .guid()
     .or(z.literal('').transform(() => undefined))
     .optional(),
 });
@@ -41,6 +52,9 @@ export type DuplicateResolution = (typeof DUPLICATE_RESOLUTIONS)[number];
  * `POST /candidates`: confirm a draft (US-202, US-203). Without a resolution the draft is saved only
  * if no duplicate was found. `create` anyway needs a reason when duplicates exist; `merge` and `link`
  * name the existing candidate.
+ *
+ * `positionId` (G#9) also adds the confirmed candidate to that position, and `analyze` then asks for
+ * the match analysis: the recruiter's click on "Confirm" is the request (brief 1.1, DP-2).
  */
 export const confirmCandidateInputSchema = z
   .object({
@@ -48,6 +62,8 @@ export const confirmCandidateInputSchema = z
     resolution: z.enum(DUPLICATE_RESOLUTIONS).optional(),
     targetId: z.guid().optional(),
     reason: z.string().trim().min(3).max(500).optional(),
+    positionId: z.guid().optional(),
+    analyze: z.boolean().optional(),
   })
   .refine(
     (v) => (v.resolution === 'merge' || v.resolution === 'link' ? Boolean(v.targetId) : true),
@@ -55,7 +71,11 @@ export const confirmCandidateInputSchema = z
       message: 'Choose the existing candidate',
       path: ['targetId'],
     },
-  );
+  )
+  .refine((v) => !v.analyze || Boolean(v.positionId), {
+    message: 'Choose the position to analyze against',
+    path: ['positionId'],
+  });
 export type ConfirmCandidateInput = z.infer<typeof confirmCandidateInputSchema>;
 
 /** `PATCH /candidates/:id/do-not-contact`: setting or clearing the flag always needs a reason. */

@@ -7,6 +7,7 @@ import { ApiError, notFound } from '@/lib/http/errors';
 import { enqueue } from '@/lib/queue';
 import { logActivity } from '@/server/activity/service';
 import { storeOriginal } from '@/server/documents/store';
+import { requirePosition } from '@/server/positions/service';
 import { matchKeys } from './duplicates';
 
 /**
@@ -37,6 +38,13 @@ export async function createCandidateDraft(
   intake: CandidateIntake,
   file: IntakeFile,
 ): Promise<IntakeResult> {
+  if (intake.positionId) {
+    // Uploaded for a position (G#9): the person must see it and it must still take candidates.
+    const position = await requirePosition(tx, actor, intake.positionId, 'read');
+    if (position.status === 'filled' || position.status === 'cancelled') {
+      throw new ApiError('conflict', 'This position is closed', { status: 409 });
+    }
+  }
   const stored = await storeOriginal(tx, {
     agencyId: actor.agencyId,
     filename: file.filename,
@@ -51,6 +59,7 @@ export async function createCandidateDraft(
       profileUrl: intake.profileUrl ?? null,
       ...matchKeys({ profileUrl: intake.profileUrl }),
       status: 'draft',
+      intakePositionId: intake.positionId ?? null,
       createdById: actor.userId,
     },
     select: { id: true },
@@ -71,7 +80,12 @@ export async function createCandidateDraft(
     action: 'candidate.draft_created',
     entityType: 'candidate',
     entityId: candidate.id,
-    data: { source: intake.source, kind: file.kind, documentId: document.id },
+    data: {
+      source: intake.source,
+      kind: file.kind,
+      documentId: document.id,
+      ...(intake.positionId ? { positionId: intake.positionId } : {}),
+    },
   });
   return { candidateId: candidate.id, documentId: document.id };
 }

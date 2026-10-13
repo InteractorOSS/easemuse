@@ -127,6 +127,43 @@
       "closed": "This position is closed."
     }
   },
+  "intake": {
+    "title": "Upload resumes or LinkedIn PDFs",
+    "intro": "Up to {max} files at a time (PDF, Word or text). Each becomes a draft to review. When you confirm one, you can add it to this position and ask for the match analysis.",
+    "linkedinHint": "From LinkedIn: open the profile, choose More, then Save to PDF, and upload that file. EaseMuse never opens LinkedIn itself.",
+    "source": "Source",
+    "files": "Files",
+    "tooMany": "Only the first {max} files are kept.",
+    "profileUrl": "Profile link for {name} (optional)",
+    "profileUrlHint": "For example https://www.linkedin.com/in/… It is saved with the candidate and helps find duplicates.",
+    "start": "{count, plural, =0 {Upload} one {Upload # file} other {Upload # files}}",
+    "uploadsLabel": "Upload results",
+    "uploadStates": {
+      "waiting": "Waiting",
+      "uploading": "Uploading…",
+      "sent": "Uploaded"
+    },
+    "errors": {
+      "unsupported": "Not a PDF, Word or text file.",
+      "tooLarge": "Larger than 10 MB.",
+      "badUrl": "The profile link is not a valid web address.",
+      "closed": "This position is closed.",
+      "generic": "Could not upload. Try again."
+    },
+    "draftsTitle": "Waiting for your review",
+    "draftsEmpty": "No uploaded resume is waiting for review.",
+    "file": "File",
+    "status": "Status",
+    "draftStates": {
+      "reading": "Reading the file…",
+      "readFailed": "Could not read the file",
+      "drafting": "AI is writing the profile draft…",
+      "aiFailed": "AI could not write the profile draft",
+      "ready": "Ready to review"
+    },
+    "review": "Review {name}",
+    "reviewLink": "Review"
+  },
   "batch": {
     "title": "Analysis",
     "running": "Analyzing {completed} of {total}…",

@@ -5,7 +5,7 @@ import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { AgencyActor } from '@easemuse/core';
 import type { DbHandle } from '@/lib/db/client';
-import { addDraftVersion, createArtifact } from '@/server/artifacts/service';
+import { addDraftVersion, approveVersion, createArtifact } from '@/server/artifacts/service';
 import { createClient } from '@/server/clients/service';
 import { createPosition } from '@/server/positions/service';
 import {
@@ -69,7 +69,7 @@ describe.skipIf(!dbAvailable())('upload for a position, confirm, analyze (G#9)',
         origin: 'human',
         createdById: lead.userId,
       });
-      await tx.artifact.update({ where: { id: artifact.id }, data: { approvedVersionId: v.id } });
+      await approveVersion(tx, lead, v.id);
     });
   const close = (positionId: string) =>
     run((tx) => tx.position.update({ where: { id: positionId }, data: { status: 'cancelled' } }));

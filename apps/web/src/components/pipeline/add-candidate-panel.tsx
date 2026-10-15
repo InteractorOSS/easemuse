@@ -111,9 +111,20 @@ export function AddCandidatePanel({
           {error}
         </p>
       ) : null}
-      <Link className="text-sm underline" href={`/a/${agencySlug}/candidates/new`}>
-        {t('new')}
-      </Link>
+      <div className="flex flex-wrap gap-x-4 gap-y-2">
+        <Link
+          className="inline-flex min-h-11 items-center text-sm underline"
+          href={`/a/${agencySlug}/positions/${positionId}/candidates/paste`}
+        >
+          {t('paste')}
+        </Link>
+        <Link
+          className="inline-flex min-h-11 items-center text-sm underline"
+          href={`/a/${agencySlug}/candidates/new`}
+        >
+          {t('new')}
+        </Link>
+      </div>
     </section>
   );
 }

@@ -83,6 +83,25 @@ describe('CandidateIntakeForm', () => {
       expect(screen.getByRole('alert').textContent).toBe('Upload a PDF, DOCX or plain text file.'),
     );
   });
+
+  it('pastes a LinkedIn profile from a position: no source question, sent to the position route', async () => {
+    const sent: { url: string; body: unknown }[] = [];
+    vi.stubGlobal('fetch', async (input: RequestInfo | URL, init: RequestInit = {}) => {
+      sent.push({ url: String(input), body: JSON.parse(String(init.body)) });
+      return json({ data: { candidateId: 'c9', jobRunId: 'j9', positionId: 'p1' } }, 202);
+    });
+    const onCreated = vi.fn();
+    const user = userEvent.setup();
+    renderApp(<CandidateIntakeForm agencyId="a1" positionId="p1" onCreated={onCreated} />);
+    expect(screen.getByRole('heading', { name: 'Paste a LinkedIn profile' })).toBeTruthy();
+    expect(screen.queryByLabelText('Where did you find them?')).toBeNull();
+    expect(screen.getByText(/We never open or collect anything from this link/)).toBeTruthy();
+    await user.type(screen.getByLabelText('Profile text'), 'x'.repeat(60));
+    await user.click(screen.getByRole('button', { name: 'Read the profile' }));
+    await waitFor(() => expect(onCreated).toHaveBeenCalledWith('c9'));
+    expect(sent[0]!.url).toBe(`${api}/positions/p1/candidates/intake`);
+    expect(sent[0]!.body).toEqual({ source: 'linkedin', profileText: 'x'.repeat(60) });
+  });
 });
 
 const emptyProfile = (): Record<string, unknown> => ({
@@ -492,5 +511,88 @@ describe('CandidateReview', () => {
       '/a/acme/candidates/c1',
     );
     void within;
+  });
+
+  describe('from a position', () => {
+    const viewFromPosition = () =>
+      renderApp(
+        <CandidateReview agencyId="a1" agencySlug="acme" candidateId="c1" positionId="p1" />,
+      );
+    const confirmUrl = `${api}/positions/p1/candidates/confirm`;
+
+    it('confirms, adds to the position and opens the analysis to start it', async () => {
+      const stub = serve(candidate({ profileArtifactId: 'art1' }), [], {
+        [`POST ${confirmUrl}`]: () =>
+          json(
+            {
+              data: {
+                candidateId: 'c1',
+                resolution: 'create',
+                mergedIntoId: null,
+                entry: { id: 'e1' },
+                alreadyInPosition: false,
+                analysis: { ready: true, reason: null },
+              },
+            },
+            201,
+          ),
+      });
+      const user = userEvent.setup();
+      viewFromPosition();
+      await user.click(
+        await screen.findByRole('button', { name: 'Confirm, add to position and analyze' }),
+      );
+      await waitFor(() =>
+        expect(push).toHaveBeenCalledWith('/a/acme/positions/p1/candidates/e1?analyze=1'),
+      );
+      expect(
+        stub.calls.find((c) => c.method === 'POST' && c.url.pathname === confirmUrl)!.body,
+      ).toEqual({ draftId: 'c1' });
+      expect(screen.queryByRole('button', { name: 'Confirm candidate' })).toBeNull();
+    });
+
+    it('does not start the analysis when it is not ready, and says why', async () => {
+      serve(candidate({ profileArtifactId: 'art1' }), [], {
+        [`POST ${confirmUrl}`]: () =>
+          json(
+            {
+              data: {
+                candidateId: 'c1',
+                resolution: 'create',
+                mergedIntoId: null,
+                entry: { id: 'e1' },
+                alreadyInPosition: false,
+                analysis: {
+                  ready: false,
+                  reason: "Confirm the position's success profile first",
+                },
+              },
+            },
+            201,
+          ),
+      });
+      const user = userEvent.setup();
+      viewFromPosition();
+      await user.click(
+        await screen.findByRole('button', { name: 'Confirm, add to position and analyze' }),
+      );
+      await waitFor(() => expect(push).toHaveBeenCalledWith('/a/acme/positions/p1/candidates/e1'));
+      expect(await screen.findByText('Candidate added, analysis not started')).toBeTruthy();
+      expect(screen.getByText("Confirm the position's success profile first")).toBeTruthy();
+    });
+
+    it('keeps the draft and explains when the position is closed', async () => {
+      serve(candidate({ profileArtifactId: 'art1' }), [], {
+        [`POST ${confirmUrl}`]: () =>
+          json({ error: { code: 'conflict', message: 'This position is closed' } }, 409),
+      });
+      const user = userEvent.setup();
+      viewFromPosition();
+      await user.click(
+        await screen.findByRole('button', { name: 'Confirm, add to position and analyze' }),
+      );
+      expect((await screen.findByRole('alert')).textContent).toContain('This position is closed');
+      expect(push).not.toHaveBeenCalled();
+    });
   });
 });

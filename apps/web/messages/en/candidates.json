@@ -23,7 +23,11 @@
       "tooLarge": "Files can be at most 10 MB.",
       "noFile": "Choose a file.",
       "tooShort": "Paste at least 50 characters."
-    }
+    },
+    "pasteTitle": "Paste a LinkedIn profile",
+    "pasteIntro": "Paste the profile text or upload the PDF you saved from LinkedIn. AI drafts a structured profile for you to check, then one click saves the candidate, adds them to this position and starts the match analysis.",
+    "profileUrlNote": "Only stored with the candidate. We never open or collect anything from this link.",
+    "pasteSubmit": "Read the profile"
   },
   "review": {
     "title": "Review new candidate",
@@ -72,7 +76,8 @@
       "needName": "Enter the candidate's name in the profile first.",
       "noProfile": "There is no profile draft to confirm yet.",
       "duplicate": "This looks like someone already in your database. Choose what to do.",
-      "reason": "Say why this is not a duplicate."
+      "reason": "Say why this is not a duplicate.",
+      "closed": "This position is closed, so the candidate was not added. Your pasted profile is still a draft."
     },
     "aiFailed": "AI could not write the profile draft. {reason}",
     "aiErrors": {
@@ -87,7 +92,10 @@
     "manualHint": "You can enter the profile yourself instead. Nothing is lost: the original file stays attached.",
     "enterManually": "Enter the profile myself",
     "manualStarted": "Blank profile ready. Fill it in, then confirm.",
-    "readFailedManual": "You can also enter the profile yourself."
+    "readFailedManual": "You can also enter the profile yourself.",
+    "backToPosition": "Back to this position",
+    "confirmAddAnalyze": "Confirm, add to position and analyze",
+    "analysisNotReady": "Candidate added, analysis not started"
   },
   "profile": {
     "invalid": "This draft cannot be shown as a form.",

@@ -15,14 +15,17 @@ const MIN_TEXT = 50;
 /** Add a candidate (US-202): a resume file or pasted profile, where it came from, and an optional link. */
 export function CandidateIntakeForm({
   agencyId,
+  positionId,
   onCreated,
 }: {
   agencyId: string;
+  /** Pasting from a position: the source is always LinkedIn and the candidate is added to it later. */
+  positionId?: string;
   onCreated: (candidateId: string) => void;
 }) {
   const t = useTranslations('candidates.new');
   const sources = useTranslations('candidates.sources');
-  const [mode, setMode] = useState<'file' | 'text'>('file');
+  const [mode, setMode] = useState<'file' | 'text'>(positionId ? 'text' : 'file');
   const [source, setSource] = useState<CandidateSourceValue>('linkedin');
   const [profileUrl, setProfileUrl] = useState('');
   const [file, setFile] = useState<File | null>(null);
@@ -37,7 +40,9 @@ export function CandidateIntakeForm({
   };
   const submit = useMutation({
     mutationFn: async () => {
-      const path = `/api/v1/agencies/${agencyId}/candidates/intake`;
+      const path = positionId
+        ? `/api/v1/agencies/${agencyId}/positions/${positionId}/candidates/intake`
+        : `/api/v1/agencies/${agencyId}/candidates/intake`;
       let response: Response;
       if (mode === 'file') {
         const form = new FormData();
@@ -86,21 +91,24 @@ export function CandidateIntakeForm({
         submit.mutate();
       }}
     >
-      <h1 className="text-2xl font-semibold">{t('title')}</h1>
-      <p className="text-sm text-muted">{t('intro')}</p>
-      <SelectField
-        label={t('source')}
-        value={source}
-        onChange={(e) => setSource(e.target.value as CandidateSourceValue)}
-      >
-        {CANDIDATE_SOURCES.map((s) => (
-          <option key={s} value={s}>
-            {sources(s)}
-          </option>
-        ))}
-      </SelectField>
+      <h1 className="text-2xl font-semibold">{positionId ? t('pasteTitle') : t('title')}</h1>
+      <p className="text-sm text-muted">{positionId ? t('pasteIntro') : t('intro')}</p>
+      {positionId ? null : (
+        <SelectField
+          label={t('source')}
+          value={source}
+          onChange={(e) => setSource(e.target.value as CandidateSourceValue)}
+        >
+          {CANDIDATE_SOURCES.map((s) => (
+            <option key={s} value={s}>
+              {sources(s)}
+            </option>
+          ))}
+        </SelectField>
+      )}
       <TextField
         label={t('profileUrl')}
+        hint={positionId ? t('profileUrlNote') : undefined}
         type="url"
         value={profileUrl}
         onChange={(e) => setProfileUrl(e.target.value)}
@@ -140,7 +148,7 @@ export function CandidateIntakeForm({
       ) : null}
       <div>
         <Button type="submit" disabled={submit.isPending}>
-          {t('submit')}
+          {positionId ? t('pasteSubmit') : t('submit')}
         </Button>
       </div>
     </form>

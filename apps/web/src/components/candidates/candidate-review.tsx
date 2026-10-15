@@ -37,10 +37,13 @@ export function CandidateReview({
   agencyId,
   agencySlug,
   candidateId,
+  positionId,
 }: {
   agencyId: string;
   agencySlug: string;
   candidateId: string;
+  /** From a position: confirming also adds the candidate to it and opens the analysis. */
+  positionId?: string;
 }) {
   const t = useTranslations('candidates.review');
   const d = useTranslations('candidates.review.duplicates');
@@ -102,7 +105,11 @@ export function CandidateReview({
   });
   const confirm = useMutation({
     mutationFn: () =>
-      apiFetch<{ candidateId: string }>(`${base}/candidates`, {
+      apiFetch<{
+        candidateId: string;
+        entry?: { id: string };
+        analysis?: { ready: boolean; reason: string | null };
+      }>(positionId ? `${base}/positions/${positionId}/candidates/confirm` : `${base}/candidates`, {
         body: {
           draftId: candidateId,
           ...(choice !== 'none' ? { resolution: choice } : {}),
@@ -118,6 +125,19 @@ export function CandidateReview({
       await queryClient.invalidateQueries({
         queryKey: ['candidate', agencyId, res.data.candidateId],
       });
+      if (positionId && res.data.entry) {
+        const { entry, analysis } = res.data;
+        if (analysis && !analysis.ready && analysis.reason) {
+          toast({ title: t('analysisNotReady'), description: analysis.reason });
+        }
+        // The click on "Confirm, add and analyze" is the request: the analysis page starts the run.
+        router.push(
+          `/a/${agencySlug}/positions/${positionId}/candidates/${entry.id}${
+            analysis?.ready ? '?analyze=1' : ''
+          }`,
+        );
+        return;
+      }
       router.push(`/a/${agencySlug}/candidates/${res.data.candidateId}`);
     },
     onError: (e) => {
@@ -125,6 +145,8 @@ export function CandidateReview({
         return setError(t('errors.duplicate'));
       if (e instanceof ApiClientError && e.fields.fullName) return setError(t('errors.needName'));
       if (e instanceof ApiClientError && e.fields.reason) return setError(t('errors.reason'));
+      if (e instanceof ApiClientError && e.status === 409 && e.message.includes('closed'))
+        return setError(t('errors.closed'));
       if (e instanceof ApiClientError && e.status === 409) return setError(t('errors.noProfile'));
       setError(t('errors.generic'));
     },
@@ -172,8 +194,15 @@ export function CandidateReview({
     <div className="flex flex-col gap-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">{t('title')}</h1>
-        <Link className="underline" href={`/a/${agencySlug}/candidates`}>
-          {t('back')}
+        <Link
+          className="underline"
+          href={
+            positionId
+              ? `/a/${agencySlug}/positions/${positionId}/candidates`
+              : `/a/${agencySlug}/candidates`
+          }
+        >
+          {positionId ? t('backToPosition') : t('back')}
         </Link>
       </div>
 
@@ -337,7 +366,7 @@ export function CandidateReview({
         ) : null}
         <div className="flex flex-wrap gap-2">
           <Button disabled={!canConfirm || confirm.isPending} onClick={() => confirm.mutate()}>
-            {t('confirm')}
+            {positionId ? t('confirmAddAnalyze') : t('confirm')}
           </Button>
           <Button variant="secondary" disabled={discard.isPending} onClick={() => discard.mutate()}>
             {t('discard')}

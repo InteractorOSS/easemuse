@@ -5,7 +5,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { matchingWeightsSchema, type MatchWeightKey, type PipelineState } from '@easemuse/core';
 import { StreamingDraft } from '@/components/artifacts/streaming-draft';
 import { useAiRun } from '@/components/artifacts/use-ai-run';
@@ -37,11 +37,14 @@ export function AnalysisView({
   agencySlug,
   positionId,
   entryId,
+  autoStart = false,
 }: {
   agencyId: string;
   agencySlug: string;
   positionId: string;
   entryId: string;
+  /** Start the analysis once on arrival: set only when the recruiter just chose "Confirm, add and analyze". */
+  autoStart?: boolean;
 }) {
   const t = useTranslations('pipeline.analysis');
   const portalT = useTranslations('pipeline.portalAdmin');
@@ -76,6 +79,13 @@ export function AnalysisView({
     await queryClient.invalidateQueries({ queryKey: ['review', agencyId, positionId] });
   };
   const run = useAiRun(`${base}/pipeline/${entryId}/analysis`, { onDone: () => void refresh() });
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    // Only a first analysis: an existing one is never replaced without a click on Analyze again.
+    if (!autoStart || autoStarted.current || !latest.isSuccess || latest.data?.data) return;
+    autoStarted.current = true;
+    void run.start();
+  }, [autoStart, latest.isSuccess, latest.data, run]);
   const review = useMutation({
     mutationFn: () => apiFetch(`${base}/analyses/${analysisId}/review`, { method: 'POST' }),
     onSuccess: async () => {

@@ -7,10 +7,13 @@ import { agencyAccess } from '@/lib/auth/page-access';
 
 export default async function AnalysisPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ agencySlug: string; positionId: string; entryId: string }>;
+  searchParams: Promise<{ analyze?: string }>;
 }) {
   const { agencySlug, positionId, entryId } = await params;
+  const { analyze } = await searchParams;
   const access = await agencyAccess(agencySlug);
   if (!z.guid().safeParse(positionId).success || !z.guid().safeParse(entryId).success) notFound();
   return (
@@ -19,6 +22,7 @@ export default async function AnalysisPage({
       agencySlug={access.agency.slug}
       positionId={positionId}
       entryId={entryId}
+      autoStart={analyze === '1'}
     />
   );
 }

@@ -125,7 +125,8 @@
     "errors": {
       "generic": "Could not add the candidate.",
       "closed": "This position is closed."
-    }
+    },
+    "paste": "Paste a LinkedIn profile and analyze"
   },
   "batch": {
     "title": "Analysis",

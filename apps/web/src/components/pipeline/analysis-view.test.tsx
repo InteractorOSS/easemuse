@@ -354,4 +354,37 @@ describe('AnalysisView', () => {
       '/a/acme/positions/p1/candidates',
     );
   });
+
+  describe('auto start (paste and analyze)', () => {
+    const post = (stub: ReturnType<typeof stubApi>) =>
+      stub.calls.filter((c) => c.method === 'POST' && c.url.pathname.endsWith('/analysis'));
+    const stream = () =>
+      new Response('', { status: 200, headers: { 'Content-Type': 'text/event-stream' } });
+
+    it('starts the first analysis once on arrival', async () => {
+      const stub = serve(detail(), { [`POST ${api}/pipeline/e1/analysis`]: stream }, true);
+      renderApp(
+        <AnalysisView agencyId="a1" agencySlug="acme" positionId="p1" entryId="e1" autoStart />,
+      );
+      await waitFor(() => expect(post(stub)).toHaveLength(1));
+      await screen.findByRole('heading', { name: 'Alex Kim' });
+      expect(post(stub)).toHaveLength(1);
+    });
+
+    it('never replaces an existing analysis on its own', async () => {
+      const stub = serve(detail(), { [`POST ${api}/pipeline/e1/analysis`]: stream });
+      renderApp(
+        <AnalysisView agencyId="a1" agencySlug="acme" positionId="p1" entryId="e1" autoStart />,
+      );
+      await screen.findByText('78');
+      expect(post(stub)).toHaveLength(0);
+    });
+
+    it('waits for the recruiter to click when not asked to auto start', async () => {
+      const stub = serve(detail(), { [`POST ${api}/pipeline/e1/analysis`]: stream }, true);
+      view();
+      await screen.findByRole('button', { name: 'Analyze' });
+      expect(post(stub)).toHaveLength(0);
+    });
+  });
 });

@@ -1,16 +1,11 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
 // route-audience: agency
-import { candidateIntakeSchema, candidateIntakeTextSchema } from '@easemuse/core';
 import { authorizeAgency } from '@/lib/auth/authorize';
 import { withAgency } from '@/lib/db';
-import { ApiError } from '@/lib/http/errors';
-import { handleRoute, zodFields } from '@/lib/http/responses';
-import {
-  createCandidateDraft,
-  startCandidateExtraction,
-  type IntakeFile,
-} from '@/server/candidates/intake';
+import { handleRoute } from '@/lib/http/responses';
+import { createCandidateDraft, startCandidateExtraction } from '@/server/candidates/intake';
+import { parseIntakeRequest } from '@/server/candidates/intake-request';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,37 +23,7 @@ export async function POST(
     const authed = await authorizeAgency(agencyId);
     if (authed instanceof Response) return authed;
 
-    let intake;
-    let file: IntakeFile;
-    if (req.headers.get('content-type')?.startsWith('multipart/form-data')) {
-      const form = await req.formData().catch(() => null);
-      const upload = form?.get('file');
-      if (!(upload instanceof File)) {
-        throw new ApiError('invalid_input', 'Attach a file', { fields: { file: 'Attach a file' } });
-      }
-      const parsed = candidateIntakeSchema.safeParse({
-        source: form?.get('source') ?? undefined,
-        profileUrl: form?.get('profileUrl')?.toString() || undefined,
-      });
-      if (!parsed.success)
-        throw new ApiError('invalid_input', 'Invalid input', { fields: zodFields(parsed.error) });
-      intake = parsed.data;
-      file = {
-        filename: upload.name,
-        bytes: new Uint8Array(await upload.arrayBuffer()),
-        kind: 'resume',
-      };
-    } else {
-      const parsed = candidateIntakeTextSchema.safeParse(await req.json().catch(() => null));
-      if (!parsed.success)
-        throw new ApiError('invalid_input', 'Invalid input', { fields: zodFields(parsed.error) });
-      intake = parsed.data;
-      file = {
-        filename: 'profile.txt',
-        bytes: new TextEncoder().encode(parsed.data.profileText),
-        kind: 'profile_text',
-      };
-    }
+    const { intake, file } = await parseIntakeRequest(req);
 
     const draft = await withAgency(
       authed.agency.id,

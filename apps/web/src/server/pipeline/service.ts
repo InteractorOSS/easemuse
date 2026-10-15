@@ -98,6 +98,21 @@ export async function getEntry(
   return toView(await loadEntry(tx, actor, entryId));
 }
 
+/** The entry of a candidate in a position the person may see, or null when they are not in it. */
+export async function getEntryForCandidate(
+  tx: ScopedTx,
+  actor: AgencyActor,
+  positionId: string,
+  candidateId: string,
+): Promise<PipelineEntryView | null> {
+  await requirePosition(tx, actor, positionId, 'read');
+  const row = await tx.pipelineEntry.findUnique({
+    where: { positionId_candidateId: { positionId, candidateId } },
+    select,
+  });
+  return row ? toView(row) : null;
+}
+
 /** Everyone in a position's pipeline, oldest first (the dashboard read model comes with T-3-07). */
 export async function listPositionPipeline(
   tx: ScopedTx,

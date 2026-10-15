@@ -176,6 +176,7 @@ vi.mock('@/server/positions/service', () => ({
   getPosition: async () => ({}),
   updatePosition: async () => ({}),
   changeStatus: async () => ({}),
+  requirePosition: async () => ({ id: 'p1' }),
 }));
 vi.mock('@/server/positions/jd', () => ({
   listOriginals: async () => [],
@@ -246,6 +247,16 @@ vi.mock('@/server/candidates/duplicates', () => ({
 }));
 vi.mock('@/server/candidates/confirm', () => ({
   confirmCandidate: async () => ({ candidateId: 'c1', resolution: 'create', mergedIntoId: null }),
+}));
+vi.mock('@/server/candidates/confirm-and-add', () => ({
+  confirmAddAndPlan: async () => ({
+    candidateId: 'c1',
+    resolution: 'create',
+    mergedIntoId: null,
+    entry: { id: 'e1' },
+    alreadyInPosition: false,
+    analysis: { ready: true, reason: null },
+  }),
 }));
 vi.mock('@/server/candidates/service', () => ({
   getCandidate: async () => ({ id: 'c1' }),
@@ -607,6 +618,8 @@ import { POST as classifyPost } from './v1/agencies/[agencyId]/pipeline/[entryId
 import { GET as entryGet } from './v1/agencies/[agencyId]/pipeline/[entryId]/route';
 import { POST as transitionPost } from './v1/agencies/[agencyId]/pipeline/[entryId]/transitions/route';
 import { POST as addToPositionPost } from './v1/agencies/[agencyId]/positions/[positionId]/candidates/route';
+import { POST as pasteIntakePost } from './v1/agencies/[agencyId]/positions/[positionId]/candidates/intake/route';
+import { POST as confirmAddPost } from './v1/agencies/[agencyId]/positions/[positionId]/candidates/confirm/route';
 import { GET as pipelineGet } from './v1/agencies/[agencyId]/positions/[positionId]/pipeline/route';
 import { POST as batchPost } from './v1/agencies/[agencyId]/positions/[positionId]/analyses/route';
 import { GET as reviewGet } from './v1/agencies/[agencyId]/positions/[positionId]/review/route';
@@ -1411,6 +1424,28 @@ const endpoints: Endpoint[] = [
           'http://x.test/',
           json({ candidateId: '11111111-1111-4111-8111-111111111111' }),
         ),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST paste LinkedIn profile on a position',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/candidates/intake/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      pasteIntakePost(
+        new Request('http://x.test/', json({ profileText: 'x'.repeat(60) })),
+        agencyParams,
+      ),
+  },
+  {
+    name: 'POST confirm pasted candidate, add to position and plan analysis',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/candidates/confirm/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () =>
+      confirmAddPost(
+        new Request('http://x.test/', json({ draftId: '11111111-1111-4111-8111-111111111111' })),
         agencyParams,
       ),
   },

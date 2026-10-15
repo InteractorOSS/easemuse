@@ -20,36 +20,47 @@ import {
 import { confirmAddAndPlan } from './confirm-and-add';
 import { createCandidateDraft } from './intake';
 
-const profile = (over: Record<string, unknown> = {}) => ({
-  fullName: 'Alex Kim',
-  email: `alex-${randomUUID()}@x.com`,
-  phone: null,
-  currentPosition: { title: 'HR Director', company: 'Northwind' },
-  careerHistory: [
-    {
-      company: 'Northwind',
-      title: 'HR Director',
-      start: '2019',
-      end: null,
-      current: true,
-      summary: 'Managed a team of 20',
-    },
-  ],
-  education: [],
-  coreSkills: ['payroll'],
-  industryExperience: [],
-  technicalSkills: [],
-  leadershipExperience: null,
-  teamSize: '20',
-  careerProgression: null,
-  location: 'Seoul',
-  workAuthorization: null,
-  compensationExpectation: null,
-  majorAchievements: [],
-  potentialMotivation: null,
-  potentialConcerns: [],
-  ...over,
-});
+/** Random letters, so two fixture people never look alike to the duplicate check (name + employer). */
+const letters = (n: number) =>
+  [...randomUUID().replaceAll('-', '')]
+    .map((c) => String.fromCharCode(97 + Number.parseInt(c, 16)))
+    .join('')
+    .slice(0, n);
+
+/** A new person each call; pass the same object to a second draft to make a real duplicate. */
+const profile = (over: Record<string, unknown> = {}) => {
+  const company = `${letters(10)} Corp`;
+  return {
+    fullName: `${letters(8)} ${letters(8)}`,
+    email: `${letters(10)}@x.com`,
+    phone: null,
+    currentPosition: { title: 'HR Director', company },
+    careerHistory: [
+      {
+        company,
+        title: 'HR Director',
+        start: '2019',
+        end: null,
+        current: true,
+        summary: 'Managed a team of 20',
+      },
+    ],
+    education: [],
+    coreSkills: ['payroll'],
+    industryExperience: [],
+    technicalSkills: [],
+    leadershipExperience: null,
+    teamSize: '20',
+    careerProgression: null,
+    location: 'Seoul',
+    workAuthorization: null,
+    compensationExpectation: null,
+    majorAchievements: [],
+    potentialMotivation: null,
+    potentialConcerns: [],
+    ...over,
+  };
+};
 const successProfile = {
   summary: 'A senior HR leader',
   criteria: [{ id: 'c1', text: '8 years in HR', category: 'must_have', basis: 'jd' }],
@@ -171,7 +182,7 @@ describe.skipIf(!dbAvailable())('confirm, add to position and plan the analysis'
 
   it('asks for a duplicate resolution and changes nothing until it is given', async () => {
     const positionId = await newPosition({ successProfile: true });
-    const shared = profile({ email: `dup-${randomUUID()}@x.com` });
+    const shared = profile();
     await go(positionId, await pasted(shared));
     const second = await pasted(shared);
     const other = await newPosition({ successProfile: true });
@@ -185,7 +196,7 @@ describe.skipIf(!dbAvailable())('confirm, add to position and plan the analysis'
 
   it('does not offer an analysis on stale facts after a merge into an existing candidate', async () => {
     const positionId = await newPosition({ successProfile: true });
-    const shared = profile({ email: `merge-${randomUUID()}@x.com` });
+    const shared = profile();
     const original = await pasted(shared);
     await go(positionId, original);
     const again = await pasted(shared);

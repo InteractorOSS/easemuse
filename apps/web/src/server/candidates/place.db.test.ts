@@ -60,7 +60,12 @@ describe.skipIf(!dbAvailable())('upload for a position, confirm, analyze (G#9)',
       const v = await addDraftVersion(tx, {
         agencyId: agencyA,
         artifactId: artifact.id,
-        content: { summary: 'Ideal candidate' },
+        content: {
+          summary: 'Ideal candidate',
+          criteria: [{ id: 'c1', text: '8 years in HR', category: 'must_have', basis: 'jd' }],
+          expectations: { sixMonths: '', twelveMonths: '' },
+          keyChallenges: [],
+        },
         origin: 'human',
         createdById: lead.userId,
       });

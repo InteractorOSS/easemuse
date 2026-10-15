@@ -247,6 +247,11 @@ vi.mock('@/server/candidates/duplicates', () => ({
 vi.mock('@/server/candidates/confirm', () => ({
   confirmCandidate: async () => ({ candidateId: 'c1', resolution: 'create', mergedIntoId: null }),
 }));
+vi.mock('@/server/candidates/place', () => ({
+  listIntakeDrafts: async () => [],
+  placeConfirmedCandidate: async () => ({ entryId: 'e1', added: true, canAnalyze: true }),
+  requestPlacementAnalysis: async () => ({ status: 'queued', jobRunId: 'run1' }),
+}));
 vi.mock('@/server/candidates/service', () => ({
   getCandidate: async () => ({ id: 'c1' }),
   discardDraft: async () => undefined,
@@ -610,6 +615,7 @@ import { POST as addToPositionPost } from './v1/agencies/[agencyId]/positions/[p
 import { GET as pipelineGet } from './v1/agencies/[agencyId]/positions/[positionId]/pipeline/route';
 import { POST as batchPost } from './v1/agencies/[agencyId]/positions/[positionId]/analyses/route';
 import { GET as reviewGet } from './v1/agencies/[agencyId]/positions/[positionId]/review/route';
+import { GET as intakeDraftsGet } from './v1/agencies/[agencyId]/positions/[positionId]/intake-drafts/route';
 import {
   PUT as orderPut,
   DELETE as orderDelete,
@@ -1420,6 +1426,13 @@ const endpoints: Endpoint[] = [
     audience: 'agency',
     allowed: AGENCY_ALL,
     call: () => pipelineGet(new Request('http://x.test/'), agencyParams),
+  },
+  {
+    name: 'GET position intake drafts',
+    file: 'v1/agencies/[agencyId]/positions/[positionId]/intake-drafts/route.ts',
+    audience: 'agency',
+    allowed: AGENCY_ALL,
+    call: () => intakeDraftsGet(new Request('http://x.test/'), agencyParams),
   },
   {
     name: 'POST batch analysis',

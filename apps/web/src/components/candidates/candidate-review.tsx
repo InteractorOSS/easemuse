@@ -14,6 +14,7 @@ import { TextField } from '@/components/ui/field';
 import { useToast } from '@/components/ui/toast';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
 import type { DuplicateMatch } from '@/server/candidates/duplicates';
+import type { AnalysisRequest, Placement } from '@/server/candidates/place';
 import type { CandidateView } from '@/server/candidates/service';
 import { CandidateProfileEditor } from './candidate-profile-editor';
 
@@ -32,6 +33,21 @@ const AI_ERROR_CODES = [
 
 type Choice = 'none' | DuplicateResolution;
 
+/** What `POST /candidates` answers; `placement` and `analysis` only matter for an upload made for a position (G#9). */
+interface ConfirmAnswer {
+  candidateId: string;
+  placement?: Placement | null;
+  analysis?: AnalysisRequest;
+}
+
+const ANALYSIS_MESSAGES = {
+  queued: 'queued',
+  not_requested: 'queued',
+  needs_success_profile: 'needsSuccessProfile',
+  not_allowed: 'notAllowed',
+  failed: 'failed',
+} as const satisfies Record<AnalysisRequest['status'], string>;
+
 /** Review of a new candidate (US-202, US-203): read status, the AI profile draft, duplicates, and the decision. */
 export function CandidateReview({
   agencyId,
@@ -45,6 +61,7 @@ export function CandidateReview({
   const t = useTranslations('candidates.review');
   const d = useTranslations('candidates.review.duplicates');
   const decision = useTranslations('candidates.review.decision');
+  const placement = useTranslations('candidates.review.placement');
   const states = useTranslations('common.states');
   const { toast } = useToast();
   const router = useRouter();
@@ -54,6 +71,9 @@ export function CandidateReview({
   const [choice, setChoice] = useState<Choice>('none');
   const [reason, setReason] = useState('');
   const [error, setError] = useState<string | null>(null);
+  // Uploaded for a position (G#9): confirming can add the candidate there and ask for the analysis.
+  const [addToPosition, setAddToPosition] = useState(true);
+  const [analyze, setAnalyze] = useState(true);
 
   const query = useQuery({
     queryKey: ['candidate', agencyId, candidateId],
@@ -100,29 +120,44 @@ export function CandidateReview({
     },
     onError: () => setError(t('errors.generic')),
   });
+  const intakePosition = query.data?.data.intakePosition ?? null;
   const confirm = useMutation({
     mutationFn: () =>
-      apiFetch<{ candidateId: string }>(`${base}/candidates`, {
+      apiFetch<ConfirmAnswer>(`${base}/candidates`, {
         body: {
           draftId: candidateId,
           ...(choice !== 'none' ? { resolution: choice } : {}),
           ...(choice === 'merge' || choice === 'link' ? { targetId } : {}),
           ...(reason.trim() ? { reason: reason.trim() } : {}),
+          ...(intakePosition && addToPosition ? { positionId: intakePosition.id, analyze } : {}),
         },
       }),
     onSuccess: async (res) => {
-      toast({ title: t('confirmed') });
+      const placed = res.data.placement ? intakePosition : null;
+      const analysis = res.data.analysis?.status ?? 'not_requested';
+      toast({
+        title: placed ? placement('added', { title: placed.title }) : t('confirmed'),
+        ...(placed && analysis !== 'not_requested'
+          ? { description: placement(ANALYSIS_MESSAGES[analysis]) }
+          : {}),
+      });
       // The candidate page shares this cache entry: drop the draft's copy so it shows the saved
       // candidate (a merge lands on the existing candidate, so refresh that one too).
       await queryClient.invalidateQueries({ queryKey: ['candidate', agencyId, candidateId] });
       await queryClient.invalidateQueries({
         queryKey: ['candidate', agencyId, res.data.candidateId],
       });
-      router.push(`/a/${agencySlug}/candidates/${res.data.candidateId}`);
+      router.push(
+        placed
+          ? `/a/${agencySlug}/positions/${placed.id}/candidates`
+          : `/a/${agencySlug}/candidates/${res.data.candidateId}`,
+      );
     },
     onError: (e) => {
       if (e instanceof ApiClientError && e.code === 'possible_duplicate')
         return setError(t('errors.duplicate'));
+      if (e instanceof ApiClientError && e.code === 'position_closed')
+        return setError(t('errors.positionClosed'));
       if (e instanceof ApiClientError && e.fields.fullName) return setError(t('errors.needName'));
       if (e instanceof ApiClientError && e.fields.reason) return setError(t('errors.reason'));
       if (e instanceof ApiClientError && e.status === 409) return setError(t('errors.noProfile'));
@@ -329,6 +364,28 @@ export function CandidateReview({
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           />
+        ) : null}
+        {intakePosition ? (
+          <fieldset className="flex flex-col gap-2 text-sm">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={addToPosition}
+                onChange={(e) => setAddToPosition(e.target.checked)}
+              />
+              {placement('add', { title: intakePosition.title })}
+            </label>
+            <label className="flex items-center gap-2 pl-6">
+              <input
+                type="checkbox"
+                checked={addToPosition && analyze}
+                disabled={!addToPosition}
+                onChange={(e) => setAnalyze(e.target.checked)}
+              />
+              {placement('analyze')}
+            </label>
+            <p className="pl-6 text-muted">{placement('analyzeHint')}</p>
+          </fieldset>
         ) : null}
         {error ? (
           <p role="alert" className="text-sm text-danger">

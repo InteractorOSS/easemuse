@@ -14,6 +14,7 @@ import { apiFetch } from '@/lib/api-client';
 import type { Dashboard, DashboardRow } from '@/server/matching/dashboard';
 import { AddCandidatePanel } from './add-candidate-panel';
 import { BatchProgress } from './batch-progress';
+import { PositionIntake } from './position-intake';
 import { TransitionControl } from './transition-control';
 
 type SortMode = 'suggested' | 'name' | 'state';
@@ -157,6 +158,8 @@ export function ReviewBoard({
         inPosition={new Set(rows.map((r) => r.candidateId))}
         onAdded={refresh}
       />
+
+      <PositionIntake agencyId={agencyId} agencySlug={agencySlug} positionId={positionId} />
 
       <div className="flex flex-wrap items-end gap-4">
         <SelectField

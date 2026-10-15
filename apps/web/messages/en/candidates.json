@@ -63,6 +63,16 @@
       "link": "Link to {name}: keeps both candidates",
       "none": "Save as a new candidate"
     },
+    "placement": {
+      "add": "Also add to {title}",
+      "analyze": "and ask AI for the match analysis",
+      "analyzeHint": "AI compares the confirmed profile with the position's confirmed success profile. The result is a draft for you to review; it never moves or hides anyone.",
+      "added": "Candidate saved and added to {title}.",
+      "queued": "Match analysis requested. The score appears on the position's candidate list.",
+      "needsSuccessProfile": "The match analysis did not start: confirm the position's success profile first.",
+      "notAllowed": "The match analysis did not start: another recruiter owns this candidate in the position.",
+      "failed": "The match analysis did not start. Start it from the position's candidate list."
+    },
     "confirm": "Confirm candidate",
     "confirmed": "Candidate saved.",
     "discard": "Discard draft",
@@ -72,7 +82,8 @@
       "needName": "Enter the candidate's name in the profile first.",
       "noProfile": "There is no profile draft to confirm yet.",
       "duplicate": "This looks like someone already in your database. Choose what to do.",
-      "reason": "Say why this is not a duplicate."
+      "reason": "Say why this is not a duplicate.",
+      "positionClosed": "The position is closed. Clear \"Also add\" to save the candidate without it."
     },
     "aiFailed": "AI could not write the profile draft. {reason}",
     "aiErrors": {

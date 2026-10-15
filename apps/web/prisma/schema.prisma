@@ -231,6 +231,7 @@ model Position {
   intake          IntakeRecord?
   pipeline        PipelineEntry[]
   transitions     PositionTransition[]
+  intakeDrafts    Candidate[]
 
   @@index([agencyId, status])
   @@index([agencyId, clientId])
@@ -366,18 +367,21 @@ model Candidate {
   doNotContactReason String?
   doNotContactAt     DateTime?
   mergedIntoId       String?                  @db.Uuid
+  // The position the resume was uploaded for (G#9): confirming the draft offers to add it there and analyze
+  intakePositionId   String?                  @db.Uuid
   anonymizedAt       DateTime? // set when the data-rights job has removed the personal data (ADR-016)
   searchText         Unsupported("tsvector")?
   createdAt          DateTime                 @default(now())
   updatedAt          DateTime                 @updatedAt
 
-  agency     Agency                    @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-  documents  CandidateDocument[]
-  pipeline   PipelineEntry[]
-  portalUser PortalUser?
-  consents   Consent[]
-  updates    CandidateUpdateProposal[]
-  notes      CandidateNote[]
+  agency         Agency                    @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  intakePosition Position?                 @relation(fields: [intakePositionId], references: [id], onDelete: SetNull)
+  documents      CandidateDocument[]
+  pipeline       PipelineEntry[]
+  portalUser     PortalUser?
+  consents       Consent[]
+  updates        CandidateUpdateProposal[]
+  notes          CandidateNote[]
 
   @@index([agencyId, status])
   @@index([agencyId, email])
@@ -392,6 +396,7 @@ model Candidate {
   @@index([employerKeys], type: Gin)
   @@index([searchText], type: Gin)
   @@index([agencyId, fullName])
+  @@index([agencyId, intakePositionId, status])
 }
 
 // Recruiter notes on a candidate (T-2-13, FR-SRC-09): free text only the agency sees.

@@ -327,6 +327,7 @@ describe('ReviewBoard', () => {
     stubApiFor({
       [`GET ${pos}/review`]: () => json(dashboard(rows, explainOnly)),
       [`GET ${pos}`]: () => json({ data: { ownerId: 'u1' } }),
+      [`GET ${pos}/intake-drafts`]: () => json({ data: [] }),
       ...extra,
     });
   const board = (role: 'admin' | 'lead' | 'recruiter' = 'recruiter', userId = 'u1') =>

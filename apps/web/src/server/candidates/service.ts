@@ -37,6 +37,11 @@ export interface CandidateView {
     clientName: string;
     state: string;
   }[];
+  /**
+   * The position the resume was uploaded for (G#9), while it still takes candidates. The review page
+   * offers to add the confirmed candidate there and request the match analysis.
+   */
+  intakePosition: { id: string; title: string } | null;
   /** The newest profile artifact (draft or approved), if the AI has produced one. */
   profileArtifactId: string | null;
   approvedProfileVersionId: string | null;
@@ -63,7 +68,7 @@ export interface CandidateView {
 export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<CandidateView> {
   const row = await tx.candidate.findUnique({ where: { id: candidateId } });
   if (!row || row.status === 'discarded') throw notFound('Candidate');
-  const [documents, artifact, entries, attempt] = await Promise.all([
+  const [documents, artifact, entries, attempt, intakePosition] = await Promise.all([
     tx.candidateDocument.findMany({
       where: { candidateId },
       orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
@@ -89,6 +94,12 @@ export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<C
       orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
       select: { status: true, error: true },
     }),
+    row.intakePositionId
+      ? tx.position.findUnique({
+          where: { id: row.intakePositionId },
+          select: { id: true, title: true, status: true },
+        })
+      : null,
   ]);
   const files = documents.length
     ? await tx.fileObject.findMany({
@@ -121,6 +132,10 @@ export async function getCandidate(tx: ScopedTx, candidateId: string): Promise<C
       clientName: e.position.client.name,
       state: e.state,
     })),
+    intakePosition:
+      intakePosition && intakePosition.status !== 'filled' && intakePosition.status !== 'cancelled'
+        ? { id: intakePosition.id, title: intakePosition.title }
+        : null,
     profileArtifactId: artifact?.id ?? null,
     approvedProfileVersionId: artifact?.approvedVersionId ?? null,
     profileAi: attempt

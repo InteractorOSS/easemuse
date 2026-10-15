@@ -413,6 +413,93 @@ describe('CandidateReview', () => {
     expect(reads()).toBeGreaterThan(before);
   });
 
+  it('adds a draft uploaded for a position there and asks for the analysis on confirm (G#9)', async () => {
+    const stub = serve(
+      candidate({ profileArtifactId: 'art1', intakePosition: { id: 'p1', title: 'Head of HR' } }),
+      [],
+      {
+        [`POST ${api}/candidates`]: () =>
+          json(
+            {
+              data: {
+                candidateId: 'c1',
+                resolution: 'create',
+                mergedIntoId: null,
+                placement: { entryId: 'e1', added: true, canAnalyze: true },
+                analysis: { status: 'queued', jobRunId: 'j1' },
+              },
+            },
+            201,
+          ),
+      },
+    );
+    const user = userEvent.setup();
+    view();
+    const add = await screen.findByRole('checkbox', { name: 'Also add to Head of HR' });
+    const analyze = screen.getByRole('checkbox', { name: 'and ask AI for the match analysis' });
+    expect((add as HTMLInputElement).checked).toBe(true);
+    expect((analyze as HTMLInputElement).checked).toBe(true);
+    await user.click(screen.getByRole('button', { name: 'Confirm candidate' }));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/a/acme/positions/p1/candidates'));
+    expect(
+      stub.calls.find((c) => c.method === 'POST' && c.url.pathname.endsWith('/candidates'))!.body,
+    ).toEqual({ draftId: 'c1', positionId: 'p1', analyze: true });
+  });
+
+  it('confirms without the position when the recruiter clears "Also add"', async () => {
+    const stub = serve(
+      candidate({ profileArtifactId: 'art1', intakePosition: { id: 'p1', title: 'Head of HR' } }),
+      [],
+      {
+        [`POST ${api}/candidates`]: () =>
+          json(
+            {
+              data: {
+                candidateId: 'c1',
+                resolution: 'create',
+                mergedIntoId: null,
+                placement: null,
+                analysis: { status: 'not_requested' },
+              },
+            },
+            201,
+          ),
+      },
+    );
+    const user = userEvent.setup();
+    view();
+    await user.click(await screen.findByRole('checkbox', { name: 'Also add to Head of HR' }));
+    expect(
+      (
+        screen.getByRole('checkbox', {
+          name: 'and ask AI for the match analysis',
+        }) as HTMLInputElement
+      ).disabled,
+    ).toBe(true);
+    await user.click(screen.getByRole('button', { name: 'Confirm candidate' }));
+    await waitFor(() => expect(push).toHaveBeenCalledWith('/a/acme/candidates/c1'));
+    expect(
+      stub.calls.find((c) => c.method === 'POST' && c.url.pathname.endsWith('/candidates'))!.body,
+    ).toEqual({ draftId: 'c1' });
+  });
+
+  it('says the position is closed instead of "no profile"', async () => {
+    serve(
+      candidate({ profileArtifactId: 'art1', intakePosition: { id: 'p1', title: 'Head of HR' } }),
+      [],
+      {
+        [`POST ${api}/candidates`]: () =>
+          json({ error: { code: 'position_closed', message: 'This position is closed' } }, 409),
+      },
+    );
+    const user = userEvent.setup();
+    view();
+    await user.click(await screen.findByRole('button', { name: 'Confirm candidate' }));
+    expect((await screen.findByRole('alert')).textContent).toBe(
+      'The position is closed. Clear "Also add" to save the candidate without it.',
+    );
+  });
+
   it('needs a decision when there is a possible duplicate, and sends the merge with the chosen candidate', async () => {
     const stub = serve(candidate({ profileArtifactId: 'art1' }), [match()], {
       [`POST ${api}/candidates`]: () =>

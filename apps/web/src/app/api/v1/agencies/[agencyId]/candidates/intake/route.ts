@@ -15,9 +15,10 @@ import {
 export const dynamic = 'force-dynamic';
 
 /**
- * Adds a candidate from a resume: multipart (`file`, `source`, optional `profileUrl`) or JSON
- * (`profileText`, `source`, optional `profileUrl`). Creates a DRAFT candidate and reads the file in the
- * background: `202 { candidateId, jobRunId }`. Any member.
+ * Adds a candidate from a resume: multipart (`file`, `source`, optional `profileUrl`, `positionId`) or
+ * JSON (`profileText`, `source`, optional `profileUrl`, `positionId`). Creates a DRAFT candidate and
+ * reads the file in the background: `202 { candidateId, jobRunId }`. Any member who can see the
+ * position, when one is given (G#9).
  */
 export async function POST(
   req: Request,
@@ -39,6 +40,7 @@ export async function POST(
       const parsed = candidateIntakeSchema.safeParse({
         source: form?.get('source') ?? undefined,
         profileUrl: form?.get('profileUrl')?.toString() || undefined,
+        positionId: form?.get('positionId')?.toString() || undefined,
       });
       if (!parsed.success)
         throw new ApiError('invalid_input', 'Invalid input', { fields: zodFields(parsed.error) });

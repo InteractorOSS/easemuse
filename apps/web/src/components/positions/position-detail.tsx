@@ -124,35 +124,28 @@ export function PositionDetail({
     d('openingsChip', { count: position.openings }),
   ].filter((c): c is string => Boolean(c));
   // Links grouped by what the recruiter is doing; editing pages only for those who may edit.
+  const link = (label: string, page: string): [string, string] => [label, `${base}/${page}`];
+  const editOnly = (links: [string, string][]) => (canEdit ? links : []);
   const groups: LinkGroup[] = [
     {
       key: 'prepare',
-      links: canEdit
-        ? [
-            [d('structureLink'), `${base}/structure`],
-            [d('questionsLink'), `${base}/questions`],
-            [d('profileLink'), `${base}/profile`],
-          ]
-        : [],
+      links: editOnly([
+        link(d('structureLink'), 'structure'),
+        link(d('questionsLink'), 'questions'),
+        link(d('profileLink'), 'profile'),
+      ]),
     },
-    { key: 'candidates', links: [[d('boardLink'), `${base}/candidates`]] },
+    { key: 'candidates', links: [link(d('boardLink'), 'candidates')] },
     {
       key: 'find',
-      links: canEdit
-        ? [
-            [d('searchLink'), `${base}/search`],
-            [d('poolLink'), `${base}/pool`],
-          ]
-        : [],
+      links: editOnly([link(d('searchLink'), 'search'), link(d('poolLink'), 'pool')]),
     },
     {
       key: 'insights',
-      links: canEdit
-        ? [
-            [d('benchmarkLink'), `${base}/benchmark`],
-            [d('historyLink'), `${base}/client-history`],
-          ]
-        : [[d('historyLink'), `${base}/client-history`]],
+      links: [
+        ...editOnly([link(d('benchmarkLink'), 'benchmark')]),
+        link(d('historyLink'), 'client-history'),
+      ],
     },
   ];
   const visibleGroups = groups.filter((g) => g.links.length > 0);

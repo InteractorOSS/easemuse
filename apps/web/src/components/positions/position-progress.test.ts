@@ -12,7 +12,15 @@ const progress = (
   successProfile: 'confirmed',
   pendingDrafts: 0,
   ...over,
-  counts: { pipeline: 0, analyzed: 0, contacted: 0, interested: 0, submitted: 0, ...counts },
+  counts: {
+    pipeline: 0,
+    analyzed: 0,
+    toAnalyze: 0,
+    contacted: 0,
+    interested: 0,
+    submitted: 0,
+    ...counts,
+  },
 });
 const states = (p: PositionProgress) => processSteps(p).map((s) => s.state);
 
@@ -66,12 +74,16 @@ describe('nextAction', () => {
       page: 'candidates',
     });
     expect(nextAction(progress()).key).toBe('addCandidates');
-    expect(nextAction(progress({}, { pipeline: 5, analyzed: 2 }))).toEqual({
+    expect(nextAction(progress({}, { pipeline: 5, analyzed: 2, toAnalyze: 3 }))).toEqual({
       key: 'analyze',
       count: 3,
       page: 'candidates',
     });
     expect(nextAction(progress({}, { pipeline: 5, analyzed: 5 })).key).toBe('outreach');
+    // Candidates who are out of the search (a final state) are never suggested for analysis.
+    expect(nextAction(progress({}, { pipeline: 5, analyzed: 2, toAnalyze: 0 })).key).toBe(
+      'outreach',
+    );
     expect(nextAction(progress({}, { pipeline: 5, analyzed: 5, contacted: 1 })).key).toBe('board');
   });
 });

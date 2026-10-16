@@ -102,7 +102,7 @@ describe.skipIf(!dbAvailable())('position progress (G#10)', () => {
       jd: 'none',
       successProfile: 'none',
       pendingDrafts: 0,
-      counts: { pipeline: 0, analyzed: 0, contacted: 0, interested: 0, submitted: 0 },
+      counts: { pipeline: 0, analyzed: 0, toAnalyze: 0, contacted: 0, interested: 0, submitted: 0 },
     });
   });
 
@@ -139,6 +139,8 @@ describe.skipIf(!dbAvailable())('position progress (G#10)', () => {
     expect((await progressOf(positionId)).counts).toEqual({
       pipeline: 8,
       analyzed: 0,
+      // The rejected candidate is out of the search, so only the other seven wait for an analysis.
+      toAnalyze: 7,
       contacted: 5,
       interested: 2,
       submitted: 2,

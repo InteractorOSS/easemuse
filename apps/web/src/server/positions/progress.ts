@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
-import type { AgencyActor, PipelineState } from '@easemuse/core';
+import { TERMINAL_STATES, type AgencyActor, type PipelineState } from '@easemuse/core';
 import type { ScopedTx } from '@/lib/db';
 import { findArtifact, readApproved } from '@/server/artifacts/service';
 import { isJdApproved } from './jd-approval';
@@ -20,6 +20,8 @@ export interface PositionProgress {
   counts: {
     pipeline: number;
     analyzed: number;
+    /** People still in play (not in a final state) with no analysis yet: what the "analyze" suggestion counts. */
+    toAnalyze: number;
     contacted: number;
     interested: number;
     submitted: number;
@@ -74,7 +76,7 @@ export async function getPositionProgress(
       isJdApproved(tx, positionId),
       findArtifact(tx, { kind: 'success_profile', subject }),
       readApproved(tx, { kind: 'success_profile', subject }),
-      tx.pipelineEntry.findMany({ where: { positionId }, select: { state: true } }),
+      tx.pipelineEntry.findMany({ where: { positionId }, select: { id: true, state: true } }),
       tx.matchAnalysis.findMany({
         where: { entry: { positionId } },
         distinct: ['entryId'],
@@ -84,6 +86,10 @@ export async function getPositionProgress(
         where: { intakePositionId: positionId, status: 'draft', mergedIntoId: null },
       }),
     ]);
+  const analyzedIds = new Set(analyzed.map((a) => a.entryId));
+  const toAnalyze = entries.filter(
+    (e) => !TERMINAL_STATES.includes(e.state as PipelineState) && !analyzedIds.has(e.id),
+  ).length;
   const inStates = (states: readonly PipelineState[]) =>
     entries.filter((e) => states.includes(e.state as PipelineState)).length;
   return {
@@ -93,6 +99,7 @@ export async function getPositionProgress(
     counts: {
       pipeline: entries.length,
       analyzed: analyzed.length,
+      toAnalyze,
       contacted: inStates(CONTACTED),
       interested: inStates(INTERESTED),
       submitted: inStates(SUBMITTED),

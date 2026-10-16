@@ -68,8 +68,8 @@ export function nextAction(p: PositionProgress): {
     return { key: 'reviewDrafts', count: p.pendingDrafts, page: 'candidates' };
   }
   if (counts.pipeline === 0) return { key: 'addCandidates', count: 0, page: 'candidates' };
-  if (counts.analyzed < counts.pipeline) {
-    return { key: 'analyze', count: counts.pipeline - counts.analyzed, page: 'candidates' };
+  if (counts.toAnalyze > 0) {
+    return { key: 'analyze', count: counts.toAnalyze, page: 'candidates' };
   }
   if (counts.contacted === 0) return { key: 'outreach', count: 0, page: 'candidates' };
   return { key: 'board', count: 0, page: 'candidates' };

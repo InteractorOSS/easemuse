@@ -199,7 +199,7 @@ describe('PositionDetail', () => {
     jd: 'approved',
     successProfile: 'confirmed',
     pendingDrafts: 0,
-    counts: { pipeline: 6, analyzed: 4, contacted: 0, interested: 0, submitted: 0 },
+    counts: { pipeline: 6, analyzed: 4, toAnalyze: 2, contacted: 0, interested: 0, submitted: 0 },
     ...over,
   });
 

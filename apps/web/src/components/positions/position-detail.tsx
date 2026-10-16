@@ -24,11 +24,16 @@ import { JdPanel } from './jd-panel';
 import { PositionForm } from './position-form';
 import { PortalSharing } from '@/components/pipeline/portal-sharing';
 import { IntakePanel } from './intake-panel';
-import { nextAction, processSteps, type ProcessStep } from './position-progress';
+import { nextAction, processSteps, type ProcessStep, type StepState } from './position-progress';
 import { WeightsEditor } from './weights-editor';
 
 const STATUS_BADGE =
   'rounded-md border border-primary-strong px-2 py-0.5 text-sm text-primary-strong';
+const STEP_CLASS: Record<StepState, string> = {
+  done: 'flex flex-col border-t-4 border-primary-strong pt-2 text-sm',
+  current: 'flex flex-col border-t-4 border-primary pt-2 text-sm',
+  waiting: 'flex flex-col border-t-4 border-border pt-2 text-sm text-muted',
+};
 const NEXT_CARD =
   'flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary-strong bg-surface p-4';
 
@@ -150,6 +155,7 @@ export function PositionDetail({
         : [[d('historyLink'), `${base}/client-history`]],
     },
   ];
+  const visibleGroups = groups.filter((g) => g.links.length > 0);
 
   return (
     <div className="flex flex-col gap-8">
@@ -167,9 +173,7 @@ export function PositionDetail({
           </p>
           <ul className="flex flex-wrap gap-2 text-sm">
             {chips.map((chip) => (
-              <li key={chip} className="rounded-md border border-border px-2 py-0.5">
-                {chip}
-              </li>
+              <li key={chip} className="rounded-md border border-border px-2 py-0.5">{chip}</li>
             ))}
           </ul>
         </div>
@@ -195,29 +199,23 @@ export function PositionDetail({
       <ProcessOverview agencyId={agencyId} positionId={positionId} base={base} />
 
       <nav aria-label={d('groups.label')} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {groups
-          .filter((g) => g.links.length > 0)
-          .map((g) => (
-            <section
-              key={g.key}
-              aria-labelledby={`group-${g.key}`}
-              className="flex flex-col gap-1 rounded-lg border border-border p-4"
-            >
-              <h2 id={`group-${g.key}`} className="font-semibold">
-                {d(`groups.${g.key}`)}
-              </h2>
-              <p className="text-sm text-muted">{d(`groups.${g.key}Hint`)}</p>
-              <ul className="mt-1 flex flex-col gap-1 text-sm">
-                {g.links.map(([label, href]) => (
-                  <li key={href}>
-                    <Link className="underline" href={href}>
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
+        {visibleGroups.map((g) => (
+          <section
+            key={g.key}
+            aria-labelledby={`group-${g.key}`}
+            className="flex flex-col gap-1 rounded-lg border border-border p-4"
+          >
+            <h2 id={`group-${g.key}`} className="font-semibold">{d(`groups.${g.key}`)}</h2>
+            <p className="text-sm text-muted">{d(`groups.${g.key}Hint`)}</p>
+            <ul className="mt-1 flex flex-col gap-1 text-sm">
+              {g.links.map(([label, href]) => (
+                <li key={href}>
+                  <Link className="underline" href={href}>{label}</Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
       </nav>
 
       <div className="flex flex-col divide-y divide-border border-y border-border">
@@ -291,12 +289,10 @@ function ProcessOverview({
 }) {
   const d = useTranslations('positions.detail');
   const p = useTranslations('positions.detail.process');
+  const path = `/api/v1/agencies/${agencyId}/positions/${positionId}/progress`;
   const progress = useQuery({
     queryKey: ['position-progress', agencyId, positionId],
-    queryFn: ({ signal }) =>
-      apiFetch<PositionProgress>(`/api/v1/agencies/${agencyId}/positions/${positionId}/progress`, {
-        signal,
-      }),
+    queryFn: ({ signal }) => apiFetch<PositionProgress>(path, { signal }),
   });
   const data = progress.data?.data;
   if (!data) return null;
@@ -322,21 +318,13 @@ function ProcessOverview({
 
   return (
     <section aria-labelledby="process-heading" className="flex flex-col gap-4">
-      <h2 id="process-heading" className="sr-only">
-        {p('label')}
-      </h2>
+      <h2 id="process-heading" className="sr-only">{p('label')}</h2>
       <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {processSteps(data).map(({ step, state }, i) => (
           <li
             key={step}
             aria-current={state === 'current' ? 'step' : undefined}
-            className={`flex flex-col border-t-4 pt-2 text-sm ${
-              state === 'done'
-                ? 'border-primary-strong'
-                : state === 'current'
-                  ? 'border-primary'
-                  : 'border-border text-muted'
-            }`}
+            className={STEP_CLASS[state]}
           >
             <span className={state === 'current' ? 'font-semibold' : undefined}>
               {p('stepTitle', { n: i + 1, name: p(`steps.${step}`) })}
@@ -349,14 +337,11 @@ function ProcessOverview({
       </ol>
 
       <div className={NEXT_CARD}>
-        <p>
-          <span className="font-semibold">{d('next.label')}</span>{' '}
-          {d(`next.${next.key}`, { count: next.count })}
+        <p className="flex flex-wrap gap-1">
+          <span className="font-semibold">{d('next.label')}</span>
+          <span>{d(`next.${next.key}`, { count: next.count })}</span>
         </p>
-        <Link
-          className="underline"
-          href={next.page ? `${base}/${next.page}` : '#job-description'}
-        >
+        <Link className="underline" href={next.page ? `${base}/${next.page}` : '#job-description'}>
           {d('next.open')}
         </Link>
       </div>

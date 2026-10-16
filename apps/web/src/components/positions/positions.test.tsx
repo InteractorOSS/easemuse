@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Team of Wakers
 // SPDX-License-Identifier: MIT
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderApp, stubApi } from '@/test/render';
@@ -189,19 +189,28 @@ describe('PositionDetail', () => {
       [`GET ${api}/activity`]: () => json({ data: [], nextCursor: null }),
       [`GET ${api}/positions/p1/jd`]: () => json({ data: [] }),
       [`GET ${api}/positions/p1/intake`]: () => json({ data: { answers: {}, jdApproval: null } }),
+      [`GET ${api}/positions/p1/progress`]: () => json({ data: progress() }),
       ...extra,
     });
     vi.stubGlobal('fetch', stub.impl);
     return stub;
   };
+  const progress = (over: Record<string, unknown> = {}) => ({
+    jd: 'approved',
+    successProfile: 'confirmed',
+    pendingDrafts: 0,
+    counts: { pipeline: 6, analyzed: 4, contacted: 0, interested: 0, submitted: 0 },
+    ...over,
+  });
 
   it('shows the details, owner and only the status moves that are allowed', async () => {
     serve();
     renderApp(<PositionDetail agencyId="a1" agencySlug="acme" positionId="p1" viewer={OWNER} />);
     expect(await screen.findByRole('heading', { name: 'Staff Engineer' })).toBeTruthy();
-    expect(screen.getByText('90000 – 120000 USD')).toBeTruthy();
-    expect(screen.getByText('Go, SQL')).toBeTruthy();
-    expect(screen.getByText('Hybrid')).toBeTruthy();
+    const details = screen.getByText('Position details').closest('details')!;
+    expect(within(details).getByText('90000 – 120000 USD')).toBeTruthy();
+    expect(within(details).getByText('Go, SQL')).toBeTruthy();
+    expect(within(details).getByText('Hybrid')).toBeTruthy();
     const options = Array.from((screen.getByLabelText('Move to') as HTMLSelectElement).options).map(
       (o) => o.textContent,
     );
@@ -270,6 +279,61 @@ describe('PositionDetail', () => {
     ).toBeTruthy();
     expect(screen.getByText('Resolve this first.')).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Go ahead anyway' })).toBeNull();
+  });
+
+  it('shows the key facts, where the search stands and the next step (G#10)', async () => {
+    serve();
+    renderApp(<PositionDetail agencyId="a1" agencySlug="acme" positionId="p1" viewer={OWNER} />);
+    const owner = await screen.findByText('Northwind · Owner: Pat Owner');
+    const header = owner.closest('header')!;
+    expect(within(header).getByText('Seoul · Hybrid')).toBeTruthy();
+    expect(within(header).getByText('90000 – 120000 USD')).toBeTruthy();
+    expect(within(header).getByText('2 openings')).toBeTruthy();
+
+    const current = await screen.findByText('5. Outreach');
+    expect(current.closest('li')!.getAttribute('aria-current')).toBe('step');
+    expect(screen.getByText('Done · 4 analyzed')).toBeTruthy();
+    expect(screen.getByText('2 candidates have no match analysis yet.')).toBeTruthy();
+    const open = screen.getByRole('link', { name: 'Open' });
+    expect(open.getAttribute('href')).toBe('/a/acme/positions/p1/candidates');
+    const pipeline = screen.getByText('In pipeline').closest('div')!;
+    expect(within(pipeline).getByText('6')).toBeTruthy();
+  });
+
+  it('points to the success profile until it is confirmed', async () => {
+    serve({
+      [`GET ${api}/positions/p1/progress`]: () =>
+        json({ data: progress({ successProfile: 'draft' }) }),
+    });
+    renderApp(<PositionDetail agencyId="a1" agencySlug="acme" positionId="p1" viewer={OWNER} />);
+    expect(
+      await screen.findByText(
+        'Write and confirm the success profile. Matching compares candidates with it.',
+      ),
+    ).toBeTruthy();
+    const open = screen.getByRole('link', { name: 'Open' });
+    expect(open.getAttribute('href')).toBe('/a/acme/positions/p1/profile');
+    const step = screen.getByText('2. Success profile').closest('li')!;
+    expect(step.getAttribute('aria-current')).toBe('step');
+  });
+
+  it('groups the links and hides the editing pages from someone who cannot edit', async () => {
+    serve();
+    renderApp(
+      <PositionDetail
+        agencyId="a1"
+        agencySlug="acme"
+        positionId="p1"
+        viewer={{ userId: 'u2', role: 'recruiter' }}
+      />,
+    );
+    const nav = await screen.findByRole('navigation', { name: 'Work on this position' });
+    const board = within(nav).getByRole('link', { name: 'Candidates in this position' });
+    expect(board.getAttribute('href')).toBe('/a/acme/positions/p1/candidates');
+    expect(within(nav).queryByRole('link', { name: 'Structure the JD' })).toBeNull();
+    expect(within(nav).queryByRole('link', { name: 'Market benchmark' })).toBeNull();
+    const history = within(nav).getByRole('link', { name: 'What has this client liked before?' });
+    expect(history.getAttribute('href')).toBe('/a/acme/positions/p1/client-history');
   });
 
   it('lets a warn guard be overridden with a reason, which is sent with the request', async () => {

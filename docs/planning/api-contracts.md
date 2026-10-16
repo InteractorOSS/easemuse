@@ -185,6 +185,8 @@ Also (session D): `GET / POST /positions/:positionId/pool-matches` ("Find in my 
 
 Also (G#9, upload for a position; brief 4.1, 4.2, 5): `POST /candidates/intake` takes an optional `positionId` (anyone who can see the position; 409 when it is closed) and keeps it on the draft; nothing is added to the position yet. `GET /positions/:positionId/intake-drafts` lists those drafts still waiting for review (`{candidateId, filename, createdAt, state: reading | readFailed | drafting | aiFailed | ready}`). `POST /candidates` takes optional `positionId` and `analyze`: the confirmed candidate is added to the position in the same transaction (an existing entry is reused; 409 `position_closed`), then the match analysis is queued as a batch of one. The answer adds `placement {entryId, added, canAnalyze}` and `analysis {status: queued | not_requested | needs_success_profile | not_allowed | failed, jobRunId?}`; an analysis that cannot start never undoes the confirmation.
 
+Also (G#10, position page): `GET /positions/:positionId/progress` (anyone who can see the position) returns `{jd: none | in_progress | approved, successProfile: none | draft | confirmed, pendingDrafts, counts {pipeline, analyzed, contacted, interested, submitted}}` for the process bar and the "next" card. Read-only; it runs nothing.
+
 ## 13. Reuse and portal extras (session C, 2026-10-07)
 
 Agency API, under `/api/v1/agencies/:agencyId`. Every role may call them; the service narrows it further (a recruiter sees the positions the agency's visibility rule shows, and only the entry's owner, a lead or an admin resolves a proposal or asks for a draft). 404 for another agency, 409 for a state conflict.

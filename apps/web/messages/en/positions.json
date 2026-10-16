@@ -59,7 +59,7 @@
   },
   "detail": {
     "edit": "Edit",
-    "ownerLine": "Owner: {name}",
+    "clientOwnerLine": "{client} · Owner: {name}",
     "fields": {
       "department": "Department",
       "reportingLine": "Reports to",
@@ -93,7 +93,80 @@
     "poolLink": "Find in my pool",
     "benchmarkLink": "Market benchmark",
     "boardLink": "Candidates in this position",
-    "historyLink": "What has this client liked before?"
+    "historyLink": "What has this client liked before?",
+    "experienceChip": "{value} experience",
+    "openingsChip": "{count, plural, one {# opening} other {# openings}}",
+    "process": {
+      "label": "Hiring process",
+      "stepTitle": "{n}. {name}",
+      "stepDetail": "{state} · {detail}",
+      "steps": {
+        "jd": "Job description",
+        "profile": "Success profile",
+        "sourcing": "Sourcing",
+        "matching": "Matching",
+        "outreach": "Outreach",
+        "submission": "Submission"
+      },
+      "states": {
+        "done": "Done",
+        "current": "Now",
+        "waiting": "Not started"
+      },
+      "counts": {
+        "sourcing": "{count} in pipeline",
+        "matching": "{count} analyzed",
+        "outreach": "{count} contacted",
+        "submission": "{count} submitted"
+      },
+      "jdStates": {
+        "none": "Not added",
+        "in_progress": "Waiting for approval",
+        "approved": "Approved"
+      },
+      "profileStates": {
+        "none": "Not written",
+        "draft": "Draft, not confirmed",
+        "confirmed": "Confirmed"
+      }
+    },
+    "next": {
+      "label": "Next:",
+      "addJd": "Add the client's job description below.",
+      "approveJd": "Structure the job description and get the hiring manager's approval.",
+      "confirmProfile": "Write and confirm the success profile. Matching compares candidates with it.",
+      "reviewDrafts": "{count, plural, one {# uploaded resume waits} other {# uploaded resumes wait}} for your review.",
+      "addCandidates": "Add candidates: upload resumes or LinkedIn PDFs, or find them in your pool.",
+      "analyze": "{count, plural, one {# candidate has} other {# candidates have}} no match analysis yet.",
+      "outreach": "Contact the candidates you want to approach.",
+      "board": "Keep the candidates moving on the candidate board.",
+      "open": "Open"
+    },
+    "numbers": {
+      "label": "Candidates",
+      "pipeline": "In pipeline",
+      "analyzed": "Analyzed",
+      "interested": "Interested",
+      "submitted": "Submitted"
+    },
+    "groups": {
+      "label": "Work on this position",
+      "candidates": "Candidates",
+      "candidatesHint": "Review board and resume uploads",
+      "find": "Find candidates",
+      "findHint": "Search criteria and your pool",
+      "prepare": "Prepare the search",
+      "prepareHint": "JD, intake questions and success profile",
+      "insights": "Insights",
+      "insightsHint": "Market benchmark and client history"
+    },
+    "sections": {
+      "jd": "Job description and intake",
+      "details": "Position details",
+      "weights": "Matching weights",
+      "status": "Change status",
+      "activity": "Activity"
+    }
   },
   "errors": {
     "generic": "Could not save. Check the values and try again.",

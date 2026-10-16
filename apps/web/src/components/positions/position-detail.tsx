@@ -166,7 +166,9 @@ export function PositionDetail({
           </p>
           <ul className="flex flex-wrap gap-2 text-sm">
             {chips.map((chip) => (
-              <li key={chip} className="rounded-md border border-border px-2 py-0.5">{chip}</li>
+              <li key={chip} className="rounded-md border border-border px-2 py-0.5">
+                {chip}
+              </li>
             ))}
           </ul>
         </div>
@@ -198,12 +200,16 @@ export function PositionDetail({
             aria-labelledby={`group-${g.key}`}
             className="flex flex-col gap-1 rounded-lg border border-border p-4"
           >
-            <h2 id={`group-${g.key}`} className="font-semibold">{d(`groups.${g.key}`)}</h2>
+            <h2 id={`group-${g.key}`} className="font-semibold">
+              {d(`groups.${g.key}`)}
+            </h2>
             <p className="text-sm text-muted">{d(`groups.${g.key}Hint`)}</p>
             <ul className="mt-1 flex flex-col gap-1 text-sm">
               {g.links.map(([label, href]) => (
                 <li key={href}>
-                  <Link className="underline" href={href}>{label}</Link>
+                  <Link className="underline" href={href}>
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -311,7 +317,9 @@ function ProcessOverview({
 
   return (
     <section aria-labelledby="process-heading" className="flex flex-col gap-4">
-      <h2 id="process-heading" className="sr-only">{p('label')}</h2>
+      <h2 id="process-heading" className="sr-only">
+        {p('label')}
+      </h2>
       <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {processSteps(data).map(({ step, state }, i) => (
           <li

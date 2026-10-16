@@ -5,7 +5,7 @@
 import Link from 'next/link';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   POSITION_TRANSITIONS,
   REASON_REQUIRED,
@@ -18,14 +18,36 @@ import { EntityTimeline } from '@/components/activity/entity-timeline';
 import { Button } from '@/components/ui/button';
 import { SelectField, TextField } from '@/components/ui/field';
 import { ApiClientError, apiFetch } from '@/lib/api-client';
+import type { PositionProgress } from '@/server/positions/progress';
 import type { PositionView } from '@/server/positions/service';
 import { JdPanel } from './jd-panel';
 import { PositionForm } from './position-form';
 import { PortalSharing } from '@/components/pipeline/portal-sharing';
 import { IntakePanel } from './intake-panel';
+import { nextAction, processSteps, type ProcessStep, type StepState } from './position-progress';
 import { WeightsEditor } from './weights-editor';
 
-/** The position page shell (T-1-04): details, edit, status control and timeline. JD, intake and pipeline attach here later. */
+const STATUS_BADGE =
+  'rounded-md border border-primary-strong px-2 py-0.5 text-sm text-primary-strong';
+const STEP_CLASS: Record<StepState, string> = {
+  done: 'flex flex-col border-t-4 border-primary-strong pt-2 text-sm',
+  current: 'flex flex-col border-t-4 border-primary pt-2 text-sm',
+  waiting: 'flex flex-col border-t-4 border-border pt-2 text-sm text-muted',
+};
+const NEXT_CARD =
+  'flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary-strong bg-surface p-4';
+
+/** A card of links on the position page: [label, href] pairs. */
+interface LinkGroup {
+  key: 'prepare' | 'candidates' | 'find' | 'insights';
+  links: [string, string][];
+}
+
+/**
+ * The position page (T-1-04, reorganized for G#10): the header with the key facts, where the search
+ * stands in the hiring process and what to do next, links grouped by task, and the details,
+ * JD and intake, weights, status and activity folded below.
+ */
 export function PositionDetail({
   agencyId,
   agencySlug,
@@ -88,17 +110,67 @@ export function PositionDetail({
     [d('fields.workAuthorization'), position.workAuthorization ?? none],
   ];
 
+  const base = `/a/${agencySlug}/positions/${positionId}`;
+  const place = position.workArrangement
+    ? `${position.location} · ${arrangementLabel(position.workArrangement, t)}`
+    : position.location;
+  const experience = position.requiredExperience
+    ? d('experienceChip', { value: position.requiredExperience })
+    : null;
+  const chips = [
+    place,
+    compensation === none ? null : compensation,
+    experience,
+    d('openingsChip', { count: position.openings }),
+  ].filter((c): c is string => Boolean(c));
+  // Links grouped by what the recruiter is doing; editing pages only for those who may edit.
+  const link = (label: string, page: string): [string, string] => [label, `${base}/${page}`];
+  const editOnly = (links: [string, string][]) => (canEdit ? links : []);
+  const groups: LinkGroup[] = [
+    {
+      key: 'prepare',
+      links: editOnly([
+        link(d('structureLink'), 'structure'),
+        link(d('questionsLink'), 'questions'),
+        link(d('profileLink'), 'profile'),
+      ]),
+    },
+    { key: 'candidates', links: [link(d('boardLink'), 'candidates')] },
+    {
+      key: 'find',
+      links: editOnly([link(d('searchLink'), 'search'), link(d('poolLink'), 'pool')]),
+    },
+    {
+      key: 'insights',
+      links: [
+        ...editOnly([link(d('benchmarkLink'), 'benchmark')]),
+        link(d('historyLink'), 'client-history'),
+      ],
+    },
+  ];
+  const visibleGroups = groups.filter((g) => g.links.length > 0);
+
   return (
     <div className="flex flex-col gap-8">
       <header className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold">{position.title}</h1>
-          <p className="text-muted">
-            {position.clientName} · {t(`status.${position.status}`)}
-          </p>
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-2xl font-semibold">{position.title}</h1>
+            <span className={STATUS_BADGE}>{t(`status.${position.status}`)}</span>
+          </div>
           <p className="text-sm text-muted">
-            {d('ownerLine', { name: position.ownerName ?? t('unknownOwner') })}
+            {d('clientOwnerLine', {
+              client: position.clientName,
+              name: position.ownerName ?? t('unknownOwner'),
+            })}
           </p>
+          <ul className="flex flex-wrap gap-2 text-sm">
+            {chips.map((chip) => (
+              <li key={chip} className="rounded-md border border-border px-2 py-0.5">
+                {chip}
+              </li>
+            ))}
+          </ul>
         </div>
         {editing || !canEdit ? null : (
           <Button variant="secondary" onClick={() => setEditing(true)}>
@@ -117,76 +189,173 @@ export function PositionDetail({
             await refresh();
           }}
         />
-      ) : (
-        <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-          {rows.map(([label, value]) => (
-            <div key={label}>
-              <dt className="text-sm text-muted">{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
+      ) : null}
 
-      {canEdit ? (
-        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/structure`}>
-          {d('structureLink')}
-        </Link>
-      ) : null}
-      {canEdit ? (
-        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/questions`}>
-          {d('questionsLink')}
-        </Link>
-      ) : null}
-      {canEdit ? (
-        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/profile`}>
-          {d('profileLink')}
-        </Link>
-      ) : null}
-      {canEdit ? (
-        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/search`}>
-          {d('searchLink')}
-        </Link>
-      ) : null}
-      {canEdit ? (
-        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/pool`}>
-          {d('poolLink')}
-        </Link>
-      ) : null}
-      {canEdit ? (
-        <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/benchmark`}>
-          {d('benchmarkLink')}
-        </Link>
-      ) : null}
-      <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/candidates`}>
-        {d('boardLink')}
-      </Link>
-      <Link className="underline" href={`/a/${agencySlug}/positions/${positionId}/client-history`}>
-        {d('historyLink')}
-      </Link>
-      <JdPanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
-      <IntakePanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
-      {canEdit ? (
-        <PortalSharing
-          agencyId={agencyId}
-          target={{ positionId }}
-          subject={{ kind: 'intake_form', subjectId: positionId }}
-          heading={intake('shareHeading')}
-        />
-      ) : null}
-      <WeightsEditor
-        key={JSON.stringify(position.matchingWeights)}
-        agencyId={agencyId}
-        positionId={positionId}
-        weights={position.matchingWeights as Record<MatchWeightKey, number>}
-        canEdit={canEdit}
-        onSaved={refresh}
-      />
-      {canEdit ? (
-        <StatusControl agencyId={agencyId} position={position} onChanged={refresh} />
-      ) : null}
-      <EntityTimeline agencyId={agencyId} entityType="position" entityId={positionId} />
+      <ProcessOverview agencyId={agencyId} positionId={positionId} base={base} />
+
+      <nav aria-label={d('groups.label')} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {visibleGroups.map((g) => (
+          <section
+            key={g.key}
+            aria-labelledby={`group-${g.key}`}
+            className="flex flex-col gap-1 rounded-lg border border-border p-4"
+          >
+            <h2 id={`group-${g.key}`} className="font-semibold">
+              {d(`groups.${g.key}`)}
+            </h2>
+            <p className="text-sm text-muted">{d(`groups.${g.key}Hint`)}</p>
+            <ul className="mt-1 flex flex-col gap-1 text-sm">
+              {g.links.map(([label, href]) => (
+                <li key={href}>
+                  <Link className="underline" href={href}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </nav>
+
+      <div className="flex flex-col divide-y divide-border border-y border-border">
+        <Fold title={d('sections.jd')} id="job-description">
+          <JdPanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
+          <IntakePanel agencyId={agencyId} positionId={positionId} canEdit={canEdit} />
+          {canEdit ? (
+            <PortalSharing
+              agencyId={agencyId}
+              target={{ positionId }}
+              subject={{ kind: 'intake_form', subjectId: positionId }}
+              heading={intake('shareHeading')}
+            />
+          ) : null}
+        </Fold>
+        <Fold title={d('sections.details')}>
+          <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+            {rows.map(([label, value]) => (
+              <div key={label}>
+                <dt className="text-sm text-muted">{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </Fold>
+        <Fold title={d('sections.weights')}>
+          <WeightsEditor
+            key={JSON.stringify(position.matchingWeights)}
+            agencyId={agencyId}
+            positionId={positionId}
+            weights={position.matchingWeights as Record<MatchWeightKey, number>}
+            canEdit={canEdit}
+            onSaved={refresh}
+          />
+        </Fold>
+        {canEdit ? (
+          <Fold title={d('sections.status')}>
+            <StatusControl agencyId={agencyId} position={position} onChanged={refresh} />
+          </Fold>
+        ) : null}
+        <Fold title={d('sections.activity')}>
+          <EntityTimeline agencyId={agencyId} entityType="position" entityId={positionId} />
+        </Fold>
+      </div>
     </div>
+  );
+}
+
+/** A folded section of the position page: the summary stays visible, the content opens on demand. */
+function Fold({ title, id, children }: { title: string; id?: string; children: ReactNode }) {
+  return (
+    <details id={id} className="py-3">
+      <summary className="cursor-pointer font-semibold">{title}</summary>
+      <div className="mt-4 flex flex-col gap-6">{children}</div>
+    </details>
+  );
+}
+
+/**
+ * The hiring process at a glance (G#10): six steps from the brief's workflow, one suggested next
+ * action and the candidate numbers. Read-only; every action is a link the recruiter chooses to follow.
+ */
+function ProcessOverview({
+  agencyId,
+  positionId,
+  base,
+}: {
+  agencyId: string;
+  positionId: string;
+  base: string;
+}) {
+  const d = useTranslations('positions.detail');
+  const p = useTranslations('positions.detail.process');
+  const path = `/api/v1/agencies/${agencyId}/positions/${positionId}/progress`;
+  const progress = useQuery({
+    queryKey: ['position-progress', agencyId, positionId],
+    queryFn: ({ signal }) => apiFetch<PositionProgress>(path, { signal }),
+  });
+  const data = progress.data?.data;
+  if (!data) return null;
+
+  const next = nextAction(data);
+  const detail = (step: ProcessStep): string => {
+    if (step === 'jd') return p(`jdStates.${data.jd}`);
+    if (step === 'profile') return p(`profileStates.${data.successProfile}`);
+    const count = {
+      sourcing: data.counts.pipeline,
+      matching: data.counts.analyzed,
+      outreach: data.counts.contacted,
+      submission: data.counts.submitted,
+    }[step];
+    return p(`counts.${step}`, { count });
+  };
+  const numbers = [
+    ['pipeline', data.counts.pipeline],
+    ['analyzed', data.counts.analyzed],
+    ['interested', data.counts.interested],
+    ['submitted', data.counts.submitted],
+  ] as const;
+
+  return (
+    <section aria-labelledby="process-heading" className="flex flex-col gap-4">
+      <h2 id="process-heading" className="sr-only">
+        {p('label')}
+      </h2>
+      <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        {processSteps(data).map(({ step, state }, i) => (
+          <li
+            key={step}
+            aria-current={state === 'current' ? 'step' : undefined}
+            className={STEP_CLASS[state]}
+          >
+            <span className={state === 'current' ? 'font-semibold' : undefined}>
+              {p('stepTitle', { n: i + 1, name: p(`steps.${step}`) })}
+            </span>
+            <span className={state === 'done' ? 'text-primary-strong' : 'text-muted'}>
+              {p('stepDetail', { state: p(`states.${state}`), detail: detail(step) })}
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      <div className={NEXT_CARD}>
+        <p className="flex flex-wrap gap-1">
+          <span className="font-semibold">{d('next.label')}</span>
+          <span>{d(`next.${next.key}`, { count: next.count })}</span>
+        </p>
+        <Link className="underline" href={next.page ? `${base}/${next.page}` : '#job-description'}>
+          {d('next.open')}
+        </Link>
+      </div>
+
+      <dl aria-label={d('numbers.label')} className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {numbers.map(([key, value]) => (
+          <div key={key} className="rounded-lg bg-surface p-3">
+            <dt className="text-sm text-muted">{d(`numbers.${key}`)}</dt>
+            <dd className="text-2xl font-semibold">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
   );
 }
 
